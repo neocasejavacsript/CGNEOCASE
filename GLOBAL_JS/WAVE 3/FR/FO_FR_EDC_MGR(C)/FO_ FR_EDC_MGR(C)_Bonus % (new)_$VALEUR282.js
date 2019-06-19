@@ -1,0 +1,1 @@
+bonusNew_onChanged();
