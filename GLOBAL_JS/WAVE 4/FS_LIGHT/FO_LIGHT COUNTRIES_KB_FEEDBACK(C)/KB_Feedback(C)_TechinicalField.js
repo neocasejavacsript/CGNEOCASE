@@ -23,19 +23,28 @@ setArticleNameToLink();
  *****************/
 //Technical section
 neocase.form.section("sectione2bff43de27561e8d39d").hide();
-//document.getElementById("sectione2bff43de27561e8d39d").style.display = "none";
+//document.getElementById("section7e9ed77ac3b366d19ce2").style.display = "none";
 
 
 /*************************
  * ACTIONS ON LOAD COMPLETE
  **************************/
 window.onloadForm = function() {
-
 var value = localStorage.getItem("articlename"); 
-console.log(value);
-neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR254').setValue(value);
-//field.setValue(value);
+if(value){
+    console.log(value);
+    var rex = /(<([^>]+)>)/ig;
+    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR254').setValue((value.replace(rex , "")).trim());
+}
 
+var searchText = localStorage.getItem("searchkeyword");
+if(searchText){
+    console.log(searchText);
+    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR324').setValue(searchText);
+}
+//field.setValue(value);
+localStorage.removeItem("articlename");
+localStorage.removeItem("searchkeyword");
 };
 //ThisForm.Bind('loadcomplete', onloadForm);
 neocase.form.event.bind('loadcomplete', onloadForm);

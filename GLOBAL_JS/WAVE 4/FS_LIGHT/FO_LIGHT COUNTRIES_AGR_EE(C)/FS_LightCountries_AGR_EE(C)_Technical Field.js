@@ -1,5 +1,5 @@
 // JavaScript Document
-/**************		FS_EDC Front Office (C) Technical Fields	*************
+/**************		FS_EDC_EE Front Office (C) Technical Fields	*************
 ********************************************************************************
 Developer   - 
 Date	    - 10/16/2017
@@ -16,6 +16,11 @@ Date	    - 03/13/2019
 Change No   - MOD-003
 Description - Final update on the form
 ***************************************************************************
+Developer   - Smita singh
+Date	    - 06/18/2019
+Change No   - MOD-004
+Description - Set today's date as default for resignation date
+			- No backdated selection to be allowed for employee
 ***********************************************************/
 /*****************
  * Hide Sections
@@ -23,6 +28,66 @@ Description - Final update on the form
 //Technical section
 neocase.form.section("sectiond468895ba7e076561ca9").hide();
 document.getElementById('sectiond468895ba7e076561ca9').style.display = 'none';
+
+/*-------START MOD-004 -- DEFAULT RESIGNATION DATE- SS -- 06/17/2019 -------*/
+
+//Function to set default date as today's date
+window.getDefaultResignationDate = function()
+{
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth()+1; //January is 0! 
+	var yyyy = today.getFullYear();
+	var currDate = mm+'/'+dd+'/'+yyyy;	
+	neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR376").setValue(currDate);
+
+};
+/*-------END -- DEFAULT RESIGNATION DATE -- SS -- 06/17/2019 -------*/
+
+/*-------START -- Restrict user to input back date -- SS -- 06/17/2019 -------*/
+window.setResignationDateRange = function(){
+	var dateElement = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR376").elementHTML;
+	$(dateElement).parent().find('span#wrongDate').remove();
+	var dateSelected = "";
+	dateSelected = dateElement.value;
+
+if( dateSelected != "" )
+{
+	
+	var today = new Date();
+	var currMonth = today.getMonth()+1; //jan = 0;
+	var currDay = today.getDate();
+	var currYear = today.getFullYear();
+	var todayDateText = currMonth + "/" + currDay + "/" + currYear;
+	var todayDateFormatted = new Date(currYear,currMonth,currDay);
+	
+	newDateSelected = new Date(dateSelected);
+	var newSelectedMonth = newDateSelected.getMonth()+1; //jan = 0;
+	var newSelectedDay = newDateSelected.getDate();
+	var newSelectedYear = newDateSelected.getFullYear();
+	
+	var selectedDateFormatted = new Date(newSelectedYear,newSelectedMonth,newSelectedDay);
+	
+
+	
+	if(selectedDateFormatted< todayDateFormatted){
+		console.log("smaller");
+		$(dateElement).after("<span id='wrongDate' style='color:red;'>Date cannot be back dated</span>");
+		//$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled");
+		 $(".submitSimpleRequestButton").css("pointer-events","none");
+
+	}
+	else{
+		//$(".submitSimpleRequestButton").eq(0).removeAttr('disabled');
+		 $(".submitSimpleRequestButton").css("pointer-events","");
+		console.log("greater");
+	}
+	
+	
+}
+
+};
+/*------- END -- Restrict user to input back date -- SS -- 06/17/2019 -------*/
 
 window.findDropdownElementbyID = function(nameElement) {
 	try {
@@ -279,7 +344,7 @@ window.manageMandatoryFields = function() {
 				setTimeout(function() {
 					neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR225').mandatory('Reason for resignation'); //Reason for resignation
 					neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR376').mandatory('Resignation date'); //Resignation date
-					neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR221').mandatory('Last working day (new)'); //Last working day (new)
+				//	neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR221').mandatory('Last working day (new)'); //Last working day (new)
 					//	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').mandatory("Confirmed Leaving dates");	//Confirmed Leaving dates -> Termination date
 				}, 1000);
 			}
@@ -586,7 +651,14 @@ window.onloadForm = function() {
 		manageSection();
 		var gettingval2 = neocase.form.field('INTERVENTIONS_EN_COURS_MOTCLE').getText();
 		neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR203').setValue(gettingval2);
-
+		
+		if(topic === '2240'&& gettingval1 === 'Select...'){
+			//Function to set value to Resignation date  field
+			getDefaultResignationDate();
+			//$(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR367").elementHTML).trigger("change");
+			
+		}
+		
 		if (topic === '2241' && gettingval1 === 'Select...') {
 			updateAndDisableField(neocase.form.field('INTERVENTIONS_EN_COURS$MOTCLE'), getParamFromUrl('topic'));
 			neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR203').hide();
