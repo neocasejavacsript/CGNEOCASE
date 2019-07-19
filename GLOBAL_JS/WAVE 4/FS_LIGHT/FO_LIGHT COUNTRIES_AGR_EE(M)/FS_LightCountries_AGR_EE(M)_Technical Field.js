@@ -1,5 +1,5 @@
 // JavaScript Document
-/**************		FS_AGR Front Office (M) Technical Fields	*************
+/**************		FS_EDC_EE Front Office (M) Technical Fields	*************
 ********************************************************************************
 Developer   - 
 Date	    - 10/16/2017
@@ -12,16 +12,61 @@ Change No   - MOD-002
 Description - Rewriting JS
 ***************************************************************************
 Developer   - Smita singh
-Date	    - 02nd July,2019
+Date	    - 06/26/2019
 Change No   - MOD-003
-Description - Check if the Last working date is set or not
-***************************************************************************
+Description - No backdated selection to be allowed for employee
+
 ***********************************************************/
 
 /*****************
  * Hide Sections
  *****************/
 ThisForm.HideSection("sectiond468895ba7e076561ca9");
+
+/*-------START -- Restrict user to input back date -- SS -- 06/26/2019 -------*/
+window.setResignationDateRange = function(){
+	var dateElement = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR376").elementHTML;
+	$(dateElement).parent().find('span#wrongDate').remove();
+	var dateSelected = "";
+	dateSelected = dateElement.value;
+
+if( dateSelected != "" )
+{
+	
+	var today = new Date();
+	var currMonth = today.getMonth()+1; //jan = 0;
+	var currDay = today.getDate();
+	var currYear = today.getFullYear();
+	var todayDateText = currMonth + "/" + currDay + "/" + currYear;
+	var todayDateFormatted = new Date(currYear,currMonth,currDay);
+	
+	newDateSelected = new Date(dateSelected);
+	var newSelectedMonth = newDateSelected.getMonth()+1; //jan = 0;
+	var newSelectedDay = newDateSelected.getDate();
+	var newSelectedYear = newDateSelected.getFullYear();
+	
+	var selectedDateFormatted = new Date(newSelectedYear,newSelectedMonth,newSelectedDay);
+	
+
+	
+	if(selectedDateFormatted< todayDateFormatted){
+		console.log("smaller");
+		$(dateElement).after("<span id='wrongDate' style='color:red;'>Date cannot be back dated</span>");
+		//$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled");
+		 $(".submitSimpleRequestButton").css("pointer-events","none");
+
+	}
+	else{
+		//$(".submitSimpleRequestButton").eq(0).removeAttr('disabled');
+		 $(".submitSimpleRequestButton").css("pointer-events","");
+		console.log("greater");
+	}
+	
+	
+}
+
+};
+/*------- END -- Restrict user to input back date -- SS -- 06/26/2019 -------*/
 
 /************************************************
  * FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
@@ -98,7 +143,7 @@ window.hideAllSection = function() {
 	neocase.form.section("section978").hide();
 	neocase.form.section("section3ee5542f26a2def7f5bf").hide();  //Termination info
   neocase.form.section("section68c682c7983b6784dfdf").hide();  //Resignation info
-  neocase.form.section("section5da0b635bb7c2fa7da10").hide();  //Last working day
+ // neocase.form.section("section5da0b635bb7c2fa7da10").hide();  //Last working day
   neocase.form.section("sectiona03e205dbc1585c07446").hide();  //LOA
   neocase.form.section("section3393ec064b2dcf13f2bf").hide();  //Return LOA
 	
@@ -145,19 +190,19 @@ window.manageSection = function() {
 			if (subtopic == '2199') {
 				//Involuntary leave
 				neocase.form.section('section3ee5542f26a2def7f5bf').show(); //Termination info
-				neocase.form.section('section5da0b635bb7c2fa7da10').show(); //Last working day
+			//	neocase.form.section('section5da0b635bb7c2fa7da10').show(); //Last working day
 				//document.getElementById("section3ee5542f26a2def7f5bf").style.display = "block";		//Termination info
 			}
 			if (subtopic == '2200') {
 				//End of Fixed Term Contract - MGR
 				neocase.form.section('section253').show(); //Fixed Term Contract
 				neocase.form.section('section3ee5542f26a2def7f5bf').show(); //Termination info
-				neocase.form.section('section5da0b635bb7c2fa7da10').show(); //Last working day
+			//	neocase.form.section('section5da0b635bb7c2fa7da10').show(); //Last working day
 				//document.getElementById("section3ee5542f26a2def7f5bf").style.display = "block";		//Confirmed Leaving dates
 			}
 			if (subtopic == '2143') {
 			//Retirement 
-				neocase.form.section('section5da0b635bb7c2fa7da10').show(); //Last working day
+			//	neocase.form.section('section5da0b635bb7c2fa7da10').show(); //Last working day
 				//document.getElementById("section3ee5542f26a2def7f5bf").style.display = "block";		//Confirmed Leaving dates
 			}
 			/*if(subtopic == "2374") {	//Resignation withdrawn
@@ -193,7 +238,7 @@ window.manageSection = function() {
 				//Retirement
 				//document.getElementById('section3ee5542f26a2def7f5bf').style.display = 'block'; //Confirmed Leaving dates
 				//neocase.form.section('section3ee5542f26a2def7f5bf').show(); //Confirmed Leaving dates
-				neocase.form.section('section5da0b635bb7c2fa7da10').show(); //Last working day
+			//	neocase.form.section('section5da0b635bb7c2fa7da10').show(); //Last working day
 			}
 			if (subtopic == '2240') {
 				//	Voluntary leave
@@ -203,7 +248,7 @@ window.manageSection = function() {
 				//	neocase.form.section("section3ee5542f26a2def7f5bf").show();	//Confirmed Leaving dates
 				//last working day section
 				//document.getElementById("section5da0b635bb7c2fa7da10").style.display = "block";
-				neocase.form.section('section5da0b635bb7c2fa7da10').show();
+			//	neocase.form.section('section5da0b635bb7c2fa7da10').show();
 			}
 		}
 		if (topic == '2244') {
@@ -218,24 +263,6 @@ window.manageSection = function() {
 		console.log(error.message);
 	}
 };
-//Function to set default date as today's date
-window.defaultLastWorkingDate = function()
-{
-	var rDate = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR376").getValue();
-	var resignationDate = new Date(rDate);
-	var newResignationDate = resignationDate.addMonths(1);
-	
-	var resignationDatedd = newResignationDate.getDate();
-	var resignationDatemm = newResignationDate.getMonth() + 1; //03 for march
-	var resignationYYYY = newResignationDate.getFullYear();
-
-	var defaultDate = "";
-		
-		defaultDate = resignationDatemm +'/'+resignationDatedd+'/'+ resignationYYYY;	
-		return defaultDate;
-	
-};
-
 
 
 /****************************
@@ -465,15 +492,6 @@ window.onloadForm = function() {
 	var sel1 = formulaire.INTERVENTIONS_EN_COURS_VALEUR130;
 	var sel2 = formulaire.INTERVENTIONS_EN_COURS_VALEUR132;
 	
-	//Set Last working day as Resignation date + 1 month
-	var lastWorkingDate = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR221");
-	
-	if(lastWorkingDate.getValue() == ""){
-		lastWorkingDate.setValue(defaultLastWorkingDate());
-	}else{
-		//Do nothing
-		
-	}
 	//sel1.addEventListener('change', function() { probationCodeToDesc(); }, false);
 	//sel2.addEventListener('change', function() { probationDescToCode(); }, false);
     
