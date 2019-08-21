@@ -18,7 +18,7 @@ neocase.form.section("sectionee9c60fe816e1587ff21").hide();
 ***************************************/
 window.checkForm = function(){
 	//Declare Variables
-	var validator = document.getElementsByClassName('ValidatorCautionBox'); 	
+	var validator = document.getElementsByClassName('ValidatorCautionBox');
 	var msg = "";
 	var lang = document.getElementById("PageHtml").lang.split("-")[0];
 	if(lang == "fr"){
@@ -28,35 +28,35 @@ window.checkForm = function(){
 	}
 
 	//If mandatory fields are blanked, we add their name in the alert message
-	if(validator.length > 0){
-		for(v=0; v<validator.length; v++){
-			var validatorVisibility = validator[v].style.visibility;
-			if(validatorVisibility == "visible"){
-				if(validator[v].id.search("question") != -1){
-					if(lang == "fr"){
-						msg += "\n- Demande initiale";
-					}else{
-						msg += "\n- Request comment"; //MOD-002
-					}
-				}else{
-					var validatorField = validator[v].parentNode.previousSibling.previousSibling;
-					if(validatorField){
-						var validatorLabel = "";
-						if(validatorField.getElementsByTagName("a").length > 0){
-							validatorLabel = validatorField.getElementsByTagName("a")[0].innerHTML.split(":")[0];
-						}else if(validatorField.getElementsByTagName("label").length > 0){
-							validatorLabel = validatorField.getElementsByTagName("label")[0].innerHTML.split(":")[0];
-						}else{
-							validatorLabel = "undefined";
-						}
-						msg += "\n- "+validatorLabel;
-					}
-				}
-			}
-		}
+	// if(validator.length > 0){
+	// 	for(v=0; v<validator.length; v++){
+	// 		var validatorVisibility = validator[v].style.visibility;
+	// 		if(validatorVisibility == "visible"){
+	// 			if(validator[v].id.search("question") != -1){
+	// 				if(lang == "fr"){
+	// 					msg += "\n- Demande initiale";
+	// 				}else{
+	// 					msg += "\n- Request comment"; //MOD-002
+	// 				}
+	// 			}else{
+	// 				var validatorField = validator[v].parentNode.previousSibling.previousSibling;
+	// 				if(validatorField){
+	// 					var validatorLabel = "";
+	// 					if(validatorField.getElementsByTagName("a").length > 0){
+	// 						validatorLabel = validatorField.getElementsByTagName("a")[0].innerHTML.split(":")[0];
+	// 					}else if(validatorField.getElementsByTagName("label").length > 0){
+	// 						validatorLabel = validatorField.getElementsByTagName("label")[0].innerHTML.split(":")[0];
+	// 					}else{
+	// 						validatorLabel = "undefined";
+	// 					}
+	// 					msg += "\n- "+validatorLabel;
+	// 				}
+	// 			}
+	// 		}
+	// 	}
 		//update the alert message
 		m_requiredFieldsUndefined = msg;
-	}
+	// }
 
 	//If all previous control are valid, the function return "true" to execute the Submit function
 	return true;
