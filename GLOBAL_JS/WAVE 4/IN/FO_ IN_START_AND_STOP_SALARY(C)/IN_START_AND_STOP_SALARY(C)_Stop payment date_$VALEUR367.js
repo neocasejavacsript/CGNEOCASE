@@ -1,10 +1,13 @@
-	var dateElement = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR367").elementHTML;
+/*	var dateElement = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR367").elementHTML;
 	$(dateElement).parent().find('span#wrongDate').remove();
 	var dateSelected = "";
 
 dateSelected = dateElement.value;
 if( dateSelected != "" )
 {
+	var selectedDate = new Date(dateSelected); //By Md to fix date issue - 21st Jan 2019
+	var selectedMonth = selectedDate.getMonthName();//By Md to fix date issue - 21st Jan 2019
+	
 	var day = dateSelected.split("/");
 	
 	if(day[1] != "01" && day[1]!= "1")
@@ -20,3 +23,6 @@ if( dateSelected != "" )
 		}
 	}
 }
+*/
+
+setStopDateRange();

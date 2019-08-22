@@ -20,6 +20,15 @@ Version - MOD-003
 Author - Riya Dutta	
 Creation Date - 01/04/2019 (MM/DD/YYYY)
 Description - Upgrading to New JS Framework (//need update)
+**********************************************************************
+Version - MOD-004
+Author - Riya Dutta	
+Creation Date - 05/22/2019 (MM/DD/YYYY)
+Description - Start Stop Date new logic during UAT
+			- add Most Recent Hire Date & logic
+			- Stop payment date logic changes 
+			- Submit restciction function Changes - 07/01/2019
+			- Disable Stop payment date for Existing emp - 07/02/2019
 **********************************************************************/
 
 var consDisciplinaryAction = "S5";
@@ -110,7 +119,8 @@ window.fieldDisable = function(fieldname)
 {					
 		var disabler = '<div class="customDisabled" style="position:absolute;top:0;z-index:1000;width: 100%;height: 100%;"></div>';
 		var fieldToDisable = neocase.form.field(fieldname).elementHTML;
-		$(fieldToDisable).parent().parent().append(disabler);
+		$(fieldToDisable).parent().parent().parent().append(disabler);
+		//$(fieldToDisable).parent().append(disabler);
 };
 
 window.getParamFromUrl = function(param){
@@ -194,6 +204,7 @@ hideBlock("sectionfc92b8ae094cd7751825","mix-caseForm-bloc-question");
 //Remove previous section display error message
 $("#secErrorMessage").remove();
 //Enable Submit button if it was previously disabled
+//Submit enable disable function
 $(".submitSimpleRequestButton").eq(0).removeAttr('disabled');
 
 switch(currSbtopic) {
@@ -202,11 +213,18 @@ switch(currSbtopic) {
 			//Show Stop Payment Section
 			neocase.form.section("section0adf1b63b11dd89f2b5d").show();	
 			//Auto Populate Stop Payment date with 1st day of next month
-			neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR367").setValue(getNextMontthFirstDate());
+			//neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR367").setValue(getNextMontthFirstDate());
+			neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR367").setValue(getStopPayDate());
 			//Triggering Change event manually so that attached validations work
 			$(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR367").elementHTML).trigger("change");
-			//Disable Stop payment date field
+			/*Disable Stop payment date field for Existing emp Starts of MOD-004 */
+			//fieldDisable("INTERVENTIONS_EN_COURS$VALEUR367"); -- Commented by MD to test Date Issue - 21st Jan 2019
+			var calMonthsDiff=calculateHireDate();
+			if(calMonthsDiff > 2)
+			{
 			fieldDisable("INTERVENTIONS_EN_COURS$VALEUR367");
+			}
+			/*Disable Stop payment date field for Existing emp End of MOD-004 */
 			var spr = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR366").getValue();
 			if(spr === consOthers)
 			{
@@ -218,7 +236,9 @@ switch(currSbtopic) {
 		{
 				neocase.form.section("sectioncf4506e084b34c34bcbb").show();
 				$("#sectioncf4506e084b34c34bcbb").append("<br/><span id='secErrorMessage' style='font-size:20px; color:red;' >We cannot process your request, Payment is already stopped earlier.</span>");
-				$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled");
+				/*Submit restciction function Changes : MOD-004 */
+				//$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled"); //-- MOD-004
+				$(".submitSimpleRequestButton").css("pointer-events","none"); //++ MOD-004
 		}
         break;
     case '2369': //Start Payment
@@ -247,21 +267,27 @@ switch(currSbtopic) {
 			{
 				neocase.form.section("sectioncf4506e084b34c34bcbb").show();
 				$("#sectioncf4506e084b34c34bcbb").append("<br/><span id='secErrorMessage' style='font-size:20px; color:red;' >Payment was not stopped via Neocase, so you cannot re-start it here either.</span>");
-				$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled");
+				/*Submit restciction function Changes : MOD-004 */
+				//$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled"); // MOD-004 --
+				$(".submitSimpleRequestButton").css("pointer-events","none"); // MOD-004 ++
 			}
 		}
 		else
 		{
 			neocase.form.section("sectioncf4506e084b34c34bcbb").show();
 			$("#sectioncf4506e084b34c34bcbb").append("<br/><span id='secErrorMessage' style='font-size:20px; color:red;' >Payment is not stopped so cannot be restarted</span>");
-			$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled");
+			/*Submit restciction function Changes : MOD-004 */
+			//$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled"); // MOD-004 --
+			$(".submitSimpleRequestButton").css("pointer-events","none"); // MOD-004 ++
 		}
 		
         break;
     default:
 		neocase.form.section("sectioncf4506e084b34c34bcbb").show();
 		$("#sectioncf4506e084b34c34bcbb").append("<br/><span id='secErrorMessage' style='font-size:20px; color:red;' >No valid subtopic is selected</span>");
-		$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled");
+		/*Submit restciction function Changes : MOD-004 */
+		//$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled"); // MOD-004 --
+		$(".submitSimpleRequestButton").css("pointer-events","none"); // MOD-004 ++
 }
 
 
@@ -274,9 +300,17 @@ window.manageFields = function()
 	neocase.form.field("UTILISATEURS$CHAMPU318").hide();
 	neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR370").hide();
 	neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR366").hide();
+	//MOD-004 Starts
+	//display "Most Recent Hire Date" for new joinees
+	var calMonthDiff=calculateHireDate();
+		if(calMonthDiff<= 2)
+		{
+			neocase.form.field("UTILISATEURS$CHAMPU47").show();
+		}
+	//MOD-004 Ends
 };
 
-window.getNextMontthFirstDate = function()
+/*window.getNextMontthFirstDate = function()
 {
 	var today = new Date();
 	var mm = today.getMonth()+1; //January is 0!
@@ -292,7 +326,39 @@ window.getNextMontthFirstDate = function()
 	var firstDayNextMonth = nextMonth+'/1/'+yyyy;
 	
 	return firstDayNextMonth;
+}; */
+
+//MOD-004 Starts
+//decide Stop payment date as per logic changes
+window.getStopPayDate = function()
+{
+var today = new Date();
+var dd = today.getDate();
+var mm = today.getMonth()+1; //January is 0! 
+var nextMonth = mm+1; 
+var yyyy = today.getFullYear();
+
+	if (dd >= 1 && dd<= 25) 
+	{
+		// Date = 1st of current month
+		var firstDayCurrMonth = mm+'/1/'+yyyy;	
+		return firstDayCurrMonth;
+	}
+	else
+	{
+		//Date = 1st of next month
+		if(nextMonth>12)
+		{
+			nextMonth = nextMonth - 12; //Year has only 12 month
+			yyyy = yyyy+1;
+		}
+		var firstDayNextMonth = nextMonth+'/1/'+yyyy;	
+		return firstDayNextMonth;	
+	}
+	
 };
+
+//MOD-004 Ends
 
 //Stop Payment Reason desc to code
 window.stopPaymentReasonDescToCode = function(){
@@ -331,7 +397,119 @@ window.stopPaymentReasonDescToCode = function(){
 };
 //********** End of MOD-001++ ****************************
 
+//MOD-004 Starts 
+//display "Most Recent Hire Date" for new joinees
+window.calculateHireDate = function() {
+neocase.form.field("UTILISATEURS$CHAMPU47").hide();
+var monthDiff=0;
+var today = new Date();
+var mm = today.getMonth();  //05 for may
+var hDate = neocase.form.field("UTILISATEURS$CHAMPU47").getValue();
+var hireDate = new Date(hDate);
+var hireDatemm = hireDate.getMonth(); //03 for march
 
+var todayYYYY=today.getFullYear();
+var hireYYYY=hireDate.getFullYear();
+monthDiff = (mm - hireDatemm)+(12 * ( todayYYYY- hireYYYY));
+
+return monthDiff;
+
+};
+//MOD-004 Ends
+
+/*------- Stop Salary Date Range Restriction rule -- RD -- 05/24/2019 -------*/
+window.setStopDateRange = function(){
+	var dateElement = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR367").elementHTML;
+	$(dateElement).parent().find('span#wrongDate').remove();
+	var dateSelected = "";
+
+dateSelected = dateElement.value;
+if( dateSelected != "" )
+{
+	
+	var selectedDate = new Date(dateSelected); 
+	var selectedMonth = selectedDate.getMonth(); 
+	var selectedYear = selectedDate.getFullYear(); 
+	
+	var today = new Date();
+	var currMonth = today.getMonth(); //jan = 0;
+	var max =new Date();
+	var min =new Date();
+	//var nextMonth = currMonth + 1;  //5
+	//var preMonth = currMonth - 1;  //3 addYears(-5);
+	var nextMonth = max.addMonths(1).getMonth(); //Feb = 1;
+	var preMonth = min.addMonths(-1).getMonth(); //Dec = 11;
+	
+	var currYear = today.getFullYear(); 
+	var nextYear = currYear + 1; 
+	var preYear = currYear - 1; 
+	
+	var janFlag=0;
+	var decFlag=11;
+	if(currYear == selectedYear) //if the date is in same year
+	{
+		if(!(preMonth<= selectedMonth && selectedMonth<= nextMonth))	
+		{
+		$(dateElement).parent().append("<span id='wrongDate' style='color:red;'>Date must be in between Previous month & Next month from now</span>");
+		/*Submit restciction function Changes : MOD-004 */
+		//$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled"); // MOD-004 --
+		$(".submitSimpleRequestButton").css("pointer-events","none"); // MOD-004 ++
+		}
+		else
+		{
+		/*Submit restciction function Changes : MOD-004 */
+		//$(".submitSimpleRequestButton").eq(0).removeAttr('disabled'); // MOD-004 --
+		$(".submitSimpleRequestButton").css("pointer-events","");
+		}
+	
+	}
+	else if (selectedYear == nextYear){ //if the date is in next year 2020
+	//if Jan then allow
+	
+		if(selectedMonth == janFlag && currMonth == decFlag){
+		/*Submit restciction function Changes : MOD-004 */
+		//$(".submitSimpleRequestButton").eq(0).removeAttr('disabled'); // MOD-004 --
+		$(".submitSimpleRequestButton").css("pointer-events","");
+		}
+	//else not allow
+		else 
+		{
+		$(dateElement).parent().append("<span id='wrongDate' style='color:red;'>Date must be in between Previous month & Next month from now</span>");
+		/*Submit restciction function Changes : MOD-004 */
+		//$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled"); // MOD-004 --
+		$(".submitSimpleRequestButton").css("pointer-events","none"); // MOD-004 ++
+		}
+	
+	}
+	else if (selectedYear == preYear){ //if the date is in Previous year 2018
+	
+		if(selectedMonth == decFlag && currMonth == janFlag){ //dec 2018
+		/*Submit restciction function Changes : MOD-004 */ // MOD-004 --
+		//$(".submitSimpleRequestButton").eq(0).removeAttr('disabled');
+		$(".submitSimpleRequestButton").css("pointer-events","");
+		//$(dateElement).parent().append("<span id='wrongDate' style='color:red;'>Date must be in between Previous month & Next month from now</span>");
+		//$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled");
+		}
+		else 
+		{
+		//$(".submitSimpleRequestButton").eq(0).removeAttr('disabled');
+		$(dateElement).parent().append("<span id='wrongDate' style='color:red;'>Date must be in between Previous month & Next month from now</span>");
+		/*Submit restciction function Changes : MOD-004 */
+		//$(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled"); // MOD-004 --
+		$(".submitSimpleRequestButton").css("pointer-events","none"); // MOD-004 ++
+		}
+	}
+	else{ //if the date is not within the range of Previous year & Next Year
+		$(dateElement).parent().append("<span id='wrongDate' style='color:red;'>Date must be in between Previous month & Next month from now</span>");
+		/*Submit restciction function Changes : MOD-004 */
+		// $(".submitSimpleRequestButton").eq(0).attr("disabled", "disabled"); // MOD-004 --
+		$(".submitSimpleRequestButton").css("pointer-events","none"); // MOD-004 ++
+	}
+	
+}
+};
+
+/*------- Stop Salary Date Range Restriction rule -- RD -- 05/24/2019 -------*/
 /*************************
 * ACTIONS ON LOAD COMPLETE
 **************************/
