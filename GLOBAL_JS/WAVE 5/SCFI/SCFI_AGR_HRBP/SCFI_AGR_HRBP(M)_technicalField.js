@@ -1,24 +1,26 @@
-/* --- SCFI_AGR_HRBP(C)Technical Fields --- */
+/* --- SCFI_AGR_HRBP(M)Technical Fields --- */
 /*--------------------------------------------------------------------------
-Developer   - Ahana Sarkar
-Date	    - 10/15/2019 (MM/DD/YYYY)
+Developer   - Arnab Guha
+Date	    - 10/16/2019 (MM/DD/YYYY)
 Change No   - MOD-001
-Description - Popup and fill up on Base Location,performance reviewer
----------------------------------------------------------*/ 
+Description - Popup and fill up
+---------------------------------------------------------*/
 // hide Technical section
-neocase.form.section("section37b6e0495886e35199ed").hide();
+neocase.form.section("section020b90fcf3768ca6d930").hide();
 // hide hidden section
-neocase.form.section("section33f1be6929ce3e00b6be").hide();
+neocase.form.section("sectionf2f5c894727c2c50b4d4").hide();
 
+SC_Nm_SubAreaCode = function (fieldValue) {
+    // Base location code(new)
 
-SC_Nm_SubAreaCode = function(fieldValue) { // Base location code(new) 
-    
     formulaire.INTERVENTIONS_EN_COURS$VALEUR121.value = fieldValue;
 };
-SC_Nm_SubAreaDesc = function(fieldValue) { // Base location code(new) 
-    
+SC_Nm_SubAreaDesc = function (fieldValue) {
+    // Base location code(new)
+
     formulaire.INTERVENTIONS_EN_COURS$VALEUR123.value = fieldValue;
 };
+
 FillCf_Job_Desc = function (fieldValue) {
     //Job title new fill field
     formulaire.INTERVENTIONS_EN_COURS$VALEUR46.value = fieldValue;
@@ -34,14 +36,14 @@ FillCf_Job_code = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR44.value = fieldValue;
 };
 //Management Popup - Reviewer
-FillCf_Reviewer_First_Name = function(fieldValue) {
+FillCf_Reviewer_First_Name = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR154.value = fieldValue;
 };
-FillCf_Reviewer_LastName = function(fieldValue) {
+FillCf_Reviewer_LastName = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR154.value += " " + fieldValue;
     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR154, false);
 };
-FillCf_Reviewer_LocalID = function(fieldValue) {
+FillCf_Reviewer_LocalID = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR156.value = fieldValue;
     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR156, false);
 };
@@ -93,6 +95,7 @@ window.setAllPopups = function () {
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR409,"/Custom_Referential/TrainingApprover.aspx?Id_User="); //'Training Approver'
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR286, "/Custom_Referential/ManagerLocalName.aspx?Id_User=");  //Management - Local approver
 };
+
 window.disableCusFields = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR123")); //disbale Base location(new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR121")); //disbale Base location code (new)
@@ -104,20 +107,18 @@ window.disableCusFields = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR183"));//disable myconnect supervisor (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR409")); //Disable "Training Approver name (new)"
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR286")); //Disable "Local approver name(new)"
-    
 };
 /**************************
-* Launch Javascript on init
-***************************/
-window.launchOnInit = function(){
+ * Launch Javascript on init
+ ***************************/
+window.launchOnInit = function () {
     setAllPopups();
     disableCusFields();
 };
-neocase.form.event.bind("init",launchOnInit);
+neocase.form.event.bind("init", launchOnInit);
 
 /****************************
-* Launch Javascript on submit
-*****************************/
-window.launchOnSubmit = function(){
-};
-neocase.form.event.bind("submit",launchOnSubmit);
+ * Launch Javascript on submit
+ *****************************/
+window.launchOnSubmit = function () { };
+neocase.form.event.bind("submit", launchOnSubmit);

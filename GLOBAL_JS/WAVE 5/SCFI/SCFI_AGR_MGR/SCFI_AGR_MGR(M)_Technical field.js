@@ -1,24 +1,26 @@
-/* --- SCFI_AGR_HRBP(C)Technical Fields --- */
+/* --- SCFI_AGR_MGR(M)Technical Fields --- */
 /*--------------------------------------------------------------------------
 Developer   - Ahana Sarkar
 Date	    - 10/15/2019 (MM/DD/YYYY)
 Change No   - MOD-001
-Description - Popup and fill up on Base Location,performance reviewer
----------------------------------------------------------*/ 
+Description - Popup and fill up on Base Location
+---------------------------------------------------------*/
 // hide Technical section
-neocase.form.section("section37b6e0495886e35199ed").hide();
+neocase.form.section("section2cc90fe36b72627e0a0a").hide();
 // hide hidden section
-neocase.form.section("section33f1be6929ce3e00b6be").hide();
+neocase.form.section("sectione295d41b8c7053b5e0e3").hide();
 
+SC_Nm_SubAreaCode = function (fieldValue) {
+    // Base location code(new)
 
-SC_Nm_SubAreaCode = function(fieldValue) { // Base location code(new) 
-    
     formulaire.INTERVENTIONS_EN_COURS$VALEUR121.value = fieldValue;
 };
-SC_Nm_SubAreaDesc = function(fieldValue) { // Base location code(new) 
-    
+SC_Nm_SubAreaDesc = function (fieldValue) {
+    // Base location code(new)
+
     formulaire.INTERVENTIONS_EN_COURS$VALEUR123.value = fieldValue;
 };
+
 FillCf_Job_Desc = function (fieldValue) {
     //Job title new fill field
     formulaire.INTERVENTIONS_EN_COURS$VALEUR46.value = fieldValue;
@@ -34,14 +36,14 @@ FillCf_Job_code = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR44.value = fieldValue;
 };
 //Management Popup - Reviewer
-FillCf_Reviewer_First_Name = function(fieldValue) {
+FillCf_Reviewer_First_Name = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR154.value = fieldValue;
 };
-FillCf_Reviewer_LastName = function(fieldValue) {
+FillCf_Reviewer_LastName = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR154.value += " " + fieldValue;
     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR154, false);
 };
-FillCf_Reviewer_LocalID = function(fieldValue) {
+FillCf_Reviewer_LocalID = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR156.value = fieldValue;
     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR156, false);
 };
@@ -70,6 +72,7 @@ FillCf_Supervisor_LocalID = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR185.value = fieldValue;
     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR185, false);
 };
+
 //Management Popup - Local
 FillCf_LocalName_First_Name = function(fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR286.value = fieldValue;
@@ -104,20 +107,18 @@ window.disableCusFields = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR183"));//disable myconnect supervisor (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR409")); //Disable "Training Approver name (new)"
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR286")); //Disable "Local approver name(new)"
-    
 };
 /**************************
-* Launch Javascript on init
-***************************/
-window.launchOnInit = function(){
+ * Launch Javascript on init
+ ***************************/
+window.launchOnInit = function () {
     setAllPopups();
     disableCusFields();
 };
-neocase.form.event.bind("init",launchOnInit);
+neocase.form.event.bind("init", launchOnInit);
 
 /****************************
-* Launch Javascript on submit
-*****************************/
-window.launchOnSubmit = function(){
-};
-neocase.form.event.bind("submit",launchOnSubmit);
+ * Launch Javascript on submit
+ *****************************/
+window.launchOnSubmit = function () { };
+neocase.form.event.bind("submit", launchOnSubmit);
