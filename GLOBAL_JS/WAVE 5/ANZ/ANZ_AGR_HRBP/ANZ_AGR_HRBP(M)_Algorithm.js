@@ -77,19 +77,19 @@ var Tableau = [
              'sectione2faa243c6cd02a11ea4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',
              /*SECTION : "Demotion"*/
 	'sectiona3e9bb236d88e44b3031#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-             'sectionbbad902853446c01fc19#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-             'sectiond83353073d00358519ee#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion;ANZ_Change in job',
+             'sectionbbad902853446c01fc19#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion;ANZ_Change in job',
+             'sectiond83353073d00358519ee#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
              'sectione7656e6910817d35513c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
              'section0a5cd418dcb791ab9a17#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
              /*SECTION : "End of Fixed term contract subtopic"*/
 	'section2ed9ec033881bc38f7ac#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_End of fix-term contract',
-             /*SECTION : "Involuntary leaver"*/
+           /*  SECTION : "Involuntary leaver"*/
 	'sectionac6e362a27c786103d7d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver',
              'section1bbe79aa91abdd775846#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver',
              /*SECTION : "Scheduled report"*/
 	'sectionbaf5cef04094c6c8cccc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Scheduled report',
              /*SECTION : "Change in job"*/
-            //  'sectionbbad902853446c01fc19#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job',
+            /*  'sectionbbad902853446c01fc19#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job',*/
              /*SECTION : "Change in management team"*/
              'section71dd8c7f3b79d93bd0f4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in management team',
              /*SECTION : "Change in working hours"*/
@@ -1470,8 +1470,9 @@ window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
     //FILL SUBTOPIC
-    manageSubtopic();
-    manageFields("ouverture");
+    //manageSubtopic();
+    manageFields();
+   
  
 };
 neocase.form.event.bind('loadcomplete', onloadForm);

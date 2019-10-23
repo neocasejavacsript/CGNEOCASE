@@ -65,7 +65,7 @@ Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
 Fields and display settings
 ***************************/
 var Tableau = [
-	'section92adecfb27f9358aea2f#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|ANZ_Letter Request'
+	'sectiond56e599f900a611373a4#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|ANZ_Letter Request'
 ];
 var enableManageField;
 
@@ -396,6 +396,7 @@ window.mandatoryList = function () {
 ALGORITHME GERANT L'AFFICHAGE DYNAMIQUE DES CHAMPS
 **************************************************/
 window.manageFields = function (DECLENCHEUR) {
+    console.log(DECLENCHEUR);
     if (enableManageField === true) {
         /**********************
         0-AFFICHER LE DECLENCHEUR
@@ -1157,43 +1158,14 @@ window.getSelectValue = function (RADIO_BUTTON) {
 
 };
 
-/**************************
-* Summation and result cal
-***************************/
-window.calOnPopulation = function() {
-
-var employPercentage = formulaire.UTILISATEURS$CHAMPU248.value;
-var annualSalaryAtFTE = formulaire.UTILISATEURS$CHAMPU168.value;
-var employPourcent = formulaire.INTERVENTIONS_EN_COURS$VALEUR249.value;
-var targetVarCompAtFTE = formulaire.UTILISATEURS$CHAMPU170.value;
-var empPerc = Number(annualSalaryAtFTE / employPercentage);
-var finalAnnualSalary = Number(employPourcent * empPerc);
-finalAnnualSalary = finalAnnualSalary.toFixed(2);
-var targetVar = Number(targetVarCompAtFTE / employPercentage);
-var finalTargetVar =  Number(employPourcent * targetVar);
-finalTargetVar = finalTargetVar.toFixed(2);
-if(finalAnnualSalary != "0" || finalAnnualSalary != " " || finalAnnualSalary != "NaN" || finalAnnualSalary != "null"  ){
-neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR384').setValue(finalAnnualSalary);
-	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR384"));
-}
-if(finalTargetVar != "0" || finalTargetVar != " " || finalTargetVar != "NaN" || finalTargetVar != "null"  ){
-neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').setValue(finalTargetVar);
-//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR385"));
-}
-//formulaire.INTERVENTIONS_EN_COURS$VALEUR384.value = finalAnnualSalary;
-//formulaire.INTERVENTIONS_EN_COURS$VALEUR385.value = finalTargetVar;
-
-};
-
 
 /**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
 window.onloadForm = function () {
-    mandatoryList();
+    //mandatoryList();
     enableManageField = true;
-    manageFields("ouverture");
-	//calOnPopulation();
+	manageFields();
 
 };
 neocase.form.event.bind('loadcomplete', onloadForm);

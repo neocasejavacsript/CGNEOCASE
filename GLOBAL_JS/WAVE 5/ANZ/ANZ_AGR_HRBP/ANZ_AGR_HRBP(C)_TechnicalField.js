@@ -184,7 +184,7 @@ FillCf_Job_Catg = function(fieldValue){
 
 window.setAllPopups = function(){
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR46, "/Custom_Referential/JobName.aspx?Id_User="); //set popup link to Job title new
-    
+    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR291, "/Custom_Referential/ContratType.aspx?Id_User="); //set popup link to ContratType
 };
 window.disableCusFields = function(){
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR46")); //disbale Job title new

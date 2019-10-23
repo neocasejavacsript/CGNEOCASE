@@ -79,6 +79,15 @@ FillCf_LocalName_PersonelNum = function(fieldValue) {
     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR287, false);
 };
 
+/*--- Copy Employee Catalog field values to Request Catalog field ---*/
+window.copyFields = function (){
+    // copy MyC Supervisor Name value
+    neocase.form.field('UTILISATEURS$CHAMPU152').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR182');
+    // copy HRBP name value
+    neocase.form.field('UTILISATEURS$CHAMPU58').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR427');
+    // copy Last day of probation
+    neocase.form.field('UTILISATEURS$CHAMPU189').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR133');
+};
 
 window.setAllPopups = function () {
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR123, "/Custom_Referential/SubArea.aspx?Id_User="); //set popup link to Base location(new)
@@ -106,6 +115,7 @@ window.disableCusFields = function () {
  * Launch Javascript on init
  ***************************/
 window.launchOnInit = function () {
+    copyFields(); // Copy Employee Catalog field values to Request Catalog field
     setAllPopups();
     disableCusFields();
 };

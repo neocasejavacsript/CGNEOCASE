@@ -1,4 +1,3 @@
-//ANZ_AGR_HRBP(BO)  - Algorithm Code
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -48,64 +47,13 @@ V16 - PJU/WIL - 05/01/2018
 V17 - PJU - 11/01/2018
 	- delete var enableManageField
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
-V18 - PJU - 01/03/2018
-	- add specific code for 'MOTCLE' in manageFields
 */
-
-/*-----------------------------------------------------------------------------
-Developer   - Debraj Sarkar
-Date	    - 10/01/2019 (MM/DD/YYYY)
-Change No   - MOD-001
-Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
-			- Did basic clean up and changes based on mock up
-			- Display specific section based on subtopic
-------------------------------------------------------------------------------
-Developer   - Ahana Sarkar
-Date	    - 10/18/2019 (MM/DD/YYYY)
-Change No   - MOD-001
-Description - Display specific section based on subtopic modification
-------------------------------------------------------------------------------*/ 
-
 
 /**************************
 Fields and display settings
 ***************************/
 var Tableau = [
-    /*SECTION : "Probation Period" for subtopic 'ANZ_Probation period Extension / Confirmation'*/
-    'section79f1df1277e394ee39c4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Probation period Extension / Confirmation',
-    /*SECTION : "Request leave of absence details" for subtopic 'ANZ_Request leave of absence'*/
-    'section178b6d5a82ab8e14a5fe#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Request leave of absence',
-    /*SECTION : "Change of return date from leave of absence" for subtopic 'Change return date of leave of absence'*/
-    'section0277942bfed54d2c2cef#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change return date of leave of absence',   
-    /*SECTION : Employment data changes details*/
-    'sectionc2f302d061ff2eff61bf#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Change in management team;ANZ_Change in working hours;ANZ_Cost center change;ANZ_Demotion;ANZ_Fixed-term contract extension;ANZ_Work location transfer',   
-    /*SECTION : "Fixed-term contract extension"*/
-    'sectionb5ff39d59ac8011a3c35#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Fixed-term contract extension',
-    /*SECTION : "Work location transfer"*/
-    'section5fbf0cc304ff73792781#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',
-    /*SECTION : Grade Details */
-    'sectionaa695c51ef90d72b94dd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-    /* SECTION: Job Details */
-    'sectionb2efbe0d5057f3fccb3e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion;ANZ_Change in job',
-    /* SECTION: Working hours details */
-    'sectione1c1c9cba122b4df2afb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
-    /* SECTION : Pay*/
-    'section4f8bca62b68e042d1fbc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-    /* SECTION : Additional Allowance */
-    'section402e2112d1398e5b030f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-    /* SECTION : Non-Payroll Information */
-    'section1ab7339c7499cc587b0e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-    /* SECTION : Management Team */
-    'section25dab7135acd521433d8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in management team;ANZ_Cost center change',
-    /*SECTION : "End of Fixed term contract details"*/
-    'section2895e6a6fe8f47b0130b#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_End of fix-term contract',
-    /*SECTION : Involuntary Leaver details*/
-    'sectionb826e5bf9f42e2806187#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver',
-    /*SECTION : HR Management Reporting details*/
-    'section1aed934fd809e415c556#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Scheduled report',
-    /*SECTION : Employee group/ Employee subgroup */
-    'section61002fbfadf57e1991f8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours'            
-
+	'section92adecfb27f9358aea2f#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|ANZ_Letter Request'
 ];
 var enableManageField;
 
@@ -231,9 +179,9 @@ window.champObligatoire = function (FIELD, VALID) {
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             VALIDATOR_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
         } else if (FIELD_ID.search("UTILISATEURS") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
+            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
         } else if (FIELD_ID.search("n_question") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID.replace("n_question", "n_questionvalidator");
+            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
         }
         //manage file fields
         if (VALIDATOR_FIELD_ID.search("_display") != -1) {
@@ -305,10 +253,10 @@ window.boutonRadio = function (FIELD) {
     var SELECT_OBLIGATOIRE_ID;
     if (CHAMP_SELECT_ID.search("INTERVENTIONS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
     } else if (CHAMP_SELECT_ID.search("UTILISATEURS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "lblUTILISATEURS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
     }
     //Si le champ est obligatoire, on masque simplement l'étoile d'origine et on cré une nouvelle étoile à côté du label
     if (document.getElementById(SELECT_OBLIGATOIRE_ID)) {
@@ -615,9 +563,6 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER1_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
-                                    //Exceptions for 'MOTCLE' field
-                                    PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
                             }
                         }
@@ -662,9 +607,6 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER2_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER2_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
-                                    //Exceptions for 'MOTCLE' field
-                                    PARAMETER2_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
                             }
                         }
@@ -859,9 +801,6 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
-                                    //Exceptions for 'MOTCLE' field
-                                    PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
                             }
                         }
@@ -878,8 +817,6 @@ window.manageFields = function (DECLENCHEUR) {
                             PARAMETER_LABEL = "lblINTERVENTIONS_EN_COURS$PROVENANCE";
                         } else if (PARAMETER_ID == "ELEMENTS") {
                             PARAMETER_LABEL = "lblINTERVENTIONS_EN_COURS$ELEMENT";
-                        } else if (PARAMETER_ID == "MOTSCLES") {
-                            PARAMETER_LABEL = "lblINTERVENTIONS_EN_COURS$MOTCLE";
                         }
                         //Valeur du champ à tester
                         var PARAMETER_FIELD_VALUE;
@@ -1363,7 +1300,6 @@ window.getParamFromUrl = function(param){
 	if(param){
 		return vars[param] ? vars[param] : null;  
 	}
-console.log(vars);
 	return vars;
 };
 
@@ -1384,7 +1320,6 @@ window.launchDependencies = function(field){
 * update level1
 ***************/
 window.updateAndDisableField = function(field,value){
-
 	//update 'level 1' value
 	field.setValue(value);
 	if(field.elementHTML.value !== "0" && field.elementHTML.value !== ""){
@@ -1417,49 +1352,23 @@ window.getASPid = function(fieldName){
 };
 FillCf = function(fieldValue,fieldName){
     var msg = "function FillCf : ";
-
     //properly target field
     if(fieldName.search("VALEUR0") != -1){
         fieldName = fieldName.replace("VALEUR0","VALEUR");
     }
 	fieldName = getASPid(fieldName);
     var field = neocase.form.field(fieldName);
-       var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
+       //var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
     if(field){
 		field.setValue(fieldValue);
-       if(req)
-		{
-		req.setValue(fieldValue);
-		}
+    //    if(req)
+	// 	{
+	// 	req.setValue(fieldValue);
+	// 	}
     }else{
         msg += "field "+fieldName+" not found";
         console.log(msg);
 }    
-};
-
-
-/****************************
-* AUTOMATICALLY FILL SUBTOPIC
-*****************************/
-window.manageSubtopic = function(){
-var msg = "function manageSubtopic : ";
-	var getSubtopic = localStorage.getItem('subtopic');
-	
-	var field = formulaire.INTERVENTIONS_EN_COURS$ELEMENT;
-	
-	//if(field.value != "0"){
-	var subtopic = getParamFromUrl('subtopic');
-		if(subtopic){
-			if(field){
-				field.value = subtopic;
-			}else{
-				msg += "field undefined";
-				console.log(msg);
-			}
-		}else{
-			msg += subtopic + " undefined";
-			console.log(msg);
-		}
 };
 
 
@@ -1468,16 +1377,14 @@ var msg = "function manageSubtopic : ";
 STATIC CODE ENDS
 ***************************************************************************************/
 
+
 /**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
 window.onloadForm = function () {
-    mandatoryList();
-    enableManageField = true;
-    //FILL SUBTOPIC
-    manageSubtopic();
-    manageFields("ouverture");
- 
+    //mandatoryList();
+    //enableManageField = true;
+    //manageFields("ouverture");
+
 };
-neocase.form.event.bind('loadcomplete', onloadForm);
-///////////////////////////////////////////////////////////yh
+neocase.form.event.bind('init', onloadForm);

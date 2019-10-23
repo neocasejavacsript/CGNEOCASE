@@ -211,7 +211,9 @@ window.capgEnable = function(fieldGotByID)
 ***************************/
 window.launchOnInit = function(){
 	// copy_fields();
-	updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
+	//updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
+        //updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
+	 manageFields();
 	setAllPopups();
     disableCusFields();
 	
@@ -219,4 +221,3 @@ window.launchOnInit = function(){
 neocase.form.event.bind("init",launchOnInit);
 
 /*---- MOD-001 ENDS ----*/
-
