@@ -82,6 +82,7 @@ var Tableau = [
 	/*SECTION : "Request leave of absence details"*/
 	'section78fffee6bf541342ec49#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Request leave of absence',
 	/*SECTION : "Update planned leave of absence details "*/
+	'section58022a80ff14cbc9c7a4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Update planned leave of absence',
 	'section82369d7f15977124c7ac#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Update planned leave of absence',
 	/*SECTION : "Change return date of leave of absence"*/
 	'sectionc9548da8467695fa9343#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change return date of leave of absence',
@@ -98,7 +99,7 @@ var Tableau = [
 	/*SECTION : "Job Details"*/
 	'sectionab238c9264e2c46539d4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in grade;ANZ_Promotion',
 	/*SECTION : "Pay"*/
-	// 'section10d1060bf09dee3486fe#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in pay'
+	'section10d1060bf09dee3486fe#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in pay',
 	/*SECTION : "Additional Allowance"*/
 	'sectionc705e4f6f442a1a34d66#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in pay;ANZ_Change in allowance',
 	/*SECTION : "Non-Payroll Information"*/
@@ -114,6 +115,7 @@ var Tableau = [
 	/*SECTION : "Assignment details"*/
 	'section48bfa8edb975e2722723#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Assignment inbound start;ANZ_Assignment inbound end;ANZ_Assignment inbound extension;ANZ_Assignment outbound start;ANZ_Assignment outbound end',
 	/*SECTION : "Mass Upload details"*/
+	'section8e7f8c18a4feb93aadec#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Grade change_MU;ANZ_Job reclassification_MU;ANZ_Work location transfer_MU;ANZ_Cost center change_MU;ANZ_Promotion_MU;ANZ_Company change_MU;ANZ_Change in pay_MU;ANZ_Management team_MU;ANZ_Reorganisation_MU',
 	'section3f3d7d8ff045a1268a79#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Grade change_MU;ANZ_Job reclassification_MU;ANZ_Work location transfer_MU;ANZ_Cost center change_MU;ANZ_Promotion_MU;ANZ_Company change_MU;ANZ_Change in pay_MU;ANZ_Management team_MU;ANZ_Reorganisation_MU',
 	/*SECTION : "HR Management Reporting details"*/
 	'sectionbb7f8e561bdf5c2ecd5a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Scheduled report;ANZ_Management report',
@@ -1394,7 +1396,7 @@ window.popupLink = function (field, url) {
 window.onloadForm = function () {
 	mandatoryList();
 	enableManageField = true;
-	manageFields();
+	//manageFields();
 	
 };
 neocase.form.event.bind('loadcomplete', onloadForm);

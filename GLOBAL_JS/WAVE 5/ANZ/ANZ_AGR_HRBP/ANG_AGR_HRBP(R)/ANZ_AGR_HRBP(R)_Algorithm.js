@@ -67,38 +67,38 @@ Fields and display settings
 var Tableau = [
 	/*SECTION : "Change return date of leave of absence"*/
 	'sectiona19ec7fd02c77a95dad6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change return date of leave of absence',
-             /*SECTION : "Request leave of absence"*/
-             'sectionc8fded7f6ce7b8116c5d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Request leave of absence',	
-             /*SECTION : "Probation period extension / confirmation"*/
+	/*SECTION : "Request leave of absence"*/
+	'sectionc8fded7f6ce7b8116c5d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Request leave of absence',	
+	/*SECTION : "Probation period extension / confirmation"*/
 	'section9491228e702608a0338a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Probation period Extension / Confirmation',
 	/*SECTION : "Fixed-term contract extension"*/
 	'sectionde3af2545d1758b494d9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Fixed-term contract extension',
-             /*SECTION : "Work location transfer"*/
-             'sectione2faa243c6cd02a11ea4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',
-             /*SECTION : "Demotion"*/
-	'sectiona3e9bb236d88e44b3031#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-             'sectionbbad902853446c01fc19#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion;ANZ_Change in job',
-             'sectiond83353073d00358519ee#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-             'sectione7656e6910817d35513c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-             'section0a5cd418dcb791ab9a17#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-             /*SECTION : "End of Fixed term contract subtopic"*/
-	'section2ed9ec033881bc38f7ac#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_End of fix-term contract',
-           /*  SECTION : "Involuntary leaver"*/
-	'sectionac6e362a27c786103d7d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver',
-             'section1bbe79aa91abdd775846#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver',
-             /*SECTION : "Scheduled report"*/
+	/*SECTION : "Work location transfer"*/
+	'sectione2faa243c6cd02a11ea4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',
+	/*SECTION : "Scheduled report"*/
 	'sectionbaf5cef04094c6c8cccc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Scheduled report',
-             /*SECTION : "Change in job"*/
-            /*  'sectionbbad902853446c01fc19#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job',*/
-             /*SECTION : "Change in management team"*/
-             'section71dd8c7f3b79d93bd0f4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in management team',
-             /*SECTION : "Change in working hours"*/
-             'sectioncb82a841be7186f1aa92#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
-             /*SECTION : "Cost center change"*/
-             'section71dd8c7f3b79d93bd0f4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Cost center change',
-
-             'sectioncc849d21c82253679e06#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Change in management team;ANZ_Change in working hours;ANZ_Cost center change;ANZ_Demotion;ANZ_Fixed-term contract extension;ANZ_Work location transfer',
-             'section21a993619a18117ef042#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Change in management team;ANZ_Change in working hours;ANZ_Cost center change;ANZ_Demotion;ANZ_Fixed-term contract extension;ANZ_Work location transfer'
+	/*SECTION : "End of Fixed term contract subtopic"*/
+	'section2ed9ec033881bc38f7ac#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_End of fix-term contract',
+	/*SECTION : "Change in management team"*/
+	'section71dd8c7f3b79d93bd0f4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in management team;ANZ_Cost center change;',
+	/*SECTION : "Change in working hours"*/
+	'sectioncb82a841be7186f1aa92#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
+	
+	'sectioncc849d21c82253679e06#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Change in management team;ANZ_Change in working hours;ANZ_Cost center change;ANZ_Demotion;ANZ_Fixed-term contract extension;ANZ_Work location transfer',
+	'section21a993619a18117ef042#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Change in management team;ANZ_Change in working hours;ANZ_Cost center change;ANZ_Demotion;ANZ_Fixed-term contract extension;ANZ_Work location transfer',
+	
+	/*SECTION : "Demotion"*/
+	'sectiona3e9bb236d88e44b3031#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
+	'sectionbbad902853446c01fc19#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion;ANZ_Change in job;',
+	'sectiond83353073d00358519ee#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
+	'sectione7656e6910817d35513c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
+	'section0a5cd418dcb791ab9a17#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
+	
+	/*SECTION : "Involuntary leaver"*/
+	'sectionac6e362a27c786103d7d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver',
+	'section1bbe79aa91abdd775846#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver'
+	
+	
              
 
 ];
@@ -226,9 +226,9 @@ window.champObligatoire = function (FIELD, VALID) {
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             VALIDATOR_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
         } else if (FIELD_ID.search("UTILISATEURS") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
+            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
         } else if (FIELD_ID.search("n_question") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID.replace("n_question", "n_questionvalidator");
+            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
         }
         //manage file fields
         if (VALIDATOR_FIELD_ID.search("_display") != -1) {
@@ -300,10 +300,10 @@ window.boutonRadio = function (FIELD) {
     var SELECT_OBLIGATOIRE_ID;
     if (CHAMP_SELECT_ID.search("INTERVENTIONS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
     } else if (CHAMP_SELECT_ID.search("UTILISATEURS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "lblUTILISATEURS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
     }
     //Si le champ est obligatoire, on masque simplement l'étoile d'origine et on cré une nouvelle étoile à côté du label
     if (document.getElementById(SELECT_OBLIGATOIRE_ID)) {
@@ -1193,287 +1193,15 @@ window.getSelectValue = function (RADIO_BUTTON) {
 };
 
 /**************************************************************************************
-STATIC CODE STARTS
-***************************************************************************************/
-
-
-/***************
-* DISABLE FIELDS
-****************/
-window.disableTextField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.setAttribute("readonly","true");
-		field.onmousedown = function(){return false;};
-	}else{
-	//FrontOffice
-		field.setAttribute("readonly","true");
-		field.onkeydown = function(){return false;};
-		field.onmousedown = function(){return false;};
-	}
-};
-
-window.disableBooleanField = function(field){
-	field.onclick = function(){return false;};
-	disableTextField(field);
-};
-
-window.disableDateField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		//hide calendar icon
-		field.style.background = "none";
-	}else{
-	//FrontOffice
-		//hide calendar icon
-		if(field.parentNode.getElementsByTagName("img").length > 0){
-			field.parentNode.getElementsByTagName("img")[0].style.display = "none";
-		}
-	}
-	disableTextField(field);
-};
-
-window.disableFileField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.parentNode.parentNode.style.border = "none";
-		//hide button browse file
-		field.parentNode.style.display = "none";
-		//hide button delete file
-		if(field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0){
-			field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
-		}
-	}else{
-	//FrontOffice
-		field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
-	}
-};
-
-window.disableListField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.parentNode.style.border = "none";
-	}
-	disableTextField(field);
-};
-
-window.disableTextareaField = function(field){
-	disableTextField(field);
-};
-
-window.disableField = function(field){
-	var msg = "function disableField : ";
-	if(field){
-		field = field.elementHTML;
-		if(field.type == "checkbox"){
-		//Boolean custom fields
-			disableBooleanField(field);
-		}else if(field.className.search("hasDatepicker") != -1){
-		//Date custom fields
-			disableDateField(field);
-		}else if(field.id.search("_display") != -1){
-		//File custom fields
-			disableFileField(field);
-		}else if(field.tagName == "SELECT"){
-		//List custom fields
-			disableListField(field);
-		}else if(field.tagName == "TEXTAREA"){
-		//Textarea custom fields
-			disableTextareaField(field);
-		}else{
-		//Text custom fields
-			disableTextField(field);
-		}
-	}else{
-		msg += "field undefined or readonly";
-		console.log(msg);
-	}
-};
-
-/******************************************
-* CREATE HYPERLINK ON LABEL TO OPEN A POPUP
-*******************************************/
-window.popupLink = function(field, url) {
-    var msg = "function popupLink : ";
-    if (field) {
-        //get field label
-        var fieldId = field.id;
-        var fieldLabel;
-        if (fieldId.search("INTERVENTIONS") != -1) {
-            fieldLabel = fieldId.replace("INTERVENTIONS", "lblINTERVENTIONS");
-        } else if (fieldId.search("UTILISATEURS") != -1) {
-            fieldLabel = fieldId.replace("UTILISATEURS", "lblUTILISATEURS");
-        } else {
-            msg += "type de champ non pris en compte " + fieldId;
-            console.log(msg);
-        }
-        if (fieldLabel.search("_display") != -1) {
-            fieldLabel = fieldLabel.replace("_display", "");
-        }
-        //add case number in the URL if needed
-        if (url.search("Id_Demande") != -1) {
-            //url = url.replace("Id_Demande=","Id_Demande="+RequestContext.RequestNumber);
-            url = url.replace("Id_Demande=", "Id_Demande=" + RequestContext.ContactId);
-        }
-        //add contact ID in the URL if needed
-        if (url.search("Id_User") != -1) {
-            url = url.replace("Id_User=", "Id_User=" + RequestContext.ContactId);
-        }
-        //Create hyperlink on label
-        var onclick = "window.open('" + url + "','_blank')";
-        var createPopup = document.createElement("a");
-        createPopup.setAttribute("onclick", onclick);
-        var popupText;
-        if (document.getElementById(fieldLabel)) {
-            popupText = document.getElementById(fieldLabel).innerHTML;
-            var t = document.createTextNode(popupText);
-            createPopup.appendChild(t);
-            if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
-                document.getElementById(fieldLabel).innerHTML = "";
-                document.getElementById(fieldLabel).appendChild(createPopup);
-            }
-        } else {
-            msg += "label du champ non trouvé " + fieldId;
-            console.log(msg);
-        }
-    } else {
-        msg += "champ non trouvé";
-        console.log(msg);
-    }
-};
-
-
-/******************
-* get URL parameter
-*******************/
-window.getParamFromUrl = function(param){
-	var vars = {};
-	window.location.href.replace( location.hash, '' ).replace(
-		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-		function( m, key, value ) { // callback
-			vars[key] = value !== undefined ? value : '';
-		}
-	);
-
-	if(param){
-		return vars[param] ? vars[param] : null;  
-	}
-console.log(vars);
-	return vars;
-};
-
-/********************
-* Launch dependencies
-*********************/
-window.launchDependencies = function(field){
-	if("createEvent" in document){
-		var evt = document.createEvent("HTMLEvents");
-		evt.initEvent("change",false,true);
-		field.elementHTML.dispatchEvent(evt);
-	}else{
-		field.elementHTML.fireEvent("onchange");
-	}
-};
-
-/**************
-* update level1
-***************/
-window.updateAndDisableField = function(field,value){
-
-	//update 'level 1' value
-	field.setValue(value);
-	if(field.elementHTML.value !== "0" && field.elementHTML.value !== ""){
-		//launch dependencies
-		launchDependencies(field);
-
-		//Disable field
-		disableField(field);
-	}
-};
-/************************************************
-* FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
-*************************************************/
-window.getASPid = function(fieldName){
-	//Only on FrontOffice Side
-	if(document.getElementsByClassName("bloc-content").length > 0){
-		var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
-		for(lbl=0; lbl<label.length; lbl++){
-			
-			//if we find an ASP.NET id we return the dynamic ID number
-			if(label[lbl].id.search("_lbl") != -1){
-				fieldName = label[lbl].id.split("lbl")[0]+fieldName;
-				fieldName = fieldName.replace("$","_");
-				return fieldName;
-			}
-
-		}
-	}
-	return fieldName;
-};
-FillCf = function(fieldValue,fieldName){
-    var msg = "function FillCf : ";
-
-    //properly target field
-    if(fieldName.search("VALEUR0") != -1){
-        fieldName = fieldName.replace("VALEUR0","VALEUR");
-    }
-	fieldName = getASPid(fieldName);
-    var field = neocase.form.field(fieldName);
-       var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
-    if(field){
-		field.setValue(fieldValue);
-       if(req)
-		{
-		req.setValue(fieldValue);
-		}
-    }else{
-        msg += "field "+fieldName+" not found";
-        console.log(msg);
-}    
-};
-
-
-/****************************
-* AUTOMATICALLY FILL SUBTOPIC
-*****************************/
-window.manageSubtopic = function(){
-var msg = "function manageSubtopic : ";
-	var getSubtopic = localStorage.getItem('subtopic');
-	
-	var field = formulaire.INTERVENTIONS_EN_COURS$ELEMENT;
-	
-	//if(field.value != "0"){
-	var subtopic = getParamFromUrl('subtopic');
-		if(subtopic){
-			if(field){
-				field.value = subtopic;
-			}else{
-				msg += "field undefined";
-				console.log(msg);
-			}
-		}else{
-			msg += subtopic + " undefined";
-			console.log(msg);
-		}
-};
-
-
-
-/**************************************************************************************
-STATIC CODE ENDS
-***************************************************************************************/
-
-/**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
 window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
-    //FILL SUBTOPIC
-    //manageSubtopic();
-    manageFields();
-   
- 
+    manageFields("ouverture");
+
 };
-neocase.form.event.bind('loadcomplete', onloadForm);
-///////////////////////////////////////////////////////////yh
+$(document).ready(function(){
+	onloadForm();
+});
+

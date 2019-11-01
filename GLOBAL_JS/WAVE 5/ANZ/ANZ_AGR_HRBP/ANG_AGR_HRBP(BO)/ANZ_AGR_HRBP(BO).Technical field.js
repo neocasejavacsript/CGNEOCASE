@@ -1,3 +1,4 @@
+
 /*************ANZ_AGR_HRBP - Technical Field Code*************/
 /*--------------------------------------------------------------------------
 Developer   - Debraj Sarkar
@@ -13,19 +14,20 @@ neocase.form.section("section29a8d0b03f1ac4e8225c").hide();
 //Hide Hidden Section
 neocase.form.section("sectionc3be57db76bac2ebe401").hide();
 
-/*************************** Copying fields starts*******************************
+
 
 window.copy_fields = function() {
+
 	//copy Employment Percentage value
-             neocase.form.field('UTILISATEURS$CHAMPU248').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR593');
+	neocase.form.field('UTILISATEURS$CHAMPU248').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR593');
 	//copy Admin Supervisor name value
-             neocase.form.field('UTILISATEURS$CHAMPU152').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR182');
+	neocase.form.field('UTILISATEURS$CHAMPU152').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR182');
 	//copy Fixed term contract end date value
-             neocase.form.field('UTILISATEURS$CHAMPU186').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR125');
-             //copy Job Title Desc. value
+	neocase.form.field('UTILISATEURS$CHAMPU186').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR125');
+    //copy Job Title Desc. value
 	neocase.form.field('UTILISATEURS$CHAMPU40').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR45');
 };
-************************** Copying fields ends*********************************/
+/*--************************* Copying fields ends*******************************---**/
 
 /*---------------------------For ANZ Target Var Comp Prorated NPI calculation--Start -------*/
 
@@ -46,9 +48,9 @@ window.calculate_TargetVarCompProratedNPI = function() {
 			}else if(isNaN(val_employmentPercentage)){
 				calculation = 0;
 			}else{
-				calculation = ROUND((val_targetVarCompActual / val_employmentPercentage) * 100, 2);
+				calculation = (val_targetVarCompActual / val_employmentPercentage) * 100;
 			}
-			targetVarCompproratedNew.setValue(calculation);
+			targetVarCompproratedNew.setValue(calculation.toFixed(2));
 		}
 	}
 
@@ -59,6 +61,7 @@ window.calculate_TargetVarCompProratedNPI = function() {
 /*---------------------------For ANZ Annual Salary At Actual FTE calculation--Start -------*/
 
 window.calculate_AnnualSalaryAtActualFTE = function() {
+	console.log('working');
 	var annualSalaryAtActualFTENew = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR278");
 	var employmentPercentage = neocase.form.field("UTILISATEURS$CHAMPU248");
 	var annualSalaryProratedNew = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR565");
@@ -75,9 +78,9 @@ window.calculate_AnnualSalaryAtActualFTE = function() {
 			}else if(isNaN(val_employmentPercentage)){
 					calculation = 0;
 			}else{
-				calculation = ROUND((val_annualSalaryAtActualFTENew * val_employmentPercentage) / 100, 2);
+				calculation = (val_annualSalaryAtActualFTENew * val_employmentPercentage) / 100;
 			}
-			annualSalaryProratedNew.setValue(calculation);
+			annualSalaryProratedNew.setValue(calculation.toFixed(2));
 			
 		}
 	}
@@ -110,9 +113,9 @@ window.calculate_TargetVarCompProrated = function() {
 				}else if(isNaN(val_employmentPercentageNew)){
 					calculation = 0;
 				}else{
-					calculation = ROUND((val_targetVarCompprorated / val_employmentPercentage) * val_employmentPercentageNew, 2);
+					calculation = (val_targetVarCompprorated / val_employmentPercentage) * val_employmentPercentageNew;
 				}
-				targetVarCompproratedNew.setValue(calculation);
+				targetVarCompproratedNew.setValue(calculation.toFixed(2));
 			}
 		}
 	}
@@ -145,24 +148,43 @@ window.calculate_AnnualSalaryProrated = function() {
 				}else if(isNaN(val_employmentPercentageNew)){
 					calculation = 0;
 				}else{
-					calculation = ROUND((val_annualSalaryProrated / val_employmentPercentage) * val_employmentPercentageNew, 2);
+					calculation = (val_annualSalaryProrated / val_employmentPercentage) * val_employmentPercentageNew;
 				}
-				annualSalaryProratedNew.setValue(calculation);
+				annualSalaryProratedNew.setValue(calculation.toFixed(2));
 			}
 		}
 	}
 
 
 };
+
 /*---------------------------For ANZ Annual salary prorated calculation --End---------*/
+window.disableCusFields = function(){
+    disableField(neocase.form.field("UTILISATEURS$CHAMPU40"));
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR45"));
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR48"));
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR593"));
+	//Auto-calculation disable fields
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR76")); // disable annual salary prorated
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR78")); // disable Target Var Comp Prorated
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR565")); // disable Annual Salary At Actual FTE
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR567")); // disable Target Var Comp Prorated NPI
+};
 /**************************
 * Launch Javascript on init
 ***************************/
 window.launchOnInit = function(){
-	//copy_fields();
+	//console.log('working 1');
+	copy_fields();
+	calculate_TargetVarCompProratedNPI();
+	calculate_AnnualSalaryAtActualFTE();
+	calculate_TargetVarCompProrated();
+	calculate_AnnualSalaryProrated();
+	disableCusFields();
+	
 	//updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
 	
  };
-neocase.form.event.bind("init",launchOnInit);
+neocase.form.event.bind('loadcomplete',launchOnInit);
 
 /*---- MOD-001 ENDS ----*/

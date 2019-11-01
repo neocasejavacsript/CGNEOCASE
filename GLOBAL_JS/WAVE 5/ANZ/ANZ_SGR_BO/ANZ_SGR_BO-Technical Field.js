@@ -15,6 +15,21 @@ neocase.form.section("section0769e12b11f7dd21e59c").hide();
 //neocase.form.section("sectionf0d2cdf8af4de3979c75").hide();
 /*---- MOD-001 ENDS ----*/
 
+window.customDeactvRSN = function() {
+
+	var seclectList=neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR471'),
+		seclectListName = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR471')['name'],
+		SLength = $('[name="'+seclectListName+'"] option').length;
+
+	for(var i = SLength - 1;i > 0;i--)
+	{
+		var sOptionCode = $('[name="'+seclectListName+'"] option').eq(i).attr('code');
+		if(sOptionCode == '780' || sOptionCode == '781' || sOptionCode == '784') {
+			$('[name="'+seclectListName+'"] option').eq(i).css('display', 'none');
+		}
+	}
+};
+
 window.copyFunctions = function() {
 	
 	//copy Personal Sub Area Desc. value
@@ -128,8 +143,15 @@ window.setPopups = function(){
 	//Management Team - Training Approver
 	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR409, "/Custom_Referential/TrainingApprover.aspx?Id_User=");	
 	
+	//Employee group/Employee subgroup - Employee subgroup
+	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR365, "/Custom_Referential/EmployeeGroup.aspx?Id_User=");	
+	
 };
 window.launchOnInit = function(){
+	
+	//Customize the DropDown of De-activation reason
+	customDeactvRSN();
+
 	
 	//Copy value from one field to other
 	copyFunctions();
