@@ -1,3 +1,4 @@
+/*----------SCFI_AGR_MGR(C)_ALGO----------*/
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -53,9 +54,48 @@ V17 - PJU - 11/01/2018
 Fields and display settings
 ***************************/
 var Tableau = [
-	'section18df573b1c1114661f65#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',
-	'section626c1c36ee010a92cbed#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Working hours;Temps de travail', 
-	'section1171c624df5df12dcd3e#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail' 
+    // Effective date
+    'sectionffc3e75f608d65eb5d98#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Change in working hours;SCFI_Work location transfer;SCFI_Cost center change;SCFI_Change in management team;SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound start',
+    // Reason for action
+    'sectione6a2e27ef9457c3f5bcb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Change in working hours;SCFI_Work location transfer;SCFI_Cost center change',
+    // Job details
+    'sectionf3c108636298aa54572a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change',
+    // Grade details
+    'section91e62bc6c361bebbbf47#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change',
+    // Organization assignment
+    'sectionfc5aa3683d9f370344ca#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Work location transfer;SCFI_Cost center change',
+    // Working hours
+    'sectiona7e422bf5c056c6f1396#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
+    // Pay details
+    'section158d123dd9c5acce98bb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Change in working hours',
+    // Contract elements
+    'section391befec5139532337c0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change',
+    // Management team
+    'section7947d1e9ac9e47150cf3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Change in management team',
+    // Other details
+    'sectiona55d5640c090a7c4e57b#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Cost center change',
+    // Probation period extension
+    'section9e6256c7269e209d93b1#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Probation period extension',
+    // Start/Update leave of absence
+    'section10b1ba3a25c94f003bcd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Start/update leave of absence',
+    // Supporting document
+    'section6325b29a74ce71635dc6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Start/update leave of absence;SCFI_Secondment outbound start;SCFI_Secondment outbound extension',
+    // SAP form
+    'section5dfe1d12ce0e18a0433b#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed inbound start',
+    // Expected end date
+    'section185d40ae088e855570b9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound extension;SCFI_Secondment outbound extension;SCFI_Landed inbound start;SCFI_Landed inbound extension;SCFI_Secondment inbound extension',
+    // Confirm assignment end date
+    'section0e0f450febcd16961350#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound End',
+    // Termination dates
+    'section35033381ef6ef4eb36ad#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave;SCFI_Landed inbound end;SCFI_Secondment inbound End',
+    // Initiate involuntary leave
+    'section7df757a6679aeb5c29b0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Initiate involuntary leave',
+    // Heavy transfer termination details
+    'sectionb15cc893fa4cd5df3480#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer',
+    // Revised termination date
+    'sectionbeadd0d388dcd1eccb8e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Revised termination date',
+    // Ad hoc report details
+    'section072d3f39253ab9b233a3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Ad hoc report'
 ];
 var enableManageField;
 
@@ -300,7 +340,6 @@ window.masquerSection = function (SECTION) {
         //on élimine les TDs vides
         if(ST_TD[z].style.display != "none"){
           FIELD_DISPLAY = true;
-
         }
       }
     }
@@ -372,14 +411,14 @@ window.manageCheckbox = function () {
 };
 
 window.mandatoryList = function () {
-    if(document.getElementById("champsobligatoiresproprietes")){
+    if (document.getElementById("champsobligatoiresproprietes")) {
         var BM_VALUES = document.getElementById("champsobligatoiresproprietes").value;
         var BM_CLIENT = document.getElementById("champsobligatoiresclient").value;
         if (localStorage.getItem("mandatoryListFields") !== null && localStorage.getItem("mandatoryListFields") !== "") {
             localStorage.setItem("mandatoryListFields", BM_VALUES + BM_CLIENT);
         }
     }
-    
+
 };
 
 /*************************************************
@@ -1144,105 +1183,106 @@ STATIC CODE STARTS
 /***************
 * DISABLE FIELDS
 ****************/
-window.disableTextField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.setAttribute("readonly","true");
-		field.onmousedown = function(){return false;};
-	}else{
-	//FrontOffice
-		field.setAttribute("readonly","true");
-		field.onkeydown = function(){return false;};
-		field.onmousedown = function(){return false;};
-	}
+window.disableTextField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.setAttribute("readonly", "true");
+        field.onmousedown = function () { return false; };
+    } else {
+        //FrontOffice
+        field.setAttribute("readonly", "true");
+        field.onkeydown = function () { return false; };
+        field.onmousedown = function () { return false; };
+    }
 };
 
-window.disableBooleanField = function(field){
-	field.onclick = function(){return false;};
-	disableTextField(field);
+window.disableBooleanField = function (field) {
+    field.onclick = function () { return false; };
+    disableTextField(field);
 };
 
-window.disableDateField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		//hide calendar icon
-		field.style.background = "none";
-	}else{
-	//FrontOffice
-		//hide calendar icon
-		if(field.parentNode.getElementsByTagName("img").length > 0){
-			field.parentNode.getElementsByTagName("img")[0].style.display = "none";
-		}
-	}
-	disableTextField(field);
+window.disableDateField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        //hide calendar icon
+        field.style.background = "none";
+    } else {
+        //FrontOffice
+        //hide calendar icon
+        if (field.parentNode.getElementsByTagName("img").length > 0) {
+            field.parentNode.getElementsByTagName("img")[0].style.display = "none";
+        }
+    }
+    disableTextField(field);
 };
 
-window.disableFileField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.parentNode.parentNode.style.border = "none";
-		//hide button browse file
-		field.parentNode.style.display = "none";
-		//hide button delete file
-		if(field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0){
-			field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
-		}
-	}else{
-	//FrontOffice
-		field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
-	}
+window.disableFileField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.parentNode.parentNode.style.border = "none";
+        //hide button browse file
+        field.parentNode.style.display = "none";
+        //hide button delete file
+        if (field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0) {
+            field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
+        }
+    } else {
+        //FrontOffice
+        field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
+    }
 };
 
-window.disableListField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.parentNode.style.border = "none";
-	}
-	disableTextField(field);
+window.disableListField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.parentNode.style.border = "none";
+    }
+    disableTextField(field);
 };
 
-window.disableTextareaField = function(field){
-	disableTextField(field);
+window.disableTextareaField = function (field) {
+    disableTextField(field);
 };
 
-window.disableField = function(field){
-	var msg = "function disableField : ";
-	if(field){
-		field = field.elementHTML;
-		if(field.type == "checkbox"){
-		//Boolean custom fields
-			disableBooleanField(field);
-		}else if(field.className.search("hasDatepicker") != -1){
-		//Date custom fields
-			disableDateField(field);
-		}else if(field.id.search("_display") != -1){
-		//File custom fields
-			disableFileField(field);
-		}else if(field.tagName == "SELECT"){
-		//List custom fields
-			disableListField(field);
-		}else if(field.tagName == "TEXTAREA"){
-		//Textarea custom fields
-			disableTextareaField(field);
-		}else{
-		//Text custom fields
-			disableTextField(field);
-		}
-	}else{
-		msg += "field undefined or readonly";
-		console.log(msg);
-	}
+window.disableField = function (field) {
+    var msg = "function disableField : ";
+    if (field) {
+        field = field.elementHTML;
+        if (field.type == "checkbox") {
+            //Boolean custom fields
+            disableBooleanField(field);
+        } else if (field.className.search("hasDatepicker") != -1) {
+            //Date custom fields
+            disableDateField(field);
+        } else if (field.id.search("_display") != -1) {
+            //File custom fields
+            disableFileField(field);
+        } else if (field.tagName == "SELECT") {
+            //List custom fields
+            disableListField(field);
+        } else if (field.tagName == "TEXTAREA") {
+            //Textarea custom fields
+            disableTextareaField(field);
+        } else {
+            //Text custom fields
+            disableTextField(field);
+        }
+    } else {
+        msg += "field undefined or readonly";
+        console.log(msg);
+    }
 };
 
 /******************************************
 * CREATE HYPERLINK ON LABEL TO OPEN A POPUP
 *******************************************/
-window.popupLink = function(field, url) {
+window.popupLink = function (field, url) {
     var msg = "function popupLink : ";
     if (field) {
         //get field label
         var fieldId = field.id;
         var fieldLabel;
+        //console.log(RequestContext);
         if (fieldId.search("INTERVENTIONS") != -1) {
             fieldLabel = fieldId.replace("INTERVENTIONS", "lblINTERVENTIONS");
         } else if (fieldId.search("UTILISATEURS") != -1) {
@@ -1257,11 +1297,13 @@ window.popupLink = function(field, url) {
         //add case number in the URL if needed
         if (url.search("Id_Demande") != -1) {
             //url = url.replace("Id_Demande=","Id_Demande="+RequestContext.RequestNumber);
-            url = url.replace("Id_Demande=", "Id_Demande=" + RequestContext.ContactId);
+             url = url.replace("Id_Demande=", "Id_Demande=" + RequestContext.ContactId);
+            //url = url.replace("Id_Demande=", "Id_Demande=" + RequestContext.PrimaryContactId);
         }
         //add contact ID in the URL if needed
         if (url.search("Id_User") != -1) {
             url = url.replace("Id_User=", "Id_User=" + RequestContext.ContactId);
+            //url = url.replace("Id_User=", "Id_User=" + RequestContext.PrimaryContactId);
         }
         //Create hyperlink on label
         var onclick = "window.open('" + url + "','_blank')";
@@ -1290,87 +1332,87 @@ window.popupLink = function(field, url) {
 /******************
 * get URL parameter
 *******************/
-window.getParamFromUrl = function(param){
-	var vars = {};
-	window.location.href.replace( location.hash, '' ).replace(
-		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-		function( m, key, value ) { // callback
-			vars[key] = value !== undefined ? value : '';
-		}
-	);
+window.getParamFromUrl = function (param) {
+    var vars = {};
+    window.location.href.replace(location.hash, '').replace(
+        /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+        function (m, key, value) { // callback
+            vars[key] = value !== undefined ? value : '';
+        }
+    );
 
-	if(param){
-		return vars[param] ? vars[param] : null;  
-	}
-	return vars;
+    if (param) {
+        return vars[param] ? vars[param] : null;
+    }
+    return vars;
 };
 
 /********************
 * Launch dependencies
 *********************/
-window.launchDependencies = function(field){
-	if("createEvent" in document){
-		var evt = document.createEvent("HTMLEvents");
-		evt.initEvent("change",false,true);
-		field.elementHTML.dispatchEvent(evt);
-	}else{
-		field.elementHTML.fireEvent("onchange");
-	}
+window.launchDependencies = function (field) {
+    if ("createEvent" in document) {
+        var evt = document.createEvent("HTMLEvents");
+        evt.initEvent("change", false, true);
+        field.elementHTML.dispatchEvent(evt);
+    } else {
+        field.elementHTML.fireEvent("onchange");
+    }
 };
 
 /**************
 * update level1
 ***************/
-window.updateAndDisableField = function(field,value){
-	//update 'level 1' value
-	field.setValue(value);
-	if(field.elementHTML.value !== "0" && field.elementHTML.value !== ""){
-		//launch dependencies
-		launchDependencies(field);
+window.updateAndDisableField = function (field, value) {
+    //update 'level 1' value
+    field.setValue(value);
+    if (field.elementHTML.value !== "0" && field.elementHTML.value !== "") {
+        //launch dependencies
+        launchDependencies(field);
 
-		//Disable field
-		disableField(field);
-	}
+        //Disable field
+        disableField(field);
+    }
 };
 /************************************************
 * FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
 *************************************************/
-window.getASPid = function(fieldName){
-	//Only on FrontOffice Side
-	if(document.getElementsByClassName("bloc-content").length > 0){
-		var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
-		for(lbl=0; lbl<label.length; lbl++){
-			
-			//if we find an ASP.NET id we return the dynamic ID number
-			if(label[lbl].id.search("_lbl") != -1){
-				fieldName = label[lbl].id.split("lbl")[0]+fieldName;
-				fieldName = fieldName.replace("$","_");
-				return fieldName;
-			}
+window.getASPid = function (fieldName) {
+    //Only on FrontOffice Side
+    if (document.getElementsByClassName("bloc-content").length > 0) {
+        var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
+        for (lbl = 0; lbl< label.length; lbl++) {
 
-		}
-	}
-	return fieldName;
+            //if we find an ASP.NET id we return the dynamic ID number
+            if (label[lbl].id.search("_lbl") != -1) {
+                fieldName = label[lbl].id.split("lbl")[0] + fieldName;
+                fieldName = fieldName.replace("$", "_");
+                return fieldName;
+            }
+
+        }
+    }
+    return fieldName;
 };
-FillCf = function(fieldValue,fieldName){
+FillCf = function (fieldValue, fieldName) {
     var msg = "function FillCf : ";
     //properly target field
-    if(fieldName.search("VALEUR0") != -1){
-        fieldName = fieldName.replace("VALEUR0","VALEUR");
+    if (fieldName.search("VALEUR0") != -1) {
+        fieldName = fieldName.replace("VALEUR0", "VALEUR");
     }
-	fieldName = getASPid(fieldName);
+    fieldName = getASPid(fieldName);
     var field = neocase.form.field(fieldName);
-       //var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
-    if(field){
-		field.setValue(fieldValue);
-    //    if(req)
-	// 	{
-	// 	req.setValue(fieldValue);
-	// 	}
-    }else{
-        msg += "field "+fieldName+" not found";
+    //var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
+    if (field) {
+        field.setValue(fieldValue);
+        //    if(req)
+        // 	{
+        // 	req.setValue(fieldValue);
+        // 	}
+    } else {
+        msg += "field " + fieldName + " not found";
         console.log(msg);
-}    
+    }
 };
 
 
@@ -1384,9 +1426,10 @@ STATIC CODE ENDS
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
 window.onloadForm = function () {
-    mandatoryList();
-    //enableManageField = true;
-    //manageFields("ouverture");
-
+    setTimeout(function () {
+        mandatoryList();
+        enableManageField = true;
+        manageFields();
+    }, 1000);
 };
 neocase.form.event.bind('init', onloadForm);

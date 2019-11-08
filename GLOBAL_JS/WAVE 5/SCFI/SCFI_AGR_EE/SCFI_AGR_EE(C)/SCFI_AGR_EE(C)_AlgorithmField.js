@@ -1,3 +1,4 @@
+/*----------SCFI_AGR_EE(C)_ALGO----------*/
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -49,13 +50,31 @@ V17 - PJU - 11/01/2018
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
 */
 
+/*--------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 11/06/2018 (MM/DD/YYYY)
+Change No   - MOD-001
+Description - Hide Section based on Subtopics
+----------------------------------------------------------------------------*/
+
 /**************************
 Fields and display settings
 ***************************/
 var Tableau = [
-	'section18df573b1c1114661f65#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',
-	'section626c1c36ee010a92cbed#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Working hours;Temps de travail', 
-	'section1171c624df5df12dcd3e#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail' 
+    // Action details
+    'section7f0dd20b9f007a271647#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Work location transfer;SCFI_Change in working hours', 
+    // Org assignement
+    'sectioncea9d550328d69d9ca2a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Work location transfer', 
+    // Working hours
+    'section3f86d56375e90fb0bef6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours', 
+    // Pay details
+    'section7d5d826f6b6a604474a1#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
+    // Start / Update Leave of absence details
+    'sectione0594f31164773401e4d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Start/update leave of absence',
+    // Resignation details
+    'section9af4be8a4c74d22cd1c3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Resignation',
+    // Retirement details
+    'section92e85c413792eb3a32b0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Retirement'
 ];
 var enableManageField;
 
@@ -1384,9 +1403,10 @@ STATIC CODE ENDS
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
 window.onloadForm = function () {
-    mandatoryList();
-    //enableManageField = true;
-    //manageFields("ouverture");
-
+    setTimeout(function(){
+        mandatoryList();   
+        enableManageField = true;
+        manageFields();
+    }, 1000);
 };
 neocase.form.event.bind('init', onloadForm);
