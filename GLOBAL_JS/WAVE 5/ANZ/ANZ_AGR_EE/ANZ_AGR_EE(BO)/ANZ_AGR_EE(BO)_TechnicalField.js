@@ -14,7 +14,7 @@ Description - 'ValidAbsenceStartEndDate()' function implemented which ensures Ab
 			- 'convertToDateTime()' function implemented which ensures convert Date and time format from a field string date value
 			- EmployeeGroup pop-ups
 ----------------------------------------------------------------------------*/ 
-var initalEndDate,initalstartDate;
+var initialEndDate,initialstartDate;
 //Hide Technical Section
 neocase.form.section("section8020eac2b758d466c293").hide();
 
@@ -26,18 +26,19 @@ window.convertToDateTime = function(values){
 	return dateToTime;
 };
 /*----ensures Absence start date must be lesser that expected return date----*/
-window.ValidAbsenceStartEndDate = function(){
-	var startDate = convertToDateTime(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR333").getValue()),
-		endDate = convertToDateTime(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR503").getValue());
+window.validAbsenceStartEndDate = function(AbsenceStartDateField, AbsenceendDateField){
+	
+	var startDate = convertToDateTime(neocase.form.field(AbsenceStartDateField).getValue()),
+		endDate = convertToDateTime(neocase.form.field(AbsenceendDateField).getValue());
 	if(startDate !== null && endDate !== null){
 		if(endDate< startDate){
 			alert("Expected Return date must be greater than Absence Start date");
-			neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR503").setValue(initalEndDate);
-			neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR333").setValue(initalstartDate);
+			neocase.form.field(AbsenceStartDateField).setValue(initialstartDate);
+			neocase.form.field(AbsenceendDateField).setValue(initialEndDate);
 		}
 		else{
-			initalEndDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR503").getValue(); // get previously loaded value of expected return date
-			initalstartDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR333").getValue(); // get previously loaded value of ansence start date
+			initialEndDate = neocase.form.field(AbsenceendDateField).getValue(); // get previously loaded value of expected return date
+			initialstartDate = neocase.form.field(AbsenceStartDateField).getValue(); // get previously loaded value of ansence start date
 		}
 	}
 };
@@ -59,7 +60,7 @@ neocase.form.event.bind("init",launchOnInit);
  * Launch Javascript on loadcomplete
  *****************************/
 window.launchOnloadcomplete = function () { 
-	initalEndDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR503").getValue(); // get loaded value of expected return date
-	initalstartDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR333").getValue(); // get loaded value of ansence start date
+	initialEndDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR503").getValue(); // get loaded value of expected return date
+	initialstartDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR333").getValue(); // get loaded value of ansence start date
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);

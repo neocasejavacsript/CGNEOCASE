@@ -1,3 +1,4 @@
+/*----------SCFI_AGR_EE(MGR)(M)_ALGO----------*/
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -49,13 +50,33 @@ V17 - PJU - 11/01/2018
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
 */
 
+/*--------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 11/06/2018 (MM/DD/YYYY)
+Change No   - MOD-001
+Description - Hide Section based on Subtopics
+----------------------------------------------------------------------------*/
+
 /**************************
 Fields and display settings
 ***************************/
 var Tableau = [
-	'section18df573b1c1114661f65#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',
-	'section626c1c36ee010a92cbed#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Working hours;Temps de travail', 
-	'section1171c624df5df12dcd3e#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail' 
+    // Org assignement
+    'sectioncea9d550328d69d9ca2a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Work location transfer', 
+    // Working hours
+    'section3f86d56375e90fb0bef6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours', 
+    // Action details
+    'section7f0dd20b9f007a271647#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Work location transfer;SCFI_Change in working hours', 
+    // Pay details
+    'section67e4389f7517e0a81bac#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
+    // Start / Update Leave of absence details
+    'sectione0594f31164773401e4d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Start/update leave of absence',
+    // Termination Details
+    'section772181f1566c4f646edd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Resignation;SCFI_Retirement',
+    // Resignation details
+    'section9af4be8a4c74d22cd1c3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Resignation',
+    // Retirement details
+    'section92e85c413792eb3a32b0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Retirement'
 ];
 var enableManageField;
 
@@ -181,9 +202,9 @@ window.champObligatoire = function (FIELD, VALID) {
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             VALIDATOR_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
         } else if (FIELD_ID.search("UTILISATEURS") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
+            VALIDATOR_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
         } else if (FIELD_ID.search("n_question") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
+            VALIDATOR_FIELD_ID = FIELD_ID.replace("n_question", "n_questionvalidator");
         }
         //manage file fields
         if (VALIDATOR_FIELD_ID.search("_display") != -1) {
@@ -255,10 +276,10 @@ window.boutonRadio = function (FIELD) {
     var SELECT_OBLIGATOIRE_ID;
     if (CHAMP_SELECT_ID.search("INTERVENTIONS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
     } else if (CHAMP_SELECT_ID.search("UTILISATEURS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "lblUTILISATEURS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
     }
     //Si le champ est obligatoire, on masque simplement l'étoile d'origine et on cré une nouvelle étoile à côté du label
     if (document.getElementById(SELECT_OBLIGATOIRE_ID)) {
@@ -1139,8 +1160,6 @@ window.getSelectValue = function (RADIO_BUTTON) {
 /**************************************************************************************
 STATIC CODE STARTS
 ***************************************************************************************/
-
-
 /***************
 * DISABLE FIELDS
 ****************/
@@ -1286,107 +1305,21 @@ window.popupLink = function(field, url) {
     }
 };
 
-
-/******************
-* get URL parameter
-*******************/
-window.getParamFromUrl = function(param){
-	var vars = {};
-	window.location.href.replace( location.hash, '' ).replace(
-		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-		function( m, key, value ) { // callback
-			vars[key] = value !== undefined ? value : '';
-		}
-	);
-
-	if(param){
-		return vars[param] ? vars[param] : null;  
-	}
-	return vars;
-};
-
-/********************
-* Launch dependencies
-*********************/
-window.launchDependencies = function(field){
-	if("createEvent" in document){
-		var evt = document.createEvent("HTMLEvents");
-		evt.initEvent("change",false,true);
-		field.elementHTML.dispatchEvent(evt);
-	}else{
-		field.elementHTML.fireEvent("onchange");
-	}
-};
-
-/**************
-* update level1
-***************/
-window.updateAndDisableField = function(field,value){
-	//update 'level 1' value
-	field.setValue(value);
-	if(field.elementHTML.value !== "0" && field.elementHTML.value !== ""){
-		//launch dependencies
-		launchDependencies(field);
-
-		//Disable field
-		disableField(field);
-	}
-};
-/************************************************
-* FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
-*************************************************/
-window.getASPid = function(fieldName){
-	//Only on FrontOffice Side
-	if(document.getElementsByClassName("bloc-content").length > 0){
-		var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
-		for(lbl=0; lbl<label.length; lbl++){
-			
-			//if we find an ASP.NET id we return the dynamic ID number
-			if(label[lbl].id.search("_lbl") != -1){
-				fieldName = label[lbl].id.split("lbl")[0]+fieldName;
-				fieldName = fieldName.replace("$","_");
-				return fieldName;
-			}
-
-		}
-	}
-	return fieldName;
-};
-FillCf = function(fieldValue,fieldName){
-    var msg = "function FillCf : ";
-    //properly target field
-    if(fieldName.search("VALEUR0") != -1){
-        fieldName = fieldName.replace("VALEUR0","VALEUR");
-    }
-	fieldName = getASPid(fieldName);
-    var field = neocase.form.field(fieldName);
-       //var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
-    if(field){
-		field.setValue(fieldValue);
-    //    if(req)
-	// 	{
-	// 	req.setValue(fieldValue);
-	// 	}
-    }else{
-        msg += "field "+fieldName+" not found";
-        console.log(msg);
-}    
-};
-
-
-
 /**************************************************************************************
 STATIC CODE ENDS
 ***************************************************************************************/
 
+/**************************************************************************************
+APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
+***************************************************************************************/
 
 /**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
 window.onloadForm = function () {
     mandatoryList();
-    //enableManageField = true;
-    //manageFields("ouverture");
+    enableManageField = true;
+    manageFields("ouverture");
 
 };
 neocase.form.event.bind('init', onloadForm);

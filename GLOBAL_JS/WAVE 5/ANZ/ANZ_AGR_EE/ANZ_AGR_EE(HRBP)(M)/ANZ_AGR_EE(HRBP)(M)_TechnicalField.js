@@ -122,7 +122,7 @@ window.validateEmailClosureDate = function(lastWorkingDayFieldName,emailClosureF
 	var lastWorkingDay = convertToDateTime(neocase.form.field(lastWorkingDayFieldName).getText());
 		 emailClosureDate = convertToDateTime(neocase.form.field(emailClosureFieldName).getValue());
 	if(emailClosureDate !== null){
-		if(emailClosureDate < lastWorkingDay){
+		if(emailClosureDate< lastWorkingDay){
 			alert("Email Closure Date should be always greater than Last Working Day");
 			neocase.form.field(emailClosureFieldName).setValue("");
 		}
@@ -131,11 +131,13 @@ window.validateEmailClosureDate = function(lastWorkingDayFieldName,emailClosureF
 window.emailClosureVisibilty = function(selectedFieldName, emailClosureDateFieldName){
 	var selectedVal = $('#'+neocase.form.field(selectedFieldName)['elementHTML']['id'] + " :selected").text();
 	if(selectedVal != 'Yes'){
+		neocase.form.field(emailClosureDateFieldName).setValue(" ");
 		neocase.form.field(emailClosureDateFieldName).hide();
 	}
 	else
 	{
 		neocase.form.field(emailClosureDateFieldName).show();
+		neocase.form.field(emailClosureDateFieldName).setValue("");
 	}
 };
 /**************************

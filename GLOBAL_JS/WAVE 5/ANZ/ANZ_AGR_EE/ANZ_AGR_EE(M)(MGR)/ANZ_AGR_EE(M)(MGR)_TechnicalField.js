@@ -126,11 +126,13 @@ window.validateEmailClosureDate = function(lastWorkingDayFieldName,emailClosureF
 window.emailClosureVisibilty = function(selectedFieldName, emailClosureDateFieldName){
 	var selectedVal = $('#'+neocase.form.field(selectedFieldName)['elementHTML']['id'] + " :selected").text();
 	if(selectedVal != 'Yes'){
+		neocase.form.field(emailClosureDateFieldName).setValue(" ");
 		neocase.form.field(emailClosureDateFieldName).hide();
 	}
 	else
 	{
 		neocase.form.field(emailClosureDateFieldName).show();
+		neocase.form.field(emailClosureDateFieldName).setValue("");
 	}
 };
 /**************************
@@ -146,11 +148,8 @@ neocase.form.event.bind("init",launchOnInit);
 * Launch Javascript on loadcomplete
 ***************************/
 window.launchOnloadcomplete = function(){
-	if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR591').getValue() != '')
-	{
-		$('.submitSimpleRequestButton').css("pointer-events", "none");
-	}
- };
+
+};
 neocase.form.event.bind("loadcomplete",launchOnloadcomplete);
 
 /****************************
