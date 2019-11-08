@@ -65,8 +65,8 @@ Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
 Fields and display settings
 ***************************/
 var Tableau = [
-    /*SECTION : "Change return date of leave of absence"*/
-    'sectiona19ec7fd02c77a95dad6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change return date of leave of absence',
+	/*SECTION : "Change return date of leave of absence"*/
+	'sectiona19ec7fd02c77a95dad6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change return date of leave of absence',
     /*SECTION : "Request leave of absence"*/
     'sectionc8fded7f6ce7b8116c5d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Request leave of absence',	
     /*SECTION : "Probation period extension / confirmation"*/
@@ -75,31 +75,29 @@ var Tableau = [
     'sectionde3af2545d1758b494d9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Fixed-term contract extension',
     /*SECTION : "Work location transfer"*/
     'sectione2faa243c6cd02a11ea4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',
+    /*SECTION : "Scheduled report"*/
+    'sectionbaf5cef04094c6c8cccc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Scheduled report',
+    /*SECTION : "End of Fixed term contract subtopic"*/
+    'section2ed9ec033881bc38f7ac#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_End of fix-term contract',
+    /*SECTION : "Change in management team"*/
+    'section71dd8c7f3b79d93bd0f4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in management team;ANZ_Cost center change;',
+    /*SECTION : "Change in working hours"*/
+    'sectioncb82a841be7186f1aa92#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
+     
+   
+    'sectioncc849d21c82253679e06#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Change in management team;ANZ_Change in working hours;ANZ_Cost center change;ANZ_Demotion;ANZ_Fixed-term contract extension;ANZ_Work location transfer;',
+    'section21a993619a18117ef042#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Change in management team;ANZ_Change in working hours;ANZ_Cost center change;ANZ_Demotion;ANZ_Fixed-term contract extension;ANZ_Work location transfer',
     /*SECTION : "Demotion"*/
     'sectiona3e9bb236d88e44b3031#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-    'sectionbbad902853446c01fc19#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Demotion',
+    'sectionbbad902853446c01fc19#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion;ANZ_Change in job;',
     'sectiond83353073d00358519ee#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
     'sectione7656e6910817d35513c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
     'section0a5cd418dcb791ab9a17#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-    /*SECTION : "End of Fixed term contract subtopic"*/
-    'section2ed9ec033881bc38f7ac#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_End of fix-term contract',
-    /*SECTION : "Involuntary leaver"*/
+    
+    /*  SECTION : "Involuntary leaver"*/
     'sectionac6e362a27c786103d7d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver',
-    'section1bbe79aa91abdd775846#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver',
-    /*SECTION : "Scheduled report"*/
-    'sectionbaf5cef04094c6c8cccc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Scheduled report',
-    /*SECTION : "Change in job"*/
-    // 'sectionbbad902853446c01fc19#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job',
-    /*SECTION : "Change in management team"*/
-    'section71dd8c7f3b79d93bd0f4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in management team',
-    /*SECTION : "Change in working hours"*/
-    'sectioncb82a841be7186f1aa92#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
-    /*SECTION : "Cost center change"*/
-    'section71dd8c7f3b79d93bd0f4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Cost center change',
-
-    'sectioncc849d21c82253679e06#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Change in management team;ANZ_Change in working hours;ANZ_Cost center change;ANZ_Demotion;ANZ_Fixed-term contract extension;ANZ_Work location transfer',
-    'section21a993619a18117ef042#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Change in management team;ANZ_Change in working hours;ANZ_Cost center change;ANZ_Demotion;ANZ_Fixed-term contract extension;ANZ_Work location transfer'
-             
+    'section467c8f3fd0c60ca84472#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver' 
+     
 
 ];
 var enableManageField;
@@ -1470,9 +1468,9 @@ window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
     //FILL SUBTOPIC
-    manageSubtopic();
-    manageFields("ouverture");
+    //manageSubtopic();
+    manageFields();
+   
  
 };
 neocase.form.event.bind('loadcomplete', onloadForm);
-///////////////////////////////////////////////////////////yh

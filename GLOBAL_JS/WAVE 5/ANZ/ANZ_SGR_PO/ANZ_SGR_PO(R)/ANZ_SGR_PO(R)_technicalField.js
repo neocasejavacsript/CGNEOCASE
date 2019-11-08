@@ -1,19 +1,20 @@
-/* --- ANZ_SGR_PO(C) Technical Fields --- */
+/* --- ANZ_SGR_PO(R) Technical Fields --- */
 /*--------------------------------------------------------------------------
 Developer   - Ahana Sarkar
-Date	    - 10/15/2019 (MM/DD/YYYY)
+Date	    - 10/17/2019 (MM/DD/YYYY)
 Change No   - MOD-001
-Description - Hide Technical section
+Description - Hide Technical section;
 ---------------------------------------------------------*/ 
 // hide Technical section
-neocase.form.section("section959e3690d38e22e1b8ce").hide();
+neocase.form.section("sectiondef6055540430e57f1a4").hide();
 
 
 /**************************
 * Launch Javascript on init
 ***************************/
 window.launchOnInit = function(){
-    updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
+//     updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
+//    setTimeout(updateAndDisableField, 1000,neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
 };
 neocase.form.event.bind("init",launchOnInit);
 

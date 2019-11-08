@@ -1,4 +1,4 @@
-//ANZ_AGR_HRBP(BO)  - Algorithm Code
+//ANZ_AGR_EE  - Algorithm Code
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -59,52 +59,36 @@ Change No   - MOD-001
 Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
 			- Did basic clean up and changes based on mock up
 			- Display specific section based on subtopic
-------------------------------------------------------------------------------
-Developer   - Ahana Sarkar
-Date	    - 10/18/2019 (MM/DD/YYYY)
-Change No   - MOD-001
-Description - Display specific section based on subtopic modification
 ------------------------------------------------------------------------------*/ 
-
 
 /**************************
 Fields and display settings
 ***************************/
 var Tableau = [
-    /*SECTION : "Probation Period" for subtopic 'ANZ_Probation period Extension / Confirmation'*/
-    'section79f1df1277e394ee39c4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Probation period Extension / Confirmation',
-    /*SECTION : "Request leave of absence details" for subtopic 'ANZ_Request leave of absence'*/
-    'section178b6d5a82ab8e14a5fe#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Request leave of absence',
-    /*SECTION : "Change of return date from leave of absence" for subtopic 'Change return date of leave of absence'*/
-    'section0277942bfed54d2c2cef#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change return date of leave of absence',   
-    /*SECTION : Employment data changes details*/
-    'sectionc2f302d061ff2eff61bf#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Change in management team;ANZ_Change in working hours;ANZ_Cost center change;ANZ_Demotion;ANZ_Fixed-term contract extension;ANZ_Work location transfer',   
-    /*SECTION : "Fixed-term contract extension"*/
-    'sectionb5ff39d59ac8011a3c35#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Fixed-term contract extension',
-    /*SECTION : "Work location transfer"*/
-    'section5fbf0cc304ff73792781#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',
-    /*SECTION : Grade Details */
-    'sectionaa695c51ef90d72b94dd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-    /* SECTION: Job Details */
-    'sectionb2efbe0d5057f3fccb3e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion;ANZ_Change in job',
-    /* SECTION: Working hours details */
-    'sectione1c1c9cba122b4df2afb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
-    /* SECTION : Pay*/
-    'section4f8bca62b68e042d1fbc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-    /* SECTION : Additional Allowance */
-    'section402e2112d1398e5b030f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-    /* SECTION : Non-Payroll Information */
-    'section1ab7339c7499cc587b0e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
-    /* SECTION : Management Team */
-    'section25dab7135acd521433d8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in management team;ANZ_Cost center change',
-    /*SECTION : "End of Fixed term contract details"*/
-    'section2895e6a6fe8f47b0130b#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_End of fix-term contract',
-    /*SECTION : Involuntary Leaver details*/
-    'sectionb826e5bf9f42e2806187#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver',
-    /*SECTION : HR Management Reporting details*/
-    'section1aed934fd809e415c556#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Scheduled report',
-    /*SECTION : Employee group/ Employee subgroup */
-    'section61002fbfadf57e1991f8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours'            
+	/*SECTION : "Request leave of absence"*/
+	'sectiona7ddb278a1a88b705cec#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Request leave of absence',	
+             /*SECTION : "Update planned leave of absence details "*/
+	'section82ad7f5a094080baa4cc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Update planned leave of absence',
+	/*SECTION : "Change return date of leave of absence"*/
+	'section54f4e58416ea6b54a739#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change return date of leave of absence',
+             /*SECTION : "Change in working hours"*/
+             'sectiondf2d2b4db4eaa6105bfd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
+             /*SECTION : "Work location transfer"*/
+             'section062edc552bb7253cce37#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',	
+	/*SECTION : "Change of end date"*/
+             'sectionb01b514c77077f090835#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change of end date',
+             /*SECTION : "International transfer out"*/
+             'sectionf855612deb459271f932#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_International transfer_Out',
+             /*SECTION : "Resignation"*/
+             'sectiond1a11e6fb54311b1c8e0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Resignation',
+             'section54c615c032d754fe71fb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Resignation',
+             /*SECTION : "Retirement"*/
+             'section25d7652c00f4a7f4d616#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Retirement',
+             /*SECTION : "Withdraw resignation / retirement"*/
+             'section8a6b45ba3fafebef333c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Withdraw resignation / retirement',
+             /*SECTION : "Employment Data changes details"*/
+             'section92d731f3851bc1552f20#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
+             'section92d731f3851bc1552f20#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer'
 
 ];
 var enableManageField;
@@ -1477,7 +1461,6 @@ window.onloadForm = function () {
     //FILL SUBTOPIC
     manageSubtopic();
     manageFields("ouverture");
- 
+
 };
 neocase.form.event.bind('loadcomplete', onloadForm);
-///////////////////////////////////////////////////////////yh
