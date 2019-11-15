@@ -35,9 +35,16 @@ Description - Popup and fill up cost center|PU related fields
 -----------------------------------------------------------------------------
 Developer   - Ahana Sarkar
 Date	    - 11/01/2019 (MM/DD/YYYY)
-Change No   - MOD-002
+Change No   - MOD-007
 Description - Autofill topic and subtopics form URL
-------------------------------------------------------------------------*/  
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 11/14/2019 (MM/DD/YYYY)
+Change No   - MOD-008
+Description - disable copy fields
+            - popup link for Org unit
+------------------------------------------------------------------------*/
+
 
 // hide Technical section
 neocase.form.section("section1882b8598378661e788e").hide();
@@ -55,7 +62,7 @@ FillCf_Job_Desc = function (fieldValue) {//Job title new fill field
     formulaire.INTERVENTIONS_EN_COURS$VALEUR46.value = fieldValue;
 };
 
-FillCf_Job_Catg = function (fieldValue) {//_Job category default (new) fill field
+FillCf_Job_Catg = function (fieldValue) {// Job category default (new) fill field
     formulaire.INTERVENTIONS_EN_COURS$VALEUR48.value = fieldValue;
 };
 
@@ -101,33 +108,44 @@ FillCf_Supervisor_LocalID = function (fieldValue) {
 };
 
 //Management Popup - Local
-FillCf_LocalName_First_Name = function(fieldValue) {
+FillCf_LocalName_First_Name = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR286.value = fieldValue;
 };
-FillCf_LocalName_LastName = function(fieldValue) {
+FillCf_LocalName_LastName = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR286.value += " " + fieldValue;
     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR286, false);
 };
-FillCf_LocalName_PersonelNum = function(fieldValue) {
+FillCf_LocalName_PersonelNum = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR287.value = fieldValue;
     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR287, false);
 };
 //CostCenter
-FillCf_Production_Unit_Code = function(fieldValue){
-	formulaire.INTERVENTIONS_EN_COURS$VALEUR15.value = fieldValue;
+FillCf_Production_Unit_Code = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR15.value = fieldValue;
 };
-FillCf_Production_Unit_Desc = function(fieldValue){
-	formulaire.INTERVENTIONS_EN_COURS$VALEUR17.value = fieldValue;
+FillCf_Production_Unit_Desc = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR17.value = fieldValue;
 };
 //Production Unit
-FillCf_Org_Unit_Code = function(fieldValue){
-	formulaire.INTERVENTIONS_EN_COURS$VALEUR11.value = fieldValue;
+FillCf_Org_Unit_Code = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR11.value = fieldValue;
 };
-FillCf_Org_Unit_Desc = function(fieldValue){
-	formulaire.INTERVENTIONS_EN_COURS$VALEUR13.value = fieldValue;
+FillCf_Org_Unit_Desc = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR13.value = fieldValue;
 };
+//employee moving to 
+FillCf_CountryMovingCode = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR926.value = fieldValue; //Company Code
+};
+FillCf_CountryMovingDescription = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR924.value = fieldValue; //Campany Name
+};
+FillCf_CountryMoving = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR927.value = fieldValue; //Country
+};
+
 /*--- Copy Employee Catalog field values to Request Catalog field ---*/
-window.copyFields = function (){
+window.copyFields = function () {
     // copy MyC Supervisor Name value
     neocase.form.field('UTILISATEURS$CHAMPU152').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR182');
     // copy HRBP name value
@@ -143,9 +161,11 @@ window.setAllPopups = function () {
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR386, "/Custom_Referential/ManagerHRBP.aspx?Id_User="); //'HRBP'
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR166, "/Custom_Referential/ManageMentor.aspx?Id_User="); //'220 section management team'
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR183, "/Custom_Referential/ManageSupervisor.aspx?Id_User=");//'230 section management team'
-    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR409,"/Custom_Referential/TrainingApprover.aspx?Id_User="); //'Training Approver'
+    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR409, "/Custom_Referential/TrainingApprover.aspx?Id_User="); //'Training Approver'
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR286, "/Custom_Referential/ManagerLocalName.aspx?Id_User=");  //Management - Local approver
-    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR15, "/Custom_Referential/CostCenter.aspx?Id_User="); 
+    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR15, "/Custom_Referential/CostCenter.aspx?Id_User=");
+    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR927, "/Custom_Referential/CountryMoving.aspx?Id_User=");//Popup for country moving to
+    popupLink(formulaire.INTERVENTIONS_EN_COURS_VALEUR13,"/Custom_Referential/OrgUnit.aspx"); //'Organisational unit'    
 };
 window.disableCusFields = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR123")); //disbale Base location(new)
@@ -160,23 +180,28 @@ window.disableCusFields = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR409")); //disable "Training Approver name (new)"
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR286")); //disable "Local approver name(new)"
     //Cost Center
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR11")); //disable Organization unit code (new)
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR13")); //disable Organization unit (new)
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR15")); //disable Cost Center | PU (new)
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR17")); //disable Cost Center | PU code (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR11")); //disable Organization unit code (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR13")); //disable Organization unit (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR15")); //disable Cost Center | PU (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR17")); //disable Cost Center | PU code (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR927"));//disable "country moving to"
+    // disable copied fields
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR182")); //disable MyConnect supervisor name
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR427")); //disable HR business partner name
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR133")); //disable Last day of probation
 };
-window.loadTopic = function(){
-    if(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() !== null ){
-            updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic')); 
-        }
+window.loadTopic = function () {
+    if (neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() !== null) {
+        updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"), getParamFromUrl('topic'));
+    }
 };
 
-window.loadSubTopic = function(){
-    if(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() !== null ){
-		if(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() !== null ){ 
-            updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
-		}
-	}
+window.loadSubTopic = function () {
+    if (neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() !== null) {
+        if (neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() !== null) {
+            updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"), getParamFromUrl('subtopic'));
+        }
+    }
 };
 /**************************
  * Launch Javascript on init
@@ -185,7 +210,7 @@ window.launchOnInit = function () {
     setAllPopups();
     disableCusFields();
     loadTopic();
-    setTimeout(function(){
+    setTimeout(function () {
         loadSubTopic();
     }, 800);
 };

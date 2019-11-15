@@ -1252,7 +1252,47 @@ window.disableField = function(field){
 		console.log(msg);
 	}
 };
+/********************************************************************************
+* FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS (Except FillCf other Functions)
+*********************************************************************************/
+window.getASPid = function(fieldName){
+	//Only on FrontOffice Side
+	if(document.getElementsByClassName("bloc-content").length > 0){
+		var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
+		for(lbl=0; lbl<label.length; lbl++){
+			
+			//if we find an ASP.NET id we return the dynamic ID number
+			if(label[lbl].id.search("_lbl") != -1){
+				fieldName = label[lbl].id.split("lbl")[0]+fieldName;
+				fieldName = fieldName.replace("$","_");
+				return fieldName;
+			}
 
+		}
+	}
+	return fieldName;
+};
+FillCf = function(fieldValue,fieldName){
+    var msg = "function FillCf : ";
+
+    //properly target field
+    if(fieldName.search("VALEUR0") != -1){
+        fieldName = fieldName.replace("VALEUR0","VALEUR");
+    }
+	fieldName = getASPid(fieldName);
+    var field = neocase.form.field(fieldName);
+       var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
+    if(field){
+		field.setValue(fieldValue);
+       if(req)
+		{
+		req.setValue(fieldValue);
+		}
+    }else{
+        msg += "field "+fieldName+" not found";
+        console.log(msg);
+}    
+};
 /******************************************
 * CREATE HYPERLINK ON LABEL TO OPEN A POPUP
 *******************************************/

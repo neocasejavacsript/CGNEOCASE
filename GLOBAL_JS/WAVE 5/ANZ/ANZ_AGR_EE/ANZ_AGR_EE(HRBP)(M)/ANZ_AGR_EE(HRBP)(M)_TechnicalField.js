@@ -50,9 +50,9 @@ window.calculate_TargetVarCompProrated = function() {
 				}else if(isNaN(val_employmentPercentageNew)){
 					calculation = 0;
 				}else{
-					calculation = ROUND((val_targetVarCompprorated / val_employmentPercentage) * val_employmentPercentageNew, 2);
+					calculation = (val_targetVarCompprorated / val_employmentPercentage) * val_employmentPercentageNew;
 				}
-				targetVarCompproratedNew.setValue(calculation);
+				targetVarCompproratedNew.setValue(calculation.toFixed(2));
 			}
 		}
 	}
@@ -85,9 +85,9 @@ window.calculate_AnnualSalaryProrated = function() {
 				}else if(isNaN(val_employmentPercentageNew)){
 					calculation = 0;
 				}else{
-					calculation = ROUND((val_annualSalaryProrated / val_employmentPercentage) * val_employmentPercentageNew, 2);
+					calculation = (val_annualSalaryProrated / val_employmentPercentage) * val_employmentPercentageNew;
 				}
-				annualSalaryProratedNew.setValue(calculation);
+				annualSalaryProratedNew.setValue(calculation.toFixed(2));
 			}
 		}
 	}
@@ -130,6 +130,7 @@ window.validateEmailClosureDate = function(lastWorkingDayFieldName,emailClosureF
 };
 window.emailClosureVisibilty = function(selectedFieldName, emailClosureDateFieldName){
 	var selectedVal = $('#'+neocase.form.field(selectedFieldName)['elementHTML']['id'] + " :selected").text();
+	var fieldVal = neocase.form.field(emailClosureDateFieldName).getValue();
 	if(selectedVal != 'Yes'){
 		neocase.form.field(emailClosureDateFieldName).setValue(" ");
 		neocase.form.field(emailClosureDateFieldName).hide();
@@ -137,7 +138,52 @@ window.emailClosureVisibilty = function(selectedFieldName, emailClosureDateField
 	else
 	{
 		neocase.form.field(emailClosureDateFieldName).show();
-		neocase.form.field(emailClosureDateFieldName).setValue("");
+		neocase.form.field(emailClosureDateFieldName).setValue(fieldVal);
+	}
+};
+
+/*----------------Show action reason against the subtopic ----------------------*/
+window.showActionReason = function(){
+	var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();//getParamFromUrl('subtopic');
+	var x = document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").options.length;
+	console.log(x+subtopic);
+	var ar = new Array();
+	
+	ar['1'] = [];
+	ar['1'][0]="Adjustment";
+	ar['1'][1]="Annual Salary Increase";
+	ar['1'][2]="Change in Superannuation";
+	ar['1'][3]="Mid Year Salary Increase";
+	ar['1'][4]="Pay Rate Change-Other";
+	ar['1'][5]="Quarterly Salary Increase";
+	ar['1'][6]="Retention";
+	ar['1'][7]="Step Progression";
+	ar['2812'] = [];
+	ar['2812'][0]="Cost center change";
+	ar['2813'] = [];
+	ar['2813'][0]="Demotion";
+	ar['2739'] = [];
+	ar['2739'][0]="Extension to FTC";
+	ar['2736'] = [];
+	ar['2736'][0]="FT to PT";
+	ar['2736'][1]="PT to FT";
+	ar['2736'][2]="PT to PT";
+	ar['2732'] = [];
+	ar['2732'][0]="Job Reclassification";
+	ar['2732'][1]="Lateral Change";
+	ar['2741'] = [];
+	ar['2741'][0]="Work location transfer";
+	ar['2808'] = [];
+	ar['2808'][0]="Change in management team";
+//console.log(ar[1][0]);
+	var j = 0;
+	for(var i=1; i<x; i++){
+		//console.log(ar[subtopic][j] + ' = '+document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").options[i].text);
+		if(ar[subtopic][j] == document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").options[i].text){
+			j++;
+		}else{
+			document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").remove(i);
+		}
 	}
 };
 /**************************
@@ -146,8 +192,15 @@ window.emailClosureVisibilty = function(selectedFieldName, emailClosureDateField
 window.launchOnInit = function(){
 	// updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
     // setTimeout(updateAndDisableField, 1000,neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
+	calculate_TargetVarCompProrated();
+	calculate_AnnualSalaryProrated();
  };
 neocase.form.event.bind("init",launchOnInit);
+
+window.launchOnComplete = function(){
+	showActionReason();
+ };
+neocase.form.event.bind('loadcomplete',launchOnComplete);
 
 /****************************
  * Launch Javascript on submit

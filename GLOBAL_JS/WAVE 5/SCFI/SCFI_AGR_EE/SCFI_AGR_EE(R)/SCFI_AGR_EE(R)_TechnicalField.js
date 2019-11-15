@@ -7,29 +7,10 @@ Description - Hide Technical & hidden section
 ---------------------------------------------------------*/ 
 
 // hide Technical section
-neocase.form.section("section63510a9b9ac05f626157").hide();
+checkSectionHide("section63510a9b9ac05f626157");
+// neocase.form.section("section63510a9b9ac05f626157").hide();
+
 // hide hidden section
-neocase.form.section("sectiond4d8289a621b28bca47f").hide();
+checkSectionHide("sectiond4d8289a621b28bca47f");
+// neocase.form.section("sectiond4d8289a621b28bca47f").hide();
 
-
-
-/**************************
-* Launch Javascript on init
-***************************/
-window.launchOnInit = function(){
-};
-neocase.form.event.bind("init",launchOnInit);
-
-/**************************
-* Launch Javascript on loadcomplete
-***************************/
-window.launchOnloadcomplete = function(){
-};
-neocase.form.event.bind("loadcomplete",launchOnloadcomplete);
-
-/****************************
-* Launch Javascript on submit
-*****************************/
-window.launchOnSubmit = function(){
-};
-neocase.form.event.bind("submit",launchOnSubmit);

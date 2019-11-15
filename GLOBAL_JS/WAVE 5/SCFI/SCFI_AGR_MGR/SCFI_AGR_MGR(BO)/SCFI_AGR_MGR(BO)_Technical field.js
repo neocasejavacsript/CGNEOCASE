@@ -5,11 +5,25 @@ Date	    - 10/18/2019 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - Hide the technical section
             - Popup link generate for Employee-group
----------------------------------------------*/
+------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 11/13/2019 (MM/DD/YYYY)
+Change No   - MOD-002
+Description - Popup link generate for Company Moving-to
+-------------------------------------------------------*/
 
 //hide technical section
 neocase.form.section("section2f6123534cd0910a1d30").hide();	
-
+//employee moving to 
+FillCf_CountryMovingCode = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR926.value = fieldValue; //Company Code
+};
+FillCf_CountryMovingDescription = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR924.value = fieldValue; //Campany Name
+};
+FillCf_CountryMoving = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR927.value = fieldValue; //Country
+};
 window.copyFunctions = function() {
 	//copy Job Title Desc. value
     neocase.form.field('UTILISATEURS$CHAMPU40').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR45');
@@ -34,15 +48,16 @@ window.copyFunctions = function() {
 };
 /* ------------- Popup Link ----------------- */
 window.setPopups = function(){
-    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR363, "/Custom_Referential/EmployeeGroup.aspx?Id_User=");
+    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR363, "/Custom_Referential/EmployeeGroup.aspx?Id_User="); //Popup for Employee Group/sub-group
+    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR924, "/Custom_Referential/CountryMoving.aspx?Id_User="); //Popup for country moving to
 };
 
 /**************************
  * Launch Javascript on init
  ***************************/
-window.launchOnInit = function(){
+window.launchOnloadcomplete = function(){
     setPopups();  
-    copyFunctions()  ;
+    copyFunctions();
 };
 //neocase.form.event.bind("init",launchOnInit);
-neocase.form.event.bind('loadcomplete', launchOnInit);
+neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

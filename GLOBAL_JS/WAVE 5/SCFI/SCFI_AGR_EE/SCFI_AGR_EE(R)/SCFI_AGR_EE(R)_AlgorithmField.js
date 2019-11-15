@@ -1168,7 +1168,15 @@ window.getSelectValue = function (RADIO_BUTTON) {
     }
 
 };
+window.checkSectionHide = function (sectionID) {
 
+    var hideAnswersSection = document.getElementsByClassName('answers');
+    if (typeof hideAnswersSection !== undefined && hideAnswersSection !== null) {
+        if (typeof document.getElementById(sectionID) !== undefined && document.getElementById(sectionID) !== null) {
+            document.getElementById(sectionID).style.display = "none";
+        }
+    }
+};
 /**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
@@ -1181,4 +1189,3 @@ window.onloadForm = function () {
 $(document).ready(function(){
 	onloadForm();
 });
-
