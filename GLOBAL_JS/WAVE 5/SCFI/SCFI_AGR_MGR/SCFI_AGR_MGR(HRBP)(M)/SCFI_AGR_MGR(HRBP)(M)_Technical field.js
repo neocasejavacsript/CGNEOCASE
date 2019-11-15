@@ -32,7 +32,18 @@ Developer   - Ahana Sarkar
 Date	    - 10/30/2019 (MM/DD/YYYY)
 Change No   - MOD-006
 Description - Popup and fill up cost center|PU related fields
------------------------------------------------------------------------------*/ 
+-----------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 11/13/2018 (MM/DD/YYYY)
+Change No   - MOD-007
+Description - Put the question field read only
+            - Disable/Enable the submit button depending on the response field
+----------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 11/14/2019 (MM/DD/YYYY)
+Change No   - MOD-008
+Description - disable copy fields
+------------------------------------------------------------------------*/
 // hide Technical section
 neocase.form.section("section37007ba5a4fa1eb20baf").hide();
 // hide hidden section
@@ -95,33 +106,47 @@ FillCf_Supervisor_LocalID = function (fieldValue) {
 };
 
 //Management Popup - Local
-FillCf_LocalName_First_Name = function(fieldValue) {
+FillCf_LocalName_First_Name = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR286.value = fieldValue;
 };
-FillCf_LocalName_LastName = function(fieldValue) {
+FillCf_LocalName_LastName = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR286.value += " " + fieldValue;
     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR286, false);
 };
-FillCf_LocalName_PersonelNum = function(fieldValue) {
+FillCf_LocalName_PersonelNum = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR287.value = fieldValue;
     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR287, false);
 };
 //Cost Center
-FillCf_Production_Unit_Code = function(fieldValue){
-	formulaire.INTERVENTIONS_EN_COURS$VALEUR15.value = fieldValue;
+FillCf_Production_Unit_Code = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR15.value = fieldValue;
 };
-FillCf_Production_Unit_Desc = function(fieldValue){
-	formulaire.INTERVENTIONS_EN_COURS$VALEUR17.value = fieldValue;
+FillCf_Production_Unit_Desc = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR17.value = fieldValue;
 };
 //Production Unit
-FillCf_Org_Unit_Code = function(fieldValue){
-	formulaire.INTERVENTIONS_EN_COURS$VALEUR11.value = fieldValue;
+FillCf_Org_Unit_Code = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR11.value = fieldValue;
 };
-FillCf_Org_Unit_Desc = function(fieldValue){
-	formulaire.INTERVENTIONS_EN_COURS$VALEUR13.value = fieldValue;
+FillCf_Org_Unit_Desc = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR13.value = fieldValue;
 };
+
+//employee moving to 
+FillCf_CountryMovingCode = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR926.value = fieldValue; //Company Code
+};
+FillCf_CountryMovingDescription = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR924.value = fieldValue; //Campany Name
+};
+FillCf_CountryMoving = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR927.value = fieldValue; //Country
+};
+
+
+
 /*--- Copy Employee Catalog field values to Request Catalog field ---*/
-window.copyFields = function (){
+window.copyFields = function () {
     // copy MyC Supervisor Name value
     neocase.form.field('UTILISATEURS$CHAMPU152').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR182');
     // copy HRBP name value
@@ -137,9 +162,10 @@ window.setAllPopups = function () {
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR386, "/Custom_Referential/ManagerHRBP.aspx?Id_User="); //'HRBP'
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR166, "/Custom_Referential/ManageMentor.aspx?Id_User="); //'220 section management team'
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR183, "/Custom_Referential/ManageSupervisor.aspx?Id_User=");//'230 section management team'
-    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR409,"/Custom_Referential/TrainingApprover.aspx?Id_User="); //'Training Approver'
+    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR409, "/Custom_Referential/TrainingApprover.aspx?Id_User="); //'Training Approver'
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR286, "/Custom_Referential/ManagerLocalName.aspx?Id_User=");  //Management - Local approver
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR15, "/Custom_Referential/CostCenter.aspx?Id_User="); // set popup for Cost Center | PU(new)
+    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR927, "/Custom_Referential/CountryMoving.aspx?Id_User=");//Popup for country moving to
 };
 window.disableCusFields = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR123")); //disbale Base location(new)
@@ -154,32 +180,77 @@ window.disableCusFields = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR409")); //Disable "Training Approver name (new)"
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR286")); //Disable "Local approver name(new)"
     //Cost Center
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR11")); //disable Organization unit code (new)
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR13")); //disable Organization unit (new)
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR15")); //disable Cost Center | PU (new)
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR17")); //disable Cost Center | PU code (new)
-
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR11")); //disable Organization unit code (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR13")); //disable Organization unit (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR15")); //disable Cost Center | PU (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR17")); //disable Cost Center | PU code (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR927"));//Disable "country moving to"
+     // disable copied fields
+     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR182")); //disable MyConnect supervisor name
+     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR427")); //disable HR business partner name
+     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR133")); //disable Last day of probation
+ 
 };
 
+/************************************************
+To check if the response is field is empty or not
+*************************************************/
+window.checkValueOfField = function(fieldId){
+    if (!$.trim($("#" + fieldId ).val())) {
+            return false;
+    }else{
+            return true;
+    }
+};
+
+/*********************************
+Get the text area id
+*********************************/
+window.findTextAreabyID = function(nameElement) {
+    var tempData = true;
+
+    var possibleElements = $('[id*="' + nameElement + '"]');
+        for (var i = 0; i< possibleElements.length; ++i) {
+            if (possibleElements[i].localName === "textarea") {
+                tempData = checkValueOfField(possibleElements[i].id);
+            }
+        }
+        
+    return tempData;
+}; 
 /**************************
  * Launch Javascript on init
  ***************************/
 window.launchOnInit = function () {
-    setAllPopups();
-    disableCusFields();
 };
 neocase.form.event.bind("init", launchOnInit);
 
 /**************************
  * Launch Javascript on loadcomplete
  ***************************/
-window.launchOnloadcomplete = function () {
+window.launchOnloadcomplete = function () {    
+    formulaire.question.readOnly = "true";
     copyFields(); // Copy Employee Catalog field values to Request Catalog field
+    setAllPopups();
+    disableCusFields();
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
+
 
 /****************************
  * Launch Javascript on submit
  *****************************/
-window.launchOnSubmit = function () { };
+window.launchOnSubmit = function () {
+    var againTempData = true;
+	
+	againTempData = findTextAreabyID("response");
+	if(againTempData)
+		{
+		//checkForm();
+		}
+	else{
+        alert("Response field is mandatory");
+        return false;
+    } 
+};
 neocase.form.event.bind("submit", launchOnSubmit);

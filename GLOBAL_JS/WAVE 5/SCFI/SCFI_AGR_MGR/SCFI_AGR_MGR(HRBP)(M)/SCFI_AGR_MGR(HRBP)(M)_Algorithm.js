@@ -91,9 +91,9 @@ var Tableau = [
     // Expected end date
     'section6457d5471b9ac30b3fa5#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound extension;SCFI_Secondment outbound extension;SCFI_Landed inbound start;SCFI_Landed inbound extension;SCFI_Secondment inbound extension',
     // Confirm assignment end date
-    'section9ba974739da9798cba67#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound End',
+    'section9ba974739da9798cba67#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound end',
     // Termination dates
-    'section35033381ef6ef4eb36ad#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave;SCFI_Landed inbound end;SCFI_Secondment inbound End',
+    'section35033381ef6ef4eb36ad#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave;SCFI_Landed inbound end;SCFI_Secondment inbound end',
     // Initiate involuntary leave
     'section7df757a6679aeb5c29b0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Initiate involuntary leave'
 

@@ -1,3 +1,5 @@
+/*----------SCFI_AGR_HRBP(M)_ALGO----------*/
+
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -49,13 +51,28 @@ V17 - PJU - 11/01/2018
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
 */
 
+
 /**************************
 Fields and display settings
 ***************************/
 var Tableau = [
-	'section18df573b1c1114661f65#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',
-	'section626c1c36ee010a92cbed#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Working hours;Temps de travail', 
-	'section1171c624df5df12dcd3e#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail' 
+    // 'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change;SCFI_Change in management team;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Grade/job change;SCFI_Promotion/demotion;SCFI_Allowances;SCFI_ARC values;SCFI_Change in pay;SCFI_Change in position;SCFI_Management team;SCFI_Management team'
+    'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Employment data change;SCFI_Mass upload',
+    'section67ad5029b53ea0c020fc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Promotion/demotion;SCFI_Pay change',
+    'section3afa8cd8f6351397184d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
+    'section7c6febacac770b77a9f5#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
+    'section87f23cde18690b8733a4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Cost center change;SCFI_Promotion/demotion',
+    'sectionef25429bd2a73e93f3fc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
+    'sectione86d2b5ce968e3134eda#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours;SCFI_Promotion/demotion;SCFI_Pay change',
+    'section635820a60b0aa8a35e70#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in management team',
+    'section40f08ffa22efc26c3d7d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change',
+    'sectiondb5a670766b5a6bc8758#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Cost center change;SCFI_Promotion/demotion',
+    'sectionee9edc7a4f05e9676345#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave',
+    'section2ad7291f164debd92fb0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Initiate involuntary leave',
+    'section404e1594c60f50ed66b8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer',
+    'sectione3e0865e54eb4225eb9e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Revised termination date',
+    'sectiond4b31a6ae7cded1c85a8#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Mass upload',
+    'section1518a65f68a6580ebf2d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Ad hoc report'
 ];
 var enableManageField;
 
@@ -181,9 +198,9 @@ window.champObligatoire = function (FIELD, VALID) {
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             VALIDATOR_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
         } else if (FIELD_ID.search("UTILISATEURS") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
+            VALIDATOR_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
         } else if (FIELD_ID.search("n_question") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
+            VALIDATOR_FIELD_ID = FIELD_ID.replace("n_question", "n_questionvalidator");
         }
         //manage file fields
         if (VALIDATOR_FIELD_ID.search("_display") != -1) {
@@ -255,10 +272,10 @@ window.boutonRadio = function (FIELD) {
     var SELECT_OBLIGATOIRE_ID;
     if (CHAMP_SELECT_ID.search("INTERVENTIONS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
     } else if (CHAMP_SELECT_ID.search("UTILISATEURS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "lblUTILISATEURS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
     }
     //Si le champ est obligatoire, on masque simplement l'étoile d'origine et on cré une nouvelle étoile à côté du label
     if (document.getElementById(SELECT_OBLIGATOIRE_ID)) {
@@ -372,14 +389,14 @@ window.manageCheckbox = function () {
 };
 
 window.mandatoryList = function () {
-    if(document.getElementById("champsobligatoiresproprietes")){
+    if (document.getElementById("champsobligatoiresproprietes")) {
         var BM_VALUES = document.getElementById("champsobligatoiresproprietes").value;
         var BM_CLIENT = document.getElementById("champsobligatoiresclient").value;
         if (localStorage.getItem("mandatoryListFields") !== null && localStorage.getItem("mandatoryListFields") !== "") {
             localStorage.setItem("mandatoryListFields", BM_VALUES + BM_CLIENT);
         }
     }
-    
+
 };
 
 /*************************************************
@@ -1139,105 +1156,103 @@ window.getSelectValue = function (RADIO_BUTTON) {
 /**************************************************************************************
 STATIC CODE STARTS
 ***************************************************************************************/
-
-
 /***************
 * DISABLE FIELDS
 ****************/
-window.disableTextField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.setAttribute("readonly","true");
-		field.onmousedown = function(){return false;};
-	}else{
-	//FrontOffice
-		field.setAttribute("readonly","true");
-		field.onkeydown = function(){return false;};
-		field.onmousedown = function(){return false;};
-	}
+window.disableTextField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.setAttribute("readonly", "true");
+        field.onmousedown = function () { return false; };
+    } else {
+        //FrontOffice
+        field.setAttribute("readonly", "true");
+        field.onkeydown = function () { return false; };
+        field.onmousedown = function () { return false; };
+    }
 };
 
-window.disableBooleanField = function(field){
-	field.onclick = function(){return false;};
-	disableTextField(field);
+window.disableBooleanField = function (field) {
+    field.onclick = function () { return false; };
+    disableTextField(field);
 };
 
-window.disableDateField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		//hide calendar icon
-		field.style.background = "none";
-	}else{
-	//FrontOffice
-		//hide calendar icon
-		if(field.parentNode.getElementsByTagName("img").length > 0){
-			field.parentNode.getElementsByTagName("img")[0].style.display = "none";
-		}
-	}
-	disableTextField(field);
+window.disableDateField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        //hide calendar icon
+        field.style.background = "none";
+    } else {
+        //FrontOffice
+        //hide calendar icon
+        if (field.parentNode.getElementsByTagName("img").length > 0) {
+            field.parentNode.getElementsByTagName("img")[0].style.display = "none";
+        }
+    }
+    disableTextField(field);
 };
 
-window.disableFileField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.parentNode.parentNode.style.border = "none";
-		//hide button browse file
-		field.parentNode.style.display = "none";
-		//hide button delete file
-		if(field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0){
-			field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
-		}
-	}else{
-	//FrontOffice
-		field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
-	}
+window.disableFileField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.parentNode.parentNode.style.border = "none";
+        //hide button browse file
+        field.parentNode.style.display = "none";
+        //hide button delete file
+        if (field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0) {
+            field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
+        }
+    } else {
+        //FrontOffice
+        field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
+    }
 };
 
-window.disableListField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.parentNode.style.border = "none";
-	}
-	disableTextField(field);
+window.disableListField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.parentNode.style.border = "none";
+    }
+    disableTextField(field);
 };
 
-window.disableTextareaField = function(field){
-	disableTextField(field);
+window.disableTextareaField = function (field) {
+    disableTextField(field);
 };
 
-window.disableField = function(field){
-	var msg = "function disableField : ";
-	if(field){
-		field = field.elementHTML;
-		if(field.type == "checkbox"){
-		//Boolean custom fields
-			disableBooleanField(field);
-		}else if(field.className.search("hasDatepicker") != -1){
-		//Date custom fields
-			disableDateField(field);
-		}else if(field.id.search("_display") != -1){
-		//File custom fields
-			disableFileField(field);
-		}else if(field.tagName == "SELECT"){
-		//List custom fields
-			disableListField(field);
-		}else if(field.tagName == "TEXTAREA"){
-		//Textarea custom fields
-			disableTextareaField(field);
-		}else{
-		//Text custom fields
-			disableTextField(field);
-		}
-	}else{
-		msg += "field undefined or readonly";
-		console.log(msg);
-	}
+window.disableField = function (field) {
+    var msg = "function disableField : ";
+    if (field) {
+        field = field.elementHTML;
+        if (field.type == "checkbox") {
+            //Boolean custom fields
+            disableBooleanField(field);
+        } else if (field.className.search("hasDatepicker") != -1) {
+            //Date custom fields
+            disableDateField(field);
+        } else if (field.id.search("_display") != -1) {
+            //File custom fields
+            disableFileField(field);
+        } else if (field.tagName == "SELECT") {
+            //List custom fields
+            disableListField(field);
+        } else if (field.tagName == "TEXTAREA") {
+            //Textarea custom fields
+            disableTextareaField(field);
+        } else {
+            //Text custom fields
+            disableTextField(field);
+        }
+    } else {
+        msg += "field undefined or readonly";
+        console.log(msg);
+    }
 };
 
 /******************************************
 * CREATE HYPERLINK ON LABEL TO OPEN A POPUP
 *******************************************/
-window.popupLink = function(field, url) {
+window.popupLink = function (field, url) {
     var msg = "function popupLink : ";
     if (field) {
         //get field label
@@ -1286,107 +1301,21 @@ window.popupLink = function(field, url) {
     }
 };
 
-
-/******************
-* get URL parameter
-*******************/
-window.getParamFromUrl = function(param){
-	var vars = {};
-	window.location.href.replace( location.hash, '' ).replace(
-		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-		function( m, key, value ) { // callback
-			vars[key] = value !== undefined ? value : '';
-		}
-	);
-
-	if(param){
-		return vars[param] ? vars[param] : null;  
-	}
-	return vars;
-};
-
-/********************
-* Launch dependencies
-*********************/
-window.launchDependencies = function(field){
-	if("createEvent" in document){
-		var evt = document.createEvent("HTMLEvents");
-		evt.initEvent("change",false,true);
-		field.elementHTML.dispatchEvent(evt);
-	}else{
-		field.elementHTML.fireEvent("onchange");
-	}
-};
-
-/**************
-* update level1
-***************/
-window.updateAndDisableField = function(field,value){
-	//update 'level 1' value
-	field.setValue(value);
-	if(field.elementHTML.value !== "0" && field.elementHTML.value !== ""){
-		//launch dependencies
-		launchDependencies(field);
-
-		//Disable field
-		disableField(field);
-	}
-};
-/************************************************
-* FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
-*************************************************/
-window.getASPid = function(fieldName){
-	//Only on FrontOffice Side
-	if(document.getElementsByClassName("bloc-content").length > 0){
-		var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
-		for(lbl=0; lbl<label.length; lbl++){
-			
-			//if we find an ASP.NET id we return the dynamic ID number
-			if(label[lbl].id.search("_lbl") != -1){
-				fieldName = label[lbl].id.split("lbl")[0]+fieldName;
-				fieldName = fieldName.replace("$","_");
-				return fieldName;
-			}
-
-		}
-	}
-	return fieldName;
-};
-FillCf = function(fieldValue,fieldName){
-    var msg = "function FillCf : ";
-    //properly target field
-    if(fieldName.search("VALEUR0") != -1){
-        fieldName = fieldName.replace("VALEUR0","VALEUR");
-    }
-	fieldName = getASPid(fieldName);
-    var field = neocase.form.field(fieldName);
-       //var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
-    if(field){
-		field.setValue(fieldValue);
-    //    if(req)
-	// 	{
-	// 	req.setValue(fieldValue);
-	// 	}
-    }else{
-        msg += "field "+fieldName+" not found";
-        console.log(msg);
-}    
-};
-
-
-
 /**************************************************************************************
 STATIC CODE ENDS
 ***************************************************************************************/
 
+/**************************************************************************************
+APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
+***************************************************************************************/
 
 /**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
 window.onloadForm = function () {
     mandatoryList();
-    //enableManageField = true;
-    //manageFields("ouverture");
+    enableManageField = true;
+    manageFields();
 
 };
 neocase.form.event.bind('init', onloadForm);
