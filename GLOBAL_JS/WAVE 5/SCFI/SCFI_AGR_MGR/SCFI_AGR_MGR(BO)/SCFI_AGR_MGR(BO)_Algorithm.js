@@ -80,7 +80,7 @@ var Tableau = [
     // Contract elements
     'sectionbb2b914eda0fd8e17284#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change',
     // Management team
-    'sectiond8861cebeb0781314fbf#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Change in management team',
+    'sectiond8861cebeb0781314fbf#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in management team',
     // Other details
     'section46aa67b04407642e30ef#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Cost center change',
     // Probation period extension

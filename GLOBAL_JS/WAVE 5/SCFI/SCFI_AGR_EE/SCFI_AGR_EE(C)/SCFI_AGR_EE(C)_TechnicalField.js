@@ -10,13 +10,7 @@ Developer   - Ahana Sarkar
 Date	    - 11/01/2019 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Autofill topic and subtopics form URL
----------------------------------------------------------
-Developer   - Ahana Sarkar
-Date	    - 11/12/2018 (MM/DD/YYYY)
-Change No   - MOD-007
-Description - Put the question field read only
-            - Disable/Enable the submit button depending on the response field
-----------------------------------------------------------------------------*/
+---------------------------------------------------------*/ 
 
 // hide Technical section
 neocase.form.section("section8d84eb62f3f258e9ab22").hide();

@@ -1203,7 +1203,10 @@ window.checkSectionHide = function (sectionID) {
             document.getElementById(sectionID).style.display = "none";
         }
     }
+
+    //displaySectionSpecific();
 };
+checkSectionHide("section550460fcf10a3fbc2f45");
 /**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/

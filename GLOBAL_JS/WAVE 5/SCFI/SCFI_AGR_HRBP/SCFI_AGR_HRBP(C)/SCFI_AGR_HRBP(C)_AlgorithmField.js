@@ -1,3 +1,4 @@
+/*----------SCFI_AGR_MGR(C)_ALGO----------*/
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -53,8 +54,23 @@ V17 - PJU - 11/01/2018
 Fields and display settings
 ***************************/
 var Tableau = [
-    // 'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Leavers',
-    'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in position;SCFI_Management team;SCFI_Other mass upload;SCFI_Allowances;SCFI_ARC values;SCFI_Change in pay'
+    // 'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change;SCFI_Change in management team;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Grade/job change;SCFI_Promotion/demotion;SCFI_Allowances;SCFI_ARC values;SCFI_Change in pay;SCFI_Change in position;SCFI_Management team;SCFI_Management team'
+    'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Employment data change;SCFI_Mass upload',
+    'section67ad5029b53ea0c020fc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Promotion/demotion;SCFI_Pay change',
+    'section3afa8cd8f6351397184d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
+    'section7c6febacac770b77a9f5#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
+    'section87f23cde18690b8733a4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Cost center change;SCFI_Promotion/demotion',
+    'sectionef25429bd2a73e93f3fc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
+    'sectione86d2b5ce968e3134eda#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours;SCFI_Promotion/demotion;SCFI_Pay change',
+    'section635820a60b0aa8a35e70#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in management team',
+    'section40f08ffa22efc26c3d7d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change',
+    'sectiondb5a670766b5a6bc8758#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Cost center change;SCFI_Promotion/demotion',
+    'sectionee9edc7a4f05e9676345#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave',
+    'section2ad7291f164debd92fb0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Initiate involuntary leave',
+    'section404e1594c60f50ed66b8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer',
+    'sectione3e0865e54eb4225eb9e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Revised termination date',
+    'sectiond4b31a6ae7cded1c85a8#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Mass upload',
+    'section1518a65f68a6580ebf2d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Ad hoc report'
 ];
 var enableManageField;
 
@@ -299,7 +315,6 @@ window.masquerSection = function (SECTION) {
         //on élimine les TDs vides
         if(ST_TD[z].style.display != "none"){
           FIELD_DISPLAY = true;
-
         }
       }
     }
@@ -1353,19 +1368,19 @@ window.getASPid = function (fieldName) {
 };
 FillCf = function (fieldValue, fieldName) {
     var msg = "function FillCf : ";
-
     //properly target field
     if (fieldName.search("VALEUR0") != -1) {
         fieldName = fieldName.replace("VALEUR0", "VALEUR");
     }
     fieldName = getASPid(fieldName);
     var field = neocase.form.field(fieldName);
-    var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
+    //var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
     if (field) {
         field.setValue(fieldValue);
-        if (req) {
-            req.setValue(fieldValue);
-        }
+        //    if(req)
+        // 	{
+        // 	req.setValue(fieldValue);
+        // 	}
     } else {
         msg += "field " + fieldName + " not found";
         console.log(msg);
@@ -1383,11 +1398,10 @@ STATIC CODE ENDS
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
 window.onloadForm = function () {
-    setTimeout(function(){
+    setTimeout(function () {
         mandatoryList();
         enableManageField = true;
         manageFields();
-    }, 700);
-
+    }, 1000);
 };
 neocase.form.event.bind('init', onloadForm);
