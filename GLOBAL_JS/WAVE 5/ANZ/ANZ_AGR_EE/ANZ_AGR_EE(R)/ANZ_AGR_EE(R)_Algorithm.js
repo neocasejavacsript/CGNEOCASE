@@ -1,4 +1,4 @@
-//ANZ_AGR_EE  - Algorithm Code
+//ANZ_AGR_EE(R)  - Algorithm Code
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -86,8 +86,7 @@ var Tableau = [
     /*SECTION : "Withdraw resignation / retirement"*/
     'section11b2d44068dcf0426b22#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Withdraw resignation / retirement',
     /*SECTION : "Employment Data changes details"*/
-    'sectiona0acf4eda4441a8497a9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
-    'sectiona0acf4eda4441a8497a9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer'
+    'sectiona0acf4eda4441a8497a9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours;ANZ_Work location transfer'
 
 ];
 var enableManageField;

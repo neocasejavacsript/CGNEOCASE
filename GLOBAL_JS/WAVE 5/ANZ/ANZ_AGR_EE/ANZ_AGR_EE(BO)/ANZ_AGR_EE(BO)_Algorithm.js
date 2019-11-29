@@ -59,39 +59,56 @@ Change No   - MOD-001
 Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
 			- Did basic clean up and changes based on mock up
 			- Display specific section based on subtopic
+------------------------------------------------------------------------------
+Developer   - Riya Dutta
+Date	    - 11/21/2019 (MM/DD/YYYY)
+Change No   - MOD-002
+Description - Defect Fixing
 ------------------------------------------------------------------------------*/ 
 
 /**************************
 Fields and display settings
 ***************************/
 var Tableau = [
+
 	/*SECTION : "Request leave of absence"*/
 	'section2b174ad9fc56b710db67#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Request leave of absence',	
-             'sectionf22101cf11cd472ce2b4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Request leave of absence',
-             /*SECTION : "Update planned leave of absence details "*/
+    'sectionf22101cf11cd472ce2b4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Request leave of absence', /*Instruction*/
+			 
+    /*SECTION : "Update planned leave of absence details "*/
 	'sectionad7936f6c9220405fd42#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Update planned leave of absence',
-             'section68c76386490e278e08a0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Update planned leave of absence',
+    'section68c76386490e278e08a0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Update planned leave of absence', /*Instruction*/
+	
 	/*SECTION : "Change return date of leave of absence"*/
 	'sectionba181959c00a330743f2#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change return date of leave of absence',
-             /*SECTION : "Change in working hours"*/
-             'sectionfc14dc2a7cd9c5d106d2#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
-             'sectionaa40c46fb5af08d926a8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
-             /*SECTION : "Work location transfer"*/
-             'section4f79f859c53e6949f0ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',	
+	
+	/*SECTION : "Resignation Details"*/
+    'sectione0bad4a96168dd13a67b#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Resignation',
+	
+	/*SECTION : "International transfer details [IT out]"*/
+	'section2ab3027c9c2e76021f12#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_International transfer_Out',
+	
+	/*SECTION : "Retirement Details"*/
+	'section0ecce1e16ef8b9f5d5a9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Retirement',
+	
 	/*SECTION : "Change of end date"*/
-             'section37fd6d0b84c27bd5eeae#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change of end date',
-             /*SECTION : "International transfer out"*/
-             'section2ab3027c9c2e76021f12#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_International transfer_Out',
-             /*SECTION : "Resignation"*/
-             'sectione0bad4a96168dd13a67b#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Resignation',
-             /*SECTION : "Retirement"*/
-             'section0ecce1e16ef8b9f5d5a9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Retirement',
-             /*SECTION : "Withdraw resignation / retirement"*/
-             'section2235b598f65eedd59e01#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Withdraw resignation / retirement',
-             /*SECTION : "Employment Data changes details"*/
-             'sectiona7bd1217335a4fc5e864#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
-             'sectiona7bd1217335a4fc5e864#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer'
-
+	'section37fd6d0b84c27bd5eeae#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change of end date',
+	
+	/*SECTION : "Withdraw resignation / retirement"*/
+    'section2235b598f65eedd59e01#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Withdraw resignation / retirement',
+	
+	/*SECTION : "Employment Data changes details"*/
+    'sectiona7bd1217335a4fc5e864#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours;ANZ_Work location transfer',
+	
+    /*SECTION : "Working hours Details"*/
+    'sectionfc14dc2a7cd9c5d106d2#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
+	
+	/*SECTION : "Work location transfer"*/
+    'section4f79f859c53e6949f0ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',	
+	
+	/*SECTION : "Employee group/ Employee subgroup" */
+    'sectionaa40c46fb5af08d926a8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours'
+	
 ];
 var enableManageField;
 
@@ -1187,7 +1204,6 @@ window.getSelectValue = function (RADIO_BUTTON) {
 STATIC CODE STARTS
 ***************************************************************************************/
 
-
 /***************
 * DISABLE FIELDS
 ****************/
@@ -1401,6 +1417,7 @@ window.getASPid = function(fieldName){
 	}
 	return fieldName;
 };
+
 FillCf = function(fieldValue,fieldName){
     var msg = "function FillCf : ";
 
@@ -1422,6 +1439,7 @@ FillCf = function(fieldValue,fieldName){
         console.log(msg);
 }    
 };
+
 /******************************************
  * CREATE HYPERLINK ON LABEL TO OPEN A POPUP
  *******************************************/
@@ -1466,8 +1484,6 @@ window.popupLink = function (field, url) {
 		console.log(msg);
 	}
 };
-
-
 
 /****************************
 * AUTOMATICALLY FILL SUBTOPIC

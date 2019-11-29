@@ -1,4 +1,4 @@
-//ANZ_AGR_EE  - Algorithm Code
+//ANZ_AGR_EE(M)  - Algorithm Code
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -59,6 +59,11 @@ Change No   - MOD-001
 Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
 			- Did basic clean up and changes based on mock up
 			- Display specific section based on subtopic
+------------------------------------------------------------------------------
+Developer   - Riya Dutta
+Date	    - 11/21/2019 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - Fixes
 ------------------------------------------------------------------------------*/ 
 
 /**************************
@@ -90,9 +95,8 @@ var Tableau = [
              /*SECTION : "Withdraw resignation / retirement"*/
              'sectionb0396ced04692f0aacd8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Withdraw resignation / retirement',
              /*SECTION : "Employment Data changes details"*/
-             'section076b50abb74fd3853302#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
-             'section076b50abb74fd3853302#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer'
-
+             'section076b50abb74fd3853302#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours;ANZ_Work location transfer'
+             
 ];
 var enableManageField;
 

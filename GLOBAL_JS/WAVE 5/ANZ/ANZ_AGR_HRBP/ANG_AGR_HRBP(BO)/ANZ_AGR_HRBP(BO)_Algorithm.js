@@ -1296,9 +1296,9 @@ window.disableField = function(field){
 };
 
 /******************************************
-* CREATE HYPERLINK ON LABEL TO OPEN A POPUP
-*******************************************/
-window.popupLink = function(field, url) {
+ * CREATE HYPERLINK ON LABEL TO OPEN A POPUP
+ *******************************************/
+window.popupLink = function (field, url) {
     var msg = "function popupLink : ";
     if (field) {
         //get field label
@@ -1309,7 +1309,7 @@ window.popupLink = function(field, url) {
         } else if (fieldId.search("UTILISATEURS") != -1) {
             fieldLabel = fieldId.replace("UTILISATEURS", "lblUTILISATEURS");
         } else {
-            msg += "type de champ non pris en compte " + fieldId;
+            msg += "type de champ non prit en compte " + fieldId;
             console.log(msg);
         }
         if (fieldLabel.search("_display") != -1) {
@@ -1317,29 +1317,22 @@ window.popupLink = function(field, url) {
         }
         //add case number in the URL if needed
         if (url.search("Id_Demande") != -1) {
-            //url = url.replace("Id_Demande=","Id_Demande="+RequestContext.RequestNumber);
-            url = url.replace("Id_Demande=", "Id_Demande=" + RequestContext.ContactId);
+            url = url.replace("Id_Demande=", "Id_Demande=" + numeroIntervention);
         }
         //add contact ID in the URL if needed
         if (url.search("Id_User") != -1) {
-            url = url.replace("Id_User=", "Id_User=" + RequestContext.ContactId);
+            url = url.replace("Id_User=", "Id_User=" + CodeUtilisateur);
         }
         //Create hyperlink on label
         var onclick = "window.open('" + url + "','_blank')";
         var createPopup = document.createElement("a");
         createPopup.setAttribute("onclick", onclick);
-        var popupText;
-        if (document.getElementById(fieldLabel)) {
-            popupText = document.getElementById(fieldLabel).innerHTML;
-            var t = document.createTextNode(popupText);
-            createPopup.appendChild(t);
-            if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
-                document.getElementById(fieldLabel).innerHTML = "";
-                document.getElementById(fieldLabel).appendChild(createPopup);
-            }
-        } else {
-            msg += "label du champ non trouvé " + fieldId;
-            console.log(msg);
+        var popupText = document.getElementById(fieldLabel).innerHTML;
+        var t = document.createTextNode(popupText);
+        createPopup.appendChild(t);
+        if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
+            document.getElementById(fieldLabel).innerHTML = "";
+            document.getElementById(fieldLabel).appendChild(createPopup);
         }
     } else {
         msg += "champ non trouvé";
@@ -1480,4 +1473,3 @@ window.onloadForm = function () {
  
 };
 neocase.form.event.bind('loadcomplete', onloadForm);
-///////////////////////////////////////////////////////////yh

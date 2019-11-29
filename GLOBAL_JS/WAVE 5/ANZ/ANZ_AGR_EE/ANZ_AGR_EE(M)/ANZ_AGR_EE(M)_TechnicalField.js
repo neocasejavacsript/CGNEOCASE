@@ -1,4 +1,4 @@
-/*************ANZ_AGR_EE - Technical Field Code*************/
+/*************ANZ_AGR_EE(M) - Technical Field Code*************/
 /*--------------------------------------------------------------------------
 Developer   - Debraj Sarkar
 Date	    - 10/01/2019 (MM/DD/YYYY)
@@ -15,8 +15,6 @@ Description - 'validAbsenceStartEndDate()' function implemented which ensures Ab
 var initialStartDate, initialEndDate;
 //Hide Technical Section
 neocase.form.section("section8515535d1e15302536ec").hide();
-//Hide Hidden Section
-//neocase.form.section("sectionf0d2cdf8af4de3979c75").hide();
 
 /*------- Convert Date and time format from a field string date value-------*/
 window.convertToDateTime = function(values){
@@ -41,20 +39,47 @@ window.validAbsenceStartEndDate = function(AbsenceStartDateField, AbsenceendDate
 		}
 	}
 };
+
+
+//employee moving to 
+FillCf_CountryMoving = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR927.value = fieldValue; //Country
+};
+FillCf_CountryMovingCode = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR926.value = fieldValue; //Company Code
+};
+FillCf_CountryMovingDescription = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR924.value = fieldValue; //Campany Name
+};
+
+
+window.setAllPopups = function(){
+    
+    //popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR123, "/Custom_Referential/SubArea.aspx?Id_User="); //set popup link to Work location ++ MOD-003
+	//popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR123, "/Custom_Referential/PersonalArea.aspx");
+	
+	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR927, "/Custom_Referential/CountryMoving.aspx?Id_User=");//Popup for country moving to
+
+};
+
 /**************************
 * Launch Javascript on init
 ***************************/
+
 window.launchOnInit = function(){
 	// updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
-    //     setTimeout(updateAndDisableField, 1000,neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
+    // setTimeout(updateAndDisableField, 1000,neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
+	setAllPopups();
  };
 neocase.form.event.bind("init",launchOnInit);
 
-/****************************
- * Launch Javascript on submit
- *****************************/
+/*
+window.launchOnComplete = function(){
+	//showActionReason();
+ };
+neocase.form.event.bind('loadcomplete',launchOnComplete);
+
 window.launchOnSubmit = function () { 
 	// validAbsenceStartEndDate();
 };
-neocase.form.event.bind("submit", launchOnSubmit);
-
+neocase.form.event.bind("submit", launchOnSubmit); */
