@@ -1,3 +1,4 @@
+/*----------SCFI_SGR_PO(BO)_ALGO----------*/
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -47,29 +48,22 @@ V16 - PJU/WIL - 05/01/2018
 V17 - PJU - 11/01/2018
 	- delete var enableManageField
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
+V18 - PJU - 01/03/2018
+	- add specific code for 'MOTCLE' in manageFields
 */
+
+/*--------------------------------------------------------------------------
+Developer   - Arnab Guha
+Date	    - 11/07/2018 (MM/DD/YYYY)
+Change No   - MOD-001
+Description - Hide Section based on Subtopics
+----------------------------------------------------------------------------*/
 
 /**************************
 Fields and display settings
 ***************************/
 var Tableau = [
-    // 'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change;SCFI_Change in management team;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Grade/job change;SCFI_Promotion/demotion;SCFI_Allowances;SCFI_ARC values;SCFI_Change in pay;SCFI_Change in position;SCFI_Management team;SCFI_Management team'
-    'section9498d9023384d946d595#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Employment data change;SCFI_Mass upload',
-    'sectionf5a423481eb2016f03a8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Promotion/demotion;SCFI_Pay change',
-    'section41fb14953c521a7bd119#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
-    'sectione6e4000701a95ccfdd3a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
-    'sectiond96846e673ae8d658163#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Cost center change;SCFI_Promotion/demotion',
-    'sectionc296cd043a9945c99020#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
-    'section1255da4aae387b663e97#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours;SCFI_Promotion/demotion;SCFI_Pay change',
-    'sectionca99db31802a541c4f82#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in management team',
-    'sectionfd15d4310e426f5f2d99#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change',
-    'section7f75449e7c64b9a2d597#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Cost center change;SCFI_Promotion/demotion',
-    'section67f293a289483be54840#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave',
-    'sectiond50c0665e4f0efd7ed84#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Initiate involuntary leave',
-    'sectionb938ac8f52bbf3aa93fc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer',
-    'section7163f6c82e864b83d297#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Revised termination date',
-    'section55719105d68a85b837ce#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Mass upload',
-    'section9f7301db70c8d6bb2bc9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Ad hoc report'
+    'section1234b06ab70b6cdb8acd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Non start'
 ];
 var enableManageField;
 
@@ -195,9 +189,9 @@ window.champObligatoire = function (FIELD, VALID) {
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             VALIDATOR_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
         } else if (FIELD_ID.search("UTILISATEURS") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
+            VALIDATOR_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
         } else if (FIELD_ID.search("n_question") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
+            VALIDATOR_FIELD_ID = FIELD_ID.replace("n_question", "n_questionvalidator");
         }
         //manage file fields
         if (VALIDATOR_FIELD_ID.search("_display") != -1) {
@@ -269,10 +263,10 @@ window.boutonRadio = function (FIELD) {
     var SELECT_OBLIGATOIRE_ID;
     if (CHAMP_SELECT_ID.search("INTERVENTIONS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
     } else if (CHAMP_SELECT_ID.search("UTILISATEURS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "lblUTILISATEURS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
     }
     //Si le champ est obligatoire, on masque simplement l'étoile d'origine et on cré une nouvelle étoile à côté du label
     if (document.getElementById(SELECT_OBLIGATOIRE_ID)) {
@@ -314,6 +308,7 @@ window.masquerSection = function (SECTION) {
         //on élimine les TDs vides
         if(ST_TD[z].style.display != "none"){
           FIELD_DISPLAY = true;
+
         }
       }
     }
@@ -578,6 +573,9 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER1_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
+                                } else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
+                                    //Exceptions for 'MOTCLE' field
+                                    PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
                             }
                         }
@@ -622,6 +620,9 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER2_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER2_FIELD[c] = document.getElementById("ELEMENTS");
+                                } else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
+                                    //Exceptions for 'MOTCLE' field
+                                    PARAMETER2_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
                             }
                         }
@@ -816,6 +817,9 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
+                                } else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
+                                    //Exceptions for 'MOTCLE' field
+                                    PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
                             }
                         }
@@ -832,6 +836,8 @@ window.manageFields = function (DECLENCHEUR) {
                             PARAMETER_LABEL = "lblINTERVENTIONS_EN_COURS$PROVENANCE";
                         } else if (PARAMETER_ID == "ELEMENTS") {
                             PARAMETER_LABEL = "lblINTERVENTIONS_EN_COURS$ELEMENT";
+                        } else if (PARAMETER_ID == "MOTSCLES") {
+                            PARAMETER_LABEL = "lblINTERVENTIONS_EN_COURS$MOTCLE";
                         }
                         //Valeur du champ à tester
                         var PARAMETER_FIELD_VALUE;
@@ -1150,256 +1156,12 @@ window.getSelectValue = function (RADIO_BUTTON) {
 };
 
 /**************************************************************************************
-STATIC CODE STARTS
-***************************************************************************************/
-
-
-/***************
-* DISABLE FIELDS
-****************/
-window.disableTextField = function (field) {
-    if (document.getElementById("champsobligatoiresproprietes")) {
-        //BackOffice
-        field.setAttribute("readonly", "true");
-        field.onmousedown = function () { return false; };
-    } else {
-        //FrontOffice
-        field.setAttribute("readonly", "true");
-        field.onkeydown = function () { return false; };
-        field.onmousedown = function () { return false; };
-    }
-};
-
-window.disableBooleanField = function (field) {
-    field.onclick = function () { return false; };
-    disableTextField(field);
-};
-
-window.disableDateField = function (field) {
-    if (document.getElementById("champsobligatoiresproprietes")) {
-        //BackOffice
-        //hide calendar icon
-        field.style.background = "none";
-    } else {
-        //FrontOffice
-        //hide calendar icon
-        if (field.parentNode.getElementsByTagName("img").length > 0) {
-            field.parentNode.getElementsByTagName("img")[0].style.display = "none";
-        }
-    }
-    disableTextField(field);
-};
-
-window.disableFileField = function (field) {
-    if (document.getElementById("champsobligatoiresproprietes")) {
-        //BackOffice
-        field.parentNode.parentNode.style.border = "none";
-        //hide button browse file
-        field.parentNode.style.display = "none";
-        //hide button delete file
-        if (field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0) {
-            field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
-        }
-    } else {
-        //FrontOffice
-        field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
-    }
-};
-
-window.disableListField = function (field) {
-    if (document.getElementById("champsobligatoiresproprietes")) {
-        //BackOffice
-        field.parentNode.style.border = "none";
-    }
-    disableTextField(field);
-};
-
-window.disableTextareaField = function (field) {
-    disableTextField(field);
-};
-
-window.disableField = function (field) {
-    var msg = "function disableField : ";
-    if (field) {
-        field = field.elementHTML;
-        if (field.type == "checkbox") {
-            //Boolean custom fields
-            disableBooleanField(field);
-        } else if (field.className.search("hasDatepicker") != -1) {
-            //Date custom fields
-            disableDateField(field);
-        } else if (field.id.search("_display") != -1) {
-            //File custom fields
-            disableFileField(field);
-        } else if (field.tagName == "SELECT") {
-            //List custom fields
-            disableListField(field);
-        } else if (field.tagName == "TEXTAREA") {
-            //Textarea custom fields
-            disableTextareaField(field);
-        } else {
-            //Text custom fields
-            disableTextField(field);
-        }
-    } else {
-        msg += "field undefined or readonly";
-        console.log(msg);
-    }
-};
-
-/******************************************
-* CREATE HYPERLINK ON LABEL TO OPEN A POPUP
-*******************************************/
-window.popupLink = function (field, url) {
-    var msg = "function popupLink : ";
-    if (field) {
-        //get field label
-        var fieldId = field.id;
-        var fieldLabel;
-        if (fieldId.search("INTERVENTIONS") != -1) {
-            fieldLabel = fieldId.replace("INTERVENTIONS", "lblINTERVENTIONS");
-        } else if (fieldId.search("UTILISATEURS") != -1) {
-            fieldLabel = fieldId.replace("UTILISATEURS", "lblUTILISATEURS");
-        } else {
-            msg += "type de champ non pris en compte " + fieldId;
-            console.log(msg);
-        }
-        if (fieldLabel.search("_display") != -1) {
-            fieldLabel = fieldLabel.replace("_display", "");
-        }
-        //add case number in the URL if needed
-        if (url.search("Id_Demande") != -1) {
-            //url = url.replace("Id_Demande=","Id_Demande="+RequestContext.RequestNumber);
-            url = url.replace("Id_Demande=", "Id_Demande=" + RequestContext.ContactId);
-        }
-        //add contact ID in the URL if needed
-        if (url.search("Id_User") != -1) {
-            url = url.replace("Id_User=", "Id_User=" + RequestContext.ContactId);
-        }
-        //Create hyperlink on label
-        var onclick = "window.open('" + url + "','_blank')";
-        var createPopup = document.createElement("a");
-        createPopup.setAttribute("onclick", onclick);
-        var popupText;
-        if (document.getElementById(fieldLabel)) {
-            popupText = document.getElementById(fieldLabel).innerHTML;
-            var t = document.createTextNode(popupText);
-            createPopup.appendChild(t);
-            if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
-                document.getElementById(fieldLabel).innerHTML = "";
-                document.getElementById(fieldLabel).appendChild(createPopup);
-            }
-        } else {
-            msg += "label du champ non trouvé " + fieldId;
-            console.log(msg);
-        }
-    } else {
-        msg += "champ non trouvé";
-        console.log(msg);
-    }
-};
-
-
-/******************
-* get URL parameter
-*******************/
-window.getParamFromUrl = function (param) {
-    var vars = {};
-    window.location.href.replace(location.hash, '').replace(
-        /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-        function (m, key, value) { // callback
-            vars[key] = value !== undefined ? value : '';
-        }
-    );
-
-    if (param) {
-        return vars[param] ? vars[param] : null;
-    }
-    return vars;
-};
-
-/********************
-* Launch dependencies
-*********************/
-window.launchDependencies = function (field) {
-    if ("createEvent" in document) {
-        var evt = document.createEvent("HTMLEvents");
-        evt.initEvent("change", false, true);
-        field.elementHTML.dispatchEvent(evt);
-    } else {
-        field.elementHTML.fireEvent("onchange");
-    }
-};
-
-/**************
-* update level1
-***************/
-window.updateAndDisableField = function (field, value) {
-    //update 'level 1' value
-    field.setValue(value);
-    if (field.elementHTML.value !== "0" && field.elementHTML.value !== "") {
-        //launch dependencies
-        launchDependencies(field);
-
-        //Disable field
-        disableField(field);
-    }
-};
-/************************************************
-* FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
-*************************************************/
-window.getASPid = function (fieldName) {
-    //Only on FrontOffice Side
-    if (document.getElementsByClassName("bloc-content").length > 0) {
-        var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
-        for (lbl = 0; lbl< label.length; lbl++) {
-
-            //if we find an ASP.NET id we return the dynamic ID number
-            if (label[lbl].id.search("_lbl") != -1) {
-                fieldName = label[lbl].id.split("lbl")[0] + fieldName;
-                fieldName = fieldName.replace("$", "_");
-                return fieldName;
-            }
-
-        }
-    }
-    return fieldName;
-};
-FillCf = function (fieldValue, fieldName) {
-    var msg = "function FillCf : ";
-    //properly target field
-    if (fieldName.search("VALEUR0") != -1) {
-        fieldName = fieldName.replace("VALEUR0", "VALEUR");
-    }
-    fieldName = getASPid(fieldName);
-    var field = neocase.form.field(fieldName);
-    //var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
-    if (field) {
-        field.setValue(fieldValue);
-        //    if(req)
-        // 	{
-        // 	req.setValue(fieldValue);
-        // 	}
-    } else {
-        msg += "field " + fieldName + " not found";
-        console.log(msg);
-    }
-};
-
-
-
-/**************************************************************************************
-STATIC CODE ENDS
-***************************************************************************************/
-
-
-/**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
 window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
-    manageFields("");
+    manageFields("ouverture");
 
 };
-neocase.form.event.bind('init', onloadForm);
+neocase.form.event.bind('loadcomplete', onloadForm);

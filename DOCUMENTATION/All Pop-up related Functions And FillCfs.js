@@ -431,7 +431,7 @@ popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR172,"/Custom_Referential/Manag
 popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR41,"/Custom_Referential/LocalGrade.aspx?Id_User=");
 //country moving to
 popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR927, "/Custom_Referential/CountryMoving.aspx?Id_User=");
-//'Organisational unit'
+//only for 'Organisational unit'
 popupLink(formulaire.INTERVENTIONS_EN_COURS_VALEUR13,"/Custom_Referential/OrgUnit.aspx");
 
 //Can also refer "https://github.com/neocasejavacsript/CGNEOCASE/blob/master/DOCUMENTATION/All%20Pop-up%20related%20Functions%20And%20FillCfs.js"

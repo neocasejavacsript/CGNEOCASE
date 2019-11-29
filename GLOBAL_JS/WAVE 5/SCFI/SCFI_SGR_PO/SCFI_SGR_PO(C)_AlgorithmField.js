@@ -53,23 +53,7 @@ V17 - PJU - 11/01/2018
 Fields and display settings
 ***************************/
 var Tableau = [
-    // 'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change;SCFI_Change in management team;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Grade/job change;SCFI_Promotion/demotion;SCFI_Allowances;SCFI_ARC values;SCFI_Change in pay;SCFI_Change in position;SCFI_Management team;SCFI_Management team'
-    'section9498d9023384d946d595#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Employment data change;SCFI_Mass upload',
-    'sectionf5a423481eb2016f03a8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Promotion/demotion;SCFI_Pay change',
-    'section41fb14953c521a7bd119#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
-    'sectione6e4000701a95ccfdd3a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
-    'sectiond96846e673ae8d658163#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Cost center change;SCFI_Promotion/demotion',
-    'sectionc296cd043a9945c99020#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
-    'section1255da4aae387b663e97#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours;SCFI_Promotion/demotion;SCFI_Pay change',
-    'sectionca99db31802a541c4f82#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in management team',
-    'sectionfd15d4310e426f5f2d99#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change',
-    'section7f75449e7c64b9a2d597#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Cost center change;SCFI_Promotion/demotion',
-    'section67f293a289483be54840#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave',
-    'sectiond50c0665e4f0efd7ed84#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Initiate involuntary leave',
-    'sectionb938ac8f52bbf3aa93fc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer',
-    'section7163f6c82e864b83d297#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Revised termination date',
-    'section55719105d68a85b837ce#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Mass upload',
-    'section9f7301db70c8d6bb2bc9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Ad hoc report'
+    'section4411a951aa5983d7438a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Non start'
 ];
 var enableManageField;
 
@@ -314,6 +298,7 @@ window.masquerSection = function (SECTION) {
         //on élimine les TDs vides
         if(ST_TD[z].style.display != "none"){
           FIELD_DISPLAY = true;
+
         }
       }
     }
@@ -1367,19 +1352,19 @@ window.getASPid = function (fieldName) {
 };
 FillCf = function (fieldValue, fieldName) {
     var msg = "function FillCf : ";
+
     //properly target field
     if (fieldName.search("VALEUR0") != -1) {
         fieldName = fieldName.replace("VALEUR0", "VALEUR");
     }
     fieldName = getASPid(fieldName);
     var field = neocase.form.field(fieldName);
-    //var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
+    var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
     if (field) {
         field.setValue(fieldValue);
-        //    if(req)
-        // 	{
-        // 	req.setValue(fieldValue);
-        // 	}
+        if (req) {
+            req.setValue(fieldValue);
+        }
     } else {
         msg += "field " + fieldName + " not found";
         console.log(msg);
@@ -1397,9 +1382,15 @@ STATIC CODE ENDS
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
 window.onloadForm = function () {
-    mandatoryList();
-    enableManageField = true;
-    manageFields("");
+
+    setTimeout(function () {
+
+        mandatoryList();
+        enableManageField = true;
+        manageFields();
+
+    }, 500);
+
 
 };
 neocase.form.event.bind('init', onloadForm);

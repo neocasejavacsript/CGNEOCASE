@@ -119,7 +119,7 @@ window.disableCusFields = function () {
 
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR427"));//Disable "HRBP name"
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR182"));//Disable "MyC Supervisor Name"
-    
+
 };
 
 /*--- Copy Employee Catalog field values to Request Catalog field ---*/
@@ -173,7 +173,7 @@ neocase.form.event.bind("init", launchOnInit);
     ***************************/
 window.launchOnloadcomplete = function () {
     copyFields(); // Copy Employee Catalog field values to Request Catalog field
-    formulaire.question.readOnly = "true";
+    
     // setTimeout(function() {
 
     // }, 5000);
