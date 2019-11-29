@@ -1470,9 +1470,9 @@ window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
     //FILL SUBTOPIC
-    manageSubtopic();
+    //manageSubtopic();
     manageFields("ouverture");
  
 };
 neocase.form.event.bind('loadcomplete', onloadForm);
-///////////////////////////////////////////////////////////yh
+

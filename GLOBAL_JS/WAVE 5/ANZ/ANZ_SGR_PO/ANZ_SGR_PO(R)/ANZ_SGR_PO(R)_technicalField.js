@@ -3,7 +3,7 @@
 Developer   - Ahana Sarkar
 Date	    - 10/17/2019 (MM/DD/YYYY)
 Change No   - MOD-001
-Description - Hide Technical section;
+Description - Hide Technical section; set topic from URL
 ---------------------------------------------------------*/ 
 // hide Technical section
 neocase.form.section("sectiondef6055540430e57f1a4").hide();

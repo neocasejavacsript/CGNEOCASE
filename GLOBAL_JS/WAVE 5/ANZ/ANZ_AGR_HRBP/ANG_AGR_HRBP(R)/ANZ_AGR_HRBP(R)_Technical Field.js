@@ -1,4 +1,4 @@
-/*************ANZ_AGR_HRBP - Technical Field Code*************/
+/*************ANZ_AGR_HRBP (R) - Technical Field Code*************/
 /*--------------------------------------------------------------------------
 Developer   - Debraj Sarkar
 Date	    - 10/01/2019 (MM/DD/YYYY)
@@ -9,9 +9,11 @@ Description - JS started 1st time for this form
 ----------------------------------------------------------------------------*/ 
 /*---- MOD-001 STARTS ----*/
 //Hide Technical Section
-neocase.form.section("section39a7bc679a35938def73").hide();
+//neocase.form.section("section39a7bc679a35938def73").hide();
+checkSectionHide("section39a7bc679a35938def73");
+
 //Hide Hidden Section
-neocase.form.section("sectionc3be57db76bac2ebe401").hide();
+//neocase.form.section("sectionc3be57db76bac2ebe401").hide();
 
 /***********************************
  * COPY VALUE FROM 1 FIELD TO ANOTHER
@@ -542,10 +544,10 @@ window.capgEnable = function(fieldGotByID)
 * Launch Javascript on init
 ***************************/
 window.launchOnInit = function(){
-console.log('working1');
-	copy_fields();
-	updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
-             updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
+console.log('Read Form');
+	//copy_fields();
+	//updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
+    //updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
 	/********* for auto values **************/
 	calculate_AnnualSalaryProrated();
 	calculate_TargetVarCompProrated();

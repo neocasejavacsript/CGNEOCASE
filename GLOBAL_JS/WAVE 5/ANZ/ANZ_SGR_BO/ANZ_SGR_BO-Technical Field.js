@@ -8,12 +8,30 @@ Description - JS started 1st time for this form
 			 -Hide Hidden Section
 			 -Use copyFunctions for coping value from one to another field
 ----------------------------------------------------------------------------*/ 
-/*---- MOD-001 STARTS ----*/
+
 //Hide Technical Section
 neocase.form.section("section0769e12b11f7dd21e59c").hide();
 //Hide Hidden Section
-//neocase.form.section("sectionf0d2cdf8af4de3979c75").hide();
-/*---- MOD-001 ENDS ----*/
+neocase.form.section("sectionf0d2cdf8af4de3979c75").hide();
+
+/*---------------- CG Developed Enable and Disable Code -----------------*/
+
+window.capgDisable = function(fieldGotByID) {
+	var el = document.getElementById("prependedid" + fieldGotByID.id);
+	if (el === null){
+	$(fieldGotByID).parent().prepend("<div id=\"prependedid" + fieldGotByID.id + "\" style=\"width: 100%; height: 37px; position: absolute;cursor: no-drop;\"></div>");
+	}
+};
+
+window.capgEnable = function(fieldGotByID)
+{
+	var el = document.getElementById("prependedid" + fieldGotByID.id);
+	if(el){
+		el.parentNode.removeChild(el);
+	}
+};
+
+/*---------------------- Customized Drop-Down List -----------------------*/
 
 window.customDeactvRSN = function() {
 
@@ -24,11 +42,15 @@ window.customDeactvRSN = function() {
 	for(var i = SLength - 1;i > 0;i--)
 	{
 		var sOptionCode = $('[name="'+seclectListName+'"] option').eq(i).attr('code');
-		if(sOptionCode == '780' || sOptionCode == '781' || sOptionCode == '784') {
-			$('[name="'+seclectListName+'"] option').eq(i).css('display', 'none');
+		if(sOptionCode == '780' || sOptionCode == '781' || sOptionCode == '784' || sOptionCode == '782') {
+			$('[name="'+seclectListName+'"] option').eq(i).remove();
 		}
 	}
+		
+	
 };
+
+/*------------ Copy emp. cat. field value to req. cat. field ------------*/
 
 window.copyFunctions = function() {
 	
@@ -51,6 +73,8 @@ window.copyFunctions = function() {
 	
 	
 };
+
+/*----------------- calculate annual Salary Prorated -----------------*/
 
 window.calculate_annualSalProrated = function() {
 	
@@ -79,6 +103,8 @@ window.calculate_annualSalProrated = function() {
 	}
 };
 
+/*----------------- calculate target Variable Compensation Prorated New -----------------*/
+
 window.calculate_targetVarCompProratedNew = function() {
 	
 	var targetVarCompProNew=neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR567');
@@ -106,7 +132,79 @@ window.calculate_targetVarCompProratedNew = function() {
 	}
 };
 
-/* ------------- Popup Link ----------------- */
+//pop-up -- job name - (Old Neocase Function) -  OK
+//Only for DSS list will show
+FillCf_Job_code = function(fieldValue){
+	formulaire.INTERVENTIONS_EN_COURS$VALEUR44.value = fieldValue;
+	champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR44, false);
+};
+FillCf_Job_Desc = function(fieldValue){
+	formulaire.INTERVENTIONS_EN_COURS$VALEUR46.value = fieldValue;
+};
+FillCf_Job_Catg = function(fieldValue){
+	neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR48").setValue(fieldValue);
+	if(fieldValue == "CSS" || fieldValue == "DSP"){
+		neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR417").setValue("");
+		capgDisable(formulaire.INTERVENTIONS_EN_COURS$VALEUR417);
+
+	}else if (fieldValue == "DSS"){
+		capgEnable(formulaire.INTERVENTIONS_EN_COURS$VALEUR417);
+	}
+	else{
+		capgEnable(formulaire.INTERVENTIONS_EN_COURS$VALEUR417);
+	}
+};
+
+//Management Popup - Default
+FillCf_DefaultName_First_Name = function(fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR288.value = fieldValue;
+};
+FillCf_DefaultName_LastName = function(fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR288.value += " " + fieldValue;
+    champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR288, false);
+};
+
+FillCf_DefaultName_PersonelNum = function(fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR289.value = fieldValue;
+    champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR289, false);
+};
+
+//Management Popup - Reviewer
+FillCf_Reviewer_First_Name = function(fieldValue){
+	formulaire.INTERVENTIONS_EN_COURS$VALEUR154.value = fieldValue;
+};
+FillCf_Reviewer_LastName = function(fieldValue){
+	formulaire.INTERVENTIONS_EN_COURS$VALEUR154.value += " "+fieldValue;
+	champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR154, false);
+};
+FillCf_Reviewer_LocalID = function(fieldValue){
+	formulaire.INTERVENTIONS_EN_COURS$VALEUR156.value = fieldValue;
+	champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR156, false);
+};
+FillCf_Reviewer_PersonelNum = function(fieldValue){
+	formulaire.INTERVENTIONS_EN_COURS$VALEUR158.value = fieldValue;
+	champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR158, false);
+};
+
+//Management Popup - Supervisor
+FillCf_Supervisor_First_Name = function(fieldValue){
+	formulaire.INTERVENTIONS_EN_COURS$VALEUR183.value = fieldValue;
+};
+FillCf_Supervisor_LastName = function(fieldValue){
+	formulaire.INTERVENTIONS_EN_COURS$VALEUR183.value += " "+fieldValue;
+	champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR183, false);
+};
+FillCf_Supervisor_LocalID = function(fieldValue){
+	formulaire.INTERVENTIONS_EN_COURS$VALEUR185.value = fieldValue;
+	champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR185, false);
+};
+FillCf_Supervisor_PersonelNum = function(fieldValue){
+	formulaire.INTERVENTIONS_EN_COURS$VALEUR187.value = fieldValue;
+	champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR187, false);
+};
+
+/* ------------- all Popup Links ----------------- */
+
 window.setPopups = function(){
 
 	//COntract Details - Contract Type
@@ -129,10 +227,10 @@ window.setPopups = function(){
 	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR288, "/Custom_Referential/ManagerDefaultName.aspx?Id_User=");
 	
 	//Management Team - Manager Reviewer
-	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR154, "/Custom_Referential/ManageReviewer.aspx?Id_User=");
+	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR154, "/Custom_Referential/ManagerReviewer.aspx?Id_User=");
 	
 	//Management Team - Manager Supervisor
-	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR183, "/Custom_Referential/ManagerSupervisor.aspx?Id_User=");
+	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR183, "/Custom_Referential/ManageSupervisor.aspx?Id_User=");
 	
 	//Management Team - Manager HRDP
 	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR142, "/Custom_Referential/ManagerHRDP.aspx?Id_User=");
@@ -147,12 +245,14 @@ window.setPopups = function(){
 	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR365, "/Custom_Referential/EmployeeGroup.aspx?Id_User=");	
 	
 };
-window.launchOnInit = function(){
+
+/* ------------- Calling all the function from here , entry point ------------- */
+
+window.launchOnloadcomplete = function(){
 	
 	//Customize the DropDown of De-activation reason
 	customDeactvRSN();
 
-	
 	//Copy value from one field to other
 	copyFunctions();
 	
@@ -169,7 +269,21 @@ window.launchOnInit = function(){
 	//Disable Organizational Unit Code (new)
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR11"));
 	
-	//Calculate Annual salary prorated (new)
+	/*//Calculate Annual salary prorated (new)
+	calculate_annualSalProrated();
+	//Disable Annual salary prorated (new)
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR565"));
+	
+	//Calcualte Target Var Comp prorated (new)
+	calculate_targetVarCompProratedNew();
+	//Disable Target Var Comp prorated (new)
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR567"));*/
+	
+	
+};
+window.launchOnInit = function(){
+
+//Calculate Annual salary prorated (new)
 	calculate_annualSalProrated();
 	//Disable Annual salary prorated (new)
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR565"));
@@ -178,8 +292,7 @@ window.launchOnInit = function(){
 	calculate_targetVarCompProratedNew();
 	//Disable Target Var Comp prorated (new)
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR567"));
-	
-	
+   
 };
-
-neocase.form.event.bind('loadcomplete', launchOnInit);
+neocase.form.event.bind('loadcomplete', launchOnloadcomplete);
+neocase.form.event.bind('init', launchOnInit);

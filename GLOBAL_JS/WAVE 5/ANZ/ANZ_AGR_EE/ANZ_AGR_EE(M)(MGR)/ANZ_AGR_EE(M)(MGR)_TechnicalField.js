@@ -1,4 +1,4 @@
-/*************ANZ_AGR_EE - Technical Field Code*************/
+/*************ANZ_AGR_EE(MGR)(M) - Technical Field Code*************/
 /*--------------------------------------------------------------------------
 Developer   - Debraj Sarkar
 Date	    - 10/01/2019 (MM/DD/YYYY)
@@ -13,12 +13,17 @@ Change No   - MOD-002
 Description - 'validAbsenceStartEndDate()' function implemented which ensures Absence start date must be lesser 				  that expected return date
 			- 'validateEmailClosureDate()' function implemented for 'Email Closure Date is always greater than Last Working Day'
 			- 'convertToDateTime()' function implemented which ensures to Convert Date and time format from a field string date value
+----------------------------------------------------------------------------
+Developer   - Riya Dutta
+Date	    - 11/21/2019 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - Fixes
 ----------------------------------------------------------------------------*/ 
+
 var initialStartDate, initialEndDate;
+
 //Hide Technical Section
 neocase.form.section("section1fd0dc6840ddc6ad5e2f").hide();
-//Hide Hidden Section
-//neocase.form.section("sectionf0d2cdf8af4de3979c75").hide();
 
 /*---------------------------For ANZ Target Var Comp Prorated calculation--Start -------*/
 
@@ -44,9 +49,9 @@ window.calculate_TargetVarCompProrated = function() {
 				}else if(isNaN(val_employmentPercentageNew)){
 					calculation = 0;
 				}else{
-					calculation = ROUND((val_targetVarCompprorated / val_employmentPercentage) * val_employmentPercentageNew, 2);
+					calculation = (val_targetVarCompprorated / val_employmentPercentage) * val_employmentPercentageNew;
 				}
-				targetVarCompproratedNew.setValue(calculation);
+				targetVarCompproratedNew.setValue(calculation.toFixed(2));
 			}
 		}
 	}
@@ -79,9 +84,9 @@ window.calculate_AnnualSalaryProrated = function() {
 				}else if(isNaN(val_employmentPercentageNew)){
 					calculation = 0;
 				}else{
-					calculation = ROUND((val_annualSalaryProrated / val_employmentPercentage) * val_employmentPercentageNew, 2);
+					calculation = (val_annualSalaryProrated / val_employmentPercentage) * val_employmentPercentageNew;
 				}
-				annualSalaryProratedNew.setValue(calculation);
+				annualSalaryProratedNew.setValue(calculation.toFixed(2));
 			}
 		}
 	}
@@ -109,7 +114,7 @@ window.validAbsenceStartEndDate = function(AbsenceStartDateField, AbsenceendDate
 /*------- Convert Date and time format from a field string date value-------*/
 window.convertToDateTime = function(values){
 	var dateSplit = values.split("/"),
-		dateFormatUTC = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]),
+		dateFormatUTC = new Date(dateSplit[2], dateSplit[0], dateSplit[1] - 1 ),
 		dateToTime = dateFormatUTC.getTime();
 	return dateToTime;
 };
@@ -141,21 +146,13 @@ window.emailClosureVisibilty = function(selectedFieldName, emailClosureDateField
 window.launchOnInit = function(){
 	// updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
 	// setTimeout(updateAndDisableField, 1000,neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
+	calculate_TargetVarCompProrated();
+	calculate_AnnualSalaryProrated();
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR278"));
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR78"));
+	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR555")); //Action reason
+	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR5")); //Effective date
+	//disableField(neocase.form.field("UTILISATEURS_CHAMPU29")); //Work Location
+	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR123")); //Work location (new)
 };
 neocase.form.event.bind("init",launchOnInit);
-
-/**************************
-* Launch Javascript on loadcomplete
-***************************/
-window.launchOnloadcomplete = function(){
-
-};
-neocase.form.event.bind("loadcomplete",launchOnloadcomplete);
-
-/****************************
- * Launch Javascript on submit
- *****************************/
-window.launchOnSubmit = function () { 
-	// validAbsenceStartEndDate();
-};
-neocase.form.event.bind("submit", launchOnSubmit);

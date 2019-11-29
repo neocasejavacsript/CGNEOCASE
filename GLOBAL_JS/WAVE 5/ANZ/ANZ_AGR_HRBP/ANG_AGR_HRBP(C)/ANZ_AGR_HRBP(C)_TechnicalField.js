@@ -1,4 +1,4 @@
-/*************ANZ_AGR_HRBP - Technical Field Code*************/
+/*************ANZ_AGR_HRBP (C) - Technical Field Code*************/
 /*--------------------------------------------------------------------------
 Developer   - Debraj Sarkar
 Date	    - 10/01/2019 (MM/DD/YYYY)
@@ -364,16 +364,23 @@ window.copyValue = function(copyField, pasteField) {
 /*************************** Copying fields starts*******************************/
 
 window.copy_fields = function() {
+    console.log('aaa');
+    
+    //copy Admin Supervisor name value
+    //copyValue("UTILISATEURS$CHAMPU152", "INTERVENTIONS_EN_COURS$VALEUR182");
+    
+
 	//copy Personal Sub Area Desc value
 	copyValue("UTILISATEURS$CHAMPU29", "INTERVENTIONS_EN_COURS$VALEUR122");
 	//copy Employment Percentage value
 	copyValue("UTILISATEURS$CHAMPU248", "INTERVENTIONS_EN_COURS$VALEUR593");
-	//copy Admin Supervisor name value
-	copyValue("UTILISATEURS$CHAMPU152", "INTERVENTIONS_EN_COURS$VALEUR182");
+	
 	//copy HRBP name value
 	copyValue("UTILISATEURS$CHAMPU58", "INTERVENTIONS_EN_COURS$VALEUR427");
 	//copy Fixed term contract end date value
 	copyValue("UTILISATEURS$CHAMPU186", "INTERVENTIONS_EN_COURS$VALEUR125");
+	//copy Local Grade value
+	copyValue("UTILISATEURS$CHAMPU35", "INTERVENTIONS_EN_COURS$VALEUR41");
 	//copy Target Var pay
 	copyValue("UTILISATEURS$CHAMPU170", "INTERVENTIONS_EN_COURS$VALEUR77");
     //neocase.form.field('UTILISATEURS$CHAMPU186').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR125');
@@ -568,15 +575,20 @@ FillCf_DefaultName_PersonelNum = function(fieldValue) {
 window.setAllPopups = function(){
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR46, "/Custom_Referential/JobName.aspx?Id_User="); //set popup link to Job title new
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR291, "/Custom_Referential/ContratType.aspx?Id_User="); //set popup link to ContratType
+	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR295, "/Custom_Referential/ContratType.aspx?Id_User="); //set popup link to ContratType
     //Management Team pop-ups
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR154, "/Custom_Referential/ManagerReviewer.aspx?Id_User="); //set popup link to Performance reviewer name (new)
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR386, "/Custom_Referential/ManagerHRBP.aspx?Id_User="); // set popup link to HRBP
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR183, "/Custom_Referential/ManageSupervisor.aspx?Id_User=");//set popup link to Admin supervisor (new)
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR409,"/Custom_Referential/TrainingApprover.aspx?Id_User="); //set popup link to Training Approver
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR288, "/Custom_Referential/ManagerDefaultName.aspx");//set popup link to Default approver	
-    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR142, "/Custom_Referential/ManagerHRDP.aspx?Id_User=");//set popup link to HR Delivery Partner name (new)	
+    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR142, "/Custom_Referential/ManagerHRDP.aspx?Id_User=");//set popup link to HR Delivery Partner name (new)
+
+	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR123, "/Custom_Referential/PersonalArea.aspx"); //set popup link to Personal sub area [Work location]
 };
 window.disableCusFields = function(){
+	disableField(neocase.form.field("UTILISATEURS$CHAMPU35")); // disable
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR41")); //disbale Local Grade
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR46")); //disbale Job title new
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR48")); //disbale Job category default (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR291")); //Disable "Contract type desc (new)"
@@ -596,23 +608,84 @@ window.disableCusFields = function(){
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR409")); //disable Training Approver name (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR288")); //disable Default Approver name (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR142")); //disable HR Delivery Partner name (new)
+
+
+    // Disable Work area field
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR122")); //disbale performance reviewer(new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR311")); //Nature of contract desc (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR125")); // Fixed term contract end date
+
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR182")); // Admin Supervisor Name
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR427")); // HRBP name
+
+    
 };
-//------------------------ Capgemini Developed Enable and Disable Code ---------------------//
+
+/*------- Convert Date and time format from a field string date value-------*/
+window.convertToDateTime = function(values){
+	var dateSplit = values.split("/"),
+		dateFormatUTC = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]),
+		dateToTime = dateFormatUTC.getTime();
+	return dateToTime;
+};
 window.validAbsenceStartEndDate = function(AbsenceStartDateField, AbsenceendDateField){
-	console.log('Entered');
-	var startDate = neocase.form.field(AbsenceStartDateField).getDate(),
-		endDate = neocase.form.field(AbsenceendDateField).getDate();
-		console.log(endDate + '---' +startDate);
+	var startDate = convertToDateTime(neocase.form.field(AbsenceStartDateField).getValue()),
+		endDate = convertToDateTime(neocase.form.field(AbsenceendDateField).getValue());
 	if(startDate !== null && endDate !== null){
-		console.log('not null');
-		if(endDate.getTime()< startDate.getTime()){
-			console.log(endDate + ' is smaller than ' +startDate);
-			alert("Expected End date must be greater than Start date");
+		if(endDate< startDate){
+			alert("End date must be greater than Start date");
 			neocase.form.field(AbsenceStartDateField).setValue("");
 			neocase.form.field(AbsenceendDateField).setValue("");
 		}
 	}
 };
+/*----------------Show action reason against the subtopic ----------------------*/
+window.showActionReason = function(){
+	var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();//getParamFromUrl('subtopic');
+	var x = document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").options.length;
+	console.log(x+subtopic);
+	var ar = new Array();
+	
+	ar['1'] = [];
+	ar['1'][0]="Adjustment";
+	ar['1'][1]="Annual Salary Increase";
+	ar['1'][2]="Change in Superannuation";
+	ar['1'][3]="Mid Year Salary Increase";
+	ar['1'][4]="Pay Rate Change-Other";
+	ar['1'][5]="Quarterly Salary Increase";
+	ar['1'][6]="Retention";
+	ar['1'][7]="Step Progression";
+	ar['2812'] = [];
+	ar['2812'][0]="Cost center change";
+	ar['2813'] = [];
+	ar['2813'][0]="Demotion";
+	ar['2739'] = [];
+	ar['2739'][0]="Extension to FTC";
+	ar['2736'] = [];
+	ar['2736'][0]="FT to PT";
+	ar['2736'][1]="PT to FT";
+	ar['2736'][2]="PT to PT";
+	ar['2732'] = [];
+	ar['2732'][0]="Job Reclassification";
+	ar['2732'][1]="Lateral Change";
+	ar['2741'] = [];
+	ar['2741'][0]="Work location transfer";
+	ar['2808'] = [];
+	ar['2808'][0]="Change in management team";
+//console.log(ar[1][0]);
+	var j = 0;
+	for(var i=1; i<x; i++){
+		//console.log(ar[subtopic][j] + ' = '+document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").options[i].text);
+		if(ar[subtopic][j] == document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").options[i].text){
+			j++;
+		}else{
+			document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").remove(i);
+		}
+	}
+};
+
+//------------------------ Capgemini Developed Enable and Disable Code ---------------------//
+
 
 window.capgDisable = function(fieldGotByID) {
 	var el = document.getElementById("prependedid" + fieldGotByID.id);
@@ -632,17 +705,40 @@ window.capgEnable = function(fieldGotByID)
 * Launch Javascript on init
 ***************************/
 window.launchOnInit = function(){
-	copy_fields();
+	
     updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
-    setTimeout(updateAndDisableField, 1000,neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
-    setAllPopups();
-    disableCusFields();
-	document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR249").onkeyup = function() {calculate_AnnualSalaryProrated();calculate_TargetVarCompProrated();};
-	document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR278").onkeyup = function() {calculate_AnnualSalaryAtActualFTE();};
-	document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR385").onkeyup = function() {calculate_TargetVarCompProratedNPI();};
+    setTimeout(updateAndDisableField, 500,neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
+	//setTimeout(showActionReason,1000);
+    
+    
+    //document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR249").onkeyup = function() {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR249.onkeyup = function(){
+        calculate_AnnualSalaryProrated();
+        calculate_TargetVarCompProrated();
+    };
+    
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR278.onkeyup = function(){
+        calculate_AnnualSalaryAtActualFTE();
+    };
+
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR385.onkeyup = function(){
+        calculate_TargetVarCompProratedNPI();
+    };
+
+    //document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR249").onkeyup = function() {calculate_AnnualSalaryProrated();calculate_TargetVarCompProrated();};
+	//document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR278").onkeyup = function() {calculate_AnnualSalaryAtActualFTE();};
+	//document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR385").onkeyup = function() {calculate_TargetVarCompProratedNPI();};
  };
 neocase.form.event.bind("init",launchOnInit);
 
+window.launchOnComplete = function(){
+    neocase.form.field('UTILISATEURS$CHAMPU152').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR182');
+    copy_fields();
+    setAllPopups();
+    disableCusFields();
+    showActionReason();
+ };
+neocase.form.event.bind('loadcomplete',launchOnComplete);
 
 
 /****************************

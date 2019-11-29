@@ -1,4 +1,4 @@
-//ANZ_AGR_HRBP  - Algorithm Code
+//ANZ_AGR_HRBP (R) - Algorithm Code
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -95,8 +95,8 @@ var Tableau = [
 	'section0a5cd418dcb791ab9a17#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
 	
 	/*SECTION : "Involuntary leaver"*/
-	'sectionac6e362a27c786103d7d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver',
-	'section1bbe79aa91abdd775846#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver'
+	'sectionac6e362a27c786103d7d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver'
+	//'section1bbe79aa91abdd775846#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Involuntary leaver'
 	
 	
              
@@ -1191,6 +1191,17 @@ window.getSelectValue = function (RADIO_BUTTON) {
     }
 
 };
+
+window.checkSectionHide = function (sectionID) {
+
+    var hideAnswersSection = document.getElementsByClassName('answers');
+    if (typeof hideAnswersSection !== undefined && hideAnswersSection !== null) {
+        if (typeof document.getElementById(sectionID) !== undefined && document.getElementById(sectionID) !== null) {
+            document.getElementById(sectionID).style.display = "none";
+        }
+    }
+};
+
 
 /**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
