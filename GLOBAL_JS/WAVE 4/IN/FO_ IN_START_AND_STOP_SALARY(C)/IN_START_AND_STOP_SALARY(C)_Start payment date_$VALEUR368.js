@@ -1,4 +1,4 @@
-	var dateElement = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR368").elementHTML;
+/*	var dateElement = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR368").elementHTML;
 	$(dateElement).parent().find('span#wrongDate').remove();
 	var dateSelected = "";
 
@@ -21,3 +21,4 @@ if( dateSelected != "" )
 		}
 	}
 }
+*/
