@@ -6,9 +6,11 @@ Change No   - MOD-001
 Description - hide Technical section & Hidden Section
 -----------------------------------------------------------------------------*/
 // hide Technical section
-neocase.form.section("sectione3f2d0f7aeb2f32815fa").hide();
+//neocase.form.section("sectione3f2d0f7aeb2f32815fa").hide(); 
+checkSectionHide("sectione3f2d0f7aeb2f32815fa");
 // hide hidden section
-neocase.form.section("section331b505ade164f67c436").hide();
+//neocase.form.section("section331b505ade164f67c436").hide();
+checkSectionHide("section331b505ade164f67c436");
 
 
 /**************************

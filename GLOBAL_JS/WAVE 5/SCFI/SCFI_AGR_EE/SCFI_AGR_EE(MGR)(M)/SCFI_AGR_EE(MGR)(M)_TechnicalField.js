@@ -84,6 +84,7 @@ neocase.form.event.bind("init",launchOnInit);
  ***************************/
 window.launchOnloadcomplete = function () {
     formulaire.question.readOnly = "true";
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
     setAllPopups();
     disableCusFields();
 };

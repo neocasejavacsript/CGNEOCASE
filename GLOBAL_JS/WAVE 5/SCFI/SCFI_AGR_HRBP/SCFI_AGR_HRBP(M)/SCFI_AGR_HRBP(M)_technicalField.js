@@ -229,7 +229,9 @@ neocase.form.event.bind("init", launchOnInit);
  ***************************/
 window.launchOnloadcomplete = function () {
     formulaire.question.readOnly = "true";
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
     copyFields(); // Copy Employee Catalog field values to Request Catalog field
+    
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 

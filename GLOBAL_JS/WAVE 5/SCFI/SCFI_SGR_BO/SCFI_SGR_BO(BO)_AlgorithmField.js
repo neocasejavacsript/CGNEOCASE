@@ -49,7 +49,13 @@ V17 - PJU - 11/01/2018
 	- delete var enableManageField
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
 V18 - PJU - 01/03/2018
-	- add specific code for 'MOTCLE' in manageFields
+    - add specific code for 'MOTCLE' in manageFields
+V19 - PJU - 24/08/2017
+    - La fonction qui ajoute la classe 'req' au label d'un champ obligatoire côté BO était appelée au mauvais endroit
+V20 - PJUY - 06/08/2019
+    - add controle on localstorage
+V21 - PJUY - 10/01/2020
+    - change class 'req' to 'required'
 */
 
 /*--------------------------------------------------------------------------
@@ -57,6 +63,11 @@ Developer   - Arnab Guha
 Date	    - 11/07/2018 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - Hide Section based on Subtopics
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 11/07/2018 (MM/DD/YYYY)
+Change No   - MOD-002
+Description - Update as per Neocase solution for * in mandatory fields
 ----------------------------------------------------------------------------*/
 
 /**************************
@@ -159,6 +170,8 @@ window.champObligatoire = function (FIELD, VALID) {
                     localStorage.setItem("mandatoryListFields", BM_VALUES);
                 } else if (BM_CLIENT != "" && BM_CLIENT != " ") {
                     localStorage.setItem("mandatoryListFields", BM_CLIENT);
+                }else{
+                    localStorage.setItem("mandatoryListFields", "");
                 }
             }
             if (VALID === false) {
@@ -181,8 +194,8 @@ window.champObligatoire = function (FIELD, VALID) {
                             BM_CLIENT = BM_CLIENT + BM_REPLACE;
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
-                        document.getElementById(LBL_FIELD_ID).className = "label req";
                     }
+                    document.getElementById(LBL_FIELD_ID).className = "label required";
                 }
             }
         }
@@ -1167,6 +1180,5 @@ window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
     manageFields("ouverture");
-
 };
 neocase.form.event.bind('loadcomplete', onloadForm);

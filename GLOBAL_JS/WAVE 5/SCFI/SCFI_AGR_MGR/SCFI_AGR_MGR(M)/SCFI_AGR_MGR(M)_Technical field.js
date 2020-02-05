@@ -225,11 +225,10 @@ window.disableCusFields = function () {
 /**************************
  * Launch Javascript on init
  ***************************/
-window.launchOnInit = function () {
-    setAllPopups();
-    disableCusFields();
-};
-neocase.form.event.bind("init", launchOnInit);
+// window.launchOnInit = function () {
+
+// };
+// neocase.form.event.bind("init", launchOnInit);
 
 /**************************
  * Launch Javascript on loadcomplete
@@ -237,6 +236,9 @@ neocase.form.event.bind("init", launchOnInit);
 window.launchOnloadcomplete = function () {
     copyFields(); // Copy Employee Catalog field values to Request Catalog field
     formulaire.question.readOnly = "true";
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
+    setAllPopups();
+    disableCusFields();
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 

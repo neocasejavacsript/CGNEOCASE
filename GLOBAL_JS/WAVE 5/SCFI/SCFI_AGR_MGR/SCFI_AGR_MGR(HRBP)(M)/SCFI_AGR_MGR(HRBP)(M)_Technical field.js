@@ -49,12 +49,12 @@ neocase.form.section("section37007ba5a4fa1eb20baf").hide();
 // hide hidden section
 neocase.form.section("sectione295d41b8c7053b5e0e3").hide();
 
-SC_Nm_SubAreaCode = function (fieldValue) {// Base location code(new)
-    formulaire.INTERVENTIONS_EN_COURS$VALEUR121.value = fieldValue;
-};
-SC_Nm_SubAreaDesc = function (fieldValue) {// Base location code(new)
-    formulaire.INTERVENTIONS_EN_COURS$VALEUR123.value = fieldValue;
-};
+// SC_Nm_SubAreaCode = function (fieldValue) {// Base location code(new)
+//     formulaire.INTERVENTIONS_EN_COURS$VALEUR121.value = fieldValue;
+// };
+// SC_Nm_SubAreaDesc = function (fieldValue) {// Base location code(new)
+//     formulaire.INTERVENTIONS_EN_COURS$VALEUR123.value = fieldValue;
+// };
 
 FillCf_Job_Desc = function (fieldValue) {//Job title new fill field
     formulaire.INTERVENTIONS_EN_COURS$VALEUR46.value = fieldValue;
@@ -156,7 +156,7 @@ window.copyFields = function () {
 };
 
 window.setAllPopups = function () {
-    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR123, "/Custom_Referential/SubArea.aspx?Id_User="); //set popup link to Base location(new)
+    //popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR123, "/Custom_Referential/SubArea.aspx?Id_User="); //set popup link to Base location(new)
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR46, "/Custom_Referential/JobName.aspx?Id_User="); //set popup link to Job title(new)
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR154, "/Custom_Referential/ManagerReviewer.aspx?Id_User="); //set popup link to Performance reviewer name (new)
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR386, "/Custom_Referential/ManagerHRBP.aspx?Id_User="); //'HRBP'
@@ -168,8 +168,8 @@ window.setAllPopups = function () {
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR927, "/Custom_Referential/CountryMoving.aspx?Id_User=");//Popup for country moving to
 };
 window.disableCusFields = function () {
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR123")); //disbale Base location(new)
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR121")); //disbale Base location code (new)
+    // disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR123")); //disbale Base location(new)
+    // disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR121")); //disbale Base location code (new)
     // Management team
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR154")); //disbale performance reviewer
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR46")); //disbale Job title new
@@ -221,9 +221,9 @@ window.findTextAreabyID = function(nameElement) {
 /**************************
  * Launch Javascript on init
  ***************************/
-window.launchOnInit = function () {
-};
-neocase.form.event.bind("init", launchOnInit);
+// window.launchOnInit = function () {
+// };
+// neocase.form.event.bind("init", launchOnInit);
 
 /**************************
  * Launch Javascript on loadcomplete
@@ -233,6 +233,7 @@ window.launchOnloadcomplete = function () {
     copyFields(); // Copy Employee Catalog field values to Request Catalog field
     setAllPopups();
     disableCusFields();
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 

@@ -1,10 +1,10 @@
 // JavaScript Document
-/**************		UK_KB_FeedBack Front Office (C) Technical Fields	*************
+/**************		SCFI_KB_FeedBack Front Office (C) Technical Fields	*************
 ********************************************************************************
-Developer   - Ayan Dey
-Date	    - 06/25/2019
+Developer   - Falguera
+Date	    - 10/18/2019
 Change No   - MOD-001
-Description - UK to set value in field 'Article name' & 'Keywords used to search the article'
+Description - SCFI to set value in field 'Article name' & 'Keywords used to search the article'
 ***************************************************************************
 ------------------------------------
 Code inserted in th eKB search page +++
