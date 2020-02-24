@@ -38,13 +38,16 @@ window.copyFunctions = function() {
     //copy Cost Centre / PU Code value
     neocase.form.field('UTILISATEURS$CHAMPU24').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR14');
     //copy Contract type value
-    neocase.form.field('UTILISATEURS$CHAMPU43').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR124');
+    // neocase.form.field('UTILISATEURS$CHAMPU43').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR124');
+    neocase.form.field('UTILISATEURS$CHAMPU273').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR124'); //18.02.2020
     // copy MyC Supervisor Name value
     neocase.form.field('UTILISATEURS$CHAMPU152').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR182');
    	// copy HRBP name value
     neocase.form.field('UTILISATEURS$CHAMPU58').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR427');
 	// copy Last day of probation
-    neocase.form.field('UTILISATEURS$CHAMPU189').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR133');	
+    neocase.form.field('UTILISATEURS$CHAMPU189').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR133');
+    // copy Grade
+    neocase.form.field('UTILISATEURS$CHAMPU361').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR40');	
 };
 /* ------------- Popup Link ----------------- */
 window.setPopups = function(){
