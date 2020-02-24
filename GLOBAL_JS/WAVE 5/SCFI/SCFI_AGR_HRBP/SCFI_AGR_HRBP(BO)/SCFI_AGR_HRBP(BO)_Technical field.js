@@ -48,6 +48,8 @@ window.setValueToField = function(){
     // neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR507').setValue(fieldValue7);
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR182').setValue(fieldValue8);
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR427').setValue(fieldValue9);
+    // copy Grade
+    neocase.form.field('UTILISATEURS$CHAMPU361').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR40');
 };
 
 /* ------------- Popup Link ----------------- */
