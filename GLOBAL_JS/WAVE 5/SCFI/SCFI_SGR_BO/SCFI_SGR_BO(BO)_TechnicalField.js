@@ -7,6 +7,8 @@ Change No   - MOD-001
 Description - convertTitleToHTML() implemented for BO to convert Title string to HTML format
 -----------------------------------------------------------------------------*/
 
+neocase.form.section("section933097f7890939cfb7cd").hide();
+
 /*---------Convert Title string to HTML format-----------*/
 window.convertTitleToHTML = function(sectionId){
     var sectionTitle = neocase.form.section(sectionId).elementHTML.querySelector('a');

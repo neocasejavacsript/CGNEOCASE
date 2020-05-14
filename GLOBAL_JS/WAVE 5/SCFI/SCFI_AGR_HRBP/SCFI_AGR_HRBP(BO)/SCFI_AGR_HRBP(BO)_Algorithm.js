@@ -59,7 +59,8 @@ var Tableau = [
     // 'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change;SCFI_Change in management team;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Grade/job change;SCFI_Promotion/demotion;SCFI_Allowances;SCFI_ARC values;SCFI_Change in pay;SCFI_Change in position;SCFI_Management team;SCFI_Management team'
     'section55f892f62f3afcca3e30#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Employment data change;SCFI_Mass upload',
     'section9213255958525ed8d3c6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Promotion/demotion;SCFI_Pay change',
-    'section53dadebc95298c97becf#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Pay change;SCFI_Promotion/demotion',
+    // 'section53dadebc95298c97becf#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Pay change;SCFI_Promotion/demotion',
+    'section53dadebc95298c97becf#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
     'section1d7a8c6c5fee152def1c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
     'section47f43bb03a3b54d3755c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Cost center change;SCFI_Promotion/demotion',
     'sectionca8ab669a43738d73f85#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',

@@ -92,7 +92,20 @@ FillCf_CountryMovingDescription = function (fieldValue) {
 FillCf_CountryMoving = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR927.value = fieldValue; //Country
 };
-
+//Cost Center
+FillCf_Production_Unit_Code = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR15.value = fieldValue;
+};
+FillCf_Production_Unit_Desc = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR17.value = fieldValue;
+};
+//Production Unit
+FillCf_Org_Unit_Code = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR11.value = fieldValue;
+};
+FillCf_Org_Unit_Desc = function (fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR13.value = fieldValue;
+};
 window.setAllPopups = function () {
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR123, "/Custom_Referential/SubArea.aspx?Id_User="); //set popup link to Base location(new)
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR46, "/Custom_Referential/JobName.aspx?Id_User="); //set popup link to Job title(new)
@@ -102,6 +115,7 @@ window.setAllPopups = function () {
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR183, "/Custom_Referential/ManageSupervisor.aspx?Id_User=");//'230 section management team'
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR409, "/Custom_Referential/TrainingApprover.aspx?Id_User="); //'Training Approver'
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR286, "/Custom_Referential/ManagerLocalName.aspx?Id_User=");  //Management - Local approver
+    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR15, "/Custom_Referential/CostCenter.aspx?Id_User="); // set popup for Cost Center | PU(new)
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR927, "/Custom_Referential/CountryMoving.aspx?Id_User=");//Popup for country moving to
 };
 window.disableCusFields = function () {
@@ -119,10 +133,15 @@ window.disableCusFields = function () {
 
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR427"));//Disable "HRBP name"
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR182"));//Disable "MyC Supervisor Name"
+    //Cost Center
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR11")); //disable Organization unit code (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR13")); //disable Organization unit (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR15")); //disable Cost Center | PU (new)
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR17")); //disable Cost Center | PU code (new)
 
 };
 
-/*--- Copy Employee Catalog field values to Request Catalog field ---*/
+/*--- Copy Employee Catalog field values to                             Request Catalog field ---*/
 
 window.copyFields = function () {
     // copy MyC Supervisor Name value

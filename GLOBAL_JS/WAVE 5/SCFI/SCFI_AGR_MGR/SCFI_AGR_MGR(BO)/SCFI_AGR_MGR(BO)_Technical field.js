@@ -10,7 +10,12 @@ Developer   - Ahana Sarkar
 Date	    - 11/13/2019 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Popup link generate for Company Moving-to
--------------------------------------------------------*/
+-------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 05/07/2020 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - Contract End date (new) to be hidden if contract type (new) is permanent ; function is called from Contract type (new) field
+------------------------------------------------------------------------*/
 
 //hide technical section
 neocase.form.section("section2f6123534cd0910a1d30").hide();	
@@ -54,13 +59,27 @@ window.setPopups = function(){
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR363, "/Custom_Referential/EmployeeGroup.aspx?Id_User="); //Popup for Employee Group/sub-group
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR924, "/Custom_Referential/CountryMoving.aspx?Id_User="); //Popup for country moving to
 };
-
+// Contract End date (new) to be hidden if contract type (new) is permanent ; ++MOD-003
+window.checkContractType = function(){
+    var contractElementsSection = document.getElementById('sectionbb2b914eda0fd8e17284'),
+    contractTypeNew = formulaire.INTERVENTIONS_EN_COURS$VALEUR528, // get Contract type (new) field
+    codeContractTypeNew = contractTypeNew.options[contractTypeNew.selectedIndex].getAttribute('code'), // get option code for Contract type (new) :
+    valueContractTypeNew = contractTypeNew.options[contractTypeNew.selectedIndex].value; // get option value for Contract type (new) :
+    if(contractElementsSection != 'none'){
+        if(codeContractTypeNew == '1058' || valueContractTypeNew == 'Permanent'){ // if option code is 1058 or value is permanent
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR126').hide(); // hide Contract end date (new)
+        }else{
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR126').show(); // show Contract end date (new)
+        }   
+    }
+};
 /**************************
  * Launch Javascript on init
  ***************************/
 window.launchOnloadcomplete = function(){
     setPopups();  
     copyFunctions();
+    checkContractType();
 };
 //neocase.form.event.bind("init",launchOnInit);
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

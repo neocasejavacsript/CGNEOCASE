@@ -6,11 +6,16 @@ Change No   - MOD-001
 Description - Popup and fill up on Base Location
 ---------------------------------------------------------
 Developer   - Ahana Sarkar
-Date	    - 11/12/2018 (MM/DD/YYYY)
+Date	    - 11/12/2019 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Put the question field read only
             - Disable/Enable the submit button depending on the response field
-----------------------------------------------------------------------------*/
+---------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 04/16/2020 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - make 'Termination Date' non-empty for Resignation subtopic for manager form review
+-----------------------------------------------------------------------------*/
 // hide Technical section
 neocase.form.section("section5e0395259204b2e8c98d").hide();
 // hide hidden section
@@ -60,11 +65,19 @@ neocase.form.event.bind("init",launchOnInit);
  ***************************/
 window.launchOnloadcomplete = function () {
     formulaire.question.readOnly = "true";
-    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR123, "/Custom_Referential/SubArea.aspx?Id_User="); //set popup link to Base location(new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
+    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR123, "/Custom_Referential/SubArea.aspx?Id_User="); //set popup link to Base location(new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR123")); //disbale Base location(new) 
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR121")); //disbale Base location code (new) 
-
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR121")); //disbale Base location code (new)
+    
+    /*-------MOD-003-------*/
+    if(formulaire.INTERVENTIONS_EN_COURS$ELEMENT.value == "3318"){ // if subtopic is 'SCFI_Resignation'
+        var terminationDateField = formulaire.INTERVENTIONS_EN_COURS$VALEUR220;
+        if(terminationDateField.closest('.bloc').style.display == 'none'){ //if section containing 'Termination Date' is not visible
+            terminationDateField.value = terminationDateField.getAttribute('value');
+        }
+    }
+    /*-------/MOD-003-------*/
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 

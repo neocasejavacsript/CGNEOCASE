@@ -43,6 +43,11 @@ Developer   - Ahana Sarkar
 Date	    - 11/14/2019 (MM/DD/YYYY)
 Change No   - MOD-008
 Description - disable copy fields
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 05/07/2020 (MM/DD/YYYY)
+Change No   - MOD-009
+Description - Contract End date (new) to be hidden if contract type (new) is permanent ; function is called from loadcomplete
 ------------------------------------------------------------------------*/
 // hide Technical section
 neocase.form.section("section37007ba5a4fa1eb20baf").hide();
@@ -165,7 +170,7 @@ window.setAllPopups = function () {
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR409, "/Custom_Referential/TrainingApprover.aspx?Id_User="); //'Training Approver'
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR286, "/Custom_Referential/ManagerLocalName.aspx?Id_User=");  //Management - Local approver
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR15, "/Custom_Referential/CostCenter.aspx?Id_User="); // set popup for Cost Center | PU(new)
-    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR927, "/Custom_Referential/CountryMoving.aspx?Id_User=");//Popup for country moving to
+    //popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR927, "/Custom_Referential/CountryMoving.aspx?Id_User=");//Popup for country moving to
 };
 window.disableCusFields = function () {
     // disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR123")); //disbale Base location(new)
@@ -184,7 +189,7 @@ window.disableCusFields = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR13")); //disable Organization unit (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR15")); //disable Cost Center | PU (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR17")); //disable Cost Center | PU code (new)
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR927"));//Disable "country moving to"
+    //disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR927"));//Disable "country moving to"
      // disable copied fields
      disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR182")); //disable MyConnect supervisor name
      disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR427")); //disable HR business partner name
@@ -218,10 +223,25 @@ window.findTextAreabyID = function(nameElement) {
         
     return tempData;
 }; 
+// Contract End date (new) to be hidden if contract type (new) is permanent ; ++MOD-009
+window.checkContractType = function(){
+    var contractElementsSection = document.getElementById('section391befec5139532337c0'),
+    contractTypeNew = formulaire.INTERVENTIONS_EN_COURS$VALEUR528, // get Contract type (new) field
+    codeContractTypeNew = contractTypeNew.options[contractTypeNew.selectedIndex].getAttribute('code'), // get option code for Contract type (new) :
+    valueContractTypeNew = contractTypeNew.options[contractTypeNew.selectedIndex].value; // get option value for Contract type (new) :
+    if(contractElementsSection != 'none'){
+        if(codeContractTypeNew == '1058' || valueContractTypeNew == 'Permanent'){ // if option code is 1058 or value is permanent
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR126').hide(); // hide Contract end date (new)
+        }else{
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR126').show(); // show Contract end date (new)
+        }   
+    }
+};
 /**************************
  * Launch Javascript on init
  ***************************/
 // window.launchOnInit = function () {
+
 // };
 // neocase.form.event.bind("init", launchOnInit);
 
@@ -230,10 +250,11 @@ window.findTextAreabyID = function(nameElement) {
  ***************************/
 window.launchOnloadcomplete = function () {    
     formulaire.question.readOnly = "true";
-    copyFields(); // Copy Employee Catalog field values to Request Catalog field
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
+    copyFields(); // Copy Employee Catalog field values to Request Catalog field    
     setAllPopups();
     disableCusFields();
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
+    checkContractType();
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 

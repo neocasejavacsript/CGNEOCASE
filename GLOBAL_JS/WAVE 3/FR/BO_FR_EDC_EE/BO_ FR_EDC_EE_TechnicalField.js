@@ -9,7 +9,12 @@ Developer   - Smita Singh
 Date	    - 09/27/2018 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Remove the pop up on the field "Signataire Employeur adresse mail (EN = Signer 1 email address)"
------------------------------------------------*/
+-----------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 02/28/2020 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - Read only 'Request Details'
+----------------------------------------------------------------------------*/ 
 
 //hide technical section
 neocase.form.section("sectionb0db2555c209c78721f6").hide();
@@ -266,12 +271,10 @@ popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR438,"/Custom_Referential/emplo
 * Launch Javascript on init
 ***************************/
 window.launchOnInit = function(){
-
 	setPopups();
-	
+
 	//Pop-up Part time work schedule
 	//popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR256,"/Custom_Referential/PTWorkSchedule.aspx"); //MOD-001--
-	
 	//turn to read-only after showing value
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR256"));
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR255"));
@@ -284,9 +287,21 @@ window.launchOnInit = function(){
 	// Disabling Documents Fields
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR438"));	// MOD-001
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR439"));	// MOD-001
-
-
-	
-
 };
 neocase.form.event.bind("init",launchOnInit);
+
+/************************************
+ * Launch Javascript on loadcomplete
+ ************************************/
+window.launchOnloadcomplete = function(){
+	/*-- Read only 'Request Details'--*/
+	if(formulaire.question.value !== ''){
+        formulaire.question.readOnly = true;
+    }
+    else{
+        formulaire.question.readOnly = false;
+    }
+    /*--X-- Read only 'Request Details'--X--*/
+};
+
+neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

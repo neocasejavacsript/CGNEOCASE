@@ -52,9 +52,14 @@ V17 - PJU - 11/01/2018
 
 /*--------------------------------------------------------------------------
 Developer   - Ahana Sarkar
-Date	    - 11/06/2018 (MM/DD/YYYY)
+Date	    - 11/06/2019 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - Hide Section based on Subtopics
+----------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 04/03/2020 (MM/DD/YYYY)
+Change No   - MOD-002
+Description - Pay details section removed
 ----------------------------------------------------------------------------*/
 
 /**************************
@@ -67,8 +72,8 @@ var Tableau = [
     'sectioncea9d550328d69d9ca2a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Work location transfer', 
     // Working hours
     'section3f86d56375e90fb0bef6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours', 
-    // Pay details
-    'section7d5d826f6b6a604474a1#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
+    // Pay details ++MOD-002
+    //'section7d5d826f6b6a604474a1#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
     // Start / Update Leave of absence details
     'sectione0594f31164773401e4d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Start/update leave of absence',
     // Resignation details

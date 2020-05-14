@@ -42,6 +42,11 @@ Developer   - Ahana Sarkar
 Date	    - 11/14/2019 (MM/DD/YYYY)
 Change No   - MOD-008
 Description - disable copy fields
+--------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 05/07/2020 (MM/DD/YYYY)
+Change No   - MOD-009
+Description - Contract End date (new) to be hidden if contract type (new) is permanent ; function is called from loadcomplete
 ------------------------------------------------------------------------*/
 
 // hide Technical section
@@ -221,7 +226,20 @@ window.disableCusFields = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR133")); //disable Last day of probation
 
 };
-
+// Contract End date (new) to be hidden if contract type (new) is permanent ; ++MOD-009
+window.checkContractType = function(){
+    var contractElementsSection = document.getElementById('section391befec5139532337c0'),
+    contractTypeNew = formulaire.INTERVENTIONS_EN_COURS$VALEUR528, // get Contract type (new) field
+    codeContractTypeNew = contractTypeNew.options[contractTypeNew.selectedIndex].getAttribute('code'), // get option code for Contract type (new) :
+    valueContractTypeNew = contractTypeNew.options[contractTypeNew.selectedIndex].value; // get option value for Contract type (new) :
+    if(contractElementsSection != 'none'){
+        if(codeContractTypeNew == '1058' || valueContractTypeNew == 'Permanent'){ // if option code is 1058 or value is permanent
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR126').hide(); // hide Contract end date (new)
+        }else{
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR126').show(); // show Contract end date (new)
+        }   
+    }
+};
 /**************************
  * Launch Javascript on init
  ***************************/
@@ -239,6 +257,7 @@ window.launchOnloadcomplete = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
     setAllPopups();
     disableCusFields();
+    checkContractType();
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 
