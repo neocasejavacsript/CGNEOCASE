@@ -1,3 +1,4 @@
+//PL_AGR_WO_APPROVAL (BO) - Algorithm Code
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -48,33 +49,44 @@ V17 - PJU - 11/01/2018
 	- delete var enableManageField
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
 V18 - PJU - 01/03/2018
-    - add specific code for 'MOTCLE' in manageFields
-V19 - PJU - 24/08/2017
-    - La fonction qui ajoute la classe 'req' au label d'un champ obligatoire côté BO était appelée au mauvais endroit
-V20 - PJUY - 06/08/2019
-    - add controle on localstorage
-V21 - PJUY - 10/01/2020
-    - change class 'req' to 'required'
+	- add specific code for 'MOTCLE' in manageFields
 */
 
 /**************************
-Fields and display settings
-***************************/
+ Fields and display settings
+ ***************************/
 var Tableau = [
-    'section9e14e2c65bf8efd44b46#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Change in start date;PL_Mobility verification of candidate;PL_Work permit processing',
-    'section450cd70273d1c0f231fe#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Mobility verification of candidate;PL_Work permit processing',
-    'section189c9411928851960ca7#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Mobility verification of candidate',
-    'sectiond76d07c1adfdbd7b6c63#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Work permit processing',	
-    'section4d7d40a8a7a6ed52a695#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Re-employment info',
-    'section42585cab42fb19633194#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Change in start date',
-    'section7cd367e76b4efd75e07e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Confidential Hire',
-    'section8a2926119716079e7dcc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Manual Hire;PL_Heavy transfer hire'
+    'section0e2118d04a215cbaf468#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Start Maternity / Parental Leave',
+    'sectionc541956630f7899f27f3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Contract extension',
+    //'sectionab976093592d6c945083#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Contract extension',
+    'sectionb8a39d3d8ea0cfa863a8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Employee initiated resignation',
+    'sectioncf4c513399c9b4131acc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Initiate Involuntary leave',
+    'section08246817935396475d61#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Scheduled report',
+    'section14a34c3aa8ead90a34c9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_My Learning -Technical issues',
+    'section69d0d8e888454264b7fd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Service Issue',
+    'section55c509b41b8662eb9def#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_New joiner no show',
+    'sectionec99fe6b8f48f0df4bfb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Delegation letters',
+    'section5bf719090778679728c7#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Social security - certificate of coverage',
+    'sectione50a7616c1ccb9ca42f9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Passport / Support letters',
+    'sectionc23d4bf987098bae174c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Initiate assignment abroad',
+    'section94173cbbcdde2ea91e2f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Initiate assignment to Poland',
+    'section1a9d82c647c278595d95#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Initiate assignment to Poland',
+    'section18ea7349bf28a49dd6b3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Initiate assignment to Poland',
+    'section4760da3fe7ab0524da22#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Initiate assignment to Poland',
+    'section25822bc2c6898579c3b3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Initiate assignment abroad;PL_Assignment abroad query;PL_Insurance;PL_Initiate assignment to Poland;PL_Other Mobility query;PL_Foreign employee query;PL_Work/Residence Permit prolongation',
+    'section9bb97557c9157b7f8534#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Initiate assignment abroad;PL_Assignment abroad query;PL_Insurance;PL_Initiate assignment to Poland;PL_Other Mobility query;PL_Foreign employee query;PL_Work/Residence Permit prolongation',
+    'section813ac701d323b7b1a4e3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Certificate : Registration of stay of EU citizen in Poland;PL_Certificate of employment;PL_Certificate of employment with salary details',
+    'section4fe531afb1a65fce3f2e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Certificate of employment with salary details',
+    'sectiona8c2f17d81a1bfdc79f0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Certificate of employment with salary details',
+    'section41c0f74129ea346a2662#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Certificate of employment with salary details',
+    'section55ce5b503323386da626#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Certificate of employment with salary details',
+    'section14864ddd92d85962a369#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|PL_Certificate of employment'
 ];
 var enableManageField;
 
 /**************************
-IMPLEMENTATION DE FONCTIONS
-***************************/
+ IMPLEMENTATION DE FONCTIONS
+ ***************************/
 //fonctions d'affichage des messages dans la console si elle est ouverte
 window.msg = function (MESSAGE) {
     if (console) {
@@ -83,8 +95,8 @@ window.msg = function (MESSAGE) {
 };
 
 /*********************************
-FONCTION AFFICHER/MASQUER UN CHAMP
-**********************************/
+ FONCTION AFFICHER/MASQUER UN CHAMP
+ **********************************/
 window.affichageChamp = function (FIELD, VALID) {
     if (document.getElementById(FIELD.id)) {
         //ID du champ et de son libellé
@@ -131,8 +143,8 @@ window.affichageChamp = function (FIELD, VALID) {
 };
 
 /**************************************
-FONCTION GERANT LES CHAMPS OBLIGATOIRES
-***************************************/
+ FONCTION GERANT LES CHAMPS OBLIGATOIRES
+ ***************************************/
 window.champObligatoire = function (FIELD, VALID) {
     if (document.getElementById(FIELD.id)) {
         //ID du champ obligatoire
@@ -143,9 +155,9 @@ window.champObligatoire = function (FIELD, VALID) {
         } else if (FIELD_ID.search("UTILISATEURS") != -1) {
             LBL_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "lblUTILISATEURS");
         }
-        /**************
-        CÔTE BACKOFFICE
-        ***************/
+		/**************
+		 CÔTE BACKOFFICE
+		 ***************/
         var BACKOFFICE_MANDATORY = document.getElementById("champsobligatoiresproprietes");
         if (BACKOFFICE_MANDATORY) {
             BM_FIELD = FIELD_ID.replace("$", "\\$");
@@ -159,8 +171,6 @@ window.champObligatoire = function (FIELD, VALID) {
                     localStorage.setItem("mandatoryListFields", BM_VALUES);
                 } else if (BM_CLIENT != "" && BM_CLIENT != " ") {
                     localStorage.setItem("mandatoryListFields", BM_CLIENT);
-                }else{
-                    localStorage.setItem("mandatoryListFields", "");
                 }
             }
             if (VALID === false) {
@@ -183,15 +193,15 @@ window.champObligatoire = function (FIELD, VALID) {
                             BM_CLIENT = BM_CLIENT + BM_REPLACE;
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
+                        document.getElementById(LBL_FIELD_ID).className = "label req";
                     }
-                    document.getElementById(LBL_FIELD_ID).className = "label required";
                 }
             }
         }
 
-        /*******************************
-        VALIDATOR DES CHAMPS FORMULAIRES
-        ********************************/
+		/*******************************
+		 VALIDATOR DES CHAMPS FORMULAIRES
+		 ********************************/
         var VALIDATOR_FIELD_ID;
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             VALIDATOR_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
@@ -209,9 +219,9 @@ window.champObligatoire = function (FIELD, VALID) {
             ValidatorEnable(document.getElementById(VALIDATOR_FIELD_ID), VALID);
         }
 
-        /*********************************
-        VALIDATOR DES BOUTONS RADIO CUSTOM
-        **********************************/
+		/*********************************
+		 VALIDATOR DES BOUTONS RADIO CUSTOM
+		 **********************************/
         if (document.getElementById(FIELD.id + "_radio_Validator")) {
             var RADIO_VALIDATOR_ID = FIELD.id + "_radio_Validator";
             if (VALID === true) {
@@ -224,13 +234,13 @@ window.champObligatoire = function (FIELD, VALID) {
 };
 
 /*************************
-FONCTION VIDANT LES CHAMPS
-**************************/
+ FONCTION VIDANT LES CHAMPS
+ **************************/
 window.viderChamp = function (FIELD) {
     if (document.getElementsByName(FIELD.name + "_radio").length > 0) {
-        /****************************
-        DECOCHER BOUTONS RADIO CUSTOM
-        *****************************/
+		/****************************
+		 DECOCHER BOUTONS RADIO CUSTOM
+		 *****************************/
         //récupérer les boutons radio
         var RADIO_NAME = document.getElementsByName(FIELD.name + "_radio");
         //décocher tous les boutons radio
@@ -240,9 +250,9 @@ window.viderChamp = function (FIELD) {
         //mettre la valeur par défaut au champ select masqué
         FIELD.value = "";
     } else {
-        /**************************
-        DECOCHER LES CHAMPS NEOCASE
-        ***************************/
+		/**************************
+		 DECOCHER LES CHAMPS NEOCASE
+		 ***************************/
         if (FIELD.type == "checkbox") {
             //Décocher case à cocher
             FIELD.checked = false;
@@ -258,8 +268,8 @@ window.viderChamp = function (FIELD) {
 };
 
 /************************************************************
-FONCTION PERMETTANT DE TRANSFORMER UNE LISTE EN BOUTONS RADIO
-*************************************************************/
+ FONCTION PERMETTANT DE TRANSFORMER UNE LISTE EN BOUTONS RADIO
+ *************************************************************/
 window.boutonRadio = function (FIELD) {
     //récupérer l'ID/le name du champ
     var CHAMP_SELECT_ID = FIELD.id;
@@ -307,23 +317,23 @@ window.boutonRadio = function (FIELD) {
  * FONCTION MASQUANT UNE SECTION SI TOUS SES CHAMPS SONT MASQUES
  ***************************************************************/
 window.masquerSection = function (SECTION) {
-    /*var ST_TD = SECTION.getElementsByTagName("td");
-    var FIELD_DISPLAY;
-    //boucle sur les TD d'une section
-    for(z=0; z<ST_TD.length; z++){
-      if(ST_TD[z].childNodes.length > 1){
-        //on élimine les TDs vides
-        if(ST_TD[z].style.display != "none"){
-          FIELD_DISPLAY = true;
+	/*var ST_TD = SECTION.getElementsByTagName("td");
+	var FIELD_DISPLAY;
+	//boucle sur les TD d'une section
+	for(z=0; z<ST_TD.length; z++){
+	  if(ST_TD[z].childNodes.length > 1){
+		//on élimine les TDs vides
+		if(ST_TD[z].style.display != "none"){
+		  FIELD_DISPLAY = true;
 
-        }
-      }
-    }
-    if(FIELD_DISPLAY !== true){
-      SECTION.style.display = "none";
-    }else{
-      SECTION.style.display = "";
-    }*/
+		}
+	  }
+	}
+	if(FIELD_DISPLAY !== true){
+	  SECTION.style.display = "none";
+	}else{
+	  SECTION.style.display = "";
+	}*/
 };
 
 /****************************************
@@ -368,8 +378,8 @@ window.affichageSection = function (SECTION, VALID) {
 };
 
 /******************************************
-FONCTION ATTRIBUANT UNE VALEUR AUX CHECKBOX
-*******************************************/
+ FONCTION ATTRIBUANT UNE VALEUR AUX CHECKBOX
+ *******************************************/
 window.manageCheckbox = function () {
     var formInput = document.getElementsByTagName("input");
     for (i = 0; i< formInput.length; i++) {
@@ -398,8 +408,8 @@ window.mandatoryList = function () {
 };
 
 /*************************************************
-ALGORITHME GERANT L'AFFICHAGE DYNAMIQUE DES CHAMPS
-**************************************************/
+ ALGORITHME GERANT L'AFFICHAGE DYNAMIQUE DES CHAMPS
+ **************************************************/
 window.manageFields = function (DECLENCHEUR) {
     if (enableManageField === true) {
         /**********************
@@ -1138,8 +1148,8 @@ window.manageFields = function (DECLENCHEUR) {
 };
 
 /******************************************************************
-PASSER LA VALEUR DU BOUTON RADIO SUR LE SELECT MASQUE CORREPSONDANT
-*******************************************************************/
+ PASSER LA VALEUR DU BOUTON RADIO SUR LE SELECT MASQUE CORREPSONDANT
+ *******************************************************************/
 window.getSelectValue = function (RADIO_BUTTON) {
     var SPLIT_RADIO_ID = RADIO_BUTTON.id.split("_radio");
     var SELECT_ID = SPLIT_RADIO_ID[0];
@@ -1161,7 +1171,6 @@ window.getSelectValue = function (RADIO_BUTTON) {
     }
 
 };
-
 /*--------- MOD-001 Starts ----- Code cleanUp----cut & pasted from Technical field ---------*/
 /***************
  * DISABLE FIELDS
@@ -1344,7 +1353,6 @@ window.popupLink = function (field, url) {
  APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
  ***************************************************************************************/
 window.onloadForm = function () {
-    console.log("Inside Algorithm");
     mandatoryList();
     enableManageField = true;
     manageFields("ouverture");

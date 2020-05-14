@@ -1,0 +1,1 @@
+This folder is to store all JS for Instance Fusion,Wave6A countries.

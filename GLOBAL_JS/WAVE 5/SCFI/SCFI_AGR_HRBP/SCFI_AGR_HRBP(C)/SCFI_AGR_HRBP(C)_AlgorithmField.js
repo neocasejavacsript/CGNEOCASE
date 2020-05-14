@@ -1,4 +1,4 @@
-/*----------SCFI_AGR_MGR(C)_ALGO----------*/
+/*----------SCFI_AGR_HRBP(C)_ALGO----------*/
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'

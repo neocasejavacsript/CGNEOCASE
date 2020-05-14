@@ -80,7 +80,12 @@ Developer   - Riya Dutta
 Date	    - 11/21/2018 (MM/DD/YYYY)
 Change No   - MOD-005
 Description - Removed Individual Bonus Section's code
----------------------------------------------------------------------------------------------*/ 
+-----------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 03/10/2020 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - To display the section "Probation period" for the topic "FR_Start Date Change;Décalage date d\'entrée".
+-----------------------------------------------*/ 
 
 /**************************
 Fields and display settings
@@ -99,7 +104,7 @@ var Tableau = [
         //Salary Details
         'section94b3823604d36d4b1d21#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Career Change;Données carrière;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche', //MOD-004//MOD-002++
         //Probation Period
-        'section8faed1b170b841bf3adc#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Probation period;Période d\'essai;FR_Contract;Contrat', //MOD-002++
+        'section8faed1b170b841bf3adc#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Probation period;Période d\'essai;FR_Contract;Contrat;FR_Start Date Change;Décalage date d\'entrée', //MOD-002++
         //Organization Details
         'sectionf3a48e680b8d7bd8daa2#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche', //MOD-002++
         //Management Team
@@ -239,9 +244,9 @@ var Tableau = [
             if (FIELD_ID.search("INTERVENTIONS") != -1) {
                 VALIDATOR_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
             } else if (FIELD_ID.search("UTILISATEURS") != -1) {
-                VALIDATOR_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
+                VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
             } else if (FIELD_ID.search("n_question") != -1) {
-                VALIDATOR_FIELD_ID = FIELD_ID.replace("n_question", "n_questionvalidator");
+                VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
             }
             //manage file fields
             if (VALIDATOR_FIELD_ID.search("_display") != -1) {
@@ -313,10 +318,10 @@ var Tableau = [
         var SELECT_OBLIGATOIRE_ID;
         if (CHAMP_SELECT_ID.search("INTERVENTIONS") != -1) {
             SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
-            SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
+            SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
         } else if (CHAMP_SELECT_ID.search("UTILISATEURS") != -1) {
             SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "lblUTILISATEURS");
-            SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
+            SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
         }
         //Si le champ est obligatoire, on masque simplement l'étoile d'origine et on cré une nouvelle étoile à côté du label
         if (document.getElementById(SELECT_OBLIGATOIRE_ID)) {

@@ -54,7 +54,7 @@ V18 - PJU - 01/03/2018
 
 /*--------------------------------------------------------------------------
 Developer   - Ahana Sarkar
-Date	    - 11/07/2018 (MM/DD/YYYY)
+Date	    - 11/07/2019 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - Hide Section based on Subtopics
 ----------------------------------------------------------------------------*/
@@ -94,9 +94,9 @@ var Tableau = [
     // Expected end date
     'sectiona5be8f4172c8764ee3a9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound extension;SCFI_Secondment outbound extension;SCFI_Landed inbound start;SCFI_Landed inbound extension;SCFI_Secondment inbound extension',
     // Confirm assignment end date
-    'section04c227fce99c845c2e09#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound End',
+    'section04c227fce99c845c2e09#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound end',
     // Termination dates
-    'sectionf4e8add0494794594e00#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave;SCFI_Landed inbound end;SCFI_Secondment inbound End',
+    'sectionf4e8add0494794594e00#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave;SCFI_Landed inbound end;SCFI_Secondment inbound end',
     // Initiate involuntary leave
     'section811fe6455318db4d0bf4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Initiate involuntary leave',
     // Heavy transfer termination details
@@ -108,11 +108,11 @@ var Tableau = [
 	// Employee group/Employee subgroup
 	'section813b6effd5c0c086103e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Secondment outbound start;SCFI_Secondment outbound end',
 	// Deployment model
-	'section7b22643b05ebc65b2d14#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound End',
+	'section7b22643b05ebc65b2d14#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound end',
 	// Country/Company moving to/from
-	'section7e75392fc107714be4ec#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound End',
+	'section7e75392fc107714be4ec#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound end',
 	// Action
-	'sectionc4e9b81d0f2ad427714a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Secondment outbound start;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound End'
+	'sectionc4e9b81d0f2ad427714a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Secondment outbound start;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound end'
 ];
 var enableManageField;
 

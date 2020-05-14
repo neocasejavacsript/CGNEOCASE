@@ -1,0 +1,1 @@
+checkContractType();

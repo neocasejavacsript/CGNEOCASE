@@ -1,4 +1,4 @@
-/* --- SCFI_AGR_EE(C)Technical Fields --- */
+/* --- SCFI_AGR_EE(R)Technical Fields --- */
 /*--------------------------------------------------------------------------
 Developer   - Ahana Sarkar
 Date	    - 11/06/2019 (MM/DD/YYYY)

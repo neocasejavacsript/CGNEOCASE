@@ -60,14 +60,19 @@ V21 - PJUY - 10/01/2020
 
 /*--------------------------------------------------------------------------
 Developer   - Arnab Guha
-Date	    - 11/07/2018 (MM/DD/YYYY)
+Date	    - 11/07/2019 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - Hide Section based on Subtopics
 ---------------------------------------------------------
 Developer   - Ahana Sarkar
-Date	    - 11/07/2018 (MM/DD/YYYY)
+Date	    - 11/07/2019 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Update as per Neocase solution for * in mandatory fields
+----------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 24/03/2020 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - subtopic SCFI_Scheduled report renamed to SCFI_On-demand reports
 ----------------------------------------------------------------------------*/
 
 /**************************
@@ -78,7 +83,9 @@ var Tableau = [
     'section27d8c847cffd2e6274a2#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Non-employee activation',
     'section7b22643b05ebc65b2d14#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Non-employee deactivation',
     'section813b6effd5c0c086103e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in position;SCFI_Change in pay;SCFI_Management team;SCFI_ARC values;SCFI_Allowances;SCFI_Other mass upload',
-    'sectionc4e9b81d0f2ad427714a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Scheduled report'
+    // 'sectionc4e9b81d0f2ad427714a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Scheduled report'
+    'sectionc4e9b81d0f2ad427714a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_On-demand reports'
+
 
 ];
 var enableManageField;
