@@ -60,12 +60,16 @@ Date	    - 02/11/2018 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
 			- Did basic clean up and changes based on mock up
-------------------------------------------------------------------------------*/ 
-/*-----------------------------------------------------------------------------
+----------------------------------------------------------------------
 Developer   - Smita Singh
 Date	    - 02/15/2018 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Display specific section based on subtopic
+----------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 06/12/2020 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - Display social security absence related section
 ------------------------------------------------------------------------------*/ 
 
 
@@ -74,14 +78,21 @@ Description - Display specific section based on subtopic
 Fields and display settings
 ***************************/
 var Tableau = [
-	//'section18df573b1c1114661f65#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',
+    //'section18df573b1c1114661f65#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',
+    // Instruction
+    'sectiona7c38a771a8f58e6989b#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_02_Province;Province;FR_01_Ile-de-France;Île-de-France',//MOD-003
 	//Ile-de-France
 	'section9c3e5f4e4a4e763ab3b9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France', //MOD-002
 	//Province
 	'section40e78eea92a69245b309#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_02_Province;Province',//MOD-002
 	//Bicycle Allowance
-	'sectionc33d0e5a2cded1f67db0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo'//MOD-002
-
+	'sectionc33d0e5a2cded1f67db0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo',//MOD-002
+    //Section - Refund period
+    'sectionbce808b16afaf1c6e9e7#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_02_Province;Province;FR_01_Ile-de-France;Île-de-France',//MOD-003
+    //Section - Social security absence
+    'section2b5def23bad07230c544#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail',//MOD-003
+    // Section - How to declare my social security absence
+    'section60d59d8a7a0fef16fa06#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail'//MOD-003
 
 ];
 var enableManageField;

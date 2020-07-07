@@ -7,13 +7,23 @@ Description - JS started 1st time for this form
 			  -Calculates 'Monthly refund amount' Fields
 			  -Hide Technical Section
 			  -Disable Fields
-----------------------------------------------------------------------------*/ 
-/*--------------------------------------------------------------------------
+----------------------------------------------------------------------------
 Developer   - Riya Dutta
 Date	    - 03/05/2019 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Corrected calculation for France language too
-----------------------------------------------------------------------------*/ 
+----------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 06/23/2020 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - Make Request Details RO
+---------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 06/24/2020 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - Align border-line to the Social Security Absence section
+----------------------------------------------------------------------------*/
+
 /*---------------------------- STARTS OF MOD-001 ---------------------------*/
 //Hide Technical Section
 neocase.form.section("section046026e7ff24a279b6fe").hide();
@@ -59,11 +69,12 @@ window.calculate_monthlyRefndAmnt = function() {
 						
 };
 
+/*--------------------- For FR_03_Bicycle allowance ---------------STARTS----------*/
 window.calculate_monthlyRefndAmntByCycl = function() {
-
+	
 	var km_Mileage = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR908");
-	var startDate = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR5");
-	var endDate = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR261");
+	var startDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR5");
+	var endDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR261");
 	var monthlyRefndAmnt_ByCycl = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR910");
 	
 	var val_monthlyRefndAmnt_ByCycl=monthlyRefndAmnt_ByCycl.getValue();
@@ -73,7 +84,8 @@ window.calculate_monthlyRefndAmntByCycl = function() {
 	
 	var calculation;
 	var monthDiff;
-	var monthMin;
+	var monthMin;	
+	var maxLimit;
 	
 	if(monthlyRefndAmnt_ByCycl) {
 		if (endDate){
@@ -83,37 +95,42 @@ window.calculate_monthlyRefndAmntByCycl = function() {
 				 calculation=0;
 				 monthDiff=0;
 				 monthMin=0;
-				
+				 maxLimit=16.67;
 							
 				if (isNaN(val_km_Mileage)) 
 				{
 				val_km_Mileage =0; 
 				}
 				
+				var begMonth,endMonth,begYear,endYear;
 				
-				var begMonth;
-				var endMonth;
 				if(val_startDate){
-				begMonth=val_startDate.getMonth();
+                begMonth=val_startDate.getMonth();
+                begYear=val_startDate.getFullYear();
 				}
 				if(val_endDate){
-				endMonth=val_endDate.getMonth();
+                endMonth=val_endDate.getMonth();
+                endYear=val_endDate.getFullYear();
 				}
-				if(val_startDate){
-				begYear=val_startDate.getFullYear();
-				}
-				if(val_endDate){
-				endYear=val_endDate.getFullYear();
-				}
-				if(endMonth && begMonth && endYear && begYear){
+				
+				if(typeof endMonth!== undefined && typeof begMonth!== undefined && typeof endYear!== undefined && typeof begYear!== undefined){
 				monthDiff= endMonth - begMonth + (12 * (endYear - begYear));
+				monthDiff=monthDiff+1;
 				}
 				
-				
-				if (monthDiff !== 0) {
+				console.log(monthDiff);
+				if (monthDiff !== 0 && !isNaN(monthDiff)) {
 					monthMin=Math.min(val_km_Mileage,800);
 					calculation=((monthMin*0.25)/monthDiff).toFixed(2);
+					//monthlyRefndAmnt_ByCycl.setValue(calculation);					
+					
+					if(calculation>maxLimit){
+					monthlyRefndAmnt_ByCycl.setValue(maxLimit);
+					}else{
 					monthlyRefndAmnt_ByCycl.setValue(calculation);
+					
+					}
+					
 				}else
 				{
 					monthlyRefndAmnt_ByCycl.setValue("");
@@ -124,15 +141,31 @@ window.calculate_monthlyRefndAmntByCycl = function() {
 		}
 	}
 	
-
 				
 };
+/*--------------------- For FR_03_Bicycle allowance ---------------ENDS----------*/
 
 window.disableFields = function(){
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR909"));
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR910"));
 };
+/**************************
+ * Launch Javascript on loadcomplete
+ ***************************/
+window.launchOnloadcomplete = function () {
+	formulaire.question.readOnly = "true"; //++MOD-003
+	//++MOD-006
+	if($('#section343be56477f77e3e4475').css('display') != 'none' && $('#section84e7611d6efb046e5667').css('display') != 'none'){ // Section: Social security absence + How to declare my social security absence
+		if($('#section343be56477f77e3e4475').find('hr').length > 0){
+			$('#section343be56477f77e3e4475').find('hr').remove();
+		}
+		if($('#section84e7611d6efb046e5667').find('hr').length < 1){
+			$('#section84e7611d6efb046e5667').append('<hr>');
+		}
+	}
+};
 
+neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 /*************************
 *Launch Javascript on init
 **************************/

@@ -102,7 +102,7 @@ window.setPopups = function(){
 /*------------ Copy emp. cat. field value to req. cat. field ------------*/
 
 window.copyFunctions = function() {
-	console.log(neocase.form.field('UTILISATEURS$CHAMPU29').getValue());
+	//console.log(neocase.form.field('UTILISATEURS$CHAMPU29').getValue());
 	//copy Personal Sub Area Desc. value
 	neocase.form.field('UTILISATEURS$CHAMPU29').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR122');
 	console.log(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR122').getValue());
@@ -113,19 +113,57 @@ window.copyFunctions = function() {
 * Launch Javascript on init
 ***************************/
 window.launchOnInit = function(){
-	updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
-	setPopups(); 
+	
+		
+	
  };
 neocase.form.event.bind("init",launchOnInit);
 
 /****************************
  * Launch Javascript on loadcomplete
  *****************************/
+ 
+ window.showWorkingHourSection = function(){
+	neocase.fieldInstances = [];
+	
+    if(neocase.form.field('ELEMENTS').getValue() === '2736'){
+        neocase.form.section("sectionfc14dc2a7cd9c5d106d2").show();
+    }else{
+        neocase.form.section("sectionfc14dc2a7cd9c5d106d2").hide();
+    }
+};
+ 
 window.launchOnloadcomplete = function () { 
 	//Copy value from one field to other
 	copyFunctions();
 	initialEndDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR503").getValue(); // get loaded value of expected return date
 	initialstartDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR333").getValue(); // get loaded value of ansence start date
+	
+	//updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
+	setPopups();
 	//showActionReason();
+	if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR586').getValue() !== 'Yes'){
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR589').hide();
+	}else{		
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR589').show();
+		disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR589"));
+	}
+	
+	
+	if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR587').getValue() !== 'Yes'){
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR590').hide();
+	}else{
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR590').show();
+		disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR590"));
+	}
+	
+	
+	if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR588').getValue() !== 'Yes'){
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR591').hide();
+	}else{
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR591').show();
+		disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR591"));
+	}
+	showWorkingHourSection();
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);

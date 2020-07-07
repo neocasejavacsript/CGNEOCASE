@@ -1401,7 +1401,7 @@ window.onloadForm = function () {
     setTimeout(function () {
         mandatoryList();
         enableManageField = true;
-        manageFields();
+        manageFields('ouverture');
     }, 1000);
 };
 neocase.form.event.bind('init', onloadForm);

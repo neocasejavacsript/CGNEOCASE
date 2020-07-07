@@ -54,7 +54,7 @@ V18 - PJU - 01/03/2018
 
 /*--------------------------------------------------------------------------
 Developer   - Ahana Sarkar
-Date	    - 11/07/2018 (MM/DD/YYYY)
+Date	    - 11/07/2019 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - Hide Section based on Subtopics
 ----------------------------------------------------------------------------*/
@@ -64,7 +64,7 @@ Fields and display settings
 ***************************/
 var Tableau = [
     // Effective date
-    'sectionffc3e75f608d65eb5d98#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Change in working hours;SCFI_Work location transfer;SCFI_Cost center change;SCFI_Change in management team;SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound start', 
+    'sectionffc3e75f608d65eb5d98#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Change in working hours;SCFI_Work location transfer;SCFI_Cost center change;SCFI_Change in management team;SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed inbound start', 
     // Reason for action
     'sectione6a2e27ef9457c3f5bcb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Change in working hours;SCFI_Work location transfer;SCFI_Cost center change',
     // Job details
@@ -90,11 +90,11 @@ var Tableau = [
     // Supporting document
     'section6325b29a74ce71635dc6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Start/update leave of absence;SCFI_Secondment outbound start;SCFI_Secondment outbound extension',
     // SAP form
-    'section4411a951aa5983d7438a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed inbound start',
+    'section4411a951aa5983d7438a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed inbound start;SCFI_Landed outbound extension;SCFI_Landed inbound extension;SCFI_Landed outbound start',
     // Expected end date
     'section185d40ae088e855570b9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound extension;SCFI_Secondment outbound extension;SCFI_Landed inbound start;SCFI_Landed inbound extension;SCFI_Secondment inbound extension',
     // Confirm assignment end date
-    'section0e0f450febcd16961350#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound end',
+    'section0e0f450febcd16961350#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound end;SCFI_Secondment outbound end',
     // Termination dates
     'section35033381ef6ef4eb36ad#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave;SCFI_Landed inbound end;SCFI_Secondment inbound end',
     // Initiate involuntary leave
