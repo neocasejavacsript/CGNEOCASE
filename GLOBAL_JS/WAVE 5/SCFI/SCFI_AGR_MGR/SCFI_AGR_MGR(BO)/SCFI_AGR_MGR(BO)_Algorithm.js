@@ -64,7 +64,7 @@ Fields and display settings
 ***************************/
 var Tableau = [
     // Effective date
-    'sectionf2dbf1b189dee47bb474#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Change in working hours;SCFI_Work location transfer;SCFI_Cost center change;SCFI_Change in management team;SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound start', 
+    'sectionf2dbf1b189dee47bb474#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Change in working hours;SCFI_Work location transfer;SCFI_Cost center change;SCFI_Change in management team;SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed inbound start', 
     // Reason for action
     'sectionaac0164932f59a3105c3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Contract change;SCFI_Change in working hours;SCFI_Work location transfer;SCFI_Cost center change',
     // Job details
@@ -90,11 +90,11 @@ var Tableau = [
     // Supporting document
     'section1cd9d1f6b5876c829a6a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Start/update leave of absence;SCFI_Secondment outbound start;SCFI_Secondment outbound extension',
     // SAP form
-    'section4a7bf57833e2be8b53f3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed inbound start',
+    'section4a7bf57833e2be8b53f3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed inbound start;SCFI_Landed outbound extension;SCFI_Landed inbound extension;SCFI_Landed outbound start',
     // Expected end date
     'sectiona5be8f4172c8764ee3a9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound extension;SCFI_Secondment outbound extension;SCFI_Landed inbound start;SCFI_Landed inbound extension;SCFI_Secondment inbound extension',
     // Confirm assignment end date
-    'section04c227fce99c845c2e09#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound end;SCFI_Secondment outbound end;SCFI_Landed inbound end;SCFI_Secondment inbound end',
+    'section04c227fce99c845c2e09#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound end;SCFI_Secondment outbound end',
     // Termination dates
     'sectionf4e8add0494794594e00#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave;SCFI_Landed inbound end;SCFI_Secondment inbound end',
     // Initiate involuntary leave
@@ -203,6 +203,8 @@ window.champObligatoire = function (FIELD, VALID) {
                     localStorage.setItem("mandatoryListFields", BM_VALUES);
                 } else if (BM_CLIENT != "" && BM_CLIENT != " ") {
                     localStorage.setItem("mandatoryListFields", BM_CLIENT);
+                }else{	
+                    localStorage.setItem("mandatoryListFields", "");	
                 }
             }
             if (VALID === false) {
@@ -225,8 +227,9 @@ window.champObligatoire = function (FIELD, VALID) {
                             BM_CLIENT = BM_CLIENT + BM_REPLACE;
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
-                        document.getElementById(LBL_FIELD_ID).className = "label req";
+                        //document.getElementById(LBL_FIELD_ID).className = "label req";
                     }
+                    document.getElementById(LBL_FIELD_ID).className = "label required";
                 }
             }
         }
@@ -1287,6 +1290,99 @@ window.popupLink = function (field, url) {
 		console.log(msg);
 	}
 };
+/***************
+ * DISABLE FIELDS
+ ****************/
+window.disableTextField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.setAttribute("readonly", "true");
+        field.onmousedown = function () { return false; };
+    } else {
+        //FrontOffice
+        field.setAttribute("readonly", "true");
+        field.onkeydown = function () { return false; };
+        field.onmousedown = function () { return false; };
+    }
+};
+
+window.disableBooleanField = function (field) {
+    field.onclick = function () { return false; };
+    disableTextField(field);
+};
+
+window.disableDateField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        //hide calendar icon
+        field.style.background = "none";
+    } else {
+        //FrontOffice
+        //hide calendar icon
+        if (field.parentNode.getElementsByTagName("img").length > 0) {
+            field.parentNode.getElementsByTagName("img")[0].style.display = "none";
+        }
+    }
+    disableTextField(field);
+};
+
+window.disableFileField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.parentNode.parentNode.style.border = "none";
+        //hide button browse file
+        field.parentNode.style.display = "none";
+        //hide button delete file
+        if (field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0) {
+            field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
+        }
+    } else {
+        //FrontOffice
+        field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
+    }
+};
+
+window.disableListField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.parentNode.style.border = "none";
+    }
+    disableTextField(field);
+};
+
+window.disableTextareaField = function (field) {
+    disableTextField(field);
+};
+
+window.disableField = function (field) {
+    var msg = "function disableField : ";
+    if (field) {
+        field = field.elementHTML;
+        if (field.type == "checkbox") {
+            //Boolean custom fields
+            disableBooleanField(field);
+        } else if (field.className.search("hasDatepicker") != -1) {
+            //Date custom fields
+            disableDateField(field);
+        } else if (field.id.search("_display") != -1) {
+            //File custom fields
+            disableFileField(field);
+        } else if (field.tagName == "SELECT") {
+            //List custom fields
+            disableListField(field);
+        } else if (field.tagName == "TEXTAREA") {
+            //Textarea custom fields
+            disableTextareaField(field);
+        } else {
+            //Text custom fields
+            disableTextField(field);
+        }
+    } else {
+        msg += "field undefined or readonly";
+        console.log(msg);
+    }
+};
+
 
 /**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE

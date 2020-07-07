@@ -101,7 +101,7 @@ var Tableau = [
     'sectiona7bd1217335a4fc5e864#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours;ANZ_Work location transfer',
 	
     /*SECTION : "Working hours Details"*/
-    'sectionfc14dc2a7cd9c5d106d2#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
+    //'sectionfc14dc2a7cd9c5d106d2#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
 	
 	/*SECTION : "Work location transfer"*/
     'section4f79f859c53e6949f0ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',	

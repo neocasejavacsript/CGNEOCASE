@@ -8,34 +8,29 @@ Description - JS started 1st time for this form
 			  -Disable 'Monthly refund amount' Field for 2 sections
 			  -Hide Technical Section
 			  -Hide Hidden Section
-----------------------------------------------------------------------------
+----------------------------------------------------------------------------*/ 
+/*--------------------------------------------------------------------------
 Developer   - Smita Singh
 Date	    - 02/15/2019 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - JS started 1st time for this form
 			- Manage topic and subtopic based on URL
 			- Added timer for subtopic MOD-002.1
---------------------------------------------------------------------------
+		
+----------------------------------------------------------------------------*/ 
+/*--------------------------------------------------------------------------
 Developer   - Riya Dutta
 Date	    - 03/05/2019 (MM/DD/YYYY)
 Change No   - MOD-003
 Description - Corrected calculation for France language too
----------------------------------------------------------------------------
+----------------------------------------------------------------------------*/ 
+
+/*--------------------------------------------------------------------------
 Developer   - Ayan Dey
 Date	    - 29/01/2020 (MM/DD/YYYY)
 Change No   - MOD-004
 Description - Corrected calculation Monthly refund amount
----------------------------------------------------------------------------
-Developer   - Ahana Sarkar
-Date	    - 06/17/2020 (MM/DD/YYYY)
-Change No   - MOD-005
-Description - Modified the Load of topic/Subtopic to fix loading discrepency
----------------------------------------------------------------------------
-Developer   - Ahana Sarkar
-Date	    - 06/24/2020 (MM/DD/YYYY)
-Change No   - MOD-006
-Description - Align border-line to the Social Security Absence section
-----------------------------------------------------------------------------*/
+----------------------------------------------------------------------------*/ 
 
 //Hide Technical Section
 neocase.form.section("section17d9e1e3613d919575f8").hide();
@@ -192,43 +187,14 @@ window.disableFields = function(){
 	
 //Calling the function using 1000 msec timer	
 //topicTimer = setInterval(loadTopic, 1000);
-	// setTimeout(function(){
-	// 	loadTopic();
-	// }, 500);
-/********************************************
-* Launch Javascript only once on loadcomplete
-*********************************************/
-window.launchOnceLoadComplete = function(){
-    if(!sessionStorage.getItem('loadcomplete')){
-        sessionStorage.setItem('loadcomplete',true);
-        console.log("launched once on loadcomplete");
-        loadTopic();
-        setTimeout(function () {
-			loadSubtopic();
-			//++MOD-006
-			if($('#section60d59d8a7a0fef16fa06').css('display') != 'none' && $('#section2b5def23bad07230c544').css('display') != 'none'){ // Section: Social security absence + How to declare my social security absence
-				if($('#section2b5def23bad07230c544').find('hr').length > 0){
-					$('#section2b5def23bad07230c544').find('hr').remove();
-				}
-				if($('#section60d59d8a7a0fef16fa06').find('hr').length< 1){
-					$('#section60d59d8a7a0fef16fa06').append('<hr>');
-				}
-			}
-        }, 800);
-    }
-};
-/**************************
-* Launch Javascript on loadcomplete
-***************************/
-window.launchOnloadcomplete = function(){
-	launchOnceLoadComplete();
-    console.log('launch load complete');
-};
-neocase.form.event.bind("loadcomplete",launchOnloadcomplete);
+	setTimeout(function(){
+		loadTopic();
+	}, 500);
+
 window.onloadForm = function () {
-    if(sessionStorage.getItem('loadcomplete')){
-        sessionStorage.removeItem('loadcomplete');
-    }
+    mandatoryList();
+    enableManageField = true;
+    manageFields("ouverture");
 	disableFields();
 	//Calling the function using 1000 msec timer	
 	//topicTimer = setInterval(loadTopic, 1000);
@@ -237,9 +203,9 @@ window.onloadForm = function () {
 
 	//Calling the function using 1000 msec timer	
 	//topicTimer1 = 
-	// setTimeout(function(){
-	// 	loadSubtopic();
-	// }, 1000); //MOD-002.1
+	setTimeout(function(){
+		loadSubtopic();
+	}, 1000); //MOD-002.1
 	
 };
 neocase.form.event.bind('init', onloadForm);

@@ -58,13 +58,18 @@ Date	    - 02/11/2018 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
 			- Did basic clean up and changes based on mock up
-------------------------------------------------------------------------------*/ 
-/*-----------------------------------------------------------------------------
+---------------------------------------------------------------------
 Developer   - Smita Singh
 Date	    - 02/15/2018 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Display specific section based on subtopic
+----------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 06/12/2020 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - Display social security absence related section
 ------------------------------------------------------------------------------*/ 
+
 /**************************
 Fields and display settings
 ***************************/
@@ -75,7 +80,11 @@ var Tableau = [
 	//Province
 	'sectioncdd4a5ebb56b20821d5d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_02_Province;Province',//MOD-002
 	//Bicycle Allowance
-	'section15f11ae72f4cc069d9e6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo'//MOD-002
+    'section15f11ae72f4cc069d9e6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo',//MOD-002
+    //Section - Refund period
+    'sectionbfafef9d681b5fbf2163#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_02_Province;Province;FR_01_Ile-de-France;Île-de-France',//MOD-003
+    //Section - Social security absence
+    'section74c99c5b3fecf9fb40e6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail'//MOD-003
 ];
 var enableManageField;
 
@@ -166,6 +175,8 @@ window.champObligatoire = function (FIELD, VALID) {
                     localStorage.setItem("mandatoryListFields", BM_VALUES);
                 } else if (BM_CLIENT != "" && BM_CLIENT != " ") {
                     localStorage.setItem("mandatoryListFields", BM_CLIENT);
+                }else{
+                    localStorage.setItem("mandatoryListFields", "");
                 }
             }
             if (VALID === false) {
@@ -188,8 +199,9 @@ window.champObligatoire = function (FIELD, VALID) {
                             BM_CLIENT = BM_CLIENT + BM_REPLACE;
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
-                        document.getElementById(LBL_FIELD_ID).className = "label req";
+                        //document.getElementById(LBL_FIELD_ID).className = "label req";
                     }
+                    document.getElementById(LBL_FIELD_ID).className = "label required";
                 }
             }
         }
@@ -1203,7 +1215,7 @@ window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
     manageFields("ouverture");
-calOnPopulation();
+//calOnPopulation();
 
 };
 neocase.form.event.bind('loadcomplete', onloadForm);

@@ -1,5 +1,4 @@
-//FR_AGR_PAYROLL(BO)  - Algorithm Code
-/*
+/*FR_AGR_PAYROLL(R)
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
 _________________________________________
@@ -51,19 +50,22 @@ V17 - PJU - 11/01/2018
 V18 - PJU - 01/03/2018
 	- add specific code for 'MOTCLE' in manageFields
 */
-
 /*-----------------------------------------------------------------------------
 Developer   - Riya Dutta
 Date	    - 02/11/2018 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
 			- Did basic clean up and changes based on mock up
-------------------------------------------------------------------------------*/ 
-/*-----------------------------------------------------------------------------
+----------------------------------------------------------------------
 Developer   - Smita Singh
 Date	    - 02/15/2018 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Display specific section based on subtopic
+----------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 06/12/2020 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - Display social security absence related section
 ------------------------------------------------------------------------------*/ 
 /**************************
 Fields and display settings
@@ -75,7 +77,13 @@ var Tableau = [
 	//Province
 	'section40e78eea92a69245b309#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_02_Province;Province',//MOD-002
 	//Bicycle Allowance
-	'sectionc33d0e5a2cded1f67db0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo'//MOD-002
+	'sectionc33d0e5a2cded1f67db0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo',//MOD-002
+	//Section - Refund period
+    'sectionbce808b16afaf1c6e9e7#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_02_Province;Province;FR_01_Ile-de-France;Île-de-France',//MOD-003
+    //Section - Social security absence
+    'sectiona43b2dbf201bb729580f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail',//MOD-003
+    // Section - How to declare my social security absence
+    'sectiondf0f415e0d220d1c7018#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail'//MOD-003
 ];
 var enableManageField;
 
@@ -201,9 +209,9 @@ window.champObligatoire = function (FIELD, VALID) {
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             VALIDATOR_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
         } else if (FIELD_ID.search("UTILISATEURS") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
+            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
         } else if (FIELD_ID.search("n_question") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID.replace("n_question", "n_questionvalidator");
+            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
         }
         //manage file fields
         if (VALIDATOR_FIELD_ID.search("_display") != -1) {
@@ -275,10 +283,10 @@ window.boutonRadio = function (FIELD) {
     var SELECT_OBLIGATOIRE_ID;
     if (CHAMP_SELECT_ID.search("INTERVENTIONS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
     } else if (CHAMP_SELECT_ID.search("UTILISATEURS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "lblUTILISATEURS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
     }
     //Si le champ est obligatoire, on masque simplement l'étoile d'origine et on cré une nouvelle étoile à côté du label
     if (document.getElementById(SELECT_OBLIGATOIRE_ID)) {
@@ -1167,35 +1175,6 @@ window.getSelectValue = function (RADIO_BUTTON) {
 
 };
 
-/**************************
-* Summation and result cal
-***************************/
-window.calOnPopulation = function() {
-
-var employPercentage = formulaire.UTILISATEURS$CHAMPU248.value;
-var annualSalaryAtFTE = formulaire.UTILISATEURS$CHAMPU168.value;
-var employPourcent = formulaire.INTERVENTIONS_EN_COURS$VALEUR249.value;
-var targetVarCompAtFTE = formulaire.UTILISATEURS$CHAMPU170.value;
-var empPerc = Number(annualSalaryAtFTE / employPercentage);
-var finalAnnualSalary = Number(employPourcent * empPerc);
-finalAnnualSalary = finalAnnualSalary.toFixed(2);
-var targetVar = Number(targetVarCompAtFTE / employPercentage);
-var finalTargetVar =  Number(employPourcent * targetVar);
-finalTargetVar = finalTargetVar.toFixed(2);
-if(finalAnnualSalary != "0" || finalAnnualSalary != " " || finalAnnualSalary != "NaN" || finalAnnualSalary != "null"  ){
-neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR384').setValue(finalAnnualSalary);
-	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR384"));
-}
-if(finalTargetVar != "0" || finalTargetVar != " " || finalTargetVar != "NaN" || finalTargetVar != "null"  ){
-neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').setValue(finalTargetVar);
-//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR385"));
-}
-//formulaire.INTERVENTIONS_EN_COURS$VALEUR384.value = finalAnnualSalary;
-//formulaire.INTERVENTIONS_EN_COURS$VALEUR385.value = finalTargetVar;
-
-};
-
-
 /**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
@@ -1203,7 +1182,9 @@ window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
     manageFields("ouverture");
-calOnPopulation();
 
 };
-neocase.form.event.bind('loadcomplete', onloadForm);
+$(document).ready(function(){
+	onloadForm();
+});
+

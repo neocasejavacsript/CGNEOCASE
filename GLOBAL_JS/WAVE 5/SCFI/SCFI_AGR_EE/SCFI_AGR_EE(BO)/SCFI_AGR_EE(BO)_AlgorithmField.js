@@ -170,6 +170,8 @@ window.champObligatoire = function (FIELD, VALID) {
                     localStorage.setItem("mandatoryListFields", BM_VALUES);
                 } else if (BM_CLIENT != "" && BM_CLIENT != " ") {
                     localStorage.setItem("mandatoryListFields", BM_CLIENT);
+                }else{	
+                    localStorage.setItem("mandatoryListFields", "");	
                 }
             }
             if (VALID === false) {
@@ -192,8 +194,9 @@ window.champObligatoire = function (FIELD, VALID) {
                             BM_CLIENT = BM_CLIENT + BM_REPLACE;
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
-                        document.getElementById(LBL_FIELD_ID).className = "label req";
+                        //document.getElementById(LBL_FIELD_ID).className = "label req";
                     }
+                    document.getElementById(LBL_FIELD_ID).className = "label required";
                 }
             }
         }
@@ -1172,6 +1175,180 @@ window.getSelectValue = function (RADIO_BUTTON) {
 };
 
 
+/************************************************
+ * FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
+ *************************************************/
+window.getASPid = function (fieldName) {
+    //Only on FrontOffice Side
+    if (document.getElementsByClassName("bloc-content").length > 0) {
+        var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
+        for (lbl = 0; lbl< label.length; lbl++) {
+
+            //if we find an ASP.NET id we return the dynamic ID number
+            if (label[lbl].id.search("_lbl") != -1) {
+                fieldName = label[lbl].id.split("lbl")[0] + fieldName;
+                fieldName = fieldName.replace("$", "_");
+                return fieldName;
+            }
+
+        }
+    }
+    return fieldName;
+};
+FillCf = function (fieldValue, fieldName) {
+    var msg = "function FillCf : ";
+    //properly target field
+    if (fieldName.search("VALEUR0") != -1) {
+        fieldName = fieldName.replace("VALEUR0", "VALEUR");
+
+    }
+    fieldName = getASPid(fieldName);
+    var field = neocase.form.field(fieldName);
+
+
+    if (field) {
+        field.setValue(fieldValue);
+    } else {
+        msg += "field " + fieldName + " not found";
+        console.log(msg);
+    }
+};
+/******************************************
+ * CREATE HYPERLINK ON LABEL TO OPEN A POPUP
+ *******************************************/
+window.popupLink = function (field, url) {
+    var msg = "function popupLink : ";
+    if (field) {
+        //get field label
+        var fieldId = field.id;
+        var fieldLabel;
+        if (fieldId.search("INTERVENTIONS") != -1) {
+            fieldLabel = fieldId.replace("INTERVENTIONS", "lblINTERVENTIONS");
+        } else if (fieldId.search("UTILISATEURS") != -1) {
+            fieldLabel = fieldId.replace("UTILISATEURS", "lblUTILISATEURS");
+        } else {
+            msg += "type de champ non prit en compte " + fieldId;
+            console.log(msg);
+        }
+        if (fieldLabel.search("_display") != -1) {
+            fieldLabel = fieldLabel.replace("_display", "");
+        }
+        //add case number in the URL if needed
+        if (url.search("Id_Demande") != -1) {
+            url = url.replace("Id_Demande=", "Id_Demande=" + numeroIntervention);
+        }
+        //add contact ID in the URL if needed
+        if (url.search("Id_User") != -1) {
+            url = url.replace("Id_User=", "Id_User=" + CodeUtilisateur);
+        }
+        //Create hyperlink on label
+        var onclick = "window.open('" + url + "','_blank')";
+        var createPopup = document.createElement("a");
+        createPopup.setAttribute("onclick", onclick);
+        var popupText = document.getElementById(fieldLabel).innerHTML;
+        var t = document.createTextNode(popupText);
+        createPopup.appendChild(t);
+        if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
+            document.getElementById(fieldLabel).innerHTML = "";
+            document.getElementById(fieldLabel).appendChild(createPopup);
+        }
+    } else {
+        msg += "champ non trouvé";
+        console.log(msg);
+    }
+};
+/***************
+ * DISABLE FIELDS
+ ****************/
+window.disableTextField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.setAttribute("readonly", "true");
+        field.onmousedown = function () { return false; };
+    } else {
+        //FrontOffice
+        field.setAttribute("readonly", "true");
+        field.onkeydown = function () { return false; };
+        field.onmousedown = function () { return false; };
+    }
+};
+
+window.disableBooleanField = function (field) {
+    field.onclick = function () { return false; };
+    disableTextField(field);
+};
+
+window.disableDateField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        //hide calendar icon
+        field.style.background = "none";
+    } else {
+        //FrontOffice
+        //hide calendar icon
+        if (field.parentNode.getElementsByTagName("img").length > 0) {
+            field.parentNode.getElementsByTagName("img")[0].style.display = "none";
+        }
+    }
+    disableTextField(field);
+};
+
+window.disableFileField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.parentNode.parentNode.style.border = "none";
+        //hide button browse file
+        field.parentNode.style.display = "none";
+        //hide button delete file
+        if (field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0) {
+            field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
+        }
+    } else {
+        //FrontOffice
+        field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
+    }
+};
+
+window.disableListField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.parentNode.style.border = "none";
+    }
+    disableTextField(field);
+};
+
+window.disableTextareaField = function (field) {
+    disableTextField(field);
+};
+
+window.disableField = function (field) {
+    var msg = "function disableField : ";
+    if (field) {
+        field = field.elementHTML;
+        if (field.type == "checkbox") {
+            //Boolean custom fields
+            disableBooleanField(field);
+        } else if (field.className.search("hasDatepicker") != -1) {
+            //Date custom fields
+            disableDateField(field);
+        } else if (field.id.search("_display") != -1) {
+            //File custom fields
+            disableFileField(field);
+        } else if (field.tagName == "SELECT") {
+            //List custom fields
+            disableListField(field);
+        } else if (field.tagName == "TEXTAREA") {
+            //Textarea custom fields
+            disableTextareaField(field);
+        } else {
+            //Text custom fields
+            disableTextField(field);
+        }
+    } else {
+        msg += "field undefined or readonly";
+        console.log(msg);
+    }
+};
 
 
 /**************************************************************************************

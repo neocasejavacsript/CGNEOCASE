@@ -48,7 +48,19 @@ Developer   - Ahana Sarkar
 Date	    - 05/07/2020 (MM/DD/YYYY)
 Change No   - MOD-009
 Description - Contract End date (new) to be hidden if contract type (new) is permanent ; function is called from Contract type (new) field
-------------------------------------------------------------------------*/
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 06/15/2020 (MM/DD/YYYY)
+Change No   - MOD-010
+Description - Set minimum date of related start and end date field
+            - Set Temination date & Last working day validation
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 06/22/2020 (MM/DD/YYYY)
+Change No   - MOD-011
+Description - For Assignment Inbound/Outbound start date subtopic add validation between effective date/expected end date
+            - Add 'blur' function for the end dates in 'setTerminationDateLimit' & 'setDateLimit' menthod(if User manually enter the date by typing)
+---------------------------------------------------------*/ 
 
 
 
@@ -192,8 +204,11 @@ window.disableCusFields = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR927"));//Disable "country moving to"
     // disable copy fields
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR182")); 
+    $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR182')['elementHTML']['id']).css({'background': "transparent",'color':'#000','padding-left':0});
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR427"));
+    $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR427')['elementHTML']['id']).css({'background': "transparent",'color':'#000','padding-left':0});
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR133"));
+    $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR133')['elementHTML']['id']).css({'background': "transparent",'color':'#000','padding-left':0});
 };
 window.loadTopic = function () {
     if (neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() !== null) {
@@ -210,36 +225,199 @@ window.loadSubTopic = function () {
 };
 // Contract End date (new) to be hidden if contract type (new) is permanent ; ++MOD-009
 window.checkContractType = function(){
-    var contractElementsSection = document.getElementById('section391befec5139532337c0'),
-    contractTypeNew = formulaire.INTERVENTIONS_EN_COURS$VALEUR528, // get Contract type (new) field
+    var contractTypeNew = formulaire.INTERVENTIONS_EN_COURS$VALEUR528, // get Contract type (new) field
     codeContractTypeNew = contractTypeNew.options[contractTypeNew.selectedIndex].getAttribute('code'), // get option code for Contract type (new) :
     valueContractTypeNew = contractTypeNew.options[contractTypeNew.selectedIndex].value; // get option value for Contract type (new) :
-    if(contractElementsSection != 'none'){
-        if(codeContractTypeNew == '1058' || valueContractTypeNew == 'Permanent'){ // if option code is 1058 or value is permanent
-            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR126').hide(); // hide Contract end date (new)
-        }else{
-            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR126').show(); // show Contract end date (new)
-        }   
+    if(codeContractTypeNew == '1058' || valueContractTypeNew == 'Permanent'){ // if option code is 1058 or value is permanent
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR126').hide(); // hide Contract end date (new)
+    }else{
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR126').show(); // show Contract end date (new)
     }
 };
+/*-------------Set minimum date of related start and end date field--------+MOD-010-----*/
+window.setDateLimit = function(startDateField, endDateField){
+    var stD,stDate,endD,endDate,nextDay,alertMsg;
+    var startDateFieldId = $('#'+ neocase.form.field(startDateField)['elementHTML']['id']),
+        endDateFieldId = $('#'+ neocase.form.field(endDateField)['elementHTML']['id']),
+        today = new Date(),
+        errorMsg = '<span style="color:red" class="error-msg-date"> Date should be greater than the start date</span>';
+    
+    //startDateFieldId.datepicker( "option", "minDate", today);
+    //endDateFieldId.datepicker( "option", "minDate", today);
+    
+    startDateFieldId.change(function(){
+        stD = startDateFieldId.val();
+        endD = endDateFieldId.val();
+
+        stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD) ? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+        endDate = endD !== ''|| typeof endD !== 'undefined'|| !isNaN(endD) ? new Date(endD.split('/')[2],endD.split('/')[1] - 1,endD.split('/')[0]).getTime() : '';
+
+        if((endD == '' && stD !== '' && !isNaN(stDate)) || endDate > stDate){
+            nextDay = new Date(stDate  + (24 * 60 * 60 * 1000 ));
+            endDateFieldId.datepicker( "option", "minDate", nextDay);
+        }
+        else if(endDate<= stDate){
+            endDateFieldId.val('');
+            stD = startDateFieldId.val();
+            stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD)? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+            nextDay = new Date(stDate  + (24 * 60 * 60 * 1000 ));
+            endDateFieldId.datepicker( "option", "minDate", nextDay);
+            if(endDateFieldId.closest('div').find('.error-msg-date').length< 1){
+                endDateFieldId.after(errorMsg);
+            }
+            alertMsg = 'Select date after '+$.trim(startDateFieldId.closest('.row').find('label').text()) + ' ' + stD;
+            alert(alertMsg);
+            
+        }
+        else{
+            endDateFieldId.datepicker( "option", "minDate", '');
+            //endDateFieldId.datepicker( "option", "minDate", today);
+        }        
+    });
+    endDateFieldId.change(function(){
+        if(endDateFieldId.closest('div').find('.error-msg-date').length  > 0){
+            endDateFieldId.closest('div').find('.error-msg-date').remove();
+        }
+    });
+    endDateFieldId.blur(function(){ //++MOD-011
+        endD = endDateFieldId.val();
+        if(endD != ''){
+            stD = startDateFieldId.val();
+            stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD) ? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+            endDate = endD !== ''|| typeof endD !== 'undefined'|| !isNaN(endD) ? new Date(endD.split('/')[2],endD.split('/')[1] - 1,endD.split('/')[0]).getTime() : '';
+    
+            if(endDate<= stDate){
+                endDateFieldId.val('');
+                if(endDateFieldId.closest('div').find('.error-msg-date').length< 1){
+                    endDateFieldId.after(errorMsg);
+                }
+                alertMsg = 'Select date after '+$.trim(startDateFieldId.closest('.row').find('label').text()) + ' ' + stD;
+                alert(alertMsg);
+            }
+        }
+
+    });
+};
+/*---------XXXXXX----Set minimum date of related start and end date field----XXXXXX---------*/
+
+/*-------------Set Temination date & Last working day validation--------+MOD-010-----*/
+window.setTerminationDateLimit = function(startDateField, endDateField){
+    var stD,stDate,endD,endDate,nextDay,alertMsg;
+    var startDateFieldId = $('#'+ neocase.form.field(startDateField)['elementHTML']['id']),
+        endDateFieldId = $('#'+ neocase.form.field(endDateField)['elementHTML']['id']),
+        today = new Date();
+    var errorMsg = '<span style="color:red" class="error-msg-date"> Date should be same or less than the '+$.trim(startDateFieldId.closest('.row').find('label').text())+'</span>';
+    
+    //startDateFieldId.datepicker( "option", "minDate", today);
+    //endDateFieldId.datepicker( "option", "minDate", today);
+    
+    startDateFieldId.change(function(){
+        stD = startDateFieldId.val();
+        endD = endDateFieldId.val();
+
+        stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD) ? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+        endDate = endD !== ''|| typeof endD !== 'undefined'|| !isNaN(endD) ? new Date(endD.split('/')[2],endD.split('/')[1] - 1,endD.split('/')[0]).getTime() : '';
+
+        if((endD == '' && stD !== '' && !isNaN(stDate)) || endDate<= stDate){
+            nextDay = new Date(stDate);
+            endDateFieldId.datepicker( "option", "maxDate", nextDay);
+        }
+        else if(endDate > stDate){
+            endDateFieldId.val('');
+            stD = startDateFieldId.val();
+            stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD)? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+            nextDay = new Date(stDate);
+            endDateFieldId.datepicker( "option", "maxDate", nextDay);
+            if(endDateFieldId.closest('div').find('.error-msg-date').length< 1){
+                endDateFieldId.after(errorMsg);
+            }
+            alertMsg = "Select '"+$.trim(endDateFieldId.closest('.row').find('label').text())+"' as same date or less than "+$.trim(startDateFieldId.closest('.row').find('label').text()) + " " + stD;
+            alert(alertMsg);
+            
+        }
+        else{
+            endDateFieldId.datepicker( "option", "maxDate", '');
+            //endDateFieldId.datepicker( "option", "minDate", today);
+        }        
+    });
+    endDateFieldId.change(function(){
+        if(endDateFieldId.closest('div').find('.error-msg-date').length  > 0){
+            endDateFieldId.closest('div').find('.error-msg-date').remove();
+        }
+    });
+    endDateFieldId.blur(function(){ //++MOD-011
+        endD = endDateFieldId.val();
+        if(endD != ''){
+            stD = startDateFieldId.val();
+            stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD) ? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+            endDate = endD !== ''|| typeof endD !== 'undefined'|| !isNaN(endD) ? new Date(endD.split('/')[2],endD.split('/')[1] - 1,endD.split('/')[0]).getTime() : '';
+            if(endDate > stDate){
+                endDateFieldId.val('');
+                stD = startDateFieldId.val();
+                stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD)? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+                nextDay = new Date(stDate);
+                endDateFieldId.datepicker( "option", "maxDate", nextDay);
+                if(endDateFieldId.closest('div').find('.error-msg-date').length< 1){
+                    endDateFieldId.after(errorMsg);
+                }
+                alertMsg = "Select '"+$.trim(endDateFieldId.closest('.row').find('label').text())+"' as same date or less than "+$.trim(startDateFieldId.closest('.row').find('label').text()) + " " + stD;
+                alert(alertMsg);
+                
+            }
+        }
+            
+
+    });
+};
+/*---------XXXXXX----Set Temination date & Last working day validation----XXXXXX---------*/
+
 /**************************
  * Launch Javascript on init
  ***************************/
 window.launchOnInit = function () {
+    if(sessionStorage.getItem('loadcomplete')){
+        sessionStorage.removeItem('loadcomplete');
+    }
     setAllPopups();
     disableCusFields();
-    loadTopic();
-    setTimeout(function () {
-        loadSubTopic();
-    }, 800);
 };
 neocase.form.event.bind("init", launchOnInit);
-
+/********************************************
+* Launch Javascript only once on loadcomplete
+*********************************************/
+window.launchOnceLoadComplete = function(){
+    if(!sessionStorage.getItem('loadcomplete')){
+        sessionStorage.setItem('loadcomplete',true);
+        console.log("launched once on loadcomplete");
+        loadTopic();
+        setTimeout(function () {
+            loadSubTopic();  
+        }, 800);
+    }
+};
 /**************************
  * Launch Javascript on loadcomplete
  ***************************/
 window.launchOnloadcomplete = function () {
+    launchOnceLoadComplete();
     copyFields(); // Copy Employee Catalog field values to Request Catalog field
+    //++MOD-010
+    if(document.getElementById('section10b1ba3a25c94f003bcd').style.display !== 'none'){ // Section: Start/Update leave of absence details
+        setDateLimit('INTERVENTIONS_EN_COURS$VALEUR333','INTERVENTIONS_EN_COURS$VALEUR503'); //Fields: 'Absence start date (new) :' , 'Expected return date (new) :'
+    }
+    if(document.getElementById('section35033381ef6ef4eb36ad').style.display !== 'none'){ // Section: Termination dates
+        setTerminationDateLimit('INTERVENTIONS_EN_COURS$VALEUR220','INTERVENTIONS_EN_COURS$VALEUR221'); //Fields: 'Termination date:','Last working day:'
+    }
+    if(document.getElementById('sectionbeadd0d388dcd1eccb8e').style.display !== 'none'){ // Section: Revised termination date
+        setTerminationDateLimit('INTERVENTIONS_EN_COURS$VALEUR598','INTERVENTIONS_EN_COURS$VALEUR599'); //Fields: 'Termination date (new) :','Last working day (new) :'
+    }
+    if(document.getElementById('section072d3f39253ab9b233a3').style.display !== 'none'){ // Section: Ad hoc report details
+        setDateLimit('INTERVENTIONS_EN_COURS$VALEUR373','INTERVENTIONS_EN_COURS$VALEUR374'); //Fields: 'Reporting period start date :' , 'Reporting period end date :'
+    }
+    if(document.getElementById('sectionffc3e75f608d65eb5d98').style.display !== 'none' && document.getElementById('section185d40ae088e855570b9').style.display !== 'none'){ // Section: Effective date & Expected end date ++MOD-011
+        setDateLimit('INTERVENTIONS_EN_COURS$VALEUR5','INTERVENTIONS_EN_COURS$VALEUR445'); //Fields: 'Effective date :' , 'Expected assignment end date :'
+    }
+    console.log('launch load complete');
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 

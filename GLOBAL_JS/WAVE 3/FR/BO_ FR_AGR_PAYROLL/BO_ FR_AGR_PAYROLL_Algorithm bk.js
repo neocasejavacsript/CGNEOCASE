@@ -1,4 +1,4 @@
-/*----------SCFI_AGR_HRBP(R)_ALGO----------*/
+//FR_AGR_PAYROLL(BO)  - Algorithm Code
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -52,35 +52,30 @@ V18 - PJU - 01/03/2018
 	- add specific code for 'MOTCLE' in manageFields
 */
 
-/*--------------------------------------------------------------------------
-Developer   - Arnab Guha
-Date	    - 11/07/2019 (MM/DD/YYYY)
+/*-----------------------------------------------------------------------------
+Developer   - Riya Dutta
+Date	    - 02/11/2018 (MM/DD/YYYY)
 Change No   - MOD-001
-Description - Hide Section based on Subtopics
-----------------------------------------------------------------------------*/
-
+Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
+			- Did basic clean up and changes based on mock up
+------------------------------------------------------------------------------*/ 
+/*-----------------------------------------------------------------------------
+Developer   - Smita Singh
+Date	    - 02/15/2018 (MM/DD/YYYY)
+Change No   - MOD-002
+Description - Display specific section based on subtopic
+------------------------------------------------------------------------------*/ 
 /**************************
 Fields and display settings
 ***************************/
 var Tableau = [
-    // 'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change;SCFI_Change in management team;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Grade/job change;SCFI_Promotion/demotion;SCFI_Allowances;SCFI_ARC values;SCFI_Change in pay;SCFI_Change in position;SCFI_Management team;SCFI_Management team'
-    'section61c71b966cbd17e8dea3#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Employment data change;SCFI_Mass upload',
-    'sectionef8658644bc8e5bb9756#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Promotion/demotion;SCFI_Pay change',
-    'sectiond0ba0c911294b4591511#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
-    'section7f803263b9ca893f38fb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
-    'section7e798c5d3e68327517c4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Cost center change;SCFI_Promotion/demotion',
-    'section6d1b44439f342fdb406c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
-    'section1a92660323076e9e7f92#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours;SCFI_Promotion/demotion;SCFI_Pay change',
-    'sectionf53cd317b157915d8886#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in management team',
-    'section2ab75e53ec1c6fec5152#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change',
-    'section7dcc879caab711342727#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Cost center change;SCFI_Promotion/demotion',
-    'sectionc41c587596633ac5eaa0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave',
-    'section0aa7353963160c2d9b90#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Initiate involuntary leave',
-    'section4e89728bbaa3aa0188d1#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer',
-    // 'section851c698c5dcd4cffbd81#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Revised termination date',
-    'section851c698c5dcd4cffbd81#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Mass upload',
-    'sectionbba08859419ecba836a6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Revised termination date',
-    'section1e08d02f8aac12fd6033#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Ad hoc report'
+	//'section18df573b1c1114661f65#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',
+	//Ile-de-France
+	'section61a7a940dcb974aab0f9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France', //MOD-002
+	//Province
+	'sectioncdd4a5ebb56b20821d5d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_02_Province;Province',//MOD-002
+	//Bicycle Allowance
+	'section15f11ae72f4cc069d9e6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo'//MOD-002
 ];
 var enableManageField;
 
@@ -397,14 +392,14 @@ window.manageCheckbox = function () {
 };
 
 window.mandatoryList = function () {
-    if (document.getElementById("champsobligatoiresproprietes")) {
+    if(document.getElementById("champsobligatoiresproprietes")){
         var BM_VALUES = document.getElementById("champsobligatoiresproprietes").value;
         var BM_CLIENT = document.getElementById("champsobligatoiresclient").value;
         if (localStorage.getItem("mandatoryListFields") !== null && localStorage.getItem("mandatoryListFields") !== "") {
             localStorage.setItem("mandatoryListFields", BM_VALUES + BM_CLIENT);
         }
     }
-
+    
 };
 
 /*************************************************
@@ -590,7 +585,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER1_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                } else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
+                                }else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -637,7 +632,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER2_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER2_FIELD[c] = document.getElementById("ELEMENTS");
-                                } else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
+                                }else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER2_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -834,7 +829,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                } else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
+                                }else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -1172,15 +1167,34 @@ window.getSelectValue = function (RADIO_BUTTON) {
 
 };
 
-window.checkSectionHide = function (sectionID) {
+/**************************
+* Summation and result cal
+***************************/
+window.calOnPopulation = function() {
 
-    var hideAnswersSection = document.getElementsByClassName('answers');
-    if (typeof hideAnswersSection !== undefined && hideAnswersSection !== null) {
-        if (typeof document.getElementById(sectionID) !== undefined && document.getElementById(sectionID) !== null) {
-            document.getElementById(sectionID).style.display = "none";
-        }
-    }
+var employPercentage = formulaire.UTILISATEURS$CHAMPU248.value;
+var annualSalaryAtFTE = formulaire.UTILISATEURS$CHAMPU168.value;
+var employPourcent = formulaire.INTERVENTIONS_EN_COURS$VALEUR249.value;
+var targetVarCompAtFTE = formulaire.UTILISATEURS$CHAMPU170.value;
+var empPerc = Number(annualSalaryAtFTE / employPercentage);
+var finalAnnualSalary = Number(employPourcent * empPerc);
+finalAnnualSalary = finalAnnualSalary.toFixed(2);
+var targetVar = Number(targetVarCompAtFTE / employPercentage);
+var finalTargetVar =  Number(employPourcent * targetVar);
+finalTargetVar = finalTargetVar.toFixed(2);
+if(finalAnnualSalary != "0" || finalAnnualSalary != " " || finalAnnualSalary != "NaN" || finalAnnualSalary != "null"  ){
+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR384').setValue(finalAnnualSalary);
+	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR384"));
+}
+if(finalTargetVar != "0" || finalTargetVar != " " || finalTargetVar != "NaN" || finalTargetVar != "null"  ){
+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').setValue(finalTargetVar);
+//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR385"));
+}
+//formulaire.INTERVENTIONS_EN_COURS$VALEUR384.value = finalAnnualSalary;
+//formulaire.INTERVENTIONS_EN_COURS$VALEUR385.value = finalTargetVar;
+
 };
+
 
 /**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
@@ -1189,9 +1203,7 @@ window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
     manageFields("ouverture");
+//calOnPopulation();
 
 };
-$(document).ready(function () {
-    onloadForm();
-});
-
+neocase.form.event.bind('loadcomplete', onloadForm);
