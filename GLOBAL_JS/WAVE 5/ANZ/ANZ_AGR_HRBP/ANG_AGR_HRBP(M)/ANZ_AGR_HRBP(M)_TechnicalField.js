@@ -21,7 +21,8 @@ Date	    - 10/25/2019 (MM/DD/YYYY)
 Change No   - MOD-004
 Description - Popups implemented for 6-management team sections
 ----------------------------------------------------------------------------*/ 
-
+var initialEndDate;
+var initalstartDate;
 //Hide Technical Section
 neocase.form.section("sectione453b51c6ac1bb6eb1ce").hide();
 /***********************************
@@ -373,7 +374,7 @@ window.copy_fields = function() {
 	//copy Local Grade value
 	copyValue("UTILISATEURS$CHAMPU35", "INTERVENTIONS_EN_COURS$VALEUR41");
 	//copy Target Var pay
-	copyValue("UTILISATEURS$CHAMPU170", "INTERVENTIONS_EN_COURS$VALEUR77");
+	copyValue("UTILISATEURS$CHAMPU170", "INTERVENTIONS_EN_COURS$VALEUR693");
              //neocase.form.field('UTILISATEURS$CHAMPU186').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR125');
 };
 /************************** Copying fields ends*********************************/
@@ -397,7 +398,7 @@ window.calculate_TargetVarCompProratedNPI = function() {
 			}else if(isNaN(val_employmentPercentage)){
 				calculation = 0;
 			}else{
-				calculation = (val_targetVarCompActual / val_employmentPercentage) * 100;
+				calculation = (val_targetVarCompActual * val_employmentPercentage) / 100;
 			}
 			targetVarCompproratedNew.setValue(calculation.toFixed(2));
 		}
@@ -590,7 +591,7 @@ window.disableCusFields = function(){
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR78")); // disable Target Var Comp Prorated
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR565")); // disable Annual Salary At Actual FTE
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR567")); // disable Target Var Comp Prorated NPI
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR77")); // disable Target Var Comp Actual NPI
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR693")); // disable Target Var Comp Actual NPI
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR593")); // disable Employment percentage
     //Management Team disable-fields
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR154")); //disbale performance reviewer(new)
@@ -613,17 +614,19 @@ window.validAbsenceStartEndDate = function(AbsenceStartDateField, AbsenceendDate
 	
 	var startDate = convertToDateTime(neocase.form.field(AbsenceStartDateField).getValue()),
 		endDate = convertToDateTime(neocase.form.field(AbsenceendDateField).getValue());
-	if(startDate !== null && endDate !== null){
-		if(endDate< startDate){
-			alert("Expected Return date must be greater than Absence Start date");
-			neocase.form.field(AbsenceStartDateField).setValue(initalstartDate);
-			neocase.form.field(AbsenceendDateField).setValue(initialEndDate);
+	
+		if(startDate !== null && endDate !== null){
+			if(endDate< startDate){
+				alert("Expected Return date must be greater than Absence Start date");
+				neocase.form.field(AbsenceStartDateField).setValue(initalstartDate);
+				neocase.form.field(AbsenceendDateField).setValue(initialEndDate);
+			}
+			else{
+				initialEndDate = neocase.form.field(AbsenceendDateField).getValue(); // get previously loaded value of expected return date
+				initalstartDate = neocase.form.field(AbsenceStartDateField).getValue(); // get previously loaded value of ansence start date
+			}
 		}
-		else{
-			initialEndDate = neocase.form.field(AbsenceendDateField).getValue(); // get previously loaded value of expected return date
-			initalstartDate = neocase.form.field(AbsenceStartDateField).getValue(); // get previously loaded value of ansence start date
-		}
-	}
+	
 };
 /*----------------Show action reason against the subtopic ----------------------*/
 window.showActionReason = function(){
@@ -688,6 +691,8 @@ window.capgEnable = function(fieldGotByID)
 /**************************
 * Launch Javascript on init
 ***************************/
+
+
 window.launchOnInit = function(){
 console.log('Modify Form');
 	copy_fields();
@@ -728,8 +733,31 @@ neocase.form.event.bind("init",launchOnInit);
 
 
 window.launchOnComplete = function(){
-	showActionReason();
+	//showActionReason();
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
+	//showWorkingHoursSection();
+	//showNonPayrollSection();
+	if(document.getElementById('sectionc8fded7f6ce7b8116c5d').style.display != "none"){	
+		initialstartDate = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR333').getValue();
+		initialEndDate =  neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').getValue();
+
+		setTimeout(function(){
+			// function definition is on technical field where parameter1 = AbsenceStartDateField ; parameter2 = AbsenceendDateField in validAbsenceStartEndDate(parameter1, parameter2)
+		   validAbsenceStartEndDate('INTERVENTIONS_EN_COURS$VALEUR333','INTERVENTIONS_EN_COURS$VALEUR503');
+		}, 800);
+	}
 	
+	
+	if(document.getElementById('sectionbaf5cef04094c6c8cccc').style.display != "none"){
+		initialStartDate = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR373').getValue();
+		initialEndDate =  neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR374').getValue();
+		setTimeout(function(){
+			// function definition is on technical field where parameter1 = AbsenceStartDateField ; parameter2 = AbsenceendDateField in validAbsenceStartEndDate(parameter1, parameter2, parameter3)
+		   validAbsenceStartEndDate('INTERVENTIONS_EN_COURS$VALEUR373','INTERVENTIONS_EN_COURS$VALEUR374');
+		}, 800);
+	}
+
+
  };
 neocase.form.event.bind('loadcomplete',launchOnComplete);
 /****************************
