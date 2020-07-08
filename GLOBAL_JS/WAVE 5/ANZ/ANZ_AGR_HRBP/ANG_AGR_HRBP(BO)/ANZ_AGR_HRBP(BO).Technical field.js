@@ -16,9 +16,11 @@ neocase.form.section("sectionc3be57db76bac2ebe401").hide();
 
 
 window.copy_fields = function() {
-
+	
+	//copy Local Grade
+	neocase.form.field('UTILISATEURS$CHAMPU35').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR40');
 	//copy Employment Percentage value
-	neocase.form.field('UTILISATEURS$CHAMPU248').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR593');
+	//neocase.form.field('UTILISATEURS$CHAMPU248').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR593');
 	//copy Admin Supervisor name value
     neocase.form.field('UTILISATEURS$CHAMPU152').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR182');
     //copy Default Approver name
@@ -37,7 +39,7 @@ window.copy_fields = function() {
 /*---------------------------For ANZ Target Var Comp Prorated NPI calculation--Start -------*/
 
 window.calculate_TargetVarCompProratedNPI = function() {
-	var targetVarCompActual = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR77");
+	var targetVarCompActual = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR385");
 	var employmentPercentage = neocase.form.field("UTILISATEURS$CHAMPU248");
 	var targetVarCompproratedNew = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR567");
 
@@ -53,7 +55,7 @@ window.calculate_TargetVarCompProratedNPI = function() {
 			}else if(isNaN(val_employmentPercentage)){
 				calculation = 0;
 			}else{
-				calculation = (val_targetVarCompActual / val_employmentPercentage) * 100;
+				calculation = (val_targetVarCompActual * val_employmentPercentage) / 100;
 			}
 			targetVarCompproratedNew.setValue(calculation.toFixed(2));
 		}
@@ -189,12 +191,15 @@ window.validAbsenceStartEndDate = function(AbsenceStartDateField, AbsenceendDate
 /*---------------------------For ANZ Annual salary prorated calculation --End---------*/
 window.disableCusFields = function(){
     disableField(neocase.form.field("UTILISATEURS$CHAMPU40"));
+	disableField(neocase.form.field("UTILISATEURS$CHAMPU248"));
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR45"));
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR48"));
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR593"));
 	//Auto-calculation disable fields
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR76")); // disable annual salary prorated
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR78")); // disable Target Var Comp Prorated
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR427")); // disable HRBP Name
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR555")); // disable Action Reason
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR565")); // disable Annual Salary At Actual FTE
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR567")); // disable Target Var Comp Prorated NPI
 };
@@ -252,7 +257,44 @@ window.setPopups = function(){
 /**************************
 * Launch Javascript on init
 ***************************/
-window.launchOnInit = function(){
+window.showGradeSection = function(){
+	console.log(neocase.form.field('UTILISATEURS$CHAMPU35').getValue());
+	neocase.fieldInstances = [];
+    if(neocase.form.field('ELEMENTS').getValue() === '2813'){
+        neocase.form.section("sectionaa695c51ef90d72b94dd").show();
+    }else{
+        neocase.form.section("sectionaa695c51ef90d72b94dd").hide();
+    }
+};
+
+window.showPaySection = function(){
+	console.log(neocase.form.field('UTILISATEURS$CHAMPU248').getValue());
+	neocase.fieldInstances = [];
+    if(neocase.form.field('ELEMENTS').getValue() === '2813'){
+        neocase.form.section("section4f8bca62b68e042d1fbc").show();
+    }else{
+        neocase.form.section("section4f8bca62b68e042d1fbc").hide();
+    }
+};
+
+window.showNonPayrollSection = function(){
+	neocase.fieldInstances = [];
+    if(neocase.form.field('ELEMENTS').getValue() === '2813'){
+        neocase.form.section("section1ab7339c7499cc587b0e").show();
+    }else{
+        neocase.form.section("section1ab7339c7499cc587b0e").hide();
+    }
+};
+
+window.showWorkingHourSection = function(){
+	neocase.fieldInstances = [];
+    if(neocase.form.field('ELEMENTS').getValue() === '2736'){
+        neocase.form.section("sectione1c1c9cba122b4df2afb").show();
+    }else{
+        neocase.form.section("sectione1c1c9cba122b4df2afb").hide();
+    }
+};
+window.launchOnloadcomplete = function(){
 	//console.log('working 1');
 	initialEndDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR503").getValue(); // get loaded value of expected return date
 	initialstartDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR333").getValue(); // get loaded value of ansence start date
@@ -263,10 +305,17 @@ window.launchOnInit = function(){
 	//calculate_AnnualSalaryProrated();
 	disableCusFields();
     setPopups();
-	showActionReason();
+	//showActionReason();
 	//updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
-	
+	showGradeSection();
+	showWorkingHourSection();
+	showPaySection();
+	showNonPayrollSection();
  };
-neocase.form.event.bind('loadcomplete',launchOnInit);
+window.launchOnInit = function(){
 
+   console.log(neocase.form.field('UTILISATEURS$CHAMPU248').getValue());
+};
+neocase.form.event.bind('loadcomplete',launchOnloadcomplete);
+neocase.form.event.bind('init', launchOnInit);
 /*---- MOD-001 ENDS ----*/

@@ -1384,7 +1384,7 @@ APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST
 window.onloadForm = function () {
     //mandatoryList();
     //enableManageField = true;
-    //manageFields("ouverture");
+   // manageFields("ouverture");
 
 };
 neocase.form.event.bind('init', onloadForm);

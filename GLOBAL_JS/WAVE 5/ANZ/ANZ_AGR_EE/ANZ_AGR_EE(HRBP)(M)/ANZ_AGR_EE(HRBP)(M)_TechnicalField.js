@@ -1,4 +1,4 @@
-/*************ANZ_AGR_EE - Technical Field Code*************/
+/*************ANZ_AGR_EE(HRBP)(M) - Technical Field Code*************/
 /*--------------------------------------------------------------------------
 Developer   - Debraj Sarkar
 Date	    - 10/01/2019 (MM/DD/YYYY)
@@ -18,13 +18,16 @@ Change No   - MOD-003
 Description - 'validateEmailClosureDate()' function implemented for 'Email Closure Date is always greater than Last Working Day'
 			- 'convertToDateTime()' function implemented which ensures to Convert Date and time format from a field string date value			
 			- 'emailClosureVisibilty()' function implemented which ensures email closure date field is visible based on "Do you need to keep email account open--to yes"
-----------------------------------------------------------------------------*/ 
+----------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 10/31/2019 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - Fixes
+---------------------------------------------------------------------------*/ 
 var initialStartDate, initialEndDate;
 
 //Hide Technical Section
 neocase.form.section("sectionfe1ad4ed4012550cfc8d").hide();
-//Hide Hidden Section
-//neocase.form.section("sectionf0d2cdf8af4de3979c75").hide();
 
 /*---------------------------For ANZ Target Var Comp Prorated calculation--Start -------*/
 
@@ -95,10 +98,11 @@ window.calculate_AnnualSalaryProrated = function() {
 
 };
 /*---------------------------For ANZ Annual salary prorated calculation --End---------*/
+
 /*------- Convert Date and time format from a field string date value-------*/
 window.convertToDateTime = function(values){
 	var dateSplit = values.split("/"),
-		dateFormatUTC = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]),
+		dateFormatUTC = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1]),
 		dateToTime = dateFormatUTC.getTime();
 	return dateToTime;
 };
@@ -132,7 +136,7 @@ window.emailClosureVisibilty = function(selectedFieldName, emailClosureDateField
 	var selectedVal = $('#'+neocase.form.field(selectedFieldName)['elementHTML']['id'] + " :selected").text();
 	var fieldVal = neocase.form.field(emailClosureDateFieldName).getValue();
 	if(selectedVal != 'Yes'){
-		neocase.form.field(emailClosureDateFieldName).setValue(" ");
+		neocase.form.field(emailClosureDateFieldName).setValue("");
 		neocase.form.field(emailClosureDateFieldName).hide();
 	}
 	else
@@ -143,7 +147,7 @@ window.emailClosureVisibilty = function(selectedFieldName, emailClosureDateField
 };
 
 /*----------------Show action reason against the subtopic ----------------------*/
-window.showActionReason = function(){
+/*window.showActionReason = function(){
 	var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();//getParamFromUrl('subtopic');
 	var x = document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").options.length;
 	console.log(x+subtopic);
@@ -185,7 +189,8 @@ window.showActionReason = function(){
 			document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").remove(i);
 		}
 	}
-};
+}; */
+
 /**************************
 * Launch Javascript on init
 ***************************/
@@ -194,19 +199,36 @@ window.launchOnInit = function(){
     // setTimeout(updateAndDisableField, 1000,neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
 	calculate_TargetVarCompProrated();
 	calculate_AnnualSalaryProrated();
+	console.log(neocase.form.field('UTILISATEURS$CHAMPU248').getValue());
+	if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR586').getValue() !== 'Yes'){
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR589').hide();
+	}else{
+		
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR589').show();
+	}
+	if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR587').getValue() !== 'Yes'){
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR590').hide();
+	}else{
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR590').show();
+	}
+	if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR588').getValue() !== 'Yes'){
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR591').hide();
+	}else{
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR591').show();
+	}
+	
  };
 neocase.form.event.bind("init",launchOnInit);
 
 window.launchOnComplete = function(){
-	showActionReason();
+	//var subtopic = getParamFromUrl('subtopic');
+	//if(subtopic == '2817'){
+		emailClosureVisibilty('INTERVENTIONS_EN_COURS$VALEUR586', 'INTERVENTIONS_EN_COURS$VALEUR589');
+	//}else if(subtopic == '2744'){
+		emailClosureVisibilty('INTERVENTIONS_EN_COURS$VALEUR587', 'INTERVENTIONS_EN_COURS$VALEUR590');
+	//}else if(subtopic == '2743'){
+		emailClosureVisibilty('INTERVENTIONS_EN_COURS$VALEUR588', 'INTERVENTIONS_EN_COURS$VALEUR591');
+	//}
+	
  };
 neocase.form.event.bind('loadcomplete',launchOnComplete);
-
-/****************************
- * Launch Javascript on submit
- *****************************/
-window.launchOnSubmit = function () { 
-	// validAbsenceStartEndDate();
-};
-neocase.form.event.bind("submit", launchOnSubmit);
-

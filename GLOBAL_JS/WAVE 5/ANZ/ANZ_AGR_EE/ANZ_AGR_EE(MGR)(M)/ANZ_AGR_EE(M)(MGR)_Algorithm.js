@@ -73,6 +73,7 @@ var Tableau = [
 	'section54f4e58416ea6b54a739#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change return date of leave of absence',
              /*SECTION : "Change in working hours"*/
              'sectiondf2d2b4db4eaa6105bfd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
+			 'section2ed56909cae661c141e3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
              /*SECTION : "Work location transfer"*/
              'section062edc552bb7253cce37#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',	
 	/*SECTION : "Change of end date"*/

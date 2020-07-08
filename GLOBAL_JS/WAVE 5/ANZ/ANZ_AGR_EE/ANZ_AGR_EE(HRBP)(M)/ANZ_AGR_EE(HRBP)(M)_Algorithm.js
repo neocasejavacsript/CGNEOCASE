@@ -73,6 +73,7 @@ var Tableau = [
 	'sectioncb93a01410255cecc556#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change return date of leave of absence',
              /*SECTION : "Change in working hours"*/
              'section865cb3ddbf8334b9b432#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
+			 'section6b3fbf3896e296e3ce3b#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
              /*SECTION : "Work location transfer"*/
              'section7717c4dab275aadcf6c1#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',	
 	/*SECTION : "Change of end date"*/
@@ -87,8 +88,7 @@ var Tableau = [
              /*SECTION : "Withdraw resignation / retirement"*/
              'sectionb638cc0c3de186707031#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Withdraw resignation / retirement',
              /*SECTION : "Employment Data changes details"*/
-             'section168a2a64d9537d03d437#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
-             'section168a2a64d9537d03d437#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer'
+             'section168a2a64d9537d03d437#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours;ANZ_Work location transfer'
 
 ];
 var enableManageField;

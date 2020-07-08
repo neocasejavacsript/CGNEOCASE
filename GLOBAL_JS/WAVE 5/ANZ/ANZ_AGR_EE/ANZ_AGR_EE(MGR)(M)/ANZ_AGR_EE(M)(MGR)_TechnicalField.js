@@ -114,7 +114,7 @@ window.validAbsenceStartEndDate = function(AbsenceStartDateField, AbsenceendDate
 /*------- Convert Date and time format from a field string date value-------*/
 window.convertToDateTime = function(values){
 	var dateSplit = values.split("/"),
-		dateFormatUTC = new Date(dateSplit[2], dateSplit[0], dateSplit[1] - 1 ),
+		dateFormatUTC = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1] ),
 		dateToTime = dateFormatUTC.getTime();
 	return dateToTime;
 };
@@ -129,17 +129,24 @@ window.validateEmailClosureDate = function(lastWorkingDayFieldName,emailClosureF
 	}	
 };
 window.emailClosureVisibilty = function(selectedFieldName, emailClosureDateFieldName){
+	console.log($('#'+neocase.form.field(selectedFieldName)['elementHTML']['id'] + " :selected").text()+"--"+neocase.form.field(selectedFieldName)['elementHTML']['id']);
+	
 	var selectedVal = $('#'+neocase.form.field(selectedFieldName)['elementHTML']['id'] + " :selected").text();
+	
+	//if(selectedVal == ""){$('#'+neocase.form.field(selectedFieldName)['elementHTML']['id']).val("No");}
+	console.log(selectedVal);
 	if(selectedVal != 'Yes'){
-		neocase.form.field(emailClosureDateFieldName).setValue(" ");
+		
+		neocase.form.field(emailClosureDateFieldName).setValue("");
 		neocase.form.field(emailClosureDateFieldName).hide();
 	}
 	else
 	{
 		neocase.form.field(emailClosureDateFieldName).show();
-		neocase.form.field(emailClosureDateFieldName).setValue("");
+		//neocase.form.field(emailClosureDateFieldName).setValue("");
 	}
 };
+
 /**************************
 * Launch Javascript on init
 ***************************/
@@ -148,11 +155,30 @@ window.launchOnInit = function(){
 	// setTimeout(updateAndDisableField, 1000,neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
 	calculate_TargetVarCompProrated();
 	calculate_AnnualSalaryProrated();
+	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR589').hide();
+	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR590').hide();
+	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR591').hide();
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR278"));
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR78"));
 	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR555")); //Action reason
 	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR5")); //Effective date
 	//disableField(neocase.form.field("UTILISATEURS_CHAMPU29")); //Work Location
 	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR123")); //Work location (new)
+	
 };
 neocase.form.event.bind("init",launchOnInit);
+
+
+window.launchOnComplete = function(){
+	//var subtopic = getParamFromUrl('subtopic');
+	//if(subtopic == '2817'){
+		
+		emailClosureVisibilty('INTERVENTIONS_EN_COURS$VALEUR586', 'INTERVENTIONS_EN_COURS$VALEUR589');
+	//}else if(subtopic == '2744'){
+		emailClosureVisibilty('INTERVENTIONS_EN_COURS$VALEUR587', 'INTERVENTIONS_EN_COURS$VALEUR590');
+	//}else if(subtopic == '2743'){
+		emailClosureVisibilty('INTERVENTIONS_EN_COURS$VALEUR588', 'INTERVENTIONS_EN_COURS$VALEUR591');
+	//}
+	
+ };
+neocase.form.event.bind('loadcomplete',launchOnComplete);

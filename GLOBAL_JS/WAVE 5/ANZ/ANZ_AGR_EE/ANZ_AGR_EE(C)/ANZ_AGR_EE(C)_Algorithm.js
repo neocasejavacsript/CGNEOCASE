@@ -75,8 +75,9 @@ var Tableau = [
 		'sectionb7389be809155628bdbd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change return date of leave of absence',
     /*SECTION : "Change in working hours"*/
         'section2f272ceec56f8c275081#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
+		'section62b72d207b0c9254eb86#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
     /*SECTION : "Work location transfer"*/
-        'sectionfcdefa9d334d060a9d32#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',	
+        'sectionfcdefa9d334d060a9d32#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',				
 	/*SECTION : "Change of end date"*/
         'sectionb6f24e3f4bf51bfc8280#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change of end date',
     /*SECTION : "International transfer out"*/
@@ -1461,8 +1462,14 @@ window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
     //FILL SUBTOPIC
-    manageSubtopic();
+   // manageSubtopic();
     manageFields("ouverture");
+    /* setTimeout(function(){
+        mandatoryList();   
+        enableManageField = true;
+        manageFields();
+    }, 1000);*/
+
 
 };
 neocase.form.event.bind('loadcomplete', onloadForm);
