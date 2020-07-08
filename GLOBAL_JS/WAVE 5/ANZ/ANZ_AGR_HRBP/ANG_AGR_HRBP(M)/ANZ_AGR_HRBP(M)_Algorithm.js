@@ -83,6 +83,7 @@ var Tableau = [
     'section71dd8c7f3b79d93bd0f4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in management team;ANZ_Cost center change;',
     /*SECTION : "Change in working hours"*/
     'sectioncb82a841be7186f1aa92#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
+	'section420921cae9502d76106c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
      
    
     'sectioncc849d21c82253679e06#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Change in management team;ANZ_Change in working hours;ANZ_Cost center change;ANZ_Demotion;ANZ_Fixed-term contract extension;ANZ_Work location transfer;',
