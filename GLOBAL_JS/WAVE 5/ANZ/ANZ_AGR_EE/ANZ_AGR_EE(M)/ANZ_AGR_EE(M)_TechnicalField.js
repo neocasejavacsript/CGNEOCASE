@@ -19,7 +19,7 @@ neocase.form.section("section8515535d1e15302536ec").hide();
 /*------- Convert Date and time format from a field string date value-------*/
 window.convertToDateTime = function(values){
 	var dateSplit = values.split("/"),
-		dateFormatUTC = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]),
+		dateFormatUTC = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1]),
 		dateToTime = dateFormatUTC.getTime();
 	return dateToTime;
 };
@@ -73,12 +73,12 @@ window.launchOnInit = function(){
  };
 neocase.form.event.bind("init",launchOnInit);
 
-/*
+
 window.launchOnComplete = function(){
-	//showActionReason();
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
  };
 neocase.form.event.bind('loadcomplete',launchOnComplete);
-
+/*
 window.launchOnSubmit = function () { 
 	// validAbsenceStartEndDate();
 };

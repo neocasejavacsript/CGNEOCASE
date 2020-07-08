@@ -23,9 +23,9 @@ Change No   - MOD-004
 Description - Popups implemented for 6-management team popups
 ----------------------------------------------------------------------------*/ 
 
-//Hide Hidden  Section
+// Hide Hidden  Section
 neocase.form.section("sectionf0526399d635f69a4471").hide();
-//Hide Technical Section
+// Hide Technical Section
 neocase.form.section("sectionc3be57db76bac2ebe401").hide();
 
 /***********************************
@@ -35,66 +35,66 @@ window.copyValue = function(copyField, pasteField) {
     var msg = "fonction copyValue : ";
     var fieldTd = document.getElementsByClassName("fieldTD");
     if (fieldTd.length > 0) {
-        //BackOffice side
+        // BackOffice side
         msg += "backoffice side";
-        //COPY BKO FIELD
-        //--------------
+        // COPY BKO FIELD
+        // --------------
         var bkoCopyFieldValue = "";
         if (document.getElementById(copyField) === null) {
-            //if copy field not found
-            console.log("field to copy " + copyField + " not found");
-            //return false;
+            // if copy field not found
+            // console.log("field to copy " + copyField + " not found");
+            // return false;
         } else {
-            //if copy field exists
-            //get field value
+            // if copy field exists
+            // get field value
             if (document.getElementById(copyField).type == "select" || document.getElementById(copyField).type == "select-one") {
-                //copy select field
+                // copy select field
                 bkoCopyFieldValue = document.getElementById(copyField).options[document.getElementById(copyField).selectedIndex].text;
             } else {
-                //copy text field
+                // copy text field
                 bkoCopyFieldValue = document.getElementById(copyField).value;
             }
         }
 
-        //PASTE BKO FIELD
-        //---------------
-        //Only paste value if copy field existes
+        // PASTE BKO FIELD
+        // ---------------
+        // Only paste value if copy field existes
         if (bkoCopyFieldValue != "") {
             var bkoPasteFieldValue = "";
             if (document.getElementById(pasteField) === null) {
-                //if paste field not found
-                console.log("field to paste " + pasteField + " not found");
-                //return false;
+                // if paste field not found
+                // console.log("field to paste " + pasteField + " not found");
+                // return false;
             } else {
-                //if both fields exists we paste the values
-                //Read Only fields
+                // if both fields exists we paste the values
+                // Read Only fields
                 if (pasteField.readOnly === true) {
-                    //Readonly fields, disable it
+                    // Readonly fields, disable it
                     document.getElementById(pasteField).readOnly = false;
-                    //paste value
+                    // paste value
                     document.getElementById(pasteField).value = bkoCopyFieldValue;
-                    //save
+                    // save
                     ThisCase.BackgroundMode.Begin();
                     ThisCase.BackgroundMode.Execute('enregistreronly()');
-                    //enable readOnly
+                    // enable readOnly
                     document.getElementById(pasteField).readOnly = true;
                     ThisCase.BackgroundMode.Execute('enregistreronly()');
                     ThisCase.BackgroundMode.Stop();
                 } else {
-                    //Standard custom fields
+                    // Standard custom fields
                     if (document.getElementById(pasteField).type == "select" || document.getElementById(pasteField).type == "select-one") {
-                        //select fields
+                        // select fields
                     } else {
-                        //text fields
+                        // text fields
                         document.getElementById(pasteField).value = bkoCopyFieldValue;
                     }
                 }
             }
         }
     } else {
-        //FrontOffice side
+        // FrontOffice side
         msg += "frontOffice side";
-        //get copy field type and valeur
+        // get copy field type and valeur
         var froCopyFieldCustomType = "";
         var froCopyFieldValeur = "";
         var froCopyFieldId = "";
@@ -116,17 +116,17 @@ window.copyValue = function(copyField, pasteField) {
                 froCopyFieldValeur = froCopyFieldSplit[froCopyFieldSplitLength - 1];
             } else {
                 msg += " / copyfield values not found";
-                console.log(msg);
+                // console.log(msg);
             }
         } else {
             if (copyField.search("MOTSCLES") != -1) {
                 froCopyFieldId = "MOTCLE";
             } else {
                 msg += "no copyField found";
-                console.log(msg);
+                // console.log(msg);
             }
         }
-        //get paste field type and valeur
+        // get paste field type and valeur
         var froPasteFieldCustomType = "";
         var froPasteFieldValeur = "";
         var froPasteFieldId = "";
@@ -148,127 +148,127 @@ window.copyValue = function(copyField, pasteField) {
                 froPasteFieldValeur = froPasteFieldSplit[froPasteFieldSplitLength - 1];
             } else {
                 msg += " / pastefield values not found";
-                console.log(msg);
+                // console.log(msg);
             }
         } else {
             if (pasteField.search("MOTSCLES") != -1) {
                 froPasteFieldId = "MOTCLE";
             } else {
                 msg += "no pasteField found";
-                console.log(msg);
+                // console.log(msg);
             }
         }
-        //variables
+        // variables
         var froCopyField = "";
         var froCopyFieldValue = "";
         var froPasteField = "";
         var froPasteFieldType = "";
 
-        //COPY FRO FIELD
-        //--------------
-        //get form sections
+        // COPY FRO FIELD
+        // --------------
+        // get form sections
         var sections = document.getElementsByClassName("bloc");
         if (sections.length > 0) {
-            //loop on every sections
+            // loop on every sections
             for (s = 0; s< sections.length; s++) {
                 var froSelect = sections[s].getElementsByTagName("select");
 
-                //LOOP ON SELECT
-                //--------------
+                // LOOP ON SELECT
+                // --------------
                 if (froSelect.length > 0) {
                     for (fs = 0; fs< froSelect.length; fs++) {
-                        //search copy field
+                        // search copy field
                         if (froCopyFieldId == "") {
-                            //search type correspondance
+                            // search type correspondance
                             if (froSelect[fs].id.search(froCopyFieldCustomType) != -1) {
-                                //search valeur correspondance
+                                // search valeur correspondance
                                 var froSelectCopySplit = froSelect[fs].id.split("_");
                                 var froSelectCopyValeur = Number(froSelectCopySplit.length);
                                 var froSelectCopyLast = froSelectCopySplit[froSelectCopyValeur - 1];
                                 if (froSelectCopyLast == froCopyFieldValeur) {
-                                    //if correspondance is found, we stock the copy field
+                                    // if correspondance is found, we stock the copy field
                                     froCopyField = froSelect[fs];
                                     froCopyFieldValue = froSelect[fs].options[froSelect[fs].selectedIndex].text;
                                 }
                             }
                         } else {
                             if (froSelect[fs].id.search(froCopyFieldId) != -1) {
-                                //if correspondance is found, we stock the copy field
+                                // if correspondance is found, we stock the copy field
                                 froCopyField = froSelect[fs];
                                 froCopyFieldValue = froSelect[fs].options[froSelect[fs].selectedIndex].text;
                             }
                         }
 
-                        //search paste field
+                        // search paste field
                         if (froPasteFieldId == "") {
-                            //search type correspondance
+                            // search type correspondance
                             if (froSelect[fs].id.search(froPasteFieldCustomType) != -1) {
-                                //search valeur correspondance
+                                // search valeur correspondance
                                 var froSelectPasteSplit = froSelect[fs].id.split("_");
                                 var froSelectPasteValeur = Number(froSelectPasteSplit.length);
                                 var froSelectPasteLast = froSelectPasteSplit[froSelectPasteValeur - 1];
                                 if (froSelectPasteLast == froPasteFieldValeur) {
-                                    //if correspondance is found, we stock the paste field
+                                    // if correspondance is found, we stock the paste field
                                     froPasteField = froSelect[fs];
                                     froPasteFieldType = "select";
                                 }
                             }
                         } else {
                             if (froSelect[fs].id.search(froPasteFieldId) != -1) {
-                                //if correspondance is found, we stock the paste field
+                                // if correspondance is found, we stock the paste field
                                 froPasteField = froSelect[fs];
                                 froPasteFieldType = "select";
                             }
                         }
                     }
                 }
-                //if one of the copy/paste field isn't found, we search on input
+                // if one of the copy/paste field isn't found, we search on input
                 if (froCopyField == "" || froPasteField == "") {
                     var froInput = sections[s].getElementsByTagName("input");
 
-                    //LOOP ON INPUT
-                    //-------------
+                    // LOOP ON INPUT
+                    // -------------
                     if (froInput.length > 0) {
                         for (fi = 0; fi< froInput.length; fi++) {
-                            //search copy field
+                            // search copy field
                             if (froCopyFieldId == "") {
-                                //search type correspondance
+                                // search type correspondance
                                 if (froInput[fi].id.search(froCopyFieldCustomType) != -1) {
-                                    //search valeur correspondance
+                                    // search valeur correspondance
                                     var froTextCopySplit = froInput[fi].id.split("_");
                                     var froTextCopyValeur = Number(froTextCopySplit.length);
                                     var froTextCopyLast = froTextCopySplit[froTextCopyValeur - 1];
                                     if (froTextCopyLast == froCopyFieldValeur) {
-                                        //if correspondance is found, we stock the copy field
+                                        // if correspondance is found, we stock the copy field
                                         froCopyField = froInput[fi];
                                         froCopyFieldValue = froInput[fi].value;
                                     }
                                 }
                             } else {
                                 if (froInput[fi].id.search(froCopyFieldId) != -1) {
-                                    //if correspondance is found, we stock the copy field
+                                    // if correspondance is found, we stock the copy field
                                     froCopyField = froInput[fi];
                                     froCopyFieldValue = froInput[fi].value;
                                 }
                             }
 
-                            //search paste field
+                            // search paste field
                             if (froPasteFieldId == "") {
-                                //search type correspondance
+                                // search type correspondance
                                 if (froInput[fi].id.search(froPasteFieldCustomType) != -1) {
-                                    //search valeur correspondance
+                                    // search valeur correspondance
                                     var froTextPasteSplit = froInput[fi].id.split("_");
                                     var froTextPasteValeur = Number(froTextPasteSplit.length);
                                     var froTextPasteLast = froTextPasteSplit[froTextPasteValeur - 1];
                                     if (froTextPasteLast == froPasteFieldValeur) {
-                                        //if correspondance is found, we stock the paste field
+                                        // if correspondance is found, we stock the paste field
                                         froPasteField = froInput[fi];
                                         froPasteFieldType = "text";
                                     }
                                 }
                             } else {
                                 if (froInput[fi].id.search(froPasteFieldId) != -1) {
-                                    //if correspondance is found, we stock the paste field
+                                    // if correspondance is found, we stock the paste field
                                     froPasteField = froInput[fi];
                                     froPasteFieldType = "text";
                                 }
@@ -276,55 +276,55 @@ window.copyValue = function(copyField, pasteField) {
                         }
                     }
                 }
-                //if one of the copy/paste field isn't found, we search on readonly fields
+                // if one of the copy/paste field isn't found, we search on readonly fields
                 if (froCopyField == "" || froPasteField == "") {
                     var froSpan = sections[s].getElementsByTagName("span");
 
-                    //LOOP ON SPAN
-                    //------------
+                    // LOOP ON SPAN
+                    // ------------
                     if (froSpan.length > 0) {
                         for (fsp = 0; fsp< froSpan.length; fsp++) {
-                            //take away mandatory fields indicators span
+                            // take away mandatory fields indicators span
                             if (froSpan[fsp].id.search("Validator") == -1) {
-                                //search copy field
+                                // search copy field
                                 if (froCopyFieldId == "") {
-                                    //search type correspondance
+                                    // search type correspondance
                                     if (froSpan[fsp].id.search(froCopyFieldCustomType) != -1) {
-                                        //search valeur correspondance
+                                        // search valeur correspondance
                                         var froReadonlyCopySplit = froSpan[fsp].id.split("_");
                                         var froReadonlyCopyValeur = Number(froReadonlyCopySplit.length);
                                         var froReadonlyCopyLast = froReadonlyCopySplit[froReadonlyCopyValeur - 1];
                                         if (froReadonlyCopyLast == froCopyFieldValeur) {
-                                            //if correspondance is found, we stock the copy field
+                                            // if correspondance is found, we stock the copy field
                                             froCopyField = froSpan[fsp];
                                             froCopyFieldValue = froSpan[fsp].innerHTML;
                                         }
                                     }
                                 } else {
                                     if (froSpan[fsp].id.search(froCopyFieldId) != -1) {
-                                        //if correspondance is found, we stock the copy field
+                                        // if correspondance is found, we stock the copy field
                                         froCopyField = froSpan[fsp];
                                         froCopyFieldValue = froSpan[fsp].innerHTML;
                                     }
                                 }
 
-                                //search paste field
+                                // search paste field
                                 if (froPasteFieldId == "") {
-                                    //search type correspondance
+                                    // search type correspondance
                                     if (froSpan[fsp].id.search(froPasteFieldCustomType) != -1) {
-                                        //search valeur correspondance
+                                        // search valeur correspondance
                                         var froReadonlyPasteSplit = froSpan[fsp].id.split("_");
                                         var froReadonlyPasteValeur = Number(froReadonlyPasteSplit.length);
                                         var froReadonlyPasteLast = froReadonlyPasteSplit[froReadonlyPasteValeur - 1];
                                         if (froReadonlyPasteLast == froPasteFieldValeur) {
-                                            //if correspondance is found, we stock the paste field
+                                            // if correspondance is found, we stock the paste field
                                             froPasteField = froSpan[fsp];
                                             froPasteFieldType = "readonly";
                                         }
                                     }
                                 } else {
                                     if (froSpan[fsp].id.search(froPasteFieldId) != -1) {
-                                        //if correspondance is found, we stock the paste field
+                                        // if correspondance is found, we stock the paste field
                                         froPasteField = froSpan[fsp];
                                         froPasteFieldType = "readonly";
                                     }
@@ -336,25 +336,25 @@ window.copyValue = function(copyField, pasteField) {
             }
         }
 
-        //PASTE FRO FIELD
-        //---------------
-        //first check if both fields exist
+        // PASTE FRO FIELD
+        // ---------------
+        // first check if both fields exist
         if (froCopyField == "") {
-            //alert("field to copy "+copyField+" not found");
+            // alert("field to copy "+copyField+" not found");
         } else if (froPasteField == "") {
-            //alert("field to paste "+pasteField+" not found");
+            // alert("field to paste "+pasteField+" not found");
         } else {
-            //If fields exist, we paste the value
+            // If fields exist, we paste the value
             if (froPasteFieldType == "select") {
-                //if paste field is a select
+                // if paste field is a select
             } else if (froPasteFieldType == "text") {
-                //if paste field is a text
+                // if paste field is a text
                 froPasteField.value = froCopyFieldValue;
             } else if (froPasteFieldType == "readonly") {
-                //if paste field is in read only
+                // if paste field is in read only
                 froPasteField.innerHTML = froCopyFieldValue;
             } else {
-                //error, no matching type found for paste field
+                // error, no matching type found for paste field
                 alert("Unknown type for " + froPasteField);
             }
         }
@@ -364,26 +364,30 @@ window.copyValue = function(copyField, pasteField) {
 /*************************** Copying fields starts*******************************/
 
 window.copy_fields = function() {
-    console.log('aaa');
+    // console.log(neocase.form.field('UTILISATEURS$CHAMPU170').getValue());
     
-    //copy Admin Supervisor name value
-    //copyValue("UTILISATEURS$CHAMPU152", "INTERVENTIONS_EN_COURS$VALEUR182");
-    
-
-	//copy Personal Sub Area Desc value
-	copyValue("UTILISATEURS$CHAMPU29", "INTERVENTIONS_EN_COURS$VALEUR122");
-	//copy Employment Percentage value
-	copyValue("UTILISATEURS$CHAMPU248", "INTERVENTIONS_EN_COURS$VALEUR593");
+    // copy Admin Supervisor name value
+    // copyValue("UTILISATEURS$CHAMPU152", "INTERVENTIONS_EN_COURS$VALEUR182");
+    neocase.form.field('UTILISATEURS$CHAMPU152').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR182');
+	// copy Personal Sub Area Desc value
+	// copyValue("UTILISATEURS$CHAMPU29", "INTERVENTIONS_EN_COURS$VALEUR122");
+	neocase.form.field('UTILISATEURS$CHAMPU29').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR122');
+	// copy Employment Percentage value
+	// copyValue("UTILISATEURS$CHAMPU248", "INTERVENTIONS_EN_COURS$VALEUR593");
+	neocase.form.field('UTILISATEURS$CHAMPU248').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR593');
+	// copy HRBP name value
+	// copyValue("UTILISATEURS$CHAMPU58", "INTERVENTIONS_EN_COURS$VALEUR427");
+	neocase.form.field('UTILISATEURS$CHAMPU58').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR427');
+	// copy Fixed term contract end date value
+	// copyValue("UTILISATEURS$CHAMPU186", "INTERVENTIONS_EN_COURS$VALEUR125");
+	neocase.form.field('UTILISATEURS$CHAMPU186').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR125');
+	// copy Target Var pay
+	// copyValue("UTILISATEURS$CHAMPU170", "INTERVENTIONS_EN_COURS$VALEUR77");
+    neocase.form.field('UTILISATEURS$CHAMPU170').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR693');
+	// copy Local Grade value
+	// copyValue("UTILISATEURS$CHAMPU35", "INTERVENTIONS_EN_COURS$VALEUR41");
+	neocase.form.field('UTILISATEURS$CHAMPU35').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR41');
 	
-	//copy HRBP name value
-	copyValue("UTILISATEURS$CHAMPU58", "INTERVENTIONS_EN_COURS$VALEUR427");
-	//copy Fixed term contract end date value
-	copyValue("UTILISATEURS$CHAMPU186", "INTERVENTIONS_EN_COURS$VALEUR125");
-	//copy Local Grade value
-	copyValue("UTILISATEURS$CHAMPU35", "INTERVENTIONS_EN_COURS$VALEUR41");
-	//copy Target Var pay
-	copyValue("UTILISATEURS$CHAMPU170", "INTERVENTIONS_EN_COURS$VALEUR77");
-    //neocase.form.field('UTILISATEURS$CHAMPU186').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR125');
 };
 /************************** Copying fields ends*********************************/
 
@@ -398,7 +402,7 @@ window.calculate_TargetVarCompProratedNPI = function() {
 	var val_employmentPercentage = employmentPercentage.getValue();
 
  	var calculation;
-              console.log(val_targetVarCompActual);
+              // console.log(val_targetVarCompActual);
 	if(targetVarCompActual){
 		if(employmentPercentage){
 			if(isNaN(val_targetVarCompActual)){
@@ -406,7 +410,7 @@ window.calculate_TargetVarCompProratedNPI = function() {
 			}else if(isNaN(val_employmentPercentage)){
 				calculation = 0;
 			}else{
-				calculation = (val_targetVarCompActual / val_employmentPercentage) * 100;
+				calculation = (val_targetVarCompActual * val_employmentPercentage) / 100;
 			}
 			targetVarCompproratedNew.setValue(calculation.toFixed(2));
 		}
@@ -534,7 +538,7 @@ FillCf_Job_Catg = function(fieldValue){
 		capgEnable(formulaire.INTERVENTIONS_EN_COURS$VALEUR52);
 	}
 };
-//Management Popup - Reviewer
+// Management Popup - Reviewer
 FillCf_Reviewer_First_Name = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR154.value = fieldValue;
 };
@@ -547,7 +551,7 @@ FillCf_Reviewer_LocalID = function(fieldValue) {
     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR156, false);
 };
 
-//Management Popup - supervisor
+// Management Popup - supervisor
 FillCf_Supervisor_First_Name = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR183.value = fieldValue;
 };
@@ -560,7 +564,7 @@ FillCf_Supervisor_LocalID = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR185.value = fieldValue;
     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR185, false);
 };
-//Management Popup - Default
+// Management Popup - Default
 FillCf_DefaultName_First_Name = function(fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR288.value = fieldValue;
 };
@@ -575,8 +579,8 @@ FillCf_DefaultName_PersonelNum = function(fieldValue) {
 window.setAllPopups = function(){
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR46, "/Custom_Referential/JobName.aspx?Id_User="); //set popup link to Job title new
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR291, "/Custom_Referential/ContratType.aspx?Id_User="); //set popup link to ContratType
-	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR295, "/Custom_Referential/ContratType.aspx?Id_User="); //set popup link to ContratType
-    //Management Team pop-ups
+	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR311, "/Custom_Referential/ContratType.aspx?Id_User="); //set popup link to ContratType
+    // Management Team pop-ups
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR154, "/Custom_Referential/ManagerReviewer.aspx?Id_User="); //set popup link to Performance reviewer name (new)
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR386, "/Custom_Referential/ManagerHRBP.aspx?Id_User="); // set popup link to HRBP
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR183, "/Custom_Referential/ManageSupervisor.aspx?Id_User=");//set popup link to Admin supervisor (new)
@@ -584,7 +588,7 @@ window.setAllPopups = function(){
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR288, "/Custom_Referential/ManagerDefaultName.aspx");//set popup link to Default approver	
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR142, "/Custom_Referential/ManagerHRDP.aspx?Id_User=");//set popup link to HR Delivery Partner name (new)
 
-	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR123, "/Custom_Referential/PersonalArea.aspx"); //set popup link to Personal sub area [Work location]
+	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR123, "/Custom_Referential/PersonalArea.aspx"); //set popup link to Personal sub area [Work location]/**/
 };
 window.disableCusFields = function(){
 	disableField(neocase.form.field("UTILISATEURS$CHAMPU35")); // disable
@@ -592,16 +596,16 @@ window.disableCusFields = function(){
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR46")); //disbale Job title new
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR48")); //disbale Job category default (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR291")); //Disable "Contract type desc (new)"
-    //Auto-calculation disable fields
+    // Auto-calculation disable fields
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR76")); // disable annual salary prorated
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR78")); // disable Target Var Comp Prorated
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR565")); // disable Annual Salary At Actual FTE
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR567")); // disable Target Var Comp Prorated NPI
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR77")); // disable Target Var Comp Actual NPI
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR693")); // disable Target Var Comp Actual NPI
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR593")); // disable Employment percentage
 	disableField(neocase.form.field("UTILISATEURS$CHAMPU168")); // disable 
 	disableField(neocase.form.field("UTILISATEURS$CHAMPU170")); // disable 
-    //Management Team disable-fields
+    // Management Team disable-fields
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR154")); //disbale performance reviewer(new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR386")); //disbale HRBP name(new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR183")); //disable Admin supervisor (new)
@@ -624,7 +628,7 @@ window.disableCusFields = function(){
 /*------- Convert Date and time format from a field string date value-------*/
 window.convertToDateTime = function(values){
 	var dateSplit = values.split("/"),
-		dateFormatUTC = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]),
+		dateFormatUTC = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1]),
 		dateToTime = dateFormatUTC.getTime();
 	return dateToTime;
 };
@@ -643,7 +647,7 @@ window.validAbsenceStartEndDate = function(AbsenceStartDateField, AbsenceendDate
 window.showActionReason = function(){
 	var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();//getParamFromUrl('subtopic');
 	var x = document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").options.length;
-	console.log(x+subtopic);
+	// console.log(x+subtopic);
 	var ar = new Array();
 	
 	ar['1'] = [];
@@ -672,10 +676,10 @@ window.showActionReason = function(){
 	ar['2741'][0]="Work location transfer";
 	ar['2808'] = [];
 	ar['2808'][0]="Change in management team";
-//console.log(ar[1][0]);
+// console.log(ar[1][0]);
 	var j = 0;
 	for(var i=1; i<x; i++){
-		//console.log(ar[subtopic][j] + ' = '+document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").options[i].text);
+		// console.log(ar[subtopic][j] + ' = '+document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").options[i].text);
 		if(ar[subtopic][j] == document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR555").options[i].text){
 			j++;
 		}else{
@@ -684,7 +688,7 @@ window.showActionReason = function(){
 	}
 };
 
-//------------------------ Capgemini Developed Enable and Disable Code ---------------------//
+// ------------------------ Capgemini Developed Enable and Disable Code ---------------------//
 
 
 window.capgDisable = function(fieldGotByID) {
@@ -704,14 +708,18 @@ window.capgEnable = function(fieldGotByID)
 /**************************
 * Launch Javascript on init
 ***************************/
+
+
 window.launchOnInit = function(){
-	
+	console.log('dhukeche');
     updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
-    setTimeout(updateAndDisableField, 500,neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
-	//setTimeout(showActionReason,1000);
+    setTimeout(function(){
+         updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
+    }, 800);
+	// setTimeout(showActionReason,1000);
     
     
-    //document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR249").onkeyup = function() {
+    // document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR249").onkeyup = function() {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR249.onkeyup = function(){
         calculate_AnnualSalaryProrated();
         calculate_TargetVarCompProrated();
@@ -724,19 +732,71 @@ window.launchOnInit = function(){
     formulaire.INTERVENTIONS_EN_COURS$VALEUR385.onkeyup = function(){
         calculate_TargetVarCompProratedNPI();
     };
-
-    //document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR249").onkeyup = function() {calculate_AnnualSalaryProrated();calculate_TargetVarCompProrated();};
-	//document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR278").onkeyup = function() {calculate_AnnualSalaryAtActualFTE();};
-	//document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR385").onkeyup = function() {calculate_TargetVarCompProratedNPI();};
+	
+	
+	// copy_fields();
+    
+    // document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR249").onkeyup = function() {calculate_AnnualSalaryProrated();calculate_TargetVarCompProrated();};
+	// document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR278").onkeyup = function() {calculate_AnnualSalaryAtActualFTE();};
+	// document.getElementById("ctl04_ctl14_ctl00_INTERVENTIONS_EN_COURS_VALEUR385").onkeyup = function() {calculate_TargetVarCompProratedNPI();};
  };
 neocase.form.event.bind("init",launchOnInit);
 
+
+window.showWorkingHoursSection = function(){
+	
+	neocase.fieldInstances = [];
+    if(getParamFromUrl('subtopic') === '2736'){
+        neocase.form.section("sectioncb82a841be7186f1aa92").show();
+		neocase.form.section("sectionc2d26d41d0c11fb26795").show();
+    }else{
+        neocase.form.section("sectioncb82a841be7186f1aa92").hide();
+		neocase.form.section("sectionc2d26d41d0c11fb26795").hide();
+    }
+};
+
+window.showNonPayrollSection = function(){
+	
+	neocase.fieldInstances = [];
+    if(getParamFromUrl('subtopic') === '2813'){
+        neocase.form.section("section0a5cd418dcb791ab9a17").show();
+    }else{
+        neocase.form.section("section0a5cd418dcb791ab9a17").hide();
+    }
+};
+
+window.showGradeDetailsSection = function(){
+	
+	neocase.fieldInstances = [];
+    if(getParamFromUrl('subtopic') === '2813'){
+        neocase.form.section("sectiona3e9bb236d88e44b3031").show();
+    }else{
+        neocase.form.section("sectiona3e9bb236d88e44b3031").hide();
+    }
+};
+
+window.showAdditionalEmpDetailsSection = function(){
+	
+	neocase.fieldInstances = [];
+    if(getParamFromUrl('subtopic') === '2732' || getParamFromUrl('subtopic') === '2808' || getParamFromUrl('subtopic') === '2736' || getParamFromUrl('subtopic') === '2812' || getParamFromUrl('subtopic') === '2813' || getParamFromUrl('subtopic') === '2739' || getParamFromUrl('subtopic') === '2741'){
+        neocase.form.section("section21a993619a18117ef042").show();
+    }else{
+        neocase.form.section("section21a993619a18117ef042").hide();
+    }
+};
+
 window.launchOnComplete = function(){
-    neocase.form.field('UTILISATEURS$CHAMPU152').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR182');
-    copy_fields();
-    setAllPopups();
+    // neocase.form.field('UTILISATEURS$CHAMPU170').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR77');
+	
+    // showActionReason();
+	showAdditionalEmpDetailsSection();
+	showGradeDetailsSection();
+	showWorkingHoursSection();
+	showNonPayrollSection();
+	
+	copy_fields();    
     disableCusFields();
-    showActionReason();
+	setAllPopups();
  };
 neocase.form.event.bind('loadcomplete',launchOnComplete);
 

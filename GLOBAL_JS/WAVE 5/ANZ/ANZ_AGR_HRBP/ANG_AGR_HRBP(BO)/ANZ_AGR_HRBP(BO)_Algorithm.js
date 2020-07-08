@@ -84,17 +84,17 @@ var Tableau = [
     /*SECTION : "Work location transfer"*/
     'section5fbf0cc304ff73792781#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Work location transfer',
     /*SECTION : Grade Details */
-    'sectionaa695c51ef90d72b94dd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
+    //'sectionaa695c51ef90d72b94dd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
     /* SECTION: Job Details */
     'sectionb2efbe0d5057f3fccb3e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion;ANZ_Change in job',
     /* SECTION: Working hours details */
-    'sectione1c1c9cba122b4df2afb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
+    //'sectione1c1c9cba122b4df2afb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in working hours',
     /* SECTION : Pay*/
-    'section4f8bca62b68e042d1fbc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
+    //'section4f8bca62b68e042d1fbc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
     /* SECTION : Additional Allowance */
     'section402e2112d1398e5b030f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
     /* SECTION : Non-Payroll Information */
-    'section1ab7339c7499cc587b0e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
+    //'section1ab7339c7499cc587b0e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Demotion',
     /* SECTION : Management Team */
     'section25dab7135acd521433d8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in management team;ANZ_Cost center change',
     /*SECTION : "End of Fixed term contract details"*/

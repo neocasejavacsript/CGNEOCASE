@@ -1,6 +1,5 @@
-//ANZ_SGR_BO - Algorithm Code
+/* ------- ANZ_SGR_BO Algo ---------- */
 
-/*****************Neocase-Developer Code Comment Started ******************/
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -53,25 +52,19 @@ V17 - PJU - 11/01/2018
 V18 - PJU - 01/03/2018
 	- add specific code for 'MOTCLE' in manageFields
 */
-/****************** Neocase Developer Code Comment Ended ******************/
 
-/****************** CG Developer Code Comment Started ******************/
-/*----------------------------------------------------------------------------------------------------------------------------------
-Developer   - Riya Dutta
-Date	    - 10/01/2019 (MM/DD/YYYY)
+/*--------------------------------------------------------------------------
+Developer   - Debraj Sarkar
+Date	    - 11/06/2018 (MM/DD/YYYY)
 Change No   - MOD-001
-Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR Form
-			- Did basic clean up and changes based on mock up
-			- Display specific section based on subtopic
-------------------------------------------------------------------------------------------------------------------------------------*/
-/****************** CG Developer Code Comment Ended ******************/
+Description - Hide Section based on Subtopics
+----------------------------------------------------------------------------*/
 
 /**************************
- Fields and display settings
- ***************************/
+Fields and display settings
+***************************/
 var Tableau = [
-	
-	/*SECTION : "Hire/Rehire details"*/
+    /*SECTION : "Hire/Rehire details"*/
 	'sectionc4b9bc02d64048961cde#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Experienced Hire;ANZ_College Hire;ANZ_Hire with Prior Service;ANZ_International Transfer In',
 	/*SECTION : "Non-Employee activation details"*/
 	'section76fc8a35cb462fd87dee#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Non Employee activation',
@@ -89,23 +82,23 @@ var Tableau = [
 	/*SECTION : "Return from leave of absence"*/
 	'sectionba815a1957db6e0339d7#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Return from leave of absence',
 	/*SECTION : "Employment data changes details"*/
-	'section5eab1b52c1e7688cbeb2#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in pay;ANZ_Change in grade;ANZ_Promotion;ANZ_Change in allowance;ANZ_Work location transfer',
+	'section5eab1b52c1e7688cbeb2#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in pay;ANZ_Change in grade;ANZ_Promotion;ANZ_Change in allowance', // removed ANZ_Work location transfer
 	/*SECTION : "Contract details"*/
-	'section9f7222929ad5cb959951#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in contract',
+	//'section9f7222929ad5cb959951#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in contract',
 	/*SECTION : "Org Assignment"*/
-	'section2f0c537f367ffba11a04#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in contract',
+	//'section2f0c537f367ffba11a04#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in contract',
 	/*SECTION : "Grade Details"*/
-	'section3edef2ac0fb209f64669#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in grade;ANZ_Promotion',
+	//'section3edef2ac0fb209f64669#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in grade;ANZ_Promotion',
 	/*SECTION : "Job Details"*/
-	'sectionab238c9264e2c46539d4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in grade;ANZ_Promotion',
+	//'sectionab238c9264e2c46539d4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in job;ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in grade;ANZ_Promotion',
 	/*SECTION : "Pay"*/
-	'section10d1060bf09dee3486fe#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in pay',
+	//'section10d1060bf09dee3486fe#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in pay',
 	/*SECTION : "Additional Allowance"*/
-	'sectionc705e4f6f442a1a34d66#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in pay;ANZ_Change in allowance',
+	//'sectionc705e4f6f442a1a34d66#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in pay;ANZ_Change in allowance',
 	/*SECTION : "Non-Payroll Information"*/
-	'sectiona64c7ff313bf953d48b8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in pay',
+	//'sectiona64c7ff313bf953d48b8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Annual increment + Promotion;ANZ_Change in contract;ANZ_Change in pay',
 	/*SECTION : "Management Team"*/
-	'section3e7a54d9324df6a5fd5f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in contract',
+	//'section3e7a54d9324df6a5fd5f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in contract',
 	/*SECTION : "Change in leaver details"*/
 	'sectionfc0924d06c3c274219ed#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in leaver details',
 	/*SECTION : "Non-Employee deactivation details"*/
@@ -113,12 +106,12 @@ var Tableau = [
 	/*SECTION : "Leavers Checklist"*/
 	'section3527bafb1e5102704e3e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Leavers checklist',
 	/*SECTION : "Assignment details"*/
-	'section48bfa8edb975e2722723#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Assignment inbound start;ANZ_Assignment inbound end;ANZ_Assignment inbound extension;ANZ_Assignment outbound start;ANZ_Assignment outbound end',
+	'section48bfa8edb975e2722723#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Assignment inbound start;ANZ_Assignment inbound end;ANZ_Assignment inbound extension;ANZ_Assignment outbound start;ANZ_Assignment outbound end;ANZ_Assignment outbound extension',
 	/*SECTION : "Mass Upload details"*/
 	'section8e7f8c18a4feb93aadec#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Grade change_MU;ANZ_Job reclassification_MU;ANZ_Work location transfer_MU;ANZ_Cost center change_MU;ANZ_Promotion_MU;ANZ_Company change_MU;ANZ_Change in pay_MU;ANZ_Management team_MU;ANZ_Reorganisation_MU',
 	'section3f3d7d8ff045a1268a79#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Grade change_MU;ANZ_Job reclassification_MU;ANZ_Work location transfer_MU;ANZ_Cost center change_MU;ANZ_Promotion_MU;ANZ_Company change_MU;ANZ_Change in pay_MU;ANZ_Management team_MU;ANZ_Reorganisation_MU',
 	/*SECTION : "HR Management Reporting details"*/
-	'sectionbb7f8e561bdf5c2ecd5a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Scheduled report;ANZ_Management report',
+	'sectionbb7f8e561bdf5c2ecd5a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Scheduled report;ANZ_Management Report',
 	/*SECTION : "Employee group/Employee subgroup"*/
 	'section075f66305b4fc10c18ef#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Change in contract'
 	
@@ -212,6 +205,8 @@ window.champObligatoire = function (FIELD, VALID) {
                     localStorage.setItem("mandatoryListFields", BM_VALUES);
                 } else if (BM_CLIENT != "" && BM_CLIENT != " ") {
                     localStorage.setItem("mandatoryListFields", BM_CLIENT);
+                }else{
+                    localStorage.setItem("mandatoryListFields", "");
                 }
             }
             if (VALID === false) {
@@ -234,8 +229,8 @@ window.champObligatoire = function (FIELD, VALID) {
                             BM_CLIENT = BM_CLIENT + BM_REPLACE;
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
-                        document.getElementById(LBL_FIELD_ID).className = "label req";
                     }
+                    document.getElementById(LBL_FIELD_ID).className = "label required";
                 }
             }
         }
@@ -307,6 +302,7 @@ window.viderChamp = function (FIELD) {
         }
     }
 };
+
 /************************************************************
 FONCTION PERMETTANT DE TRANSFORMER UNE LISTE EN BOUTONS RADIO
 *************************************************************/
@@ -436,7 +432,6 @@ window.manageCheckbox = function () {
     }
 };
 
-
 window.mandatoryList = function () {
     if(document.getElementById("champsobligatoiresproprietes")){
         var BM_VALUES = document.getElementById("champsobligatoiresproprietes").value;
@@ -448,6 +443,139 @@ window.mandatoryList = function () {
     
 };
 
+
+/*--------- MOD-001 Starts ----- Code cleanUp----cut & pasted from Technical field ---------*/
+/***************
+ * DISABLE FIELDS
+ ****************/
+window.disableTextField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.setAttribute("readonly", "true");
+        field.onmousedown = function () { return false; };
+    } else {
+        //FrontOffice
+        field.setAttribute("readonly", "true");
+        field.onkeydown = function () { return false; };
+        field.onmousedown = function () { return false; };
+    }
+};
+
+window.disableBooleanField = function (field) {
+    field.onclick = function () { return false; };
+    disableTextField(field);
+};
+
+window.disableDateField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        //hide calendar icon
+        field.style.background = "none";
+    } else {
+        //FrontOffice
+        //hide calendar icon
+        if (field.parentNode.getElementsByTagName("img").length > 0) {
+            field.parentNode.getElementsByTagName("img")[0].style.display = "none";
+        }
+    }
+    disableTextField(field);
+};
+
+window.disableFileField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.parentNode.parentNode.style.border = "none";
+        //hide button browse file
+        field.parentNode.style.display = "none";
+        //hide button delete file
+        if (field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0) {
+            field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
+        }
+    } else {
+        //FrontOffice
+        field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
+    }
+};
+
+window.disableListField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.parentNode.style.border = "none";
+    }
+    disableTextField(field);
+};
+
+window.disableTextareaField = function (field) {
+    disableTextField(field);
+};
+
+window.disableField = function (field) {
+    var msg = "function disableField : ";
+    if (field) {
+        field = field.elementHTML;
+        if (field.type == "checkbox") {
+            //Boolean custom fields
+            disableBooleanField(field);
+        } else if (field.className.search("hasDatepicker") != -1) {
+            //Date custom fields
+            disableDateField(field);
+        } else if (field.id.search("_display") != -1) {
+            //File custom fields
+            disableFileField(field);
+        } else if (field.tagName == "SELECT") {
+            //List custom fields
+            disableListField(field);
+        } else if (field.tagName == "TEXTAREA") {
+            //Textarea custom fields
+            disableTextareaField(field);
+        } else {
+            //Text custom fields
+            disableTextField(field);
+        }
+    } else {
+        msg += "field undefined or readonly";
+        console.log(msg);
+    }
+};
+/************************************************
+ * FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
+ *************************************************/
+window.getASPid = function (fieldName) {
+    //Only on FrontOffice Side
+    if (document.getElementsByClassName("bloc-content").length > 0) {
+        var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
+        for (lbl = 0; lbl< label.length; lbl++) {
+
+            //if we find an ASP.NET id we return the dynamic ID number
+            if (label[lbl].id.search("_lbl") != -1) {
+                fieldName = label[lbl].id.split("lbl")[0] + fieldName;
+                fieldName = fieldName.replace("$", "_");
+                return fieldName;
+            }
+
+        }
+    }
+    return fieldName;
+};
+
+FillCf = function (fieldValue, fieldName) {
+    var msg = "function FillCf : ";
+    //properly target field
+    if (fieldName.search("VALEUR0") != -1) {
+        fieldName = fieldName.replace("VALEUR0", "VALEUR");
+
+    }
+    fieldName = getASPid(fieldName);
+    var field = neocase.form.field(fieldName);
+
+
+    if (field) {
+        field.setValue(fieldValue);
+    } else {
+        msg += "field " + fieldName + " not found";
+        console.log(msg);
+    }
+};
 /*************************************************
 ALGORITHME GERANT L'AFFICHAGE DYNAMIQUE DES CHAMPS
 **************************************************/
@@ -1213,190 +1341,59 @@ window.getSelectValue = function (RADIO_BUTTON) {
 
 };
 
-/************************************************
- * FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
- *************************************************/
-window.getASPid = function(fieldName){
-	//Only on FrontOffice Side
-	if(document.getElementsByClassName("bloc-content").length > 0){
-		var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
-		for(lbl=0; lbl<label.length; lbl++){
-			
-			//if we find an ASP.NET id we return the dynamic ID number
-			if(label[lbl].id.search("_lbl") != -1){
-				fieldName = label[lbl].id.split("lbl")[0]+fieldName;
-				fieldName = fieldName.replace("$","_");
-				return fieldName;
-			}
-			
-		}
-	}
-	return fieldName;
-};
-FillCf = function(fieldValue,fieldName){
-	var msg = "function FillCf : ";
-	//properly target field
-	if(fieldName.search("VALEUR0") != -1) {
-		fieldName = fieldName.replace("VALEUR0","VALEUR");
-		
-	}
-	fieldName = getASPid(fieldName);
-	var field = neocase.form.field(fieldName);
-	
-	
-	if(field){
-		field.setValue(fieldValue);
-	}else{
-		msg += "field "+fieldName+" not found";
-		console.log(msg);
-	}
-};
-
 /******************************************
  * CREATE HYPERLINK ON LABEL TO OPEN A POPUP
  *******************************************/
 window.popupLink = function (field, url) {
-	var msg = "function popupLink : ";
-	if (field) {
-		//get field label
-		var fieldId = field.id;
-		var fieldLabel;
-		if (fieldId.search("INTERVENTIONS") != -1) {
-			fieldLabel = fieldId.replace("INTERVENTIONS", "lblINTERVENTIONS");
-		} else if (fieldId.search("UTILISATEURS") != -1) {
-			fieldLabel = fieldId.replace("UTILISATEURS", "lblUTILISATEURS");
-		} else {
-			msg += "type de champ non prit en compte " + fieldId;
-			console.log(msg);
-		}
-		if (fieldLabel.search("_display") != -1) {
-			fieldLabel = fieldLabel.replace("_display", "");
-		}
-		//add case number in the URL if needed
-		if (url.search("Id_Demande") != -1) {
-			url = url.replace("Id_Demande=", "Id_Demande=" + numeroIntervention);
-		}
-		//add contact ID in the URL if needed
-		if (url.search("Id_User") != -1) {
-			url = url.replace("Id_User=", "Id_User=" + CodeUtilisateur);
-		}
-		//Create hyperlink on label
-		var onclick = "window.open('" + url + "','_blank')";
-		var createPopup = document.createElement("a");
-		createPopup.setAttribute("onclick", onclick);
-		var popupText = document.getElementById(fieldLabel).innerHTML;
-		var t = document.createTextNode(popupText);
-		createPopup.appendChild(t);
-		if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
-			document.getElementById(fieldLabel).innerHTML = "";
-			document.getElementById(fieldLabel).appendChild(createPopup);
-		}
-	} else {
-		msg += "champ non trouvé";
-		console.log(msg);
-	}
+    var msg = "function popupLink : ";
+    if (field) {
+        //get field label
+        var fieldId = field.id;
+        var fieldLabel;
+        if (fieldId.search("INTERVENTIONS") != -1) {
+            fieldLabel = fieldId.replace("INTERVENTIONS", "lblINTERVENTIONS");
+        } else if (fieldId.search("UTILISATEURS") != -1) {
+            fieldLabel = fieldId.replace("UTILISATEURS", "lblUTILISATEURS");
+        } else {
+            msg += "type de champ non prit en compte " + fieldId;
+            console.log(msg);
+        }
+        if (fieldLabel.search("_display") != -1) {
+            fieldLabel = fieldLabel.replace("_display", "");
+        }
+        //add case number in the URL if needed
+        if (url.search("Id_Demande") != -1) {
+            url = url.replace("Id_Demande=", "Id_Demande=" + numeroIntervention);
+        }
+        //add contact ID in the URL if needed
+        if (url.search("Id_User") != -1) {
+            url = url.replace("Id_User=", "Id_User=" + CodeUtilisateur);
+        }
+        //Create hyperlink on label
+        var onclick = "window.open('" + url + "','_blank')";
+        var createPopup = document.createElement("a");
+        createPopup.setAttribute("onclick", onclick);
+        var popupText = document.getElementById(fieldLabel).innerHTML;
+        var t = document.createTextNode(popupText);
+        createPopup.appendChild(t);
+        if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
+            document.getElementById(fieldLabel).innerHTML = "";
+            document.getElementById(fieldLabel).appendChild(createPopup);
+        }
+    } else {
+        msg += "champ non trouvé";
+        console.log(msg);
+    }
 };
 
-/***************
- * DISABLE FIELDS
- ****************/
-window.disableTextField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-		//BackOffice
-		field.setAttribute("readonly","true");
-		field.onmousedown = function(){return false;};
-	}else{
-		//FrontOffice
-		field.setAttribute("readonly","true");
-		field.onkeydown = function(){return false;};
-		field.onmousedown = function(){return false;};
-	}
-};
-
-window.disableBooleanField = function(field){
-	field.onclick = function(){return false;};
-	disableTextField(field);
-};
-
-window.disableDateField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-		//BackOffice
-		//hide calendar icon
-		field.style.background = "none";
-	}else{
-		//FrontOffice
-		//hide calendar icon
-		if(field.parentNode.getElementsByTagName("img").length > 0){
-			field.parentNode.getElementsByTagName("img")[0].style.display = "none";
-		}
-	}
-	disableTextField(field);
-};
-
-window.disableFileField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-		//BackOffice
-		field.parentNode.parentNode.style.border = "none";
-		//hide button browse file
-		field.parentNode.style.display = "none";
-		//hide button delete file
-		if(field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0){
-			field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
-		}
-	}else{
-		//FrontOffice
-		field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
-	}
-};
-
-window.disableListField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-		//BackOffice
-		field.parentNode.style.border = "none";
-	}
-	disableTextField(field);
-};
-
-window.disableTextareaField = function(field){
-	disableTextField(field);
-};
-
-window.disableField = function(field){
-	var msg = "function disableField : ";
-	if(field){
-		field = field.elementHTML;
-		if(field.type == "checkbox"){
-			//Boolean custom fields
-			disableBooleanField(field);
-		}else if(field.className.search("hasDatepicker") != -1){
-			//Date custom fields
-			disableDateField(field);
-		}else if(field.id.search("_display") != -1){
-			//File custom fields
-			disableFileField(field);
-		}else if(field.tagName == "SELECT"){
-			//List custom fields
-			disableListField(field);
-		}else if(field.tagName == "TEXTAREA"){
-			//Textarea custom fields
-			disableTextareaField(field);
-		}else{
-			//Text custom fields
-			disableTextField(field);
-		}
-	}else{
-		msg += "field undefined or readonly";
-		console.log(msg);
-	}
-};
 
 /**************************************************************************************
- APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
- ***************************************************************************************/
+APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
+***************************************************************************************/
 window.onloadForm = function () {
-	mandatoryList();
-	enableManageField = true;
-	manageFields();
-	
+    mandatoryList();
+    enableManageField = true;
+    manageFields("ouverture");
+
 };
 neocase.form.event.bind('loadcomplete', onloadForm);

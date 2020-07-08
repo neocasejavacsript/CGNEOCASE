@@ -70,7 +70,8 @@ window.copyFunctions = function() {
 	neocase.form.field('UTILISATEURS$CHAMPU234').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR428');
 	//copy MyC Supervisor Name value
 	neocase.form.field('UTILISATEURS$CHAMPU152').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR182');
-	
+	//copy HRBP Name value
+	neocase.form.field('UTILISATEURS$CHAMPU58').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR427');
 	
 };
 
@@ -215,7 +216,7 @@ window.setPopups = function(){
 	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR119, "/Custom_Referential/PersonalArea.aspx?Id_User=");
 	
 	//Org Assignment -  Cost Centre / PU Code
-	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR15, "/Custom_Referential/PU.aspx?Id_User=");
+	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR15, "/Custom_Referential/PU.aspx?Id_User=&Id_Demande=");
 	
 	//Org Assignment -  Organizational Unit
 	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR13, "/Custom_Referential/OrgUnit.aspx?Id_User=");
@@ -245,9 +246,75 @@ window.setPopups = function(){
 	popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR365, "/Custom_Referential/EmployeeGroup.aspx?Id_User=");	
 	
 };
-
 /* ------------- Calling all the function from here , entry point ------------- */
 
+window.showGradeSection = function(){
+	//console.log(neocase.form.field('UTILISATEURS$CHAMPU239').getValue());
+	neocase.fieldInstances = [];
+    if(neocase.form.field('ELEMENTS').getValue() === '2729' || neocase.form.field('ELEMENTS').getValue() === '2730' || neocase.form.field('ELEMENTS').getValue() === '2806' || neocase.form.field('ELEMENTS').getValue() === '2815'){
+        neocase.form.section("section3edef2ac0fb209f64669").show();
+    }else{
+        neocase.form.section("section3edef2ac0fb209f64669").hide();
+    }
+};
+window.showContractDetailsSection = function(){
+	neocase.fieldInstances = [];
+    if(neocase.form.field('ELEMENTS').getValue() === '2730' ){
+        neocase.form.section("section9f7222929ad5cb959951").show();
+    }else{
+        neocase.form.section("section9f7222929ad5cb959951").hide();
+    }
+};
+window.showOrgAssignmentSection = function(){
+	neocase.fieldInstances = [];
+    if(neocase.form.field('ELEMENTS').getValue() === '2730' ){
+        neocase.form.section("section2f0c537f367ffba11a04").show();
+    }else{
+        neocase.form.section("section2f0c537f367ffba11a04").hide();
+    }
+};
+window.showJobSection = function(){
+	//console.log(neocase.form.field('UTILISATEURS$CHAMPU239').getValue());
+	neocase.fieldInstances = [];
+    if(neocase.form.field('ELEMENTS').getValue() === '2729' || neocase.form.field('ELEMENTS').getValue() === '2730' || neocase.form.field('ELEMENTS').getValue() === '2806' || neocase.form.field('ELEMENTS').getValue() === '2815'){
+        neocase.form.section("sectionab238c9264e2c46539d4").show();
+    }else{
+        neocase.form.section("sectionab238c9264e2c46539d4").hide();
+    }
+};
+window.showPaySection = function(){
+	//console.log(neocase.form.field('UTILISATEURS$CHAMPU239').getValue());
+	neocase.fieldInstances = [];
+    if(neocase.form.field('ELEMENTS').getValue() === '2729' || neocase.form.field('ELEMENTS').getValue() === '2730' || neocase.form.field('ELEMENTS').getValue() === '2735'){
+        neocase.form.section("section10d1060bf09dee3486fe").show();
+    }else{
+        neocase.form.section("section10d1060bf09dee3486fe").hide();
+    }
+};
+window.showAdditionalAllowanceSection = function(){
+	neocase.fieldInstances = [];
+    if(neocase.form.field('ELEMENTS').getValue() === '2729' || neocase.form.field('ELEMENTS').getValue() === '2730' || neocase.form.field('ELEMENTS').getValue() === '2735' || neocase.form.field('ELEMENTS').getValue() === '2809'){
+        neocase.form.section("sectionc705e4f6f442a1a34d66").show();
+    }else{
+        neocase.form.section("sectionc705e4f6f442a1a34d66").hide();
+    }
+};
+window.showNonPayrollSection = function(){
+	neocase.fieldInstances = [];
+    if(neocase.form.field('ELEMENTS').getValue() === '2729' || neocase.form.field('ELEMENTS').getValue() === '2730' || neocase.form.field('ELEMENTS').getValue() === '2735'){
+        neocase.form.section("sectiona64c7ff313bf953d48b8").show();
+    }else{
+        neocase.form.section("sectiona64c7ff313bf953d48b8").hide();
+    }
+};
+window.showManagementTeamSection = function(){
+	neocase.fieldInstances = [];
+    if(neocase.form.field('ELEMENTS').getValue() === '2730'){
+        neocase.form.section("section3e7a54d9324df6a5fd5f").show();
+    }else{
+        neocase.form.section("section3e7a54d9324df6a5fd5f").hide();
+    }
+};
 window.launchOnloadcomplete = function(){
 	
 	//Customize the DropDown of De-activation reason
@@ -268,30 +335,43 @@ window.launchOnloadcomplete = function(){
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR406"));
 	//Disable Organizational Unit Code (new)
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR11"));
+	//Disable Organizational Unit Code (new)
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR427"));
 	
 	/*//Calculate Annual salary prorated (new)
-	calculate_annualSalProrated();
+	//calculate_annualSalProrated();
 	//Disable Annual salary prorated (new)
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR565"));
+	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR565"));
 	
 	//Calcualte Target Var Comp prorated (new)
-	calculate_targetVarCompProratedNew();
+	//calculate_targetVarCompProratedNew();
 	//Disable Target Var Comp prorated (new)
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR567"));*/
-	
-	
+	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR567"));*/
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR565"));
+	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR567"));
+	showGradeSection();
+	showContractDetailsSection();
+	showOrgAssignmentSection();
+	showJobSection();
+	showPaySection();
+	showAdditionalAllowanceSection();
+	showNonPayrollSection();
+	showManagementTeamSection();
 };
-window.launchOnInit = function(){
 
+
+window.launchOnInit = function(){
 //Calculate Annual salary prorated (new)
 	calculate_annualSalProrated();
 	//Disable Annual salary prorated (new)
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR565"));
+	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR565"));
 	
 	//Calcualte Target Var Comp prorated (new)
 	calculate_targetVarCompProratedNew();
 	//Disable Target Var Comp prorated (new)
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR567"));
+	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR567"));
+	
+	
    
 };
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

@@ -1385,6 +1385,9 @@ window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
     manageFields("ouverture");
-
+    /*setTimeout(function(){
+         mandatoryList();
+    enableManageField = true;
+    manageFields("ouverture");    }, 1000);*/
 };
 neocase.form.event.bind('init', onloadForm);

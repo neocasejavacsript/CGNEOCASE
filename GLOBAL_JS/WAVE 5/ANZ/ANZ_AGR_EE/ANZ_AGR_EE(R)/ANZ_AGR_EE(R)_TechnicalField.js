@@ -9,7 +9,8 @@ Description - JS started 1st time for this form
 ----------------------------------------------------------------------------*/ 
 /*---- MOD-001 STARTS ----*/
 //Hide Technical Section
-neocase.form.section("section0e16413536434a642318").hide();
+//neocase.form.section("section0e16413536434a642318").hide();
+checkSectionHide("section0e16413536434a642318");
 //Hide Hidden Section
 //neocase.form.section("sectionf0d2cdf8af4de3979c75").hide();
 /**************************

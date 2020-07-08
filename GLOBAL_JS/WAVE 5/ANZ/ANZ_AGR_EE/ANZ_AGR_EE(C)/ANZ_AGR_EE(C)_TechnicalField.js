@@ -60,7 +60,7 @@ window.setAllPopups = function(){
 /*------- Convert Date and time format from a field string date value-------*/
 window.convertToDateTime = function(values){
 	var dateSplit = values.split("/"),
-		dateFormatUTC = new Date(dateSplit[2], dateSplit[1] - 1, dateSplit[0]),
+		dateFormatUTC = new Date(dateSplit[2], dateSplit[0] - 1, dateSplit[1]),
 		dateToTime = dateFormatUTC.getTime();
 	return dateToTime;
 };
@@ -128,17 +128,35 @@ window.validAbsenceStartEndDate = function(AbsenceStartDateField, AbsenceendDate
 * Launch Javascript on init
 ***************************/
 window.launchOnInit = function(){
-	setAllPopups();
-	updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
-    setTimeout(updateAndDisableField, 1000,neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
+	
+	if(sessionStorage.getItem('loadcomplete')){
+        sessionStorage.removeItem('loadcomplete');
+    }
+
  };
 neocase.form.event.bind("init",launchOnInit);
 
-/*window.launchOnComplete = function(){
-	//showActionReason();
+/********************************************
+* Launch Javascript only once on loadcomplete
+*********************************************/
+window.launchOnceLoadComplete = function(){
+    if(!sessionStorage.getItem('loadcomplete')){
+        sessionStorage.setItem('loadcomplete',true);
+        console.log("launched once on loadcomplete");
+        updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
+        setTimeout(function(){
+            updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
+        }, 800);
+    }
+};
+
+window.launchOnComplete = function(){
+	launchOnceLoadComplete();
+    console.log('launch load complete');
+	setAllPopups();
 };
 neocase.form.event.bind('loadcomplete',launchOnComplete);
-
+/*
 window.launchOnSubmit = function () { 
 	// validAbsenceStartEndDate();
 };
