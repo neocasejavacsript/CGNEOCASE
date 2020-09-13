@@ -1,4 +1,4 @@
-//ANZ_AGR_EE  - Algorithm Code
+//LC_GR_BO - Algorithm Code
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -52,35 +52,18 @@ V18 - PJU - 01/03/2018
 	- add specific code for 'MOTCLE' in manageFields
 */
 
-/*-----------------------------------------------------------------------------
-Developer   - Debraj Sarkar
-Date	    - 10/01/2019 (MM/DD/YYYY)
-Change No   - MOD-001
-Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
-			- Did basic clean up and changes based on mock up
-			- Display specific section based on subtopic
-------------------------------------------------------------------------------
-Developer   - Riya Dutta
-Date	    - 11/21/2019 (MM/DD/YYYY)
-Change No   - MOD-002
-Description - Defect Fixing
-------------------------------------------------------------------------------*/ 
-
 /**************************
-Fields and display settings
-***************************/
+ Fields and display settings
+ ***************************/
 var Tableau = [
-	/*SECTION : "Start Payment"*/
-    'sectionc128a95c2a4b06f858e5#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|IN_Start Payment',
-	/*SECTION : "Stop Payment"*/
-    'section4f79f859c53e6949f0ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|IN_Stop Payment'
-	
+    
+
 ];
 var enableManageField;
 
 /**************************
-IMPLEMENTATION DE FONCTIONS
-***************************/
+ IMPLEMENTATION DE FONCTIONS
+ ***************************/
 //fonctions d'affichage des messages dans la console si elle est ouverte
 window.msg = function (MESSAGE) {
     if (console) {
@@ -89,8 +72,8 @@ window.msg = function (MESSAGE) {
 };
 
 /*********************************
-FONCTION AFFICHER/MASQUER UN CHAMP
-**********************************/
+ FONCTION AFFICHER/MASQUER UN CHAMP
+ **********************************/
 window.affichageChamp = function (FIELD, VALID) {
     if (document.getElementById(FIELD.id)) {
         //ID du champ et de son libellé
@@ -137,8 +120,8 @@ window.affichageChamp = function (FIELD, VALID) {
 };
 
 /**************************************
-FONCTION GERANT LES CHAMPS OBLIGATOIRES
-***************************************/
+ FONCTION GERANT LES CHAMPS OBLIGATOIRES
+ ***************************************/
 window.champObligatoire = function (FIELD, VALID) {
     if (document.getElementById(FIELD.id)) {
         //ID du champ obligatoire
@@ -149,9 +132,9 @@ window.champObligatoire = function (FIELD, VALID) {
         } else if (FIELD_ID.search("UTILISATEURS") != -1) {
             LBL_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "lblUTILISATEURS");
         }
-        /**************
-        CÔTE BACKOFFICE
-        ***************/
+		/**************
+		 CÔTE BACKOFFICE
+		 ***************/
         var BACKOFFICE_MANDATORY = document.getElementById("champsobligatoiresproprietes");
         if (BACKOFFICE_MANDATORY) {
             BM_FIELD = FIELD_ID.replace("$", "\\$");
@@ -193,9 +176,9 @@ window.champObligatoire = function (FIELD, VALID) {
             }
         }
 
-        /*******************************
-        VALIDATOR DES CHAMPS FORMULAIRES
-        ********************************/
+		/*******************************
+		 VALIDATOR DES CHAMPS FORMULAIRES
+		 ********************************/
         var VALIDATOR_FIELD_ID;
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             VALIDATOR_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
@@ -213,9 +196,9 @@ window.champObligatoire = function (FIELD, VALID) {
             ValidatorEnable(document.getElementById(VALIDATOR_FIELD_ID), VALID);
         }
 
-        /*********************************
-        VALIDATOR DES BOUTONS RADIO CUSTOM
-        **********************************/
+		/*********************************
+		 VALIDATOR DES BOUTONS RADIO CUSTOM
+		 **********************************/
         if (document.getElementById(FIELD.id + "_radio_Validator")) {
             var RADIO_VALIDATOR_ID = FIELD.id + "_radio_Validator";
             if (VALID === true) {
@@ -228,13 +211,13 @@ window.champObligatoire = function (FIELD, VALID) {
 };
 
 /*************************
-FONCTION VIDANT LES CHAMPS
-**************************/
+ FONCTION VIDANT LES CHAMPS
+ **************************/
 window.viderChamp = function (FIELD) {
     if (document.getElementsByName(FIELD.name + "_radio").length > 0) {
-        /****************************
-        DECOCHER BOUTONS RADIO CUSTOM
-        *****************************/
+		/****************************
+		 DECOCHER BOUTONS RADIO CUSTOM
+		 *****************************/
         //récupérer les boutons radio
         var RADIO_NAME = document.getElementsByName(FIELD.name + "_radio");
         //décocher tous les boutons radio
@@ -244,9 +227,9 @@ window.viderChamp = function (FIELD) {
         //mettre la valeur par défaut au champ select masqué
         FIELD.value = "";
     } else {
-        /**************************
-        DECOCHER LES CHAMPS NEOCASE
-        ***************************/
+		/**************************
+		 DECOCHER LES CHAMPS NEOCASE
+		 ***************************/
         if (FIELD.type == "checkbox") {
             //Décocher case à cocher
             FIELD.checked = false;
@@ -262,8 +245,8 @@ window.viderChamp = function (FIELD) {
 };
 
 /************************************************************
-FONCTION PERMETTANT DE TRANSFORMER UNE LISTE EN BOUTONS RADIO
-*************************************************************/
+ FONCTION PERMETTANT DE TRANSFORMER UNE LISTE EN BOUTONS RADIO
+ *************************************************************/
 window.boutonRadio = function (FIELD) {
     //récupérer l'ID/le name du champ
     var CHAMP_SELECT_ID = FIELD.id;
@@ -311,23 +294,23 @@ window.boutonRadio = function (FIELD) {
  * FONCTION MASQUANT UNE SECTION SI TOUS SES CHAMPS SONT MASQUES
  ***************************************************************/
 window.masquerSection = function (SECTION) {
-    /*var ST_TD = SECTION.getElementsByTagName("td");
-    var FIELD_DISPLAY;
-    //boucle sur les TD d'une section
-    for(z=0; z<ST_TD.length; z++){
-      if(ST_TD[z].childNodes.length > 1){
-        //on élimine les TDs vides
-        if(ST_TD[z].style.display != "none"){
-          FIELD_DISPLAY = true;
+	/*var ST_TD = SECTION.getElementsByTagName("td");
+	var FIELD_DISPLAY;
+	//boucle sur les TD d'une section
+	for(z=0; z<ST_TD.length; z++){
+	  if(ST_TD[z].childNodes.length > 1){
+		//on élimine les TDs vides
+		if(ST_TD[z].style.display != "none"){
+		  FIELD_DISPLAY = true;
 
-        }
-      }
-    }
-    if(FIELD_DISPLAY !== true){
-      SECTION.style.display = "none";
-    }else{
-      SECTION.style.display = "";
-    }*/
+		}
+	  }
+	}
+	if(FIELD_DISPLAY !== true){
+	  SECTION.style.display = "none";
+	}else{
+	  SECTION.style.display = "";
+	}*/
 };
 
 /****************************************
@@ -372,8 +355,8 @@ window.affichageSection = function (SECTION, VALID) {
 };
 
 /******************************************
-FONCTION ATTRIBUANT UNE VALEUR AUX CHECKBOX
-*******************************************/
+ FONCTION ATTRIBUANT UNE VALEUR AUX CHECKBOX
+ *******************************************/
 window.manageCheckbox = function () {
     var formInput = document.getElementsByTagName("input");
     for (i = 0; i< formInput.length; i++) {
@@ -391,19 +374,19 @@ window.manageCheckbox = function () {
 };
 
 window.mandatoryList = function () {
-    if(document.getElementById("champsobligatoiresproprietes")){
+    if (document.getElementById("champsobligatoiresproprietes")) {
         var BM_VALUES = document.getElementById("champsobligatoiresproprietes").value;
         var BM_CLIENT = document.getElementById("champsobligatoiresclient").value;
         if (localStorage.getItem("mandatoryListFields") !== null && localStorage.getItem("mandatoryListFields") !== "") {
             localStorage.setItem("mandatoryListFields", BM_VALUES + BM_CLIENT);
         }
     }
-    
+
 };
 
 /*************************************************
-ALGORITHME GERANT L'AFFICHAGE DYNAMIQUE DES CHAMPS
-**************************************************/
+ ALGORITHME GERANT L'AFFICHAGE DYNAMIQUE DES CHAMPS
+ **************************************************/
 window.manageFields = function (DECLENCHEUR) {
     if (enableManageField === true) {
         /**********************
@@ -584,7 +567,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER1_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
+                                } else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -631,7 +614,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER2_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER2_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
+                                } else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER2_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -828,7 +811,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
+                                } else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -1142,8 +1125,8 @@ window.manageFields = function (DECLENCHEUR) {
 };
 
 /******************************************************************
-PASSER LA VALEUR DU BOUTON RADIO SUR LE SELECT MASQUE CORREPSONDANT
-*******************************************************************/
+ PASSER LA VALEUR DU BOUTON RADIO SUR LE SELECT MASQUE CORREPSONDANT
+ *******************************************************************/
 window.getSelectValue = function (RADIO_BUTTON) {
     var SPLIT_RADIO_ID = RADIO_BUTTON.id.split("_radio");
     var SELECT_ID = SPLIT_RADIO_ID[0];
@@ -1165,108 +1148,114 @@ window.getSelectValue = function (RADIO_BUTTON) {
     }
 
 };
-
-/**************************************************************************************
-STATIC CODE STARTS
-***************************************************************************************/
-
+/*--------- MOD-001 Starts ----- Code cleanUp----cut & pasted from Technical field ---------*/
 /***************
-* DISABLE FIELDS
-****************/
-window.disableTextField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.setAttribute("readonly","true");
-		field.onmousedown = function(){return false;};
-	}else{
-	//FrontOffice
-		field.setAttribute("readonly","true");
-		field.onkeydown = function(){return false;};
-		field.onmousedown = function(){return false;};
-	}
+ * DISABLE FIELDS
+ ****************/
+window.disableTextField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.setAttribute("readonly", "true");
+        field.onmousedown = function () { return false; };
+    } else {
+        //FrontOffice
+        field.setAttribute("readonly", "true");
+        field.onkeydown = function () { return false; };
+        field.onmousedown = function () { return false; };
+    }
 };
 
-window.disableBooleanField = function(field){
-	field.onclick = function(){return false;};
-	disableTextField(field);
+window.disableBooleanField = function (field) {
+    field.onclick = function () { return false; };
+    disableTextField(field);
 };
 
-window.disableDateField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		//hide calendar icon
-		field.style.background = "none";
-	}else{
-	//FrontOffice
-		//hide calendar icon
-		if(field.parentNode.getElementsByTagName("img").length > 0){
-			field.parentNode.getElementsByTagName("img")[0].style.display = "none";
-		}
-	}
-	disableTextField(field);
+window.disableDateField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        //hide calendar icon
+        field.style.background = "none";
+    } else {
+        //FrontOffice
+        //hide calendar icon
+        if (field.parentNode.getElementsByTagName("img").length > 0) {
+            field.parentNode.getElementsByTagName("img")[0].style.display = "none";
+        }
+    }
+    disableTextField(field);
 };
 
-window.disableFileField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.parentNode.parentNode.style.border = "none";
-		//hide button browse file
-		field.parentNode.style.display = "none";
-		//hide button delete file
-		if(field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0){
-			field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
-		}
-	}else{
-	//FrontOffice
-		field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
-	}
+window.disableFileField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.parentNode.parentNode.style.border = "none";
+        //hide button browse file
+        field.parentNode.style.display = "none";
+        //hide button delete file
+        if (field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0) {
+            field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
+        }
+    } else {
+        //FrontOffice
+        field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
+    }
 };
 
-window.disableListField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.parentNode.style.border = "none";
-	}
-	disableTextField(field);
+window.disableListField = function (field) {
+    if (document.getElementById("champsobligatoiresproprietes")) {
+        //BackOffice
+        field.parentNode.style.border = "none";
+    }
+    disableTextField(field);
 };
 
-window.disableTextareaField = function(field){
-	disableTextField(field);
+window.disableTextareaField = function (field) {
+    disableTextField(field);
 };
 
-window.disableField = function(field){
-	var msg = "function disableField : ";
-	if(field){
-		field = field.elementHTML;
-		if(field.type == "checkbox"){
-		//Boolean custom fields
-			disableBooleanField(field);
-		}else if(field.className.search("hasDatepicker") != -1){
-		//Date custom fields
-			disableDateField(field);
-		}else if(field.id.search("_display") != -1){
-		//File custom fields
-			disableFileField(field);
-		}else if(field.tagName == "SELECT"){
-		//List custom fields
-			disableListField(field);
-		}else if(field.tagName == "TEXTAREA"){
-		//Textarea custom fields
-			disableTextareaField(field);
-		}else{
-		//Text custom fields
-			disableTextField(field);
-		}
-	}else{
-		msg += "field undefined or readonly";
-		console.log(msg);
-	}
+/************************************************
+ * FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
+ *************************************************/
+window.getASPid = function (fieldName) {
+    //Only on FrontOffice Side
+    if (document.getElementsByClassName("bloc-content").length > 0) {
+        var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
+        for (lbl = 0; lbl< label.length; lbl++) {
+
+            //if we find an ASP.NET id we return the dynamic ID number
+            if (label[lbl].id.search("_lbl") != -1) {
+                fieldName = label[lbl].id.split("lbl")[0] + fieldName;
+                fieldName = fieldName.replace("$", "_");
+                return fieldName;
+            }
+
+        }
+    }
+    return fieldName;
 };
 
+FillCf = function (fieldValue, fieldName) {
+    var msg = "function FillCf : ";
+    //properly target field
+    if (fieldName.search("VALEUR0") != -1) {
+        fieldName = fieldName.replace("VALEUR0", "VALEUR");
+
+    }
+    fieldName = getASPid(fieldName);
+    var field = neocase.form.field(fieldName);
+
+
+    if (field) {
+        field.setValue(fieldValue);
+    } else {
+        msg += "field " + fieldName + " not found";
+        console.log(msg);
+    }
+};
 /******************************************
-* CREATE HYPERLINK ON LABEL TO OPEN A POPUP
-*******************************************/
-window.popupLink = function(field, url) {
+ * CREATE HYPERLINK ON LABEL TO OPEN A POPUP
+ *******************************************/
+window.popupLink = function (field, url) {
     var msg = "function popupLink : ";
     if (field) {
         //get field label
@@ -1277,7 +1266,7 @@ window.popupLink = function(field, url) {
         } else if (fieldId.search("UTILISATEURS") != -1) {
             fieldLabel = fieldId.replace("UTILISATEURS", "lblUTILISATEURS");
         } else {
-            msg += "type de champ non pris en compte " + fieldId;
+            msg += "type de champ non prit en compte " + fieldId;
             console.log(msg);
         }
         if (fieldLabel.search("_display") != -1) {
@@ -1285,29 +1274,22 @@ window.popupLink = function(field, url) {
         }
         //add case number in the URL if needed
         if (url.search("Id_Demande") != -1) {
-            //url = url.replace("Id_Demande=","Id_Demande="+RequestContext.RequestNumber);
-            url = url.replace("Id_Demande=", "Id_Demande=" + RequestContext.ContactId);
+            url = url.replace("Id_Demande=", "Id_Demande=" + numeroIntervention);
         }
         //add contact ID in the URL if needed
         if (url.search("Id_User") != -1) {
-            url = url.replace("Id_User=", "Id_User=" + RequestContext.ContactId);
+            url = url.replace("Id_User=", "Id_User=" + CodeUtilisateur);
         }
         //Create hyperlink on label
         var onclick = "window.open('" + url + "','_blank')";
         var createPopup = document.createElement("a");
         createPopup.setAttribute("onclick", onclick);
-        var popupText;
-        if (document.getElementById(fieldLabel)) {
-            popupText = document.getElementById(fieldLabel).innerHTML;
-            var t = document.createTextNode(popupText);
-            createPopup.appendChild(t);
-            if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
-                document.getElementById(fieldLabel).innerHTML = "";
-                document.getElementById(fieldLabel).appendChild(createPopup);
-            }
-        } else {
-            msg += "label du champ non trouvé " + fieldId;
-            console.log(msg);
+        var popupText = document.getElementById(fieldLabel).innerHTML;
+        var t = document.createTextNode(popupText);
+        createPopup.appendChild(t);
+        if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
+            document.getElementById(fieldLabel).innerHTML = "";
+            document.getElementById(fieldLabel).appendChild(createPopup);
         }
     } else {
         msg += "champ non trouvé";
@@ -1316,180 +1298,13 @@ window.popupLink = function(field, url) {
 };
 
 
-/******************
-* get URL parameter
-*******************/
-window.getParamFromUrl = function(param){
-	var vars = {};
-	window.location.href.replace( location.hash, '' ).replace(
-		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-		function( m, key, value ) { // callback
-			vars[key] = value !== undefined ? value : '';
-		}
-	);
-
-	if(param){
-		return vars[param] ? vars[param] : null;  
-	}
-console.log(vars);
-	return vars;
-};
-
-/********************
-* Launch dependencies
-*********************/
-window.launchDependencies = function(field){
-	if("createEvent" in document){
-		var evt = document.createEvent("HTMLEvents");
-		evt.initEvent("change",false,true);
-		field.elementHTML.dispatchEvent(evt);
-	}else{
-		field.elementHTML.fireEvent("onchange");
-	}
-};
-
-/**************
-* update level1
-***************/
-window.updateAndDisableField = function(field,value){
-
-	//update 'level 1' value
-	field.setValue(value);
-	if(field.elementHTML.value !== "0" && field.elementHTML.value !== ""){
-		//launch dependencies
-		launchDependencies(field);
-
-		//Disable field
-		disableField(field);
-	}
-};
-/************************************************
-* FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
-*************************************************/
-window.getASPid = function(fieldName){
-	//Only on FrontOffice Side
-	if(document.getElementsByClassName("bloc-content").length > 0){
-		var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
-		for(lbl=0; lbl<label.length; lbl++){
-			
-			//if we find an ASP.NET id we return the dynamic ID number
-			if(label[lbl].id.search("_lbl") != -1){
-				fieldName = label[lbl].id.split("lbl")[0]+fieldName;
-				fieldName = fieldName.replace("$","_");
-				return fieldName;
-			}
-
-		}
-	}
-	return fieldName;
-};
-
-FillCf = function(fieldValue,fieldName){
-    var msg = "function FillCf : ";
-
-    //properly target field
-    if(fieldName.search("VALEUR0") != -1){
-        fieldName = fieldName.replace("VALEUR0","VALEUR");
-    }
-	fieldName = getASPid(fieldName);
-    var field = neocase.form.field(fieldName);
-       var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
-    if(field){
-		field.setValue(fieldValue);
-       if(req)
-		{
-		req.setValue(fieldValue);
-		}
-    }else{
-        msg += "field "+fieldName+" not found";
-        console.log(msg);
-}    
-};
-
-/******************************************
- * CREATE HYPERLINK ON LABEL TO OPEN A POPUP
- *******************************************/
-window.popupLink = function (field, url) {
-	var msg = "function popupLink : ";
-	if (field) {
-		//get field label
-		var fieldId = field.id;
-		var fieldLabel;
-		if (fieldId.search("INTERVENTIONS") != -1) {
-			fieldLabel = fieldId.replace("INTERVENTIONS", "lblINTERVENTIONS");
-		} else if (fieldId.search("UTILISATEURS") != -1) {
-			fieldLabel = fieldId.replace("UTILISATEURS", "lblUTILISATEURS");
-		} else {
-			msg += "type de champ non prit en compte " + fieldId;
-			console.log(msg);
-		}
-		if (fieldLabel.search("_display") != -1) {
-			fieldLabel = fieldLabel.replace("_display", "");
-		}
-		//add case number in the URL if needed
-		if (url.search("Id_Demande") != -1) {
-			url = url.replace("Id_Demande=", "Id_Demande=" + numeroIntervention);
-		}
-		//add contact ID in the URL if needed
-		if (url.search("Id_User") != -1) {
-			url = url.replace("Id_User=", "Id_User=" + CodeUtilisateur);
-		}
-		//Create hyperlink on label
-		var onclick = "window.open('" + url + "','_blank')";
-		var createPopup = document.createElement("a");
-		createPopup.setAttribute("onclick", onclick);
-		var popupText = document.getElementById(fieldLabel).innerHTML;
-		var t = document.createTextNode(popupText);
-		createPopup.appendChild(t);
-		if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
-			document.getElementById(fieldLabel).innerHTML = "";
-			document.getElementById(fieldLabel).appendChild(createPopup);
-		}
-	} else {
-		msg += "champ non trouvé";
-		console.log(msg);
-	}
-};
-
-/****************************
-* AUTOMATICALLY FILL SUBTOPIC
-*****************************/
-window.manageSubtopic = function(){
-var msg = "function manageSubtopic : ";
-	var getSubtopic = localStorage.getItem('subtopic');
-	
-	var field = formulaire.INTERVENTIONS_EN_COURS$ELEMENT;
-	
-	//if(field.value != "0"){
-	var subtopic = getParamFromUrl('subtopic');
-		if(subtopic){
-			if(field){
-				field.value = subtopic;
-			}else{
-				msg += "field undefined";
-				console.log(msg);
-			}
-		}else{
-			msg += subtopic + " undefined";
-			console.log(msg);
-		}
-};
-
-
-
 /**************************************************************************************
-STATIC CODE ENDS
-***************************************************************************************/
-
-/**************************************************************************************
-APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
-***************************************************************************************/
+ APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
+ ***************************************************************************************/
 window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
-    //FILL SUBTOPIC
-    manageSubtopic();
-    manageFields("ouverture");
+    //manageFields("ouverture");
 
 };
 neocase.form.event.bind('loadcomplete', onloadForm);

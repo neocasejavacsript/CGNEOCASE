@@ -22,7 +22,7 @@ Description - exclude please choose criteria to copy
 //Hide Technical Section
 neocase.form.section("sectionb1e81185de7be178f685").hide();
 //Hide Hidden Section
-//neocase.form.section("sectionaa99b8d285a4871dc632").hide();
+neocase.form.section("sectionaa99b8d285a4871dc632").hide();
 /*---- MOD-001 ENDS ----*/
 window.setSocialSecurityAbsence = function(){
     var social_security_absence = [

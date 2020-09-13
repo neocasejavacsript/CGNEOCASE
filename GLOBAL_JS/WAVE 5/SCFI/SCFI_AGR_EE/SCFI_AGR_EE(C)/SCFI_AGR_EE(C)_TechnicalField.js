@@ -20,7 +20,12 @@ Developer   - Ahana Sarkar
 Date	    - 06/22/2020 (MM/DD/YYYY)
 Change No   - MOD-004
 Description - Add 'blur' function for the end date in'setDateLimit' menthod(if User manuaaly enter the date by typing)
----------------------------------------------------------*/ 
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 08/21/2020 (MM/DD/YYYY)
+Change No   - MOD-005
+Description - Section containing article link display for LOA subtopic
+---------------------------------------------------------**/ 
 
 // hide Technical section
 neocase.form.section("section8d84eb62f3f258e9ab22").hide();
@@ -55,7 +60,6 @@ window.loadSubTopic = function(){
 		}
 	}
 };
-
 /*-------------Set minimum date of related start and end date field--------+MOD-003-----*/
 window.setDateLimit = function(startDateField, endDateField){
     var stD,stDate,endD,endDate,nextDay,alertMsg;
@@ -110,7 +114,7 @@ window.setDateLimit = function(startDateField, endDateField){
     
             if(endDate<= stDate){
                 endDateFieldId.val('');
-                if(endDateFieldId.closest('div').find('.error-msg-date').length < 1){
+                if(endDateFieldId.closest('div').find('.error-msg-date').length< 1){
                     endDateFieldId.after(errorMsg);
                 }
                 alertMsg = 'Select date after '+$.trim(startDateFieldId.closest('.row').find('label').text()) + ' ' + stD;
@@ -121,6 +125,43 @@ window.setDateLimit = function(startDateField, endDateField){
     });
 };
 /*---------XXXXXX----Set minimum date of related start and end date field----XXXXXX---------*/
+
+/*---------Section containing article link display for LOA subtopic---++MOD-005------*/
+window.displayLoaDoc = function(){
+    var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic'),
+        countryISOCode = neocase.form.field("UTILISATEURS$CHAMPU19").getValue(),
+        countrySAPCode = neocase.form.field("UTILISATEURS$CHAMPU232").getValue();
+    if(subtopic == '2887'){
+        if(countryISOCode == 'DK' || countrySAPCode == '09'){
+            neocase.form.section('section5367761aa6f2f5f043f7').show();
+            neocase.form.section('section352ef5f60d45eb5e36f3').hide();
+            neocase.form.section('sectione2a9cdd3890bb42d1be6').hide();
+            neocase.form.section('section69d7aa1876322693b594').hide();
+        }else if(countryISOCode == 'FI' || countrySAPCode == '44'){
+            neocase.form.section('section352ef5f60d45eb5e36f3').show();
+            neocase.form.section('section5367761aa6f2f5f043f7').hide();
+            neocase.form.section('sectione2a9cdd3890bb42d1be6').hide();
+            neocase.form.section('section69d7aa1876322693b594').hide();
+        }else if(countryISOCode == 'NO' || countrySAPCode == '20'){
+            neocase.form.section('sectione2a9cdd3890bb42d1be6').show();
+            neocase.form.section('section352ef5f60d45eb5e36f3').hide();
+            neocase.form.section('section5367761aa6f2f5f043f7').hide();
+            neocase.form.section('section69d7aa1876322693b594').hide();
+        }else if(countryISOCode == 'SE' || countrySAPCode == '23'){
+            neocase.form.section('section69d7aa1876322693b594').show();
+            neocase.form.section('sectione2a9cdd3890bb42d1be6').hide();
+            neocase.form.section('section352ef5f60d45eb5e36f3').hide();
+            neocase.form.section('section5367761aa6f2f5f043f7').hide();
+        }
+    }else{
+        neocase.form.section('section69d7aa1876322693b594').hide();
+        neocase.form.section('sectione2a9cdd3890bb42d1be6').hide();
+        neocase.form.section('section352ef5f60d45eb5e36f3').hide();
+        neocase.form.section('section5367761aa6f2f5f043f7').hide();
+    }
+};
+/*----xxxxx-----Section containing article link display for LOA subtopic---xxxxx------*/
+
 
 /**************************
 * Launch Javascript on init
@@ -158,6 +199,7 @@ window.launchOnloadcomplete = function(){
     if(document.getElementById('sectione0594f31164773401e4d').style.display !== 'none'){ // Section: Start/Update leave of absence details
         setDateLimit('INTERVENTIONS_EN_COURS$VALEUR333','INTERVENTIONS_EN_COURS$VALEUR503'); //Fields: 'Absence start date (new) :' , 'Expected return date (new) :'
     }
+    displayLoaDoc(); //++MOD-005
     console.log('launch load complete');
 };
 neocase.form.event.bind("loadcomplete",launchOnloadcomplete);

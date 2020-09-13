@@ -1,4 +1,4 @@
-//ANZ_AGR_EE  - Algorithm Code
+/*----------LC_AGR(R)_ALGORITHM----------*/
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -52,29 +52,31 @@ V18 - PJU - 01/03/2018
 	- add specific code for 'MOTCLE' in manageFields
 */
 
-/*-----------------------------------------------------------------------------
-Developer   - Debraj Sarkar
-Date	    - 10/01/2019 (MM/DD/YYYY)
+/*--------------------------------------------------------------------------
+Developer   - Ayan Dey
+Date	    - 11/07/2019 (MM/DD/YYYY)
 Change No   - MOD-001
-Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
-			- Did basic clean up and changes based on mock up
-			- Display specific section based on subtopic
-------------------------------------------------------------------------------
-Developer   - Riya Dutta
-Date	    - 11/21/2019 (MM/DD/YYYY)
-Change No   - MOD-002
-Description - Defect Fixing
-------------------------------------------------------------------------------*/ 
+Description - Hide Section based on Subtopics
+----------------------------------------------------------------------------*/
 
 /**************************
 Fields and display settings
 ***************************/
 var Tableau = [
-	/*SECTION : "Start Payment"*/
-    'sectionc128a95c2a4b06f858e5#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|IN_Start Payment',
-	/*SECTION : "Stop Payment"*/
-    'section4f79f859c53e6949f0ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|IN_Stop Payment'
-	
+    //Probation Update
+    'section34d6188e3f601e79153d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_Probation Period update',
+    //Fixed Term Contract
+    'section3923e5930cbb1d8fb650#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_End of Fixed Term Contract',
+    //Termination info
+    'section947ea6da839caf64370c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_Involuntary leaver;LC_End of Fixed Term Contract',
+    //Resignation info
+    'section895c94f0f97ec8ea1ecb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_Resignation',
+    // Last working day - Hidden tittle  - No frame section
+    'sectionbcf4105d8201adb3ee82#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_Involuntary leaver;LC_End of Fixed Term Contract;LC_Resignation;LC_Retirement',
+    //Leave of absence details
+    'section2646a8afdb6517fa2fc9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_LOA Paid;LC_LOA Unpaid',
+    //Return from leave of absence
+    'section10a9bbd894c4f20e3b26#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_Return Leave of Absence'
 ];
 var enableManageField;
 
@@ -1166,320 +1168,16 @@ window.getSelectValue = function (RADIO_BUTTON) {
 
 };
 
-/**************************************************************************************
-STATIC CODE STARTS
-***************************************************************************************/
+window.checkSectionHide = function (sectionID) {
 
-/***************
-* DISABLE FIELDS
-****************/
-window.disableTextField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.setAttribute("readonly","true");
-		field.onmousedown = function(){return false;};
-	}else{
-	//FrontOffice
-		field.setAttribute("readonly","true");
-		field.onkeydown = function(){return false;};
-		field.onmousedown = function(){return false;};
-	}
-};
-
-window.disableBooleanField = function(field){
-	field.onclick = function(){return false;};
-	disableTextField(field);
-};
-
-window.disableDateField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		//hide calendar icon
-		field.style.background = "none";
-	}else{
-	//FrontOffice
-		//hide calendar icon
-		if(field.parentNode.getElementsByTagName("img").length > 0){
-			field.parentNode.getElementsByTagName("img")[0].style.display = "none";
-		}
-	}
-	disableTextField(field);
-};
-
-window.disableFileField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.parentNode.parentNode.style.border = "none";
-		//hide button browse file
-		field.parentNode.style.display = "none";
-		//hide button delete file
-		if(field.parentNode.parentNode.getElementsByClassName("btn-delete").length > 0){
-			field.parentNode.parentNode.getElementsByClassName("btn-delete")[0].style.display = "none";
-		}
-	}else{
-	//FrontOffice
-		field.parentNode.getElementsByClassName("fileinput-button")[0].style.display = "none";
-	}
-};
-
-window.disableListField = function(field){
-	if(document.getElementById("champsobligatoiresproprietes")){
-	//BackOffice
-		field.parentNode.style.border = "none";
-	}
-	disableTextField(field);
-};
-
-window.disableTextareaField = function(field){
-	disableTextField(field);
-};
-
-window.disableField = function(field){
-	var msg = "function disableField : ";
-	if(field){
-		field = field.elementHTML;
-		if(field.type == "checkbox"){
-		//Boolean custom fields
-			disableBooleanField(field);
-		}else if(field.className.search("hasDatepicker") != -1){
-		//Date custom fields
-			disableDateField(field);
-		}else if(field.id.search("_display") != -1){
-		//File custom fields
-			disableFileField(field);
-		}else if(field.tagName == "SELECT"){
-		//List custom fields
-			disableListField(field);
-		}else if(field.tagName == "TEXTAREA"){
-		//Textarea custom fields
-			disableTextareaField(field);
-		}else{
-		//Text custom fields
-			disableTextField(field);
-		}
-	}else{
-		msg += "field undefined or readonly";
-		console.log(msg);
-	}
-};
-
-/******************************************
-* CREATE HYPERLINK ON LABEL TO OPEN A POPUP
-*******************************************/
-window.popupLink = function(field, url) {
-    var msg = "function popupLink : ";
-    if (field) {
-        //get field label
-        var fieldId = field.id;
-        var fieldLabel;
-        if (fieldId.search("INTERVENTIONS") != -1) {
-            fieldLabel = fieldId.replace("INTERVENTIONS", "lblINTERVENTIONS");
-        } else if (fieldId.search("UTILISATEURS") != -1) {
-            fieldLabel = fieldId.replace("UTILISATEURS", "lblUTILISATEURS");
-        } else {
-            msg += "type de champ non pris en compte " + fieldId;
-            console.log(msg);
+    var hideAnswersSection = document.getElementsByClassName('answers');
+    if (typeof hideAnswersSection !== undefined && hideAnswersSection !== null) {
+        if (typeof document.getElementById(sectionID) !== undefined && document.getElementById(sectionID) !== null) {
+            document.getElementById(sectionID).style.display = "none";
         }
-        if (fieldLabel.search("_display") != -1) {
-            fieldLabel = fieldLabel.replace("_display", "");
-        }
-        //add case number in the URL if needed
-        if (url.search("Id_Demande") != -1) {
-            //url = url.replace("Id_Demande=","Id_Demande="+RequestContext.RequestNumber);
-            url = url.replace("Id_Demande=", "Id_Demande=" + RequestContext.ContactId);
-        }
-        //add contact ID in the URL if needed
-        if (url.search("Id_User") != -1) {
-            url = url.replace("Id_User=", "Id_User=" + RequestContext.ContactId);
-        }
-        //Create hyperlink on label
-        var onclick = "window.open('" + url + "','_blank')";
-        var createPopup = document.createElement("a");
-        createPopup.setAttribute("onclick", onclick);
-        var popupText;
-        if (document.getElementById(fieldLabel)) {
-            popupText = document.getElementById(fieldLabel).innerHTML;
-            var t = document.createTextNode(popupText);
-            createPopup.appendChild(t);
-            if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
-                document.getElementById(fieldLabel).innerHTML = "";
-                document.getElementById(fieldLabel).appendChild(createPopup);
-            }
-        } else {
-            msg += "label du champ non trouvé " + fieldId;
-            console.log(msg);
-        }
-    } else {
-        msg += "champ non trouvé";
-        console.log(msg);
     }
 };
 
-
-/******************
-* get URL parameter
-*******************/
-window.getParamFromUrl = function(param){
-	var vars = {};
-	window.location.href.replace( location.hash, '' ).replace(
-		/[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
-		function( m, key, value ) { // callback
-			vars[key] = value !== undefined ? value : '';
-		}
-	);
-
-	if(param){
-		return vars[param] ? vars[param] : null;  
-	}
-console.log(vars);
-	return vars;
-};
-
-/********************
-* Launch dependencies
-*********************/
-window.launchDependencies = function(field){
-	if("createEvent" in document){
-		var evt = document.createEvent("HTMLEvents");
-		evt.initEvent("change",false,true);
-		field.elementHTML.dispatchEvent(evt);
-	}else{
-		field.elementHTML.fireEvent("onchange");
-	}
-};
-
-/**************
-* update level1
-***************/
-window.updateAndDisableField = function(field,value){
-
-	//update 'level 1' value
-	field.setValue(value);
-	if(field.elementHTML.value !== "0" && field.elementHTML.value !== ""){
-		//launch dependencies
-		launchDependencies(field);
-
-		//Disable field
-		disableField(field);
-	}
-};
-/************************************************
-* FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
-*************************************************/
-window.getASPid = function(fieldName){
-	//Only on FrontOffice Side
-	if(document.getElementsByClassName("bloc-content").length > 0){
-		var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
-		for(lbl=0; lbl<label.length; lbl++){
-			
-			//if we find an ASP.NET id we return the dynamic ID number
-			if(label[lbl].id.search("_lbl") != -1){
-				fieldName = label[lbl].id.split("lbl")[0]+fieldName;
-				fieldName = fieldName.replace("$","_");
-				return fieldName;
-			}
-
-		}
-	}
-	return fieldName;
-};
-
-FillCf = function(fieldValue,fieldName){
-    var msg = "function FillCf : ";
-
-    //properly target field
-    if(fieldName.search("VALEUR0") != -1){
-        fieldName = fieldName.replace("VALEUR0","VALEUR");
-    }
-	fieldName = getASPid(fieldName);
-    var field = neocase.form.field(fieldName);
-       var req = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR421');
-    if(field){
-		field.setValue(fieldValue);
-       if(req)
-		{
-		req.setValue(fieldValue);
-		}
-    }else{
-        msg += "field "+fieldName+" not found";
-        console.log(msg);
-}    
-};
-
-/******************************************
- * CREATE HYPERLINK ON LABEL TO OPEN A POPUP
- *******************************************/
-window.popupLink = function (field, url) {
-	var msg = "function popupLink : ";
-	if (field) {
-		//get field label
-		var fieldId = field.id;
-		var fieldLabel;
-		if (fieldId.search("INTERVENTIONS") != -1) {
-			fieldLabel = fieldId.replace("INTERVENTIONS", "lblINTERVENTIONS");
-		} else if (fieldId.search("UTILISATEURS") != -1) {
-			fieldLabel = fieldId.replace("UTILISATEURS", "lblUTILISATEURS");
-		} else {
-			msg += "type de champ non prit en compte " + fieldId;
-			console.log(msg);
-		}
-		if (fieldLabel.search("_display") != -1) {
-			fieldLabel = fieldLabel.replace("_display", "");
-		}
-		//add case number in the URL if needed
-		if (url.search("Id_Demande") != -1) {
-			url = url.replace("Id_Demande=", "Id_Demande=" + numeroIntervention);
-		}
-		//add contact ID in the URL if needed
-		if (url.search("Id_User") != -1) {
-			url = url.replace("Id_User=", "Id_User=" + CodeUtilisateur);
-		}
-		//Create hyperlink on label
-		var onclick = "window.open('" + url + "','_blank')";
-		var createPopup = document.createElement("a");
-		createPopup.setAttribute("onclick", onclick);
-		var popupText = document.getElementById(fieldLabel).innerHTML;
-		var t = document.createTextNode(popupText);
-		createPopup.appendChild(t);
-		if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
-			document.getElementById(fieldLabel).innerHTML = "";
-			document.getElementById(fieldLabel).appendChild(createPopup);
-		}
-	} else {
-		msg += "champ non trouvé";
-		console.log(msg);
-	}
-};
-
-/****************************
-* AUTOMATICALLY FILL SUBTOPIC
-*****************************/
-window.manageSubtopic = function(){
-var msg = "function manageSubtopic : ";
-	var getSubtopic = localStorage.getItem('subtopic');
-	
-	var field = formulaire.INTERVENTIONS_EN_COURS$ELEMENT;
-	
-	//if(field.value != "0"){
-	var subtopic = getParamFromUrl('subtopic');
-		if(subtopic){
-			if(field){
-				field.value = subtopic;
-			}else{
-				msg += "field undefined";
-				console.log(msg);
-			}
-		}else{
-			msg += subtopic + " undefined";
-			console.log(msg);
-		}
-};
-
-
-
-/**************************************************************************************
-STATIC CODE ENDS
-***************************************************************************************/
 
 /**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
@@ -1487,9 +1185,9 @@ APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST
 window.onloadForm = function () {
     mandatoryList();
     enableManageField = true;
-    //FILL SUBTOPIC
-    manageSubtopic();
     manageFields("ouverture");
 
 };
-neocase.form.event.bind('loadcomplete', onloadForm);
+$(document).ready(function(){
+	onloadForm();
+});

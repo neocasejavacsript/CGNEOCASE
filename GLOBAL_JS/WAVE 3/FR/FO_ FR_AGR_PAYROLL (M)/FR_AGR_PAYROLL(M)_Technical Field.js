@@ -22,6 +22,11 @@ Developer   - Ahana Sarkar
 Date	    - 06/24/2020 (MM/DD/YYYY)
 Change No   - MOD-006
 Description - Align border-line to the Social Security Absence section
+-----------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 08/27/2020 (MM/DD/YYYY)
+Change No   - MOD-007
+Description - checkSSARValueMaladie() added to show text in red below 'Avez vous travaillé le premier jour de l'arrêt de travail CERFA ?' field for the Sickness/Maladie value of 'Motif de l'arrêt de travail :' in both language
 ----------------------------------------------------------------------------*/
 
 /*---------------------------- STARTS OF MOD-001 ---------------------------*/
@@ -149,6 +154,23 @@ window.disableFields = function(){
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR909"));
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR910"));
 };
+/*---- show text in red below 'Avez vous travaillé le premier jour de l'arrêt de travail CERFA ?
+' field for the Sickness/Maladie value of 'Motif de l'arrêt de travail' in both language---++MOD-007-*/
+window.checkSSARValueMaladie = function(){
+	var sSARValue = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR935').getValue(),
+		CERFAyesOrNoField = $('#'+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR934')['elementHTML']['id']),
+		alertMsg = document.documentElement.lang == "en-GB" ? "If you work all day, put Yes, otherwise, put No" : "Si la journée a été travaillée en totalité, mettre OUI, sinon mettre NON";
+
+	if(sSARValue == 'Sickness' || sSARValue == 'Maladie'){
+		if($(CERFAyesOrNoField).closest('div').find('.alertMsg').length< 1){
+			$(CERFAyesOrNoField).closest('div').append('<span style="color:red" class="alertMsg">'+alertMsg+'</span>');
+		}
+	}else{
+		if($(CERFAyesOrNoField).closest('div').find('.alertMsg').length >= 1){
+			$(CERFAyesOrNoField).closest('div').find('.alertMsg').remove();
+		}
+	}
+};
 /**************************
  * Launch Javascript on loadcomplete
  ***************************/
@@ -159,10 +181,13 @@ window.launchOnloadcomplete = function () {
 		if($('#section343be56477f77e3e4475').find('hr').length > 0){
 			$('#section343be56477f77e3e4475').find('hr').remove();
 		}
-		if($('#section84e7611d6efb046e5667').find('hr').length < 1){
+		if($('#section84e7611d6efb046e5667').find('hr').length< 1){
 			$('#section84e7611d6efb046e5667').append('<hr>');
 		}
+		checkSSARValueMaladie(); //++MOD-007
 	}
+	
+	
 };
 
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);

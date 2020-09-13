@@ -35,6 +35,16 @@ Developer   - Ahana Sarkar
 Date	    - 06/24/2020 (MM/DD/YYYY)
 Change No   - MOD-006
 Description - Align border-line to the Social Security Absence section
+---------------------------------------------------------------------------
+Developer   - Ayan Dey
+Date	    - 07/20/2020 (MM/DD/YYYY)
+Change No   - MOD-007
+Description - Implementing rules and aligning border-line for Days worked from home during the month section
+----------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 08/27/2020 (MM/DD/YYYY)
+Change No   - MOD-008
+Description - checkSSARValueMaladie() added to show text in red below 'Avez vous travaillé le premier jour de l'arrêt de travail CERFA ?' field for the Sickness/Maladie value of 'Motif de l'arrêt de travail :' in both language
 ----------------------------------------------------------------------------*/
 
 //Hide Technical Section
@@ -189,7 +199,24 @@ window.disableFields = function(){
 		}
 	}
 };
-	
+
+/*---- show text in red below 'Avez vous travaillé le premier jour de l'arrêt de travail CERFA ?
+' field for the Sickness/Maladie value of 'Motif de l'arrêt de travail :' in both language---++MOD-008-*/
+window.checkSSARValueMaladie = function(){
+	var sSARValue = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR935').getValue(),
+		CERFAyesOrNoField = $('#'+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR934')['elementHTML']['id']),
+		alertMsg = document.documentElement.lang == "en-GB" ? "If you work all day, put Yes, otherwise, put No" : "Si la journée a été travaillée en totalité, mettre OUI, sinon mettre NON";
+
+	if(sSARValue == 'Sickness' || sSARValue == 'Maladie'){
+		if($(CERFAyesOrNoField).closest('div').find('.alertMsg').length< 1){
+			$(CERFAyesOrNoField).closest('div').append('<span style="color:red" class="alertMsg">'+alertMsg+'</span>');
+		}
+	}else{
+		if($(CERFAyesOrNoField).closest('div').find('.alertMsg').length >= 1){
+			$(CERFAyesOrNoField).closest('div').find('.alertMsg').remove();
+		}
+	}
+};
 //Calling the function using 1000 msec timer	
 //topicTimer = setInterval(loadTopic, 1000);
 	// setTimeout(function(){
@@ -214,6 +241,17 @@ window.launchOnceLoadComplete = function(){
 					$('#section60d59d8a7a0fef16fa06').append('<hr>');
 				}
 			}
+			
+			if($('#section4edda08382cf6f22e3ed').css('display') != 'none' && $('#section52cea27607cd0ad68e1f').css('display') != 'none'){ // Section: FR_Work from home allowance without contract addendum. + How to declare WFH
+				if($('#section52cea27607cd0ad68e1f').find('hr').length > 0){
+					$('#section52cea27607cd0ad68e1f').find('hr').remove();
+				}
+				if($('#section4edda08382cf6f22e3ed').find('hr').length< 1){
+					$('#section4edda08382cf6f22e3ed').append('<hr>');
+				}
+			}
+			
+			
         }, 800);
     }
 };
@@ -243,3 +281,59 @@ window.onloadForm = function () {
 	
 };
 neocase.form.event.bind('init', onloadForm);
+
+//MOD-007 starts
+/****************************
+* Launch Javascript on submit
+*****************************/
+window.launchOnSubmit = function(){
+	
+	var year = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR943").getText();
+	var wfhMonth = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR948").getText();
+	var date = "01";
+	var newDate = year+"-"+wfhMonth+"-01";
+	console.log(newDate);
+	neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR947").setValue(newDate);
+	
+	var d = new Date();
+	var currentMonth = d.getMonth();
+	var currentYear = d.getFullYear();
+	var shortYear = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR943").getText();
+	var shortMonth = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR948").getText();
+	
+	var msg = "";
+    var lang = document.getElementById("PageHtml").lang.split("-")[0];
+    if (lang == "fr") {
+        msg = "Merci de renseigner les champs obligatoires suivant :";
+    } else {
+        msg = "Please fill the following mandatory fields :";
+    }
+	
+	//Get Value from WFH Year and WFH Month
+	var wfhYearValue = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR943").getValue();
+	var wfhMonthValue = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR948").getValue();
+	if(wfhYearValue!="" && wfhMonthValue!=""){
+		if(shortYear<=currentYear){
+			if(shortMonth>currentMonth+1){
+				if (lang == "fr") {
+					msg = "La déclaration télétravail (hors avenant) doit concerner uniquement les mois écoulés ou le mois en cours";
+				} else {
+					msg = "The Work From Home declaration must be for past or current month only";
+				}
+				alert(msg);
+				return false;
+			}
+		}else{
+			if (lang == "fr") {
+					msg = "La déclaration télétravail (hors avenant) doit concerner uniquement les mois écoulés ou le mois en cours";
+				} else {
+					msg = "The Work From Home declaration must be for past or current month only";
+				}
+			alert(msg);
+			return false;
+		}
+	} 
+	
+};
+neocase.form.event.bind("submit",launchOnSubmit);
+//MOD-007 ends
