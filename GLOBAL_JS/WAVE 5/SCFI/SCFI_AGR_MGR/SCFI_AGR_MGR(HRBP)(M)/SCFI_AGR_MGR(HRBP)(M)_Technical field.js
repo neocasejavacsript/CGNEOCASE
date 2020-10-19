@@ -59,6 +59,11 @@ Date	    - 06/22/2020 (MM/DD/YYYY)
 Change No   - MOD-011
 Description - Set minimum date of related start and end date field.Add 'blur' function for the end dates in 'setTerminationDateLimit' & 'setDateLimit' menthod(if User manually enter the date by typing)
             - For Assignment Inbound/Outbound start date subtopic add validation between effective date/expected end date            - 
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 10/08/2020 (MM/DD/YYYY)
+Change No   - MOD-012
+Description - Tip-text added to Document section
 ---------------------------------------------------------*/ 
 
 // hide Technical section
@@ -384,7 +389,13 @@ window.setTerminationDateLimit = function(startDateField, endDateField){
     });
     startDateFieldId.trigger('change');
 };
-
+window.tipTextTodoc = function(){ // ++MOD-12
+    var sectionDocument = $('#section1474e3ce73689676b79f'),
+        tipTextDoc = "Please add previous email communication with Mobility/ISOW/etc.";
+    if($(sectionDocument).find('.bloc-content .row .row .tip-text').length< 1){
+        $(sectionDocument).find('.bloc-content .row .row').append('<div class="col-sm-12 tip-text"><span style="color:red;">'+tipTextDoc+'</span></div>');
+    }
+};
 /**************************
  * Launch Javascript on init
  ***************************/
@@ -410,6 +421,7 @@ window.launchOnloadcomplete = function () {
     if(document.getElementById('sectionffc3e75f608d65eb5d98').style.display !== 'none' && document.getElementById('section6457d5471b9ac30b3fa5').style.display !== 'none'){ // Section: Effective date & Expected end date ++MOD-011
         setDateLimit('INTERVENTIONS_EN_COURS$VALEUR5','INTERVENTIONS_EN_COURS$VALEUR445'); //Fields: 'Effective date :' , 'Expected assignment end date :'
     }
+    tipTextTodoc(); // ++MOD-12
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 

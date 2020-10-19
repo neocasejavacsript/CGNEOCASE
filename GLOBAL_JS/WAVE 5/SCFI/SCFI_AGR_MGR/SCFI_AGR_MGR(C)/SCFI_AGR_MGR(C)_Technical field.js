@@ -59,8 +59,19 @@ Developer   - Ahana Sarkar
 Date	    - 06/22/2020 (MM/DD/YYYY)
 Change No   - MOD-011
 Description - For Assignment Inbound/Outbound start date subtopic add validation between effective date/expected end date
-            - Add 'blur' function for the end dates in 'setTerminationDateLimit' & 'setDateLimit' menthod(if User manually enter the date by typing)
+            - Add 'blur' function for the end dates in 'setTerminationDateLimit' & 'setDateLimit' menthod(if User manuaaly enter the date by typing)
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 09/21/2020 (MM/DD/YYYY)
+Change No   - MOD-012
+Description - Field “Last Working Day” will be visible and mandatory only when reason = Salary Continuance
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 10/07/2020 (MM/DD/YYYY)
+Change No   - MOD-013
+Description - Tip-text added to Document section
 ---------------------------------------------------------*/ 
+
 
 
 
@@ -371,6 +382,34 @@ window.setTerminationDateLimit = function(startDateField, endDateField){
 };
 /*---------XXXXXX----Set Temination date & Last working day validation----XXXXXX---------*/
 
+window.showLwd = function(){ // ++MOD-012
+    var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic');
+    if(subtopic == '2887'){
+        if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getCode() == '1829' || neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getValue() == 'Salary Continuance'){
+            neocase.form.section('section35033381ef6ef4eb36ad').show();
+            document.getElementById('section35033381ef6ef4eb36ad').querySelector('.bloc-header-separator').style.display = 'none';
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').hide();
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').show();
+            neocase.form.field('UTILISATEURS$CHAMPU311').hide();
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').hide();
+            
+        }else{
+            neocase.form.section('section35033381ef6ef4eb36ad').hide();
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').hide();
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').hide();
+            neocase.form.field('UTILISATEURS$CHAMPU311').show();
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').show();
+        }
+    }
+};
+window.tipTextTodoc = function(){ // ++MOD-13
+    var sectionDocument = $('#sectiond6bf68f83235e802d28e'),
+        tipTextDoc = "Please add previous email communication with Mobility/ISOW/etc.";
+    if($(sectionDocument).find('.bloc-content .row .row .tip-text').length< 1){
+        $(sectionDocument).find('.bloc-content .row .row').append('<div class="col-sm-12 tip-text"><span style="color:red;">'+tipTextDoc+'</span></div>');
+    }
+};
+
 /**************************
  * Launch Javascript on init
  ***************************/
@@ -404,6 +443,7 @@ window.launchOnloadcomplete = function () {
     //++MOD-010
     if(document.getElementById('section10b1ba3a25c94f003bcd').style.display !== 'none'){ // Section: Start/Update leave of absence details
         setDateLimit('INTERVENTIONS_EN_COURS$VALEUR333','INTERVENTIONS_EN_COURS$VALEUR503'); //Fields: 'Absence start date (new) :' , 'Expected return date (new) :'
+        showLwd(); //++MOD-012
     }
     if(document.getElementById('section35033381ef6ef4eb36ad').style.display !== 'none'){ // Section: Termination dates
         setTerminationDateLimit('INTERVENTIONS_EN_COURS$VALEUR220','INTERVENTIONS_EN_COURS$VALEUR221'); //Fields: 'Termination date:','Last working day:'
@@ -417,10 +457,11 @@ window.launchOnloadcomplete = function () {
     if(document.getElementById('sectionffc3e75f608d65eb5d98').style.display !== 'none' && document.getElementById('section185d40ae088e855570b9').style.display !== 'none'){ // Section: Effective date & Expected end date ++MOD-011
         setDateLimit('INTERVENTIONS_EN_COURS$VALEUR5','INTERVENTIONS_EN_COURS$VALEUR445'); //Fields: 'Effective date :' , 'Expected assignment end date :'
     }
+    tipTextTodoc(); // ++MOD-13
     console.log('launch load complete');
+    
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
-
 
 /****************************
  * Launch Javascript on submit

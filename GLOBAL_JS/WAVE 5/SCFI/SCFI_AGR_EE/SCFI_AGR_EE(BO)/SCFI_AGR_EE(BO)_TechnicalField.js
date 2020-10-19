@@ -27,7 +27,13 @@ Developer   - Ahana Sarkar
 Date	    - 06/18/2020 (MM/DD/YYYY)
 Change No   - MOD-005
 Description - Comment out date validation [if fields are editable disable comment out section]
----------------------------------------------------------*/ 
+-------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 09/30/2020 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - Field “Last Working Day” will be visible only when reason = Salary Continuance
+---------------------------------------------------------*/  
+
 
 neocase.form.section("sectioncde206789fedba0494b1").hide();
 
@@ -169,7 +175,25 @@ window.setTerminationDateLimit = function(startDateField, endDateField){
     startDateFieldId.trigger('change');
 };
 /*---------XXXXXX----Set Temination date & Last working day validation----XXXXXX---------*/
+window.showLwd = function(){
+    var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();
+    if(subtopic == '2887'){
+        if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getCode() == '1829' || neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getValue() == 'Salary Continuance'){
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').hide();
+            document.getElementById('sectiona9ba6254e2d280cbfb80').children[0].style.display="none";
+            neocase.form.section('sectiona9ba6254e2d280cbfb80').show();
+            neocase.form.field('UTILISATEURS$CHAMPU311').hide();
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').hide();
+        }else{
+            document.getElementById('sectiona9ba6254e2d280cbfb80').children[0].style.display="block";
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').show();
+            neocase.form.section('sectiona9ba6254e2d280cbfb80').hide();
+            neocase.form.field('UTILISATEURS$CHAMPU311').show();
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').show();
 
+        }
+    }
+};
 /**************************
  * Launch Javascript on init
  ***************************/
@@ -181,5 +205,6 @@ window.launchOnloadcomplete = function(){
     if(document.getElementById('sectiona9ba6254e2d280cbfb80').style.display !== 'none'){ // Section: Termination dates
         setTerminationDateLimit('INTERVENTIONS_EN_COURS$VALEUR220','INTERVENTIONS_EN_COURS$VALEUR221'); //Fields: 'Termination date:','Last working day:'
     }*/
+    showLwd();//++MOD-006
 };
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

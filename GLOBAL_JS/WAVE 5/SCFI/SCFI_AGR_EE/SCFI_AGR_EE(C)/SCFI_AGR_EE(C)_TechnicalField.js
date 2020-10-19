@@ -10,7 +10,7 @@ Developer   - Ahana Sarkar
 Date	    - 11/01/2019 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Autofill topic and subtopics form URL
----------------------------------------------------------------
+---------------------------------------------------------
 Developer   - Ahana Sarkar
 Date	    - 06/08/2020 (MM/DD/YYYY)
 Change No   - MOD-003
@@ -20,6 +20,16 @@ Developer   - Ahana Sarkar
 Date	    - 06/22/2020 (MM/DD/YYYY)
 Change No   - MOD-004
 Description - Add 'blur' function for the end date in'setDateLimit' menthod(if User manuaaly enter the date by typing)
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 08/21/2020 (MM/DD/YYYY)
+Change No   - MOD-005
+Description - Section containing article link display for LOA subtopic
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 09/21/2020 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - Field “Last Working Day” will be visible and mandatory only when reason = Salary Continuance
 ---------------------------------------------------------*/ 
 
 // hide Technical section
@@ -55,7 +65,6 @@ window.loadSubTopic = function(){
 		}
 	}
 };
-
 /*-------------Set minimum date of related start and end date field--------+MOD-003-----*/
 window.setDateLimit = function(startDateField, endDateField){
     var stD,stDate,endD,endDate,nextDay,alertMsg;
@@ -110,7 +119,7 @@ window.setDateLimit = function(startDateField, endDateField){
     
             if(endDate<= stDate){
                 endDateFieldId.val('');
-                if(endDateFieldId.closest('div').find('.error-msg-date').length < 1){
+                if(endDateFieldId.closest('div').find('.error-msg-date').length< 1){
                     endDateFieldId.after(errorMsg);
                 }
                 alertMsg = 'Select date after '+$.trim(startDateFieldId.closest('.row').find('label').text()) + ' ' + stD;
@@ -121,6 +130,52 @@ window.setDateLimit = function(startDateField, endDateField){
     });
 };
 /*---------XXXXXX----Set minimum date of related start and end date field----XXXXXX---------*/
+/*---------Section containing article link display for LOA subtopic---++MOD-005------*/
+window.displayLoaDoc = function(){
+    var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic'),
+        countryISOCode = neocase.form.field("UTILISATEURS$CHAMPU19").getValue(),
+        countrySAPCode = neocase.form.field("UTILISATEURS$CHAMPU232").getValue();
+    if(subtopic == '2887'){
+        if(countryISOCode == 'DK' || countrySAPCode == '09'){
+            neocase.form.section('section5367761aa6f2f5f043f7').show();
+            neocase.form.section('section352ef5f60d45eb5e36f3').hide();
+            neocase.form.section('sectione2a9cdd3890bb42d1be6').hide();
+            neocase.form.section('section69d7aa1876322693b594').hide();
+        }else if(countryISOCode == 'FI' || countrySAPCode == '44'){
+            neocase.form.section('section352ef5f60d45eb5e36f3').show();
+            neocase.form.section('section5367761aa6f2f5f043f7').hide();
+            neocase.form.section('sectione2a9cdd3890bb42d1be6').hide();
+            neocase.form.section('section69d7aa1876322693b594').hide();
+        }else if(countryISOCode == 'NO' || countrySAPCode == '20'){
+            neocase.form.section('sectione2a9cdd3890bb42d1be6').show();
+            neocase.form.section('section352ef5f60d45eb5e36f3').hide();
+            neocase.form.section('section5367761aa6f2f5f043f7').hide();
+            neocase.form.section('section69d7aa1876322693b594').hide();
+        }else if(countryISOCode == 'SE' || countrySAPCode == '23'){
+            neocase.form.section('section69d7aa1876322693b594').show();
+            neocase.form.section('sectione2a9cdd3890bb42d1be6').hide();
+            neocase.form.section('section352ef5f60d45eb5e36f3').hide();
+            neocase.form.section('section5367761aa6f2f5f043f7').hide();
+        }
+    }else{
+        neocase.form.section('section69d7aa1876322693b594').hide();
+        neocase.form.section('sectione2a9cdd3890bb42d1be6').hide();
+        neocase.form.section('section352ef5f60d45eb5e36f3').hide();
+        neocase.form.section('section5367761aa6f2f5f043f7').hide();
+    }
+};
+/*----xxxxx-----Section containing article link display for LOA subtopic---xxxxx------*/
+window.showLwd = function(){ // ++MOD-006
+    if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getCode() == '1829' || neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getValue() == 'Salary Continuance'){
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').show();
+        neocase.form.field('UTILISATEURS$CHAMPU311').hide();
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').hide();
+    }else{
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').hide();
+        neocase.form.field('UTILISATEURS$CHAMPU311').show();
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').show();
+    }
+};
 
 /**************************
 * Launch Javascript on init
@@ -157,7 +212,10 @@ window.launchOnloadcomplete = function(){
     //++MOD-003
     if(document.getElementById('sectione0594f31164773401e4d').style.display !== 'none'){ // Section: Start/Update leave of absence details
         setDateLimit('INTERVENTIONS_EN_COURS$VALEUR333','INTERVENTIONS_EN_COURS$VALEUR503'); //Fields: 'Absence start date (new) :' , 'Expected return date (new) :'
+        displayLoaDoc(); //++MOD-005
+        showLwd();// ++MOD-006
     }
+
     console.log('launch load complete');
 };
 neocase.form.event.bind("loadcomplete",launchOnloadcomplete);

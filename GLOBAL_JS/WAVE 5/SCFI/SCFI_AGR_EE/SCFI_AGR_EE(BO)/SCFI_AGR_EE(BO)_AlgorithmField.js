@@ -74,8 +74,8 @@ var Tableau = [
     'section61fee27c186293b85782#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
     // Start / Update Leave of absence details
     'section30472c7448462e18d86c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Start/update leave of absence',
-    // Termination Details
-    'sectiona9ba6254e2d280cbfb80#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Resignation;SCFI_Retirement',
+    // Termination Details(added due to Start/update LOA for salary Continuance reason - 30/09/2020)
+    'sectiona9ba6254e2d280cbfb80#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Resignation;SCFI_Retirement;SCFI_Start/update leave of absence',
     // Resignation details
     'sectionb11676eb3f8b7f96471b#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Resignation',
     // Retirement details

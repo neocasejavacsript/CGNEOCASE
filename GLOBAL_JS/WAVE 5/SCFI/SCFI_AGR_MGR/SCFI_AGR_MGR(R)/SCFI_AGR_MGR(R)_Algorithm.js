@@ -90,7 +90,9 @@ var Tableau = [
     // Supporting document
     'section6325b29a74ce71635dc6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Start/update leave of absence;SCFI_Secondment outbound start;SCFI_Secondment outbound extension',
     // SAP form
-    'section4411a951aa5983d7438a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed inbound start;SCFI_Landed outbound extension;SCFI_Landed inbound extension;SCFI_Landed outbound start',
+    'section4411a951aa5983d7438a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed inbound start',
+    // Documents
+    'section2a93f423285069b00ff0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound extension;SCFI_Landed outbound start',
     // Expected end date
     'section185d40ae088e855570b9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound extension;SCFI_Secondment outbound extension;SCFI_Landed inbound start;SCFI_Landed inbound extension;SCFI_Secondment inbound extension',
     // Confirm assignment end date
@@ -104,7 +106,9 @@ var Tableau = [
     // Revised termination date
     'section5f59662522dee0417b25#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Revised termination date',
     // Ad hoc report details
-    'sectionb5fa29fa319f1b28666e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Ad hoc report'
+    'sectionb5fa29fa319f1b28666e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Ad hoc report',
+    //Employee information
+    'section29bd2bf830cf3f5e1a96#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed inbound extension;SCFI_Landed inbound end'
 ];
 var enableManageField;
 
