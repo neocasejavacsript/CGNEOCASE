@@ -102,6 +102,7 @@ var Tableau = [
     'sectionf97f71c7a2e95b6d6075#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Probation period;Période d\'essai;FR_Contract;Contrat;FR_Start Date Change;Décalage date d\'entrée',
     'sectionab38b9e19cb056645aea#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche',
     'section82231c5f2bab823e7c2e#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche'
+
 /* ------------- End of MOD-001 changes -------------*/
 /* ------------- End of MOD-002 changes -------------*/
 ];

@@ -50,7 +50,12 @@ Date	      - 10/16/2020 (MM/DD/YYYY)
 Change No   - MOD-011
 Description - Remove mandatory "Fin de période d'essai (nouveau) (Last day of probation (new))"field  for Subtopic " FR_Start date change / Décalage date d\'entrée",
             - Mandatory "Fin de période d'essai (nouveau) (Last day of probation (new))"field  for Subtopic "FR_01-Probation Period – Renewal",
-----------------------------------------------------------------------------*/
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	     - 12/02/2020 (MM/DD/YYYY)
+Change No   - MOD-012
+Description - show section for 02 Addedum for given days
+----------------------------------------------------------------------------*/ 
 
 
 //hide technical section
@@ -769,6 +774,7 @@ window.launchOnInit = function () {
   //Calculate Monthly Salary - MOD-003 ++	 Starts  
   disableFields();
   neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR380').noMandatory();
+
 };
 
 window.launchOnLoadComplete = function () {
@@ -776,7 +782,12 @@ window.launchOnLoadComplete = function () {
   var payPeriods = neocase.form.field("UTILISATEURS_CHAMPU293");
   var monthlySal = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR429");
   calculate_monthlySalary(annualBaseSal, payPeriods, monthlySal);//Calculate Monthly Salary - Ends
-
+  var subtopicVal = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getValue();
+  if(subtopicVal == '2950'){
+    neocase.form.section('section3dc29cfb4b66f60624d6').show();
+  }else{
+    neocase.form.section('section3dc29cfb4b66f60624d6').hide();
+  }
   /*-- ++MOD-007 --*/
   if(neocase.form.field('INTERVENTIONS_EN_COURS_MOTCLE').getValue() == '2362' && neocase.form.field("INTERVENTIONS_EN_COURS_ELEMENT").getValue() == '2595'){ // If topic = FR-Career Change, Subtopic = FR_01- With pay change
 	neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR279').noMandatory();

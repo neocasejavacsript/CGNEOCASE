@@ -32,7 +32,13 @@ Developer   - Ahana Sarkar
 Date	    - 09/30/2020 (MM/DD/YYYY)
 Change No   - MOD-006
 Description - Field “Last Working Day” will be visible and mandatory only when reason = Salary Continuance
----------------------------------------------------------*/  
+-------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 10/20/2020 (MM/DD/YYYY)
+Change No   - MOD-007
+Description - Rollback Mod-006
+            - Remove reason = Salary Continuance from dropdown
+---------------------------------------------------------*/
 
 // hide Technical section
 neocase.form.section("section210167cb206f39b59ddc").hide();
@@ -234,26 +240,26 @@ window.setTerminationDateLimit = function(startDateField, endDateField){
     startDateFieldId.trigger('change');
 };
 /*---------XXXXXX----Set Temination date & Last working day validation----XXXXXX---------*/
-window.showLwd = function(){ // ++MOD-006
-    var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();
-    if(subtopic == '2887'){
-        if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getCode() == '1829' || neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getValue() == 'Salary Continuance'){
-            neocase.form.section('section772181f1566c4f646edd').show();
-            document.getElementById('section772181f1566c4f646edd').querySelector('.bloc-header-separator').style.display = 'none';
-            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').noMandatory();
-            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').hide();
-            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').show();
-            neocase.form.field('UTILISATEURS$CHAMPU311').hide();
-            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').hide();
-        }else{
-            neocase.form.section('section772181f1566c4f646edd').hide();
-            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').hide();
-            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').hide();
-            neocase.form.field('UTILISATEURS$CHAMPU311').show();
-            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').show();
-        }
-    }
-};
+// window.showLwd = function(){ // ++MOD-006
+//     var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();
+//     if(subtopic == '2887'){
+//         if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getCode() == '1829' || neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getValue() == 'Salary Continuance'){
+//             neocase.form.section('section772181f1566c4f646edd').show();
+//             document.getElementById('section772181f1566c4f646edd').querySelector('.bloc-header-separator').style.display = 'none';
+//             neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').noMandatory();
+//             neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').hide();
+//             neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').show();
+//             neocase.form.field('UTILISATEURS$CHAMPU311').hide();
+//             neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').hide();
+//         }else{
+//             neocase.form.section('section772181f1566c4f646edd').hide();
+//             neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').hide();
+//             neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').hide();
+//             neocase.form.field('UTILISATEURS$CHAMPU311').show();
+//             neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').show();
+//         }
+//     }
+// };
 /**************************
 * Launch Javascript on init
 ***************************/
@@ -270,10 +276,14 @@ window.launchOnloadcomplete = function () {
     /*-------++MOD-004-------*/
     if(document.getElementById('sectione0594f31164773401e4d').style.display !== 'none'){ // Section: Start/Update leave of absence details
         setDateLimit('INTERVENTIONS_EN_COURS$VALEUR333','INTERVENTIONS_EN_COURS$VALEUR503'); //Fields: 'Absence start date (new) :' , 'Expected return date (new) :'
-        showLwd();//++MOD-006
+        //showLwd();//++MOD-006
     }
     if(document.getElementById('section772181f1566c4f646edd').style.display !== 'none'){ // Section: Termination dates
         setTerminationDateLimit('INTERVENTIONS_EN_COURS$VALEUR220','INTERVENTIONS_EN_COURS$VALEUR221'); //Fields: 'Termination date:','Last working day:'
+    }
+    var reasonAbsenceSalCode = $("#"+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517')['elementHTML']['id'] + " option[code='1829']");
+    if($(reasonAbsenceSalCode).length > 0){
+        $(reasonAbsenceSalCode).remove(); // ++MOD-007
     }
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);

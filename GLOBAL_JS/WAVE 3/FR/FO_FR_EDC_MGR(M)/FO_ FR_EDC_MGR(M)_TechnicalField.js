@@ -30,7 +30,12 @@ Developer   - Riya Dutta
 Date	    - 11/28/2018 (MM/DD/YYYY)
 Change No   - MOD-006
 Description - Resolved Pop-up Disable Enable issue
-----------------------------------------------------------------------------*/
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	     - 12/02/2020 (MM/DD/YYYY)
+Change No   - MOD-012
+Description - show section for 02 Addedum for given days
+----------------------------------------------------------------------------*/ 
 //hide technical section
 neocase.form.section("section2768aff2e9a727689da1").hide();
 
@@ -650,7 +655,14 @@ neocase.form.event.bind('loadcomplete', function () {
         capgDisable(formulaire.INTERVENTIONS_EN_COURS$VALEUR417);
     }
     /*------------- Ends of MOD-006 Changes --------------- */
-
+	
+	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"));
+    var subtopicVal = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getText();
+    if(subtopicVal == '02- Avenant don de jours' || subtopicVal == 'FR_02-Addendum for given days'){
+        neocase.form.section('section5a0e4bbc45afb559325a').show();
+    }else{
+        neocase.form.section('section5a0e4bbc45afb559325a').hide();
+    }
 });
 
 /****************************

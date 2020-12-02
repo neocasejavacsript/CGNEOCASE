@@ -31,6 +31,11 @@ Developer   - Ahana Sarkar
 Date	    - 10/01/2020 (MM/DD/YYYY)
 Change No   - MOD-006
 Description - Field “Last Working Day” will be visible only when reason = Salary Continuance
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 10/20/2020 (MM/DD/YYYY)
+Change No   - MOD-007
+Description - Termination details section will be visible and Termination Date field will be renamed as Planned termination date if reason = Salary Continuance
 ---------------------------------------------------------*/  
 
 //hide technical section
@@ -225,19 +230,18 @@ window.setTerminationDateLimit = function(startDateField, endDateField){
     startDateFieldId.trigger('change');
 };
 /*---------XXXXXX----Set Temination date & Last working day validation----XXXXXX---------*/
+var terminationDateOriginalVal = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').label();
 window.showLwd = function(){
-    if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getCode() == '1829' || neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getValue() == 'Salary Continuance'){
-        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').hide();
-        document.getElementById('sectionf4e8add0494794594e00').children[0].style.display="none";
+    if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getCode() == '1829' || neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getValue() == 'Salary Continuance'){       
         neocase.form.section('sectionf4e8add0494794594e00').show();
         neocase.form.field('UTILISATEURS$CHAMPU311').hide();
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').hide();
-    }else{
-        document.getElementById('sectionf4e8add0494794594e00').children[0].style.display="block";
-        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').show();
+        $('[for="'+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220')['name']+'"]').text('Planned termination date');
+    }else{        
         neocase.form.section('sectionf4e8add0494794594e00').hide();
         neocase.form.field('UTILISATEURS$CHAMPU311').show();
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').show();
+        $('[for="'+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220')['name']+'"]').text(terminationDateOriginalVal);
     }
 };
 window.tipTextToCountryMoving = function(){

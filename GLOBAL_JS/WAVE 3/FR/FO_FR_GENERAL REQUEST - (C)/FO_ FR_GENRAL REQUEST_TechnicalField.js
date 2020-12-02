@@ -24,6 +24,11 @@ Developer   - Ahana Sarkar
 Date	    - 10/16/2019 (MM/DD/YYYY)
 Change No   - MOD-005
 Description - Change submit button text to 'Soumettre' if in FR language
+***************************************************************
+Developer   - Ahana Sarkar
+Date	    - 10/28/2019 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - Set Monthly Sal value
 ******************************************************************/
 
 /**************
@@ -111,11 +116,23 @@ window.launchOnInit = function(){
 	
     if (document.documentElement.lang === "fr-FR" ) { // ++MOD-005 Change submit button text to 'Soumettre' if in FR language
         $('.submitSimpleRequestButton').text('Soumettre');
-    }
+	}
 
 };
 neocase.form.event.bind("init",launchOnInit);
-
+/**************************
+ * Launch Javascript on loadcomplete
+ ***************************/
+window.launchOnloadcomplete = function () {
+	var payPeriods = neocase.form.field('UTILISATEURS$CHAMPU293').getValue(),
+		annualSal = neocase.form.field('UTILISATEURS$CHAMPU292').getValue();
+	if(annualSal !== '' && payPeriods !== '' ){
+		var monthlySal = parseFloat(annualSal)/parseFloat(payPeriods);
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR429').setValue(monthlySal.toFixed(2));
+	}
+	
+};
+neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 
 /****************************
 * Launch Javascript on submit

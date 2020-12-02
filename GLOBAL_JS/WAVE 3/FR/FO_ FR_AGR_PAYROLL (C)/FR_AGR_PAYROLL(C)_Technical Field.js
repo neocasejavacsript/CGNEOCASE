@@ -50,6 +50,11 @@ Developer   - Ahana Sarkar
 Date	    - 09/18/2020 (MM/DD/YYYY)
 Change No   - MOD-009
 Description - Implementing condition for 'work from home declaration must be only for last month or current month' except september,2020(if sept,2020 then it will only allow current month)
+---------------------------------------------------------------------------
+Developer   - Ayan Dey
+Date	    - 10/20/2020 (MM/DD/YYYY)
+Change No   - MOD-010
+Description - Commented out FR_03_Bicycle allowance calculation. Added logic to check if end date is before 1st Sept 2020 for subtopic: Sustainable Mobility Package (2699)
 ----------------------------------------------------------------------------*/
 
 //Hide Technical Section
@@ -63,31 +68,34 @@ window.calculate_monthlyRefndAmnt = function() {
 	var subscripFreqncy = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR905");
 	var totPaidAmnt = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR390");
 	var monthlyRefndAmnt = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR909");
-		
-	if(monthlyRefndAmnt) {
-		if (subscripFreqncy){
-			if (totPaidAmnt){
-			
-			var val_subscripFreqncy=subscripFreqncy.getText();
-			var val_totPaidAmnt=parseFloat(totPaidAmnt.getValue());
-			
-			if (isNaN(val_totPaidAmnt)) 
-				{
-				val_totPaidAmnt =0; 
-				}
 	
-			if (val_subscripFreqncy == "Yearly" || val_subscripFreqncy == "Annuel") //MOD-003++
-				{
-				monthlyRefndAmnt.setValue((val_totPaidAmnt/24).toFixed(2));
+	var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic');
+    if(subtopic == '2698'){
+		if(monthlyRefndAmnt) {
+			if (subscripFreqncy){
+				if (totPaidAmnt){
+				
+				var val_subscripFreqncy=subscripFreqncy.getText();
+				var val_totPaidAmnt=parseFloat(totPaidAmnt.getValue());
+				
+				if (isNaN(val_totPaidAmnt)) 
+					{
+					val_totPaidAmnt =0; 
+					}
+		
+				if (val_subscripFreqncy == "Yearly" || val_subscripFreqncy == "Annuel") //MOD-003++
+					{
+					monthlyRefndAmnt.setValue((val_totPaidAmnt/24).toFixed(2));
+					}
+				else if(val_subscripFreqncy == "Monthly / Weekly" || val_subscripFreqncy == "Mensuel / Hebdomadaire")  //MOD-003++
+					{
+					monthlyRefndAmnt.setValue((val_totPaidAmnt/2).toFixed(2));
+					}
+				else{
+					monthlyRefndAmnt.setValue("");
+					}
+				
 				}
-			else if(val_subscripFreqncy == "Monthly / Weekly" || val_subscripFreqncy == "Mensuel / Hebdomadaire")  //MOD-003++
-				{
-				monthlyRefndAmnt.setValue((val_totPaidAmnt/2).toFixed(2));
-				}
-			else{
-				monthlyRefndAmnt.setValue("");
-				}
-			
 			}
 		}
 	}
@@ -97,79 +105,84 @@ window.calculate_monthlyRefndAmnt = function() {
 /*-------------------------- For FR_02_Province --------------ENDS---------------*/
 
 /*--------------------- For FR_03_Bicycle allowance ---------------STARTS----------*/
-window.calculate_monthlyRefndAmntByCycl = function() {
+// window.calculate_monthlyRefndAmntByCycl = function() {
 	
-	var km_Mileage = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR908");
-	var startDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR5");
-	var endDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR261");
-	var monthlyRefndAmnt_ByCycl = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR910");
+// 	var km_Mileage = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR908");
+// 	var startDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR5");
+// 	var endDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR261");
+// 	var monthlyRefndAmnt_ByCycl = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR910");
 	
-	var val_monthlyRefndAmnt_ByCycl=monthlyRefndAmnt_ByCycl.getValue();
-	var val_endDate=endDate.getDate();
-	var val_startDate=startDate.getDate();
-	var val_km_Mileage=parseFloat(km_Mileage.getValue());
+// 	var val_monthlyRefndAmnt_ByCycl=monthlyRefndAmnt_ByCycl.getValue();
+// 	var val_endDate=endDate.getDate();
+// 	var val_startDate=startDate.getDate();
+// 	var val_km_Mileage=parseFloat(km_Mileage.getValue());
 	
-	var calculation;
-	var monthDiff;
-	var monthMin;	
-	var maxLimit;
+// 	var calculation;
+// 	var monthDiff;
+// 	var monthMin;	
+// 	var maxLimit;
 	
-	if(monthlyRefndAmnt_ByCycl) {
-		if (endDate){
-			if (startDate){
-				if (km_Mileage){
+// 	var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic');
+//     if(subtopic == '2698'){
+			
+// 	if(monthlyRefndAmnt_ByCycl) {
+// 		if (endDate){
+// 			if (startDate){
+// 				if (km_Mileage){
 								
-				 calculation=0;
-				 monthDiff=0;
-				 monthMin=0;
-				 maxLimit=16.67;
+// 				 calculation=0;
+// 				 monthDiff=0;
+// 				 monthMin=0;
+// 				 maxLimit=16.67;
 							
-				if (isNaN(val_km_Mileage)) 
-				{
-				val_km_Mileage =0; 
-				}
+// 				if (isNaN(val_km_Mileage)) 
+// 				{
+// 				val_km_Mileage =0; 
+// 				}
 				
-				var begMonth,endMonth,begYear,endYear;
+// 				var begMonth,endMonth,begYear,endYear;
 				
-				if(val_startDate){
-                begMonth=val_startDate.getMonth();
-                begYear=val_startDate.getFullYear();
-				}
-				if(val_endDate){
-                endMonth=val_endDate.getMonth();
-                endYear=val_endDate.getFullYear();
-				}
+// 				if(val_startDate){
+//                 begMonth=val_startDate.getMonth();
+//                 begYear=val_startDate.getFullYear();
+// 				}
+// 				if(val_endDate){
+//                 endMonth=val_endDate.getMonth();
+//                 endYear=val_endDate.getFullYear();
+// 				}
 				
-				if(typeof endMonth!== undefined && typeof begMonth!== undefined && typeof endYear!== undefined && typeof begYear!== undefined){
-				monthDiff= endMonth - begMonth + (12 * (endYear - begYear));
-				monthDiff=monthDiff+1;
-				}
+// 				if(typeof endMonth!== undefined && typeof begMonth!== undefined && typeof endYear!== undefined && typeof begYear!== undefined){
+// 				monthDiff= endMonth - begMonth + (12 * (endYear - begYear));
+// 				monthDiff=monthDiff+1;
+// 				}
 				
-				console.log(monthDiff);
-				if (monthDiff !== 0 && !isNaN(monthDiff)) {
-					monthMin=Math.min(val_km_Mileage,800);
-					calculation=((monthMin*0.25)/monthDiff).toFixed(2);
-					//monthlyRefndAmnt_ByCycl.setValue(calculation);					
+// 				console.log(monthDiff);
+// 				if (monthDiff !== 0 && !isNaN(monthDiff)) {
+// 					monthMin=Math.min(val_km_Mileage,800);
+// 					calculation=((monthMin*0.25)/monthDiff).toFixed(2);
+// 					//monthlyRefndAmnt_ByCycl.setValue(calculation);					
 					
-					if(calculation>maxLimit){
-					monthlyRefndAmnt_ByCycl.setValue(maxLimit);
-					}else{
-					monthlyRefndAmnt_ByCycl.setValue(calculation);
+// 					if(calculation>maxLimit){
+// 					monthlyRefndAmnt_ByCycl.setValue(maxLimit);
+// 					}else{
+// 					monthlyRefndAmnt_ByCycl.setValue(calculation);
 					
-					}
+// 					}
 					
-				}else
-				{
-					monthlyRefndAmnt_ByCycl.setValue("");
-				}
+// 				}else
+// 				{
+// 					monthlyRefndAmnt_ByCycl.setValue("");
+// 				}
 				
-				}
-			}
-		}
-	}
+// 				}
+// 			}
+// 		}
+// 	}
+	
+// 	}
 	
 				
-};
+// };
 /*--------------------- For FR_03_Bicycle allowance ---------------ENDS----------*/
 
 window.disableFields = function(){
@@ -260,12 +273,24 @@ window.launchOnceLoadComplete = function(){
         }, 800);
     }
 };
+
+
+window.setDateLimit = function(startDateField){
+    var stD,stDate,nextDay,alertMsg;
+    var startDateFieldId = $('#'+ neocase.form.field(startDateField)['elementHTML']['id']),
+        today = new Date(),
+        errorMsg = '<span style="color:red" class="error-msg-date"> This request can’t start before september 1st, 2020</span>';
+		startDateFieldId.datepicker( "option", "minDate", new Date('2020-09-01'));
+	
+};
+
 /**************************
 * Launch Javascript on loadcomplete
 ***************************/
 window.launchOnloadcomplete = function(){
 	launchOnceLoadComplete();
     console.log('launch load complete');
+
 };
 neocase.form.event.bind("loadcomplete",launchOnloadcomplete);
 window.onloadForm = function () {
@@ -280,9 +305,6 @@ window.onloadForm = function () {
 
 	//Calling the function using 1000 msec timer	
 	//topicTimer1 = 
-	// setTimeout(function(){
-	// 	loadSubtopic();
-	// }, 1000); //MOD-002.1
 	
 };
 neocase.form.event.bind('init', onloadForm);
@@ -360,7 +382,29 @@ window.launchOnSubmit = function(){
 				return false;
 			}
 		}
-	} 
+	}
+
+	// Mod-010 Starts
+	var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic');
+    if(subtopic == '2699'){
+		var startDateVal = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR5").getDate();
+		var minDate = new Date("09/01/2020");
+		//var lang = document.getElementById("PageHtml").lang.split("-")[0];
+		var errorMessage = "";
+		
+		if(startDateVal<minDate){
+			if (lang == "fr") {
+				errorMessage = "La présente demande ne peut être faite avant le 1er septembre 2020.";
+			}else{
+				errorMessage = "This request can’t start before september 1st, 2020.";
+			}
+			alert(errorMessage);
+			return false;
+		}
+	}
+	// Mod-010 Ends
+
+	
 };
 neocase.form.event.bind("submit",launchOnSubmit);
 //MOD-007 ends
