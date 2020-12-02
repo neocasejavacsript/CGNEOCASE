@@ -1,4 +1,4 @@
-//ANZ_AGR_EE  - Algorithm Code
+//IN_AGR(M)  - Algorithm Code
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -54,27 +54,21 @@ V18 - PJU - 01/03/2018
 
 /*-----------------------------------------------------------------------------
 Developer   - Debraj Sarkar
-Date	    - 10/01/2019 (MM/DD/YYYY)
+Date	    - 11/03/2020 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
 			- Did basic clean up and changes based on mock up
 			- Display specific section based on subtopic
-------------------------------------------------------------------------------
-Developer   - Riya Dutta
-Date	    - 11/21/2019 (MM/DD/YYYY)
-Change No   - MOD-002
-Description - Defect Fixing
 ------------------------------------------------------------------------------*/ 
 
 /**************************
 Fields and display settings
 ***************************/
 var Tableau = [
-	/*SECTION : "Start Payment"*/
-    'sectionc128a95c2a4b06f858e5#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|IN_Start Payment',
-	/*SECTION : "Stop Payment"*/
-    'section4f79f859c53e6949f0ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|IN_Stop Payment'
-	
+	/*SECTION : "Request leave of absence"
+	'sectioncac596f63b49d0dd917f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|ANZ_Request leave of absence',*/
+     
+             
 ];
 var enableManageField;
 
@@ -1170,6 +1164,7 @@ window.getSelectValue = function (RADIO_BUTTON) {
 STATIC CODE STARTS
 ***************************************************************************************/
 
+
 /***************
 * DISABLE FIELDS
 ****************/
@@ -1383,7 +1378,6 @@ window.getASPid = function(fieldName){
 	}
 	return fieldName;
 };
-
 FillCf = function(fieldValue,fieldName){
     var msg = "function FillCf : ";
 
@@ -1406,50 +1400,6 @@ FillCf = function(fieldValue,fieldName){
 }    
 };
 
-/******************************************
- * CREATE HYPERLINK ON LABEL TO OPEN A POPUP
- *******************************************/
-window.popupLink = function (field, url) {
-	var msg = "function popupLink : ";
-	if (field) {
-		//get field label
-		var fieldId = field.id;
-		var fieldLabel;
-		if (fieldId.search("INTERVENTIONS") != -1) {
-			fieldLabel = fieldId.replace("INTERVENTIONS", "lblINTERVENTIONS");
-		} else if (fieldId.search("UTILISATEURS") != -1) {
-			fieldLabel = fieldId.replace("UTILISATEURS", "lblUTILISATEURS");
-		} else {
-			msg += "type de champ non prit en compte " + fieldId;
-			console.log(msg);
-		}
-		if (fieldLabel.search("_display") != -1) {
-			fieldLabel = fieldLabel.replace("_display", "");
-		}
-		//add case number in the URL if needed
-		if (url.search("Id_Demande") != -1) {
-			url = url.replace("Id_Demande=", "Id_Demande=" + numeroIntervention);
-		}
-		//add contact ID in the URL if needed
-		if (url.search("Id_User") != -1) {
-			url = url.replace("Id_User=", "Id_User=" + CodeUtilisateur);
-		}
-		//Create hyperlink on label
-		var onclick = "window.open('" + url + "','_blank')";
-		var createPopup = document.createElement("a");
-		createPopup.setAttribute("onclick", onclick);
-		var popupText = document.getElementById(fieldLabel).innerHTML;
-		var t = document.createTextNode(popupText);
-		createPopup.appendChild(t);
-		if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
-			document.getElementById(fieldLabel).innerHTML = "";
-			document.getElementById(fieldLabel).appendChild(createPopup);
-		}
-	} else {
-		msg += "champ non trouvé";
-		console.log(msg);
-	}
-};
 
 /****************************
 * AUTOMATICALLY FILL SUBTOPIC

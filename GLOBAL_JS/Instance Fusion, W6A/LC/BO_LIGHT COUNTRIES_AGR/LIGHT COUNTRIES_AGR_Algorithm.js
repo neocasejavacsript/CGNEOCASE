@@ -1,5 +1,5 @@
 /*
-//FS_AGR_BO - Algorithm field BACKOFFICE
+//LC_AGR_BO - Algorithm field BACKOFFICE
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
 _________________________________________
@@ -34,26 +34,26 @@ V10.0 - PJU - 02/01/2016
 V10.1 - PJU - 17/01/2017
 	- manage var 'OBLIGATOIRE_RESPECTEE' and 'OBLIGATOIRE_NON_RESPECTEE' in section 9C, 9D
 V11 - PJU - 18/01/2017
-	- Ajout de la variable enableManageField = true; dans l'ouverture côté backoffice
+	- Ajout de la variable enableManageField = true; dans l'ouverture cÃ´tÃ© backoffice
 V12 - PJU - 10/05/2017
 	- update the function 'viderChamp' > use selectedIndex to empty list fields
 V13 - PJU - 15/11/2017
 	- manage var 'OBLIGATOIRE_NON_RESPECTEE' in section 6A > 9B
 V14 - PJU - 14/12/2017
-    - 'affichageSection' modifié pour prendre en compte les 'textarea'
+    - 'affichageSection' modifiÃ© pour prendre en compte les 'textarea'
 V15 - PJU - 04/01/2018
-    - fonction 'mandatoryList' rajoutée pour mettre à jour la liste des champs obligatoires dans le champ algorithm
+    - fonction 'mandatoryList' rajoutÃ©e pour mettre Ã  jour la liste des champs obligatoires dans le champ algorithm
 V16 - PJU/WIL - 05/01/2018
-    - fonction 'manageCheckbox' mise à jour pour fonctionner côté front et back
+    - fonction 'manageCheckbox' mise Ã  jour pour fonctionner cÃ´tÃ© front et back
 V17 - PJU - 11/01/2018
 	- delete var enableManageField
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
 V18 - PJU - 01/03/2018
 	- add specific code for 'MOTCLE' in manageFields
 ***************************************************************************
-Developer   - Smita Singh
-Date	    - 01/21/2019
-Change No   - MOD-002
+Developer   - Ayan Dey
+Date	    - 03/10/2020
+Change No   - MOD-001
 Description - Implementing new Js Framework code
 ***************************************************************************
 */
@@ -64,19 +64,19 @@ Fields and display settings
 var Tableau = [
 	
 	//Display Probation Update
-	'section102#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FS/LC_Probation Period update',
+	'section5735bba57969eb8fd772#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_Probation Period update',
 	//Display Fixed Term Contract
-	'section365#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FS/LC_End of Fixed Term Contract;',
+	'section5edd29982102315fb8ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_End of Fixed Term Contract;',
 	//Display Termination info
-	'section2fecf6651c15581a0c6c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FS/LC_End of Fixed Term Contract;FS/LC_Involuntary leaver',
+	'section8908ea9204f088019eac#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_End of Fixed Term Contract;LC_Involuntary leaver',
 	//Display Resignation info
-   'section60ceec25b46ed23641b9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FS/LC_Resignation',
+   'sectionc40a28345662a99f2d7d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_Resignation',
 	//Display Last working day
-	  'section71c805d9d30258ead277#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FS/LC_Retirement;FS/LC_Resignation;FS/LC_End of Fixed Term Contract;FS/LC_Involuntary leaver',
+	'section099c6f8d19053460e48f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_Retirement;LC_Resignation;LC_End of Fixed Term Contract;LC_Involuntary leaver',
 	//Display Leave of absence details
-	'section7a270b6eb274a6748adb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FS/LC_LOA Unpaid;FS/LC_LOA Paid',
+	'sectionb771374cc0dc8f743adc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_LOA Unpaid;LC_LOA Paid',
 	//Display Return from Leave of Absence
-   'section0799b13d6b658217979d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FS/LC_Return Leave of Absence'
+   'sectionbf6fea9e95e04c2bdf93#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|LC_Return Leave of Absence'
 
 ];
 var enableManageField;
@@ -96,7 +96,7 @@ FONCTION AFFICHER/MASQUER UN CHAMP
 **********************************/
 window.affichageChamp = function (FIELD, VALID) {
     if (document.getElementById(FIELD.id)) {
-        //ID du champ et de son libellé
+        //ID du champ et de son libellÃ©
         var FIELD_ID = FIELD.id;
         var LABEL_FIELD_ID;
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
@@ -153,7 +153,7 @@ window.champObligatoire = function (FIELD, VALID) {
             LBL_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "lblUTILISATEURS");
         }
         /**************
-        CÔTE BACKOFFICE
+        CÃ”TE BACKOFFICE
         ***************/
         var BACKOFFICE_MANDATORY = document.getElementById("champsobligatoiresproprietes");
         if (BACKOFFICE_MANDATORY) {
@@ -211,7 +211,7 @@ window.champObligatoire = function (FIELD, VALID) {
         if (VALIDATOR_FIELD_ID.search("_display") != -1) {
             VALIDATOR_FIELD_ID = VALIDATOR_FIELD_ID.replace("_display", "");
         }
-        //on vérifie que le validator existe avant d'activer/désactiver champ obligatoire
+        //on vÃ©rifie que le validator existe avant d'activer/dÃ©sactiver champ obligatoire
         if (document.getElementById(VALIDATOR_FIELD_ID)) {
             ValidatorEnable(document.getElementById(VALIDATOR_FIELD_ID), VALID);
         }
@@ -238,27 +238,27 @@ window.viderChamp = function (FIELD) {
         /****************************
         DECOCHER BOUTONS RADIO CUSTOM
         *****************************/
-        //récupérer les boutons radio
+        //rÃ©cupÃ©rer les boutons radio
         var RADIO_NAME = document.getElementsByName(FIELD.name + "_radio");
-        //décocher tous les boutons radio
+        //dÃ©cocher tous les boutons radio
         for (e = 0; e< RADIO_NAME.length; e++) {
             RADIO_NAME[e].checked = false;
         }
-        //mettre la valeur par défaut au champ select masqué
+        //mettre la valeur par dÃ©faut au champ select masquÃ©
         FIELD.value = "";
     } else {
         /**************************
         DECOCHER LES CHAMPS NEOCASE
         ***************************/
         if (FIELD.type == "checkbox") {
-            //Décocher case à cocher
+            //DÃ©cocher case Ã  cocher
             FIELD.checked = false;
             FIELD.value = 0;
         } else if (FIELD.type == "text") {
             //vider un champ text
             FIELD.value = "";
         } else if (FIELD.type == "select-one") {
-            //valeur par défaut sur un champ select
+            //valeur par dÃ©faut sur un champ select
             FIELD.selectedIndex = "0";
         }
     }
@@ -268,11 +268,11 @@ window.viderChamp = function (FIELD) {
 FONCTION PERMETTANT DE TRANSFORMER UNE LISTE EN BOUTONS RADIO
 *************************************************************/
 window.boutonRadio = function (FIELD) {
-    //récupérer l'ID/le name du champ
+    //rÃ©cupÃ©rer l'ID/le name du champ
     var CHAMP_SELECT_ID = FIELD.id;
     var CHAMP_SELECT_NAME = FIELD.name;
     var CHAMP_SELECT_VALUE = FIELD.value;
-    //récupérer l'ID du label
+    //rÃ©cupÃ©rer l'ID du label
     var SELECT_LABEL_ID;
     var SELECT_OBLIGATOIRE_ID;
     if (CHAMP_SELECT_ID.search("INTERVENTIONS") != -1) {
@@ -282,12 +282,12 @@ window.boutonRadio = function (FIELD) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "lblUTILISATEURS");
         SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
     }
-    //Si le champ est obligatoire, on masque simplement l'étoile d'origine et on cré une nouvelle étoile à côté du label
+    //Si le champ est obligatoire, on masque simplement l'Ã©toile d'origine et on crÃ© une nouvelle Ã©toile Ã  cÃ´tÃ© du label
     if (document.getElementById(SELECT_OBLIGATOIRE_ID)) {
         //document.getElementById(SELECT_OBLIGATOIRE_ID).style.display = "none";
         //document.getElementById(SELECT_LABEL_ID).outerHTML += "<span style='color: Red; visibility: visible;' class='ValidatorCautionBox' id='"+CHAMP_SELECT_ID+"_radio_Validator' title='Champ obligatoire'></span>";
     }
-    //faire une boucle sur les options à partir de 1 pour ne pas prendre la valeur nulle
+    //faire une boucle sur les options Ã  partir de 1 pour ne pas prendre la valeur nulle
     window[CHAMP_SELECT_ID].onloadcomplete = function () {
         var selectObject = FIELD;
         var ajaxList = selectObject.id;
@@ -306,7 +306,7 @@ window.boutonRadio = function (FIELD) {
     };
 
     //eval(CHAMP_SELECT_ID).onloadcomplete = new Function("var selectObject = FIELD;var ajaxList = eval(selectObject.id);msg(ajaxList);var SELECT_OPTIONS = selectObject.options;msg(SELECT_OPTIONS);for(var o=SELECT_OPTIONS.length-1; o>=1; o--){var RADIO_ID = selectObject.id+\"_radio\"+o;var RADIO_NAME = selectObject.name+\'_radio\';var RADIO_ID_LBL = RADIO_ID+\'_lbl\';var RADIO_NAME_LBL = RADIO_NAME+\'_lbl\';var OPTION_VALUE = SELECT_OPTIONS[o].value;selectObject.insertAdjacentHTML(\"afterend\", \"<input type=\'radio\' value = \'\"+OPTION_VALUE+\"\' id=\'\"+RADIO_ID+\"\' name=\'\"+RADIO_NAME+\"\' onchange=\'getSelectValue(this)\'><span id=\'\"+RADIO_ID_LBL+\"\' name=\'\"+RADIO_NAME_LBL+\"\'>\"+OPTION_VALUE+\"</span>\");if(OPTION_VALUE == selectObject.value){document.getElementById(RADIO_ID).checked = true;}}");
-    //Une fois les boutons créés, on masque le SELECT
+    //Une fois les boutons crÃ©Ã©s, on masque le SELECT
     FIELD.style.display = "none";
 };
 
@@ -319,7 +319,7 @@ window.masquerSection = function (SECTION) {
     //boucle sur les TD d'une section
     for(z=0; z<ST_TD.length; z++){
       if(ST_TD[z].childNodes.length > 1){
-        //on élimine les TDs vides
+        //on Ã©limine les TDs vides
         if(ST_TD[z].style.display != "none"){
           FIELD_DISPLAY = true;
 
@@ -337,7 +337,7 @@ window.masquerSection = function (SECTION) {
  * FONCTION AFFICHANT/MASQUANT UNE SECTION
  *****************************************/
 window.affichageSection = function (SECTION, VALID) {
-    //déclarer les variables
+    //dÃ©clarer les variables
     var SECTION_INPUT = SECTION.getElementsByTagName("input");
     var SECTION_SELECT = SECTION.getElementsByTagName("select");
     var SECTION_TEXTAREA = SECTION.getElementsByTagName("textarea");
@@ -415,7 +415,7 @@ window.manageFields = function (DECLENCHEUR) {
         if (DECLENCHEUR == "ouverture") {
             msg(DECLENCHEUR + " du formulaire");
         } else {
-            msg("champ déclencheur : " + DECLENCHEUR);
+            msg("champ dÃ©clencheur : " + DECLENCHEUR);
         }
 
         var SECTION_ARRAY = [];
@@ -433,7 +433,7 @@ window.manageFields = function (DECLENCHEUR) {
             /************************
             DECLARATION DES VARIABLES
             *************************/
-            //définir les variables de condition d'affichage du champ
+            //dÃ©finir les variables de condition d'affichage du champ
             var CONDITION = undefined;
             var CONDITION_RESPECTEE = undefined;
             var CONDITION_NON_RESPECTEE = undefined;
@@ -482,7 +482,7 @@ window.manageFields = function (DECLENCHEUR) {
                     SPLIT_FIELD_STRING = FIELD_STRING.split("\"");
                     FIELD = document.getElementById(SPLIT_FIELD_STRING[1]);
                 } else {
-                    //Si le champ est en création
+                    //Si le champ est en crÃ©ation
                     SPLIT_FIELD_STRING = FIELD_STRING.split(".");
                     if (SPLIT_FIELD_STRING.length == 3) {
                         FIELD_FILE = document.getElementById(SPLIT_FIELD_STRING[2] + "_display");
@@ -547,7 +547,7 @@ window.manageFields = function (DECLENCHEUR) {
             for (c = 1; c< PARAMETER.length; c++) {
                 //5-nouvelle condition
 
-                //définir les variables de vérification de condition
+                //dÃ©finir les variables de vÃ©rification de condition
                 var VALEUR_VERIFIEE = undefined;
 
                 /**************************
@@ -567,12 +567,12 @@ window.manageFields = function (DECLENCHEUR) {
                         7a-INFORMATIONS SUR LE PREMIER CHAMP
                         *********************************/
                         var PARAMETER1_SPLIT;
-                        //récupérer le champ1 en lecture
+                        //rÃ©cupÃ©rer le champ1 en lecture
                         if (PARAMETERS[0].search("getElementById") != -1) {
                             PARAMETER1_SPLIT = PARAMETERS[0].split("\"");
                             PARAMETER_FIELD[c] = document.getElementById(PARAMETER1_SPLIT[1]);
                         } else {
-                            //récupérer le champ1 en création
+                            //rÃ©cupÃ©rer le champ1 en crÃ©ation
                             PARAMETER1_SPLIT = PARAMETERS[0].split(".");
                             if (PARAMETER1_SPLIT.length == 3) {
                                 PARAMETER_FIELD[c] = document.getElementById(PARAMETER1_SPLIT[2]);
@@ -614,12 +614,12 @@ window.manageFields = function (DECLENCHEUR) {
                         7b-INFORMATION SUR LE DEUXIEME CHAMP
                         ************************************/
                         var PARAMETER2_SPLIT;
-                        //récupérer le champ2 en lecture
+                        //rÃ©cupÃ©rer le champ2 en lecture
                         if (PARAMETERS[2].search("getElementById") != -1) {
                             PARAMETER2_SPLIT = PARAMETERS[2].split("\"");
                             PARAMETER2_FIELD[c] = document.getElementById(PARAMETER2_SPLIT[1]);
                         } else {
-                            //récupérer le champ2 en création
+                            //rÃ©cupÃ©rer le champ2 en crÃ©ation
                             PARAMETER2_SPLIT = PARAMETERS[2].split(".");
                             if (PARAMETER2_SPLIT.length == 3) {
                                 PARAMETER2_FIELD[c] = document.getElementById(PARAMETER2_SPLIT[2]);
@@ -667,14 +667,14 @@ window.manageFields = function (DECLENCHEUR) {
                         if (PARAMETER_VALUE[c].search(";") != -1) {
                             var PARAMETER1_VALUES = PARAMETER_VALUE[c].split(";");
                             for (i = 0; i< PARAMETER1_VALUES.length; i++) {
-                                //définir ou mettre à 0 les variables de vérification des valeurs
-                                //10a-Si le champ à tester est vide, la condition est remplie
+                                //dÃ©finir ou mettre Ã  0 les variables de vÃ©rification des valeurs
+                                //10a-Si le champ Ã  tester est vide, la condition est remplie
                                 if (PARAMETER1_VALUES[i] == "null") {
-                                    if (PARAMETER1_FIELD_VALUE == "" || PARAMETER1_FIELD_VALUE == " " || PARAMETER1_FIELD_VALUE == "Sélectionnez..." || PARAMETER1_FIELD_VALUE == "Select...") {
+                                    if (PARAMETER1_FIELD_VALUE == "" || PARAMETER1_FIELD_VALUE == " " || PARAMETER1_FIELD_VALUE == "SÃ©lectionnez..." || PARAMETER1_FIELD_VALUE == "Select...") {
                                         VALEUR_VERIFIEE = true;
                                     }
                                 } else {
-                                    //10b-Si la valeur du champ à tester est égale à celle du paramètre, la condition est remplie
+                                    //10b-Si la valeur du champ Ã  tester est Ã©gale Ã  celle du paramÃ¨tre, la condition est remplie
                                     if (PARAMETER1_FIELD_VALUE == PARAMETER1_VALUES[i]) {
                                         VALEUR_VERIFIEE = true;
                                     }
@@ -685,10 +685,10 @@ window.manageFields = function (DECLENCHEUR) {
                             /***************************
                             9b-S'IL Y A UNE SEULE VALEUR
                             ****************************/
-                            //définir ou mettre à 0 les variables de vérification des valeurs
-                            //10a-Case à cocher
+                            //dÃ©finir ou mettre Ã  0 les variables de vÃ©rification des valeurs
+                            //10a-Case Ã  cocher
                             if (PARAMETER_VALUE[c] === true || PARAMETER_VALUE[c] === false) {
-                                //Si la case est cochée, la condition est remplie
+                                //Si la case est cochÃ©e, la condition est remplie
                                 if (PARAMETER1_FIELD_VALUE === PARAMETER_VALUE[c]) {
                                     VALEUR_VERIFIEE = true;
                                 }
@@ -696,12 +696,12 @@ window.manageFields = function (DECLENCHEUR) {
 
                                 //10b-Champ input
                                 if (PARAMETER_VALUE[c] == "null") {
-                                    //Si le champ testé est vide, la condition est remplie
-                                    if (PARAMETER1_FIELD_VALUE == "" || PARAMETER1_FIELD_VALUE == " " || PARAMETER1_FIELD_VALUE == "Sélectionnez..." || PARAMETER1_FIELD_VALUE == "Select...") {
+                                    //Si le champ testÃ© est vide, la condition est remplie
+                                    if (PARAMETER1_FIELD_VALUE == "" || PARAMETER1_FIELD_VALUE == " " || PARAMETER1_FIELD_VALUE == "SÃ©lectionnez..." || PARAMETER1_FIELD_VALUE == "Select...") {
                                         VALEUR_VERIFIEE = true;
                                     }
                                 } else {
-                                    //Si la valeur du champ à testé est égale à celle du paramètre, la condition est remplie
+                                    //Si la valeur du champ Ã  testÃ© est Ã©gale Ã  celle du paramÃ¨tre, la condition est remplie
                                     if (PARAMETER1_FIELD_VALUE == PARAMETER_VALUE[c]) {
                                         VALEUR_VERIFIEE = true;
                                     }
@@ -711,20 +711,20 @@ window.manageFields = function (DECLENCHEUR) {
                         if (VALEUR_VERIFIEE === true) {
                             CONDITION1_RESPECTEE = true;
                             if (document.getElementById(PARAMETER1_LABEL) === null) {
-                                MSG_CONSOLE += "paramètre 1 : " + PARAMETER1_FIELD_VALUE + " (la condition 1 est remplie) / ";
+                                MSG_CONSOLE += "paramÃ¨tre 1 : " + PARAMETER1_FIELD_VALUE + " (la condition 1 est remplie) / ";
                             } else {
-                                MSG_CONSOLE += "paramètre 1 : " + document.getElementById(PARAMETER1_LABEL).innerText + PARAMETER1_FIELD_VALUE + " (la condition 1 est remplie) / ";
+                                MSG_CONSOLE += "paramÃ¨tre 1 : " + document.getElementById(PARAMETER1_LABEL).innerText + PARAMETER1_FIELD_VALUE + " (la condition 1 est remplie) / ";
                             }
                         } else {
                             if (document.getElementById(PARAMETER1_LABEL) === null) {
-                                MSG_CONSOLE += "paramètre 1 : " + PARAMETER1_FIELD_VALUE + " (la condition 1 n'est pas remplie) / ";
+                                MSG_CONSOLE += "paramÃ¨tre 1 : " + PARAMETER1_FIELD_VALUE + " (la condition 1 n'est pas remplie) / ";
                             } else {
-                                MSG_CONSOLE += "paramètre 1 : " + document.getElementById(PARAMETER1_LABEL).innerText + PARAMETER1_FIELD_VALUE + " (la condition 1 n'est pas remplie) / ";
+                                MSG_CONSOLE += "paramÃ¨tre 1 : " + document.getElementById(PARAMETER1_LABEL).innerText + PARAMETER1_FIELD_VALUE + " (la condition 1 n'est pas remplie) / ";
                                 CONDITION1_RESPECTEE = false;
                             }
                         }
 
-                        //on vide la variable VALEUR_VERIFIEE pour tester le second paramètre
+                        //on vide la variable VALEUR_VERIFIEE pour tester le second paramÃ¨tre
                         VALEUR_VERIFIEE = undefined;
 
                         /***********************************
@@ -737,14 +737,14 @@ window.manageFields = function (DECLENCHEUR) {
                         if (PARAMETER2_VALUE[c].search(";") != -1) {
                             var PARAMETER2_VALUES = PARAMETER2_VALUE[c].split(";");
                             for (j = 0; j< PARAMETER2_VALUES.length; j++) {
-                                //définir ou mettre à 0 les variables de vérification des valeurs
-                                //10a-Si le champ à tester est vide, la condition est remplie
+                                //dÃ©finir ou mettre Ã  0 les variables de vÃ©rification des valeurs
+                                //10a-Si le champ Ã  tester est vide, la condition est remplie
                                 if (PARAMETER2_VALUES[j] == "null") {
-                                    if (PARAMETER2_FIELD_VALUE == "" || PARAMETER2_FIELD_VALUE == " " || PARAMETER2_FIELD_VALUE == "Sélectionnez..." || PARAMETER2_FIELD_VALUE == "Select...") {
+                                    if (PARAMETER2_FIELD_VALUE == "" || PARAMETER2_FIELD_VALUE == " " || PARAMETER2_FIELD_VALUE == "SÃ©lectionnez..." || PARAMETER2_FIELD_VALUE == "Select...") {
                                         VALEUR_VERIFIEE = true;
                                     }
                                 } else {
-                                    //10b-Si la valeur du champ à tester est égale à celle du paramètre, la condition est remplie
+                                    //10b-Si la valeur du champ Ã  tester est Ã©gale Ã  celle du paramÃ¨tre, la condition est remplie
                                     if (PARAMETER2_FIELD_VALUE == PARAMETER2_VALUES[j]) {
                                         VALEUR_VERIFIEE = true;
                                     }
@@ -755,10 +755,10 @@ window.manageFields = function (DECLENCHEUR) {
                             /***************************
                             9b-S'IL Y A UNE SEULE VALEUR
                             ****************************/
-                            //définir ou mettre à 0 les variables de vérification des valeurs
-                            //10a-case à cocher
+                            //dÃ©finir ou mettre Ã  0 les variables de vÃ©rification des valeurs
+                            //10a-case Ã  cocher
                             if (PARAMETER2_VALUE[c] === true || PARAMETER2_VALUE[c] === false) {
-                                //Si la case est cochée, la condition est remplie
+                                //Si la case est cochÃ©e, la condition est remplie
                                 if (PARAMETER2_FIELD_VALUE === PARAMETER2_VALUE[c]) {
                                     VALEUR_VERIFIEE = true;
                                 }
@@ -766,12 +766,12 @@ window.manageFields = function (DECLENCHEUR) {
 
                                 //10b-champ input
                                 if (PARAMETER2_VALUE[c] == "null") {
-                                    //Si le champ testé est vide, la condition est remplie
-                                    if (PARAMETER2_FIELD_VALUE == "" || PARAMETER2_FIELD_VALUE == " " || PARAMETER2_FIELD_VALUE == "Sélectionnez..." || PARAMETER2_FIELD_VALUE == "Select...") {
+                                    //Si le champ testÃ© est vide, la condition est remplie
+                                    if (PARAMETER2_FIELD_VALUE == "" || PARAMETER2_FIELD_VALUE == " " || PARAMETER2_FIELD_VALUE == "SÃ©lectionnez..." || PARAMETER2_FIELD_VALUE == "Select...") {
                                         VALEUR_VERIFIEE = true;
                                     }
                                 } else {
-                                    //Si la valeur du champ à testé est égale à celle du paramètre, la condition est remplie
+                                    //Si la valeur du champ Ã  testÃ© est Ã©gale Ã  celle du paramÃ¨tre, la condition est remplie
                                     if (PARAMETER2_FIELD_VALUE == PARAMETER2_VALUE[c]) {
                                         VALEUR_VERIFIEE = true;
                                     }
@@ -781,20 +781,20 @@ window.manageFields = function (DECLENCHEUR) {
                         if (VALEUR_VERIFIEE === true) {
                             CONDITION2_RESPECTEE = true;
                             if (document.getElementById(PARAMETER2_LABEL) === null) {
-                                MSG_CONSOLE += "paramètre 2 : " + PARAMETER2_FIELD_VALUE + " (la condition 2 est remplie) / ";
+                                MSG_CONSOLE += "paramÃ¨tre 2 : " + PARAMETER2_FIELD_VALUE + " (la condition 2 est remplie) / ";
                             } else {
-                                MSG_CONSOLE += "paramètre 2 : " + document.getElementById(PARAMETER2_LABEL).innerText + PARAMETER2_FIELD_VALUE + " (la condition 2 est remplie) / ";
+                                MSG_CONSOLE += "paramÃ¨tre 2 : " + document.getElementById(PARAMETER2_LABEL).innerText + PARAMETER2_FIELD_VALUE + " (la condition 2 est remplie) / ";
                             }
                         } else {
                             if (document.getElementById(PARAMETER2_LABEL) === null) {
-                                MSG_CONSOLE += "paramètre 2 : " + PARAMETER2_FIELD_VALUE + " (la condition 2 n'est pas remplie) / ";
+                                MSG_CONSOLE += "paramÃ¨tre 2 : " + PARAMETER2_FIELD_VALUE + " (la condition 2 n'est pas remplie) / ";
                             } else {
-                                MSG_CONSOLE += "paramètre 2 : " + document.getElementById(PARAMETER2_LABEL).innerText + PARAMETER2_FIELD_VALUE + " (la condition 2 n'est pas remplie) / ";
+                                MSG_CONSOLE += "paramÃ¨tre 2 : " + document.getElementById(PARAMETER2_LABEL).innerText + PARAMETER2_FIELD_VALUE + " (la condition 2 n'est pas remplie) / ";
                             }
                             CONDITION2_RESPECTEE = false;
                         }
                         if (CONDITION1_RESPECTEE === true || CONDITION2_RESPECTEE === true) {
-                            //Condition respectée
+                            //Condition respectÃ©e
                             CONDITION_RESPECTEE = true;
                             OBLIGATOIRE_NON_RESPECTEE = false;
                             MSG_CONSOLE += " (au moins l'une des deux conditions est remplie) | ";
@@ -816,7 +816,7 @@ window.manageFields = function (DECLENCHEUR) {
                             PARAMETER_SPLIT = PARAMETERS[0].split("\"");
                             PARAMETER_FIELD[c] = document.getElementById(PARAMETER_SPLIT[1]);
                         } else {
-                            //Si le champ est en création
+                            //Si le champ est en crÃ©ation
                             PARAMETER_SPLIT = PARAMETERS[0].split(".");
                             if (PARAMETER_SPLIT.length == 3) {
                                 PARAMETER_FIELD[c] = document.getElementById(PARAMETER_SPLIT[2]);
@@ -853,7 +853,7 @@ window.manageFields = function (DECLENCHEUR) {
                         } else if (PARAMETER_ID == "MOTSCLES") {
                             PARAMETER_LABEL = "lblINTERVENTIONS_EN_COURS$MOTCLE";
                         }
-                        //Valeur du champ à tester
+                        //Valeur du champ Ã  tester
                         var PARAMETER_FIELD_VALUE;
                         if (PARAMETER_FIELD[c].tagName == "SPAN") {
                             PARAMETER_FIELD_VALUE = PARAMETER_FIELD[c].innerHTML;
@@ -877,17 +877,17 @@ window.manageFields = function (DECLENCHEUR) {
                             /********************************************************************************************
                             9a-PARAMETRE CHAMP OBLIGATOIRE. LA VALEUR DU CHAMP DOIT ETRE DIFFERENTE DE CELLE EN PARAMETRE.
                             *********************************************************************************************/
-                            if (PARAMETER_VALUE[c].search("obligatoire") != -1 && PARAMETER_VALUE[c].search("différent") != -1) {
+                            if (PARAMETER_VALUE[c].search("obligatoire") != -1 && PARAMETER_VALUE[c].search("diffÃ©rent") != -1) {
                                 MSG_CONSOLE += "champ obligatoire / ";
                                 for (l = 0; l< PARAMETER_VALUES.length; l++) {
-                                    if (PARAMETER_VALUES[l] != "obligatoire" && PARAMETER_VALUES[l] != "différent") {
+                                    if (PARAMETER_VALUES[l] != "obligatoire" && PARAMETER_VALUES[l] != "diffÃ©rent") {
                                         if (PARAMETER_VALUES[l] == "null") {
-                                            //10a-Si le champ testé est vide, le champ à afficher n'est pas obligatoire
-                                            if (PARAMETER_FIELD_VALUE == "" || PARAMETER_FIELD_VALUE == " " || PARAMETER_FIELD_VALUE == "Sélectionnez..." || PARAMETER_FIELD_VALUE == "Select...") {
+                                            //10a-Si le champ testÃ© est vide, le champ Ã  afficher n'est pas obligatoire
+                                            if (PARAMETER_FIELD_VALUE == "" || PARAMETER_FIELD_VALUE == " " || PARAMETER_FIELD_VALUE == "SÃ©lectionnez..." || PARAMETER_FIELD_VALUE == "Select...") {
                                                 VALEUR_VERIFIEE = false;
                                             }
                                         } else {
-                                            //10c-Si le champ testé à une valeur différente du paramètre, le champ à afficher est obligatoire
+                                            //10c-Si le champ testÃ© Ã  une valeur diffÃ©rente du paramÃ¨tre, le champ Ã  afficher est obligatoire
                                             if (PARAMETER_FIELD_VALUE == PARAMETER_VALUES[l]) {
                                                 VALEUR_VERIFIEE = false;
                                             }
@@ -919,12 +919,12 @@ window.manageFields = function (DECLENCHEUR) {
                                     for (g = 0; g< PARAMETER_VALUES.length; g++) {
                                         if (PARAMETER_VALUES[g] != "obligatoire") {
                                             if (PARAMETER_VALUES[g] == "null") {
-                                                //10a-Si le champ testé est vide, le champ à afficher est obligatoire
-                                                if (PARAMETER_FIELD_VALUE == "" || PARAMETER_FIELD_VALUE == " " || PARAMETER_FIELD_VALUE == "Sélectionnez..." || PARAMETER_FIELD_VALUE == "Select...") {
+                                                //10a-Si le champ testÃ© est vide, le champ Ã  afficher est obligatoire
+                                                if (PARAMETER_FIELD_VALUE == "" || PARAMETER_FIELD_VALUE == " " || PARAMETER_FIELD_VALUE == "SÃ©lectionnez..." || PARAMETER_FIELD_VALUE == "Select...") {
                                                     VALEUR_VERIFIEE = true;
                                                 }
                                             } else {
-                                                //10b-Si la valeur du paramètre est égal à la valeur du champ testé, le champ à afficher est obligatoire
+                                                //10b-Si la valeur du paramÃ¨tre est Ã©gal Ã  la valeur du champ testÃ©, le champ Ã  afficher est obligatoire
                                                 if (PARAMETER_FIELD_VALUE == PARAMETER_VALUES[g]) {
                                                     VALEUR_VERIFIEE = true;
                                                 }
@@ -946,20 +946,20 @@ window.manageFields = function (DECLENCHEUR) {
                                             MSG_CONSOLE += document.getElementById(PARAMETER_LABEL).innerText + PARAMETER_FIELD_VALUE + " (condition champ obligatoire non remplie) | ";
                                         }
                                     }
-                                } else if (PARAMETER_VALUE[c].search("différent") != -1) {
+                                } else if (PARAMETER_VALUE[c].search("diffÃ©rent") != -1) {
 
                                     /**************************
                                     9c-PARAMETRE 'DIFFERENT DE'
                                     ***************************/
                                     for (k = 0; k< PARAMETER_VALUES.length; k++) {
-                                        if (PARAMETER_VALUES[k] != "différent") {
+                                        if (PARAMETER_VALUES[k] != "diffÃ©rent") {
                                             if (PARAMETER_VALUES[k] == "null") {
-                                                //10a-Si le champ est rempli, la condition est respectée
-                                                if (PARAMETER_FIELD_VALUE == "" || PARAMETER_FIELD_VALUE == " " || PARAMETER_FIELD_VALUE == "Sélectionnez..." || PARAMETER_FIELD_VALUE == "Select...") {
+                                                //10a-Si le champ est rempli, la condition est respectÃ©e
+                                                if (PARAMETER_FIELD_VALUE == "" || PARAMETER_FIELD_VALUE == " " || PARAMETER_FIELD_VALUE == "SÃ©lectionnez..." || PARAMETER_FIELD_VALUE == "Select...") {
                                                     VALEUR_VERIFIEE = false;
                                                 }
                                             } else {
-                                                //10b-Si la valeur du champ est différent de la valeur passée en paramètre, la condition est respectée
+                                                //10b-Si la valeur du champ est diffÃ©rent de la valeur passÃ©e en paramÃ¨tre, la condition est respectÃ©e
                                                 if (PARAMETER_FIELD_VALUE == PARAMETER_VALUES[k]) {
                                                     VALEUR_VERIFIEE = false;
                                                 }
@@ -988,9 +988,9 @@ window.manageFields = function (DECLENCHEUR) {
                                     9d-S'IL Y A PLUSIEURS VALEURS
                                     *****************************/
                                     for (f = 0; f< PARAMETER_VALUES.length; f++) {
-                                        //10a-Si la valeur du champ testé correspond à l'une des valeurs en paramètre, la condition est respectée
+                                        //10a-Si la valeur du champ testÃ© correspond Ã  l'une des valeurs en paramÃ¨tre, la condition est respectÃ©e
                                         if (PARAMETER_VALUES[f] == "null") {
-                                            if (PARAMETER_FIELD_VALUE == "" || PARAMETER_FIELD_VALUE == " " || PARAMETER_FIELD_VALUE == "Sélectionnez..." || PARAMETER_FIELD_VALUE == "Select...") {
+                                            if (PARAMETER_FIELD_VALUE == "" || PARAMETER_FIELD_VALUE == " " || PARAMETER_FIELD_VALUE == "SÃ©lectionnez..." || PARAMETER_FIELD_VALUE == "Select...") {
                                                 VALEUR_VERIFIEE = true;
                                             }
                                         } else {
@@ -1026,7 +1026,7 @@ window.manageFields = function (DECLENCHEUR) {
                             /******************
                             9e-UNE SEULE VALEUR
                             *******************/
-                            //10a-case à cocher
+                            //10a-case Ã  cocher
                             if (PARAMETER_VALUE[c] === true || PARAMETER_VALUE[c] === false) {
                                 if (PARAMETER_FIELD_VALUE === PARAMETER_VALUE[c]) {
                                     VALEUR_VERIFIEE = true;
@@ -1035,13 +1035,13 @@ window.manageFields = function (DECLENCHEUR) {
                             } else {
                                 //10b-champ input
                                 if (PARAMETER_VALUE[c] == "null") {
-                                    //Si le champ testé est vide, la condition est respectée
-                                    if (PARAMETER_FIELD_VALUE == "" || PARAMETER_FIELD_VALUE == " " || PARAMETER_FIELD_VALUE == "Sélectionnez..." || PARAMETER_FIELD_VALUE == "Select...") {
+                                    //Si le champ testÃ© est vide, la condition est respectÃ©e
+                                    if (PARAMETER_FIELD_VALUE == "" || PARAMETER_FIELD_VALUE == " " || PARAMETER_FIELD_VALUE == "SÃ©lectionnez..." || PARAMETER_FIELD_VALUE == "Select...") {
                                         VALEUR_VERIFIEE = true;
                                         MSG_CONSOLE += PARAMETER_FIELD_VALUE + " (condition remplie)";
                                     }
                                 } else {
-                                    //Si la valeur du champ testé est égale à celle du paramètre, la condition est respectée
+                                    //Si la valeur du champ testÃ© est Ã©gale Ã  celle du paramÃ¨tre, la condition est respectÃ©e
                                     if (PARAMETER_FIELD_VALUE == PARAMETER_VALUE[c]) {
                                         VALEUR_VERIFIEE = true;
                                         MSG_CONSOLE += PARAMETER_FIELD_VALUE + " (condition remplie)";
@@ -1072,29 +1072,29 @@ window.manageFields = function (DECLENCHEUR) {
                     }
                 }
             }
-            //5 - fin d'analyse des paramètres. Affichage du champ.
+            //5 - fin d'analyse des paramÃ¨tres. Affichage du champ.
             if (CONDITION_NON_RESPECTEE === true) {
-                MSG_CONSOLE += "une condition n'est pas respectée, ";
+                MSG_CONSOLE += "une condition n'est pas respectÃ©e, ";
                 CONDITION = false;
             } else {
                 if (CONDITION_RESPECTEE === true) {
-                    MSG_CONSOLE += "toutes les conditions sont respectées, ";
+                    MSG_CONSOLE += "toutes les conditions sont respectÃ©es, ";
                     CONDITION = true;
                 }
             }
             if (CONDITION === false) {
                 if (FIELD_TYPE == "section") {
-                    MSG_CONSOLE += "section masquée";
+                    MSG_CONSOLE += "section masquÃ©e";
                     msg(MSG_CONSOLE);
                     //FIELD.style.display = "none";
                     affichageSection(FIELD, false);
                 } else if (FIELD_TYPE == "iframe") {
-                    MSG_CONSOLE += "iframe masquée";
+                    MSG_CONSOLE += "iframe masquÃ©e";
                     msg(MSG_CONSOLE);
                     //FIELD.style.display = "none";
                     affichageSection(FIELD, false);
                 } else {
-                    MSG_CONSOLE += "champ masqué";
+                    MSG_CONSOLE += "champ masquÃ©";
                     msg(MSG_CONSOLE);
                     affichageChamp(FIELD, false);
                     champObligatoire(FIELD, false);
@@ -1102,17 +1102,17 @@ window.manageFields = function (DECLENCHEUR) {
                 }
             } else if (CONDITION === true) {
                 if (FIELD_TYPE == "section") {
-                    MSG_CONSOLE += "section affichée";
+                    MSG_CONSOLE += "section affichÃ©e";
                     msg(MSG_CONSOLE);
                     //FIELD.style.display = "";
                     affichageSection(FIELD, true);
                 } else if (FIELD_TYPE == "iframe") {
-                    MSG_CONSOLE += "iframe affichée";
+                    MSG_CONSOLE += "iframe affichÃ©e";
                     msg(MSG_CONSOLE);
                     //FIELD.style.display = "";
                     affichageSection(FIELD, true);
                 } else {
-                    MSG_CONSOLE += "champ affiché";
+                    MSG_CONSOLE += "champ affichÃ©";
                     msg(MSG_CONSOLE);
                     affichageChamp(FIELD, true);
                     if (OBLIGATOIRE_RESPECTEE === undefined && OBLIGATOIRE_NON_RESPECTEE === undefined) {

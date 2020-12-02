@@ -315,13 +315,18 @@ neocase.form.event.bind('init', onloadForm);
 *****************************/
 window.launchOnSubmit = function(){
 	
-	var year = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR943").getText();
-	var wfhMonth = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR948").getText();
-	var date = "01";
-	var newDate = year+"-"+wfhMonth+"-01";
+    var year = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR943").getValue();
+    console.log(year);
+    var wfhMonth = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR948").getValue();
+    console.log(wfhMonth);
+    var date = new Date(year, wfhMonth, 0).getDate();
+    console.log(date);
+	//var date = "01";
+	var newDate = year+"-"+wfhMonth+"-"+date;
 	console.log(newDate);
-	neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR947").setValue(newDate);
-	
+    neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR947").setValue(newDate);
+    
+
 	var d = new Date();
 	var currentMonth = d.getMonth();
 	var currentYear = d.getFullYear();
