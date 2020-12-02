@@ -44,7 +44,18 @@ Developer   - Ahana Sarkar
 Date	    - 03/06/2020 (MM/DD/YYYY)
 Change No   - MOD-010
 Description - Mandatory "Fin de période d'essai (nouveau) (Last day of probation (new))"field  for Subtopic " FR_Start date change / Décalage date d\'entrée",
-----------------------------------------------------------------------------*/
+----------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	      - 10/16/2020 (MM/DD/YYYY)
+Change No   - MOD-011
+Description - Remove mandatory "Fin de période d'essai (nouveau) (Last day of probation (new))"field  for Subtopic " FR_Start date change / Décalage date d\'entrée",
+            - Mandatory "Fin de période d'essai (nouveau) (Last day of probation (new))"field  for Subtopic "FR_01-Probation Period – Renewal",
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	     - 12/02/2020 (MM/DD/YYYY)
+Change No   - MOD-012
+Description - show section for 02 Addedum for given days
+----------------------------------------------------------------------------*/ 
 
 
 //hide technical section
@@ -658,6 +669,8 @@ window.disableFields = function () {
 
   disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR438"));
   disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR439"));
+  //SAT (new)
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR281"));
 
 
 };
@@ -674,204 +687,78 @@ window.updateMandatoryField = function () {
   } else {
     reqMessage = "Change reason";
   }
-
-  var v = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getText();
-  var getTopic = neocase.form.field('INTERVENTIONS_EN_COURS$MOTCLE').getText();
+  var subtopic = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getText(),
+      getTopic = neocase.form.field('INTERVENTIONS_EN_COURS$MOTCLE').getText();
   
   if (getTopic == "FR_Leaver" || getTopic == "Sortie des effectifs") {
-
-    if (v == "FR_04-Pre-hire cancelled" || v == "04-Pré-Embauche annulée") {
+    if (subtopic == "FR_04-Pre-hire cancelled" || subtopic == "04-Pré-Embauche annulée") {
       neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').noMandatory();
-      console.log("The field is not mandatory");
-
     } else {
       neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR221").mandatory();
     }
-
-
   }
-
-  if (v == "FR_01-With Pay Change" || v == "01- Avec changement de salaire") {
+  if (subtopic == "FR_01-With Pay Change" || subtopic == "01- Avec changement de salaire") {
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR404').mandatory();
   } else {
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR404').noMandatory();
   }
-  ///////////////////////////////////////////////////// 
-
-
-  if (v == "FR_01-Probation Period – Renewal" || v == "01-Période d’essai – Renouvellement") {
-    console.log("v", v);
+  
+  if (subtopic == "FR_01-Probation Period – Renewal" || subtopic == "01-Période d’essai – Renouvellement") {
+    console.log(subtopic);
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR405').mandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR215').mandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR216').mandatory();
-    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').mandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR214').noMandatory();
-    $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR215').css("visibility", "visible");
-    $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR216').css("visibility", "visible");
-
-    // $("#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR134").attr("isvalid", "false");
-    $('#divFieldINTERVENTIONS_EN_COURS_VALEUR134').children('.ui-datepicker-trigger').after("<span id='ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR215' class='ValidatorCautionBox mix-caseForm-validatorCautionBox' style='color: red; visibility: visible;' title='Probation Period duration (new)'></span>");
-
-
-  } else if (v == "FR_03-Postpone probation end date" || v == "03-décalage date de fin de PE") {
-    console.log("v", v);
-    $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR134').css("visibility", "visible");
-    $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR215').css("visibility", "hidden");
-    $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR216').css("visibility", "hidden");
-
+  } else if (subtopic == "FR_03-Postpone probation end date" || subtopic == "03-décalage date de fin de PE") {
+    console.log(subtopic);
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR405').noMandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR214').mandatory();
-    //neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').mandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR215').noMandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR216').noMandatory();
-    // $("#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR134").attr("isvalid", "false");
 
-    if ($('#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR134').val() == "") {
-
-      $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR134').css("visibility", "visible");
-      neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').mandatory();
-
-      if (v == "03-décalage date de fin de PE") {
-
-        $("#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR134").attr("neo-required-message", "Fin de période d'essai (nouveau) :");
-      } else {
-        $("#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR134").attr("neo-required-message", "Last day of probation (new) :");
-      }
-
-      $('#divFieldINTERVENTIONS_EN_COURS_VALEUR134').children('.ui-datepicker-trigger').after("<span id='ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR215' class='ValidatorCautionBox mix-caseForm-validatorCautionBox' style='color: red; visibility: visible;' title='Probation Period duration (new)'></span>");
-
-
-
-    }
-
-    //$('#divFieldINTERVENTIONS_EN_COURS_VALEUR134').children('.ui-datepicker-trigger').after("<span id='ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR215' class='ValidatorCautionBox mix-caseForm-validatorCautionBox' style='color: red; visibility: visible;' title='Probation Period duration (new)'></span>");
-
-
-  } else if (v == "FR_02-Probation Period – Confirmation" || v == "02-Période d’essai – Confirmation") {
-
+  } else if (subtopic == "FR_02-Probation Period – Confirmation" || subtopic == "02-Période d’essai – Confirmation") {
+    console.log(subtopic);
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR405').mandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR215').noMandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR216').noMandatory();
-    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').noMandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR214').noMandatory();
 
-    //$('#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR405').css("visibility", "hidden");
-    $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR215').css("visibility", "hidden");
-    $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR216').css("visibility", "hidden");
-    $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR134').css("visibility", "hidden");
-    $("#divFieldINTERVENTIONS_EN_COURS_VALEUR134 span").remove();
-    $("#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR134").removeAttr("isvalid");
   } else {
-
+    console.log(subtopic);
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR405').noMandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR215').noMandatory();
-    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR216').noMandatory();
-
-    if(!(v == "FR_Start date change" ||  v == "Décalage date d\'entrée")){
-      neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').noMandatory();
-    }
-    
+    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR216').noMandatory(); 
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR214').noMandatory();
-    $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR215').css("visibility", "hidden");
-    $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR216').css("visibility", "hidden");
-    $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR134').css("visibility", "hidden");
-    $("#divFieldINTERVENTIONS_EN_COURS_VALEUR134 span").remove();
-    $("#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR134").removeAttr("isvalid");
   }
 
-  if (v == "FR_23-Return from leave" || v == "23-Retour absence") {
+  if (subtopic == "FR_23-Return from leave" || subtopic == "23-Retour absence") {
 
     neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR380').mandatory();
   } else {
 
     neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR380').noMandatory();
   }
-
+  mandateLDP();//++MOD-011
 };
-
-
-
-
+window.mandateLDP = function(){//++MOD-011
+  var subtopicVal = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getValue();
+  if(subtopicVal !== '2608'){
+    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').noMandatory();
+  }else{
+    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').mandatory();
+  }
+};
 
 window.customMandatory = function () {
   this.setTimeout(function () {
-   
-
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR405').noMandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR215').noMandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR216').noMandatory();
-    var v = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getText();
-    if(!(v == "FR_Start date change" ||  v == "Décalage date d\'entrée")){
-      neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').noMandatory();
-    }
-    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR214').noMandatory();
-
-
-
-
-    
+    var subtopic = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getText();
+    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR214').noMandatory();   
   }, 1000);
 
 };
-
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// var textVal = $('#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_ELEMENT').find("option[value=2507]").text();
-// if (textVal == 'FR_10-Family support leave') {
-//     console.log('textVal', textVal);
-//     ($('#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_ELEMENT').find("option[value=2507]")).empty();
-//     ($('#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_ELEMENT').find("option[value=2507]")).append("FR_10-Family support leave");
-
-// } else if (textVal == '10-Congé soutien familial') {
-//     console.log('textVal', textVal);
-//     ($('#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_ELEMENT').find("option[value=2507]")).empty();
-//     ($('#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_ELEMENT').find("option[value=2507]")).append("10-Congé de proche aidant");
-// }
-
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-$('#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR134').blur(function (e) {
-
-  var v = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getText();
-
-
-  if (v == "FR_03-Postpone probation end date" || v == "03-décalage date de fin de PE" || v == "FR_01-Probation Period – Renewal" || v == "01-Période d’essai – Renouvellement") {
-
-    setTimeout(function () {
-      if (e.target.value == "") {
-        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').mandatory();
-        if ($('#divFieldINTERVENTIONS_EN_COURS_VALEUR134').children('.ui-datepicker-trigger').has("span").length == '0') {
-
-          $('#divFieldINTERVENTIONS_EN_COURS_VALEUR134').children('.ui-datepicker-trigger').after("<span id='ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR215' class='ValidatorCautionBox mix-caseForm-validatorCautionBox' style='color: red; visibility: visible;' title='Probation Period duration (new)'></span>");
-
-        }
-
-      } else {
-
-        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').noMandatory();
-        $("#divFieldINTERVENTIONS_EN_COURS_VALEUR134 span").remove();
-        $("#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR134").removeAttr("isvalid");
-        if (v == "03-décalage date de fin de PE") {
-
-          $("#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR134").attr("neo-required-message", "Fin de période d'essai (nouveau) :");
-        } else {
-          $("#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR134").attr("neo-required-message", "Last day of probation (new) :");
-        }
-
-      }
-    }, 1000);
-  }
-});
 /* ------------- End of MOD-006 changes -------------*/
 /**************************
 * Launch Javascript on init
@@ -887,23 +774,20 @@ window.launchOnInit = function () {
   //Calculate Monthly Salary - MOD-003 ++	 Starts  
   disableFields();
   neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR380').noMandatory();
+
 };
 
-function submitDsy() {
-  console.log('hi');
-  neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').noMandatory();
-  $("#ctl04_ctl15_ctl00_INTERVENTIONS_EN_COURS_VALEUR134").removeAttr("neo-required-message");
-  $('#ctl04_ctl15_ctl00_Validator_INTERVENTIONS_EN_COURS_VALEUR134').css("visibility", "hidden");
-}
 window.launchOnLoadComplete = function () {
-  //console.log(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR280'));
-
   var annualBaseSal = neocase.form.field("UTILISATEURS_CHAMPU292");
   var payPeriods = neocase.form.field("UTILISATEURS_CHAMPU293");
   var monthlySal = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR429");
-  calculate_monthlySalary(annualBaseSal, payPeriods, monthlySal);
-  //Calculate Monthly Salary - Ends
-
+  calculate_monthlySalary(annualBaseSal, payPeriods, monthlySal);//Calculate Monthly Salary - Ends
+  var subtopicVal = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getValue();
+  if(subtopicVal == '2950'){
+    neocase.form.section('section3dc29cfb4b66f60624d6').show();
+  }else{
+    neocase.form.section('section3dc29cfb4b66f60624d6').hide();
+  }
   /*-- ++MOD-007 --*/
   if(neocase.form.field('INTERVENTIONS_EN_COURS_MOTCLE').getValue() == '2362' && neocase.form.field("INTERVENTIONS_EN_COURS_ELEMENT").getValue() == '2595'){ // If topic = FR-Career Change, Subtopic = FR_01- With pay change
 	neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR279').noMandatory();
@@ -917,18 +801,8 @@ window.launchOnLoadComplete = function () {
 	neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR279').noMandatory();
   }
   /*-- MOD-007 Ends --*/
-
+  mandateLDP();//++MOD-011
 };
 
 neocase.form.event.bind("init", launchOnInit);
 neocase.form.event.bind("loadcomplete", launchOnLoadComplete);
-
-/****************************
-* Launch Javascript on submit
-*****************************/
-// window.launchOnSubmit = function () {
-
-//     console.log("submit event");
-
-// };
-// neocase.form.event.bind("submit", launchOnSubmit);

@@ -26,10 +26,23 @@ Developer   - Ahana Sarkar
 Date	    - 06/18/2020 (MM/DD/YYYY)
 Change No   - MOD-005
 Description - Comment out date validation [if fields are editable disable comment out section]
----------------------------------------------------------*/ 
+-------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 10/01/2020 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - Field “Last Working Day” will be visible only when reason = Salary Continuance
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 10/20/2020 (MM/DD/YYYY)
+Change No   - MOD-007
+Description - Termination details section will be visible and Termination Date field will be renamed as Planned termination date if reason = Salary Continuance
+---------------------------------------------------------*/  
 
 //hide technical section
 neocase.form.section("section2f6123534cd0910a1d30").hide();	
+//Hide tip-text section of Country
+neocase.form.section("section2ade4b88aee12a3b91d4").hide();	
+
 //employee moving to 
 FillCf_CountryMovingCode = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR926.value = fieldValue; //Company Code
@@ -217,7 +230,32 @@ window.setTerminationDateLimit = function(startDateField, endDateField){
     startDateFieldId.trigger('change');
 };
 /*---------XXXXXX----Set Temination date & Last working day validation----XXXXXX---------*/
-
+var terminationDateOriginalVal = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').label();
+window.showLwd = function(){
+    if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getCode() == '1829' || neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getValue() == 'Salary Continuance'){       
+        neocase.form.section('sectionf4e8add0494794594e00').show();
+        neocase.form.field('UTILISATEURS$CHAMPU311').hide();
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').hide();
+        $('[for="'+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220')['name']+'"]').text('Planned termination date');
+    }else{        
+        neocase.form.section('sectionf4e8add0494794594e00').hide();
+        neocase.form.field('UTILISATEURS$CHAMPU311').show();
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').show();
+        $('[for="'+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220')['name']+'"]').text(terminationDateOriginalVal);
+    }
+};
+window.tipTextToCountryMoving = function(){
+    var stText = $('#section2ade4b88aee12a3b91d4').find('.title').text(),
+        ar = stText.split('|'),
+        prepText = '<tr class="tip-text-country-moving"><td colspan="2">' ;
+    for(var i = 0; i< ar.length; i++){
+        prepText += '<span style="width:100%k;color:red;display:block;padding:2.5px 5px">'+ar[i]+'</span>';
+    }
+    prepText += '</td></tr>';
+    if($('#section7e75392fc107714be4ec').find('.content .tip-text-country-moving').length< 1){
+        $('#section7e75392fc107714be4ec').find('.content').append(prepText);    
+    }
+};
 /**************************
  * Launch Javascript on init
  ***************************/
@@ -238,6 +276,11 @@ window.launchOnloadcomplete = function(){
     if(document.getElementById('section74d572bca7a5c980ae33').style.display !== 'none'){ // Section: Ad hoc report details
         setDateLimit('INTERVENTIONS_EN_COURS$VALEUR373','INTERVENTIONS_EN_COURS$VALEUR374'); //Fields: 'Reporting period start date :' , 'Reporting period end date :'
     }*/
+    var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();
+    if(subtopic == '2887'){
+        showLwd();//++MOD-006
+    }
+    tipTextToCountryMoving();    
 };
 //neocase.form.event.bind("init",launchOnInit);
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

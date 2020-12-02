@@ -89,13 +89,15 @@ var Tableau = [
     // Supporting document
     'section6325b29a74ce71635dc6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Start/update leave of absence;SCFI_Secondment outbound start;SCFI_Secondment outbound extension',
     // SAP form
-    'section4411a951aa5983d7438a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed inbound start;SCFI_Landed outbound extension;SCFI_Landed inbound extension;SCFI_Landed outbound start',
+    'section4411a951aa5983d7438a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed inbound start',
+    // Documents
+    'sectionfc59b4c07d363e822a35#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound extension;SCFI_Landed outbound start',
     // Expected end date
     'section185d40ae088e855570b9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound extension;SCFI_Secondment outbound extension;SCFI_Landed inbound start;SCFI_Landed inbound extension;SCFI_Secondment inbound extension',
     // Confirm assignment end date
     'section0e0f450febcd16961350#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound end;SCFI_Secondment outbound end',
-    // Termination dates
-    'section35033381ef6ef4eb36ad#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave;SCFI_Landed inbound end;SCFI_Secondment inbound end',
+    // Termination dates (added due to Start/update LOA for salary Continuance reason - 30/09/2020)
+    'section35033381ef6ef4eb36ad#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Heavy transfer;SCFI_Initiate involuntary leave;SCFI_Landed inbound end;SCFI_Secondment inbound end;SCFI_Start/update leave of absence',
     // Initiate involuntary leave
     'section7df757a6679aeb5c29b0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Initiate involuntary leave',
     // Heavy transfer termination details
@@ -103,7 +105,9 @@ var Tableau = [
     // Revised termination date
     'section648169503c58cc6c7d3c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Revised termination date',
     // Ad hoc report details
-    'section5c7cd8eaaa84b773d5d3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Ad hoc report'
+    'section5c7cd8eaaa84b773d5d3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Ad hoc report',
+    //Employee information
+    'section387997d3e1027e4eebcd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed inbound extension;SCFI_Landed inbound end'
 ];
 var enableManageField;
 

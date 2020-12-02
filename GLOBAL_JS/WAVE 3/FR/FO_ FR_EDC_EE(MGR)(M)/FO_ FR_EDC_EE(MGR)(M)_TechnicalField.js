@@ -9,7 +9,12 @@ Developer   - Smita Singh
 Date	    - 09/28/2018 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Remove the pop up on the field "Signataire Employeur adresse mail (EN = Signer 1 email address)".
------------------------------------------------*/
+----------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 11/13/2020 (MM/DD/YYYY)
+Change No   - MOD-003
+Description -  make Motif si refus” to be mandatory only if “Decision Manager” is filled with “Refusé” or else editable
+-----------------------------------------------**/
 
 //hide technical section
 neocase.form.section("section28c441b555191c24c9e1").hide();
@@ -54,7 +59,14 @@ window.disableFields = function(){
 
 /* ------------- MOD-001 ----------------- */
 
-
+window.setRejectionMandate = function(){ // ++MOD-003
+    var decManager = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR273').getCode();
+    if(decManager !== '430'){
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR274').noMandatory();
+    }else{
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR274').mandatory();
+    }
+};
 /**************************
 * Launch Javascript on init
 ***************************/
@@ -67,3 +79,9 @@ disableFields();	// MOD-001
 
 };
 neocase.form.event.bind("init",launchOnInit);
+
+
+window.launchOnLoadComplete = function () {  
+    setRejectionMandate();// ++MOD-003
+};
+neocase.form.event.bind("loadcomplete", launchOnLoadComplete);

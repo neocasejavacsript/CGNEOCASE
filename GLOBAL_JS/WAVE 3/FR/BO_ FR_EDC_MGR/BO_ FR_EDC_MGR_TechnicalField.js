@@ -34,6 +34,16 @@ Developer   - Ahana Sarkar
 Date	    - 02/28/2020 (MM/DD/YYYY)
 Change No   - MOD-007
 Description - Read only 'Request Details'
+-----------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 07/22/2020 (MM/DD/YYYY)
+Change No   - MOD-008
+Description - copy Assistant name
+------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 12/02/2020 (MM/DD/YYYY)
+Change No   - MOD-009
+Description - show section for 02 Addedum for given days
 ----------------------------------------------------------------------------*/ 
 
 
@@ -85,7 +95,7 @@ FillCf = function (fieldValue, fieldName) {
 window.copyFunctions = function () {
 
     //copy Employee Group code value
-    neocase.form.field('UTILISATEURS$CHAMPU36').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR6');
+    //neocase.form.field('UTILISATEURS$CHAMPU36').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR6');
 
     //copy Employee group desc value
     neocase.form.field('UTILISATEURS$CHAMPU37').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR8');
@@ -100,7 +110,7 @@ window.copyFunctions = function () {
     neocase.form.field('UTILISATEURS$CHAMPU60').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR141');
 
     //copy Employee Subgroup (code) value
-    neocase.form.field('UTILISATEURS$CHAMPU38').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR178');
+    //neocase.form.field('UTILISATEURS$CHAMPU38').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR178');
 
     //copy Employee Subgroup description value
     neocase.form.field('UTILISATEURS$CHAMPU39').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR180');
@@ -119,7 +129,9 @@ window.copyFunctions = function () {
 
     //copy Annual Working time desc – Home value ++ Mod-006
     neocase.form.field('UTILISATEURS$CHAMPU288').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR929');
-     
+
+    //copy Assistant name ++Mod-008
+    neocase.form.field('UTILISATEURS$CHAMPU324').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR950');  
 };
 
 window.calculate_annualBaseSalActualFTE = function () {
@@ -316,8 +328,7 @@ window.launchOnInit = function () {
 
     // console.log(neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT'));
 
-    checkSubtopicValue();
-    console.log("executed");
+    
     copyValueToField('INTERVENTIONS_EN_COURS$VALEUR134', 'INTERVENTIONS_EN_COURS$VALEUR903');
     copyValueToField('INTERVENTIONS_EN_COURS$VALEUR5', 'INTERVENTIONS_EN_COURS$VALEUR902');
 
@@ -357,8 +368,17 @@ window.launchOnInit = function () {
     else{
         formulaire.question.readOnly = false;
     }
-	/*--X-- Read only 'Request Details'--X--*/
-	
+    /*--X-- Read only 'Request Details'--X--*/
+    //++MOD-009
+	var subtopicVal = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getValue();
+    if(subtopicVal == '2950'){ //FR_02-Addendum for given days
+        neocase.form.section('section30a2dc194eb698303bb6').show();
+    }else{
+        neocase.form.section('section30a2dc194eb698303bb6').hide();
+    }
+
+    checkSubtopicValue();
+    console.log("executed");
 	console.log("all done");
 
 };

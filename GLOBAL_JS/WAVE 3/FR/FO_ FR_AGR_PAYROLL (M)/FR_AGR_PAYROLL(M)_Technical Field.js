@@ -27,6 +27,11 @@ Developer   - Ahana Sarkar
 Date	    - 08/27/2020 (MM/DD/YYYY)
 Change No   - MOD-007
 Description - checkSSARValueMaladie() added to show text in red below 'Avez vous travaillé le premier jour de l'arrêt de travail CERFA ?' field for the Sickness/Maladie value of 'Motif de l'arrêt de travail :' in both language
+---------------------------------------------------------------------------
+Developer   - Ayan Dey
+Date	    - 10/20/2020 (MM/DD/YYYY)
+Change No   - MOD-008
+Description - Commented out FR_03_Bicycle allowance calculation. Added logic to check if end date is before 1st Sept 2020 for subtopic: Sustainable Mobility Package (2699)
 ----------------------------------------------------------------------------*/
 
 /*---------------------------- STARTS OF MOD-001 ---------------------------*/
@@ -75,7 +80,7 @@ window.calculate_monthlyRefndAmnt = function() {
 };
 
 /*--------------------- For FR_03_Bicycle allowance ---------------STARTS----------*/
-window.calculate_monthlyRefndAmntByCycl = function() {
+/*window.calculate_monthlyRefndAmntByCycl = function() {
 	
 	var km_Mileage = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR908");
 	var startDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR5");
@@ -147,7 +152,7 @@ window.calculate_monthlyRefndAmntByCycl = function() {
 	}
 	
 				
-};
+};*/
 /*--------------------- For FR_03_Bicycle allowance ---------------ENDS----------*/
 
 window.disableFields = function(){
@@ -186,7 +191,7 @@ window.launchOnloadcomplete = function () {
 		}
 		checkSSARValueMaladie(); //++MOD-007
 	}
-	
+
 	
 };
 
@@ -202,3 +207,30 @@ window.onloadForm = function () {
 };
 neocase.form.event.bind('init', onloadForm);
 /*---------------------------- ENDS OF MOD-001 ---------------------------*/
+
+/****************************
+* Launch Javascript on submit
+* MOD-008 starts
+*****************************/
+window.launchOnSubmit = function(){
+	var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getText();
+	
+	if(subtopic == 'FR_03_Sustainable mobility package' || subtopic=="Forfait mobilité durable"){
+		var startDateVal = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR5").getDate();
+		var minDate = new Date("09/01/2020");
+		var lang = document.getElementById("PageHtml").lang.split("-")[0];
+		var errorMessage = "";
+		
+		if(startDateVal<minDate){
+			if (lang == "fr") {
+				errorMessage = "La présente demande ne peut être faite avant le 1er septembre 2020.";
+			}else{
+				errorMessage = "This request can’t start before september 1st, 2020.";
+			}
+			alert(errorMessage);
+			return false;
+		}
+	}
+};
+neocase.form.event.bind("submit",launchOnSubmit);
+// MOD-008 Ends

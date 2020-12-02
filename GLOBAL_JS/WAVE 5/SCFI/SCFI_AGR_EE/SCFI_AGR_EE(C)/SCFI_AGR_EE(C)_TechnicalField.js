@@ -25,7 +25,18 @@ Developer   - Ahana Sarkar
 Date	    - 08/21/2020 (MM/DD/YYYY)
 Change No   - MOD-005
 Description - Section containing article link display for LOA subtopic
----------------------------------------------------------**/ 
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 09/21/2020 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - Field “Last Working Day” will be visible and mandatory only when reason = Salary Continuance
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 10/19/2020 (MM/DD/YYYY)
+Change No   - MOD-007
+Description - Rollback Mod-006
+            - Remove reason = Salary Continuance from dropdown
+---------------------------------------------------------*/ 
 
 // hide Technical section
 neocase.form.section("section8d84eb62f3f258e9ab22").hide();
@@ -125,7 +136,6 @@ window.setDateLimit = function(startDateField, endDateField){
     });
 };
 /*---------XXXXXX----Set minimum date of related start and end date field----XXXXXX---------*/
-
 /*---------Section containing article link display for LOA subtopic---++MOD-005------*/
 window.displayLoaDoc = function(){
     var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic'),
@@ -161,7 +171,17 @@ window.displayLoaDoc = function(){
     }
 };
 /*----xxxxx-----Section containing article link display for LOA subtopic---xxxxx------*/
-
+// window.showLwd = function(){ // ++MOD-006
+//     if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getCode() == '1829' || neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getValue() == 'Salary Continuance'){
+//         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').show();
+//         neocase.form.field('UTILISATEURS$CHAMPU311').hide();
+//         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').hide();
+//     }else{
+//         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').hide();
+//         neocase.form.field('UTILISATEURS$CHAMPU311').show();
+//         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR503').show();
+//     }
+// };
 
 /**************************
 * Launch Javascript on init
@@ -198,8 +218,13 @@ window.launchOnloadcomplete = function(){
     //++MOD-003
     if(document.getElementById('sectione0594f31164773401e4d').style.display !== 'none'){ // Section: Start/Update leave of absence details
         setDateLimit('INTERVENTIONS_EN_COURS$VALEUR333','INTERVENTIONS_EN_COURS$VALEUR503'); //Fields: 'Absence start date (new) :' , 'Expected return date (new) :'
+        displayLoaDoc(); //++MOD-005
+        //showLwd();// ++MOD-006
     }
-    displayLoaDoc(); //++MOD-005
+    var reasonAbsenceSalCode = $("#"+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517')['elementHTML']['id'] + " option[code='1829']");
+        if($(reasonAbsenceSalCode).length > 0){
+            $(reasonAbsenceSalCode).remove(); // ++MOD-007
+        }
     console.log('launch load complete');
 };
 neocase.form.event.bind("loadcomplete",launchOnloadcomplete);

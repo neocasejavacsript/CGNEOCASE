@@ -193,9 +193,9 @@ window.champObligatoire = function (FIELD, VALID) {
         } else if (FIELD_ID.search("UTILISATEURS") != -1) {
             LBL_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "lblUTILISATEURS");
         }
-		/**************
-		 CÔTE BACKOFFICE
-		 ***************/
+        /**************
+        CÔTE BACKOFFICE
+        ***************/
         var BACKOFFICE_MANDATORY = document.getElementById("champsobligatoiresproprietes");
         if (BACKOFFICE_MANDATORY) {
             BM_FIELD = FIELD_ID.replace("$", "\\$");
@@ -209,6 +209,8 @@ window.champObligatoire = function (FIELD, VALID) {
                     localStorage.setItem("mandatoryListFields", BM_VALUES);
                 } else if (BM_CLIENT != "" && BM_CLIENT != " ") {
                     localStorage.setItem("mandatoryListFields", BM_CLIENT);
+                }else{
+                    localStorage.setItem("mandatoryListFields", "");
                 }
             }
             if (VALID === false) {
@@ -231,15 +233,16 @@ window.champObligatoire = function (FIELD, VALID) {
                             BM_CLIENT = BM_CLIENT + BM_REPLACE;
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
-                        document.getElementById(LBL_FIELD_ID).className = "label req";
+                        //document.getElementById(LBL_FIELD_ID).className = "label req";
                     }
+                    document.getElementById(LBL_FIELD_ID).className = "label required";
                 }
             }
         }
 
-		/*******************************
-		 VALIDATOR DES CHAMPS FORMULAIRES
-		 ********************************/
+        /*******************************
+        VALIDATOR DES CHAMPS FORMULAIRES
+        ********************************/
         var VALIDATOR_FIELD_ID;
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             VALIDATOR_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
@@ -257,9 +260,9 @@ window.champObligatoire = function (FIELD, VALID) {
             ValidatorEnable(document.getElementById(VALIDATOR_FIELD_ID), VALID);
         }
 
-		/*********************************
-		 VALIDATOR DES BOUTONS RADIO CUSTOM
-		 **********************************/
+        /*********************************
+        VALIDATOR DES BOUTONS RADIO CUSTOM
+        **********************************/
         if (document.getElementById(FIELD.id + "_radio_Validator")) {
             var RADIO_VALIDATOR_ID = FIELD.id + "_radio_Validator";
             if (VALID === true) {
@@ -270,7 +273,6 @@ window.champObligatoire = function (FIELD, VALID) {
         }
     }
 };
-
 /*************************
  FONCTION VIDANT LES CHAMPS
  **************************/

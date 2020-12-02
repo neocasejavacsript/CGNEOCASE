@@ -25,13 +25,23 @@ Developer   - Ahana Sarkar
 Date	    - 06/22/2020 (MM/DD/YYYY)
 Change No   - MOD-005
 Description - Add 'blur' function for the end date in 'setDateLimit' menthod(if User manually enter the date by typing)
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 09/30/2020 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - Field “Last Working Day” will be visible and mandatory only when reason = Salary Continuance
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 10/20/2020 (MM/DD/YYYY)
+Change No   - MOD-007
+Description - Rollback Mod-006
+            - Remove reason = Salary Continuance from dropdown
 ---------------------------------------------------------*/ 
 
 // hide Technical section
 neocase.form.section("section5e0395259204b2e8c98d").hide();
 // hide hidden section
 neocase.form.section("section98cb1650189d72065d0f").hide();
-
 
 SC_Nm_SubAreaCode = function(fieldValue) { // Base location code(new) 
     formulaire.INTERVENTIONS_EN_COURS$VALEUR121.value = fieldValue;
@@ -130,6 +140,13 @@ window.setDateLimit = function(startDateField, endDateField){
     startDateFieldId.trigger('change');
 };
 /*---------XXXXXX----Set minimum date of related start and end date field----XXXXXX---------*/
+// window.showLwd = function(){ // ++MOD-006
+//     if(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getCode() == '1829' || neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517').getValue() == 'Salary Continuance'){
+//         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').show();
+//     }else{
+//         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').hide();
+//     }
+// };
 
 /**************************
 * Launch Javascript on init
@@ -143,6 +160,7 @@ neocase.form.event.bind("init",launchOnInit);
  ***************************/
 window.launchOnloadcomplete = function () {
     formulaire.question.readOnly = "true";
+    //showLOASection();
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR123, "/Custom_Referential/SubArea.aspx?Id_User="); //set popup link to Base location(new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR123")); //disbale Base location(new) 
@@ -159,6 +177,11 @@ window.launchOnloadcomplete = function () {
     /*-------++MOD-004-------*/
     if(document.getElementById('sectione0594f31164773401e4d').style.display !== 'none'){ // Section: Start/Update leave of absence details
         setDateLimit('INTERVENTIONS_EN_COURS$VALEUR333','INTERVENTIONS_EN_COURS$VALEUR503'); //Fields: 'Absence start date (new) :' , 'Expected return date (new) :'
+        //showLwd();// ++MOD-006
+    }
+    var reasonAbsenceSalCode = $("#"+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517')['elementHTML']['id'] + " option[code='1829']");
+    if($(reasonAbsenceSalCode).length > 0){
+        $(reasonAbsenceSalCode).remove(); // ++MOD-007
     }
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
