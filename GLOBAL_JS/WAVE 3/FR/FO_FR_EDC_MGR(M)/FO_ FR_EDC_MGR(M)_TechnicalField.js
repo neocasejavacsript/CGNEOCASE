@@ -35,6 +35,11 @@ Developer   - Ahana Sarkar
 Date	     - 12/02/2020 (MM/DD/YYYY)
 Change No   - MOD-012
 Description - show section for 02 Addedum for given days
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	     - 12/08/2020 (MM/DD/YYYY)
+Change No   - MOD-013
+Description - restrict this field Nombre de jours demandés (max 20), to not allow users to enter anything more than 20.
 ----------------------------------------------------------------------------*/ 
 //hide technical section
 neocase.form.section("section2768aff2e9a727689da1").hide();
@@ -109,7 +114,7 @@ window.setPopups = function () {
     //'Service Line'
     popupLink(formulaire.INTERVENTIONS_EN_COURS_VALEUR39, "/Custom_Referential/ServiceLine.aspx");
     //'Industry'
-    popupLink(formulaire.INTERVENTIONS_EN_COURS_VALEUR31, "/Custom_Referential/Industry.aspx");
+    //popupLink(formulaire.INTERVENTIONS_EN_COURS_VALEUR31, "/Custom_Referential/Industry.aspx");
     //'Default approver'
     popupLink(formulaire.INTERVENTIONS_EN_COURS_VALEUR288, "/Custom_Referential/ManagerDefaultName.aspx");
     //'Performance reviewer'
@@ -362,13 +367,13 @@ SC_Nm_ServiceLineDesc = function (fieldValue) {
 };
 
 //Management Popup - Industry - OK
-SC_Nm_IndustryCode = function (fieldValue) {
-    formulaire.INTERVENTIONS_EN_COURS_VALEUR29.value = fieldValue;
-};
-SC_Nm_IndustryDesc = function (fieldValue) {
-    formulaire.INTERVENTIONS_EN_COURS_VALEUR31.value = fieldValue;
-    champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR166, false);
-};
+// SC_Nm_IndustryCode = function (fieldValue) {
+//     formulaire.INTERVENTIONS_EN_COURS_VALEUR29.value = fieldValue;
+// };
+// SC_Nm_IndustryDesc = function (fieldValue) {
+//     formulaire.INTERVENTIONS_EN_COURS_VALEUR31.value = fieldValue;
+//     champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR166, false);
+// };
 
 //job name - OK
 FillCf_Job_code = function (fieldValue) {
@@ -501,7 +506,7 @@ window.disableFields = function () {
     //Service Line desc (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR39"));
     //Industry desc (new)
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR31"));
+    //disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR31"));
     //Organisational unit code (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR11"));
 
@@ -664,7 +669,26 @@ neocase.form.event.bind('loadcomplete', function () {
         neocase.form.section('section5a0e4bbc45afb559325a').hide();
     }
 });
-
+var checkFlag = 0;
+var NombreDeJoursDemandesOldVal = formulaire.INTERVENTIONS_EN_COURS$VALEUR953.value;
+window.maxTwentyInField = function(){//++MOD-013
+  var NombreDeJoursDemandes = formulaire.INTERVENTIONS_EN_COURS$VALEUR953.value;
+  var HTMLlang = document.documentElement.lang;
+  var errorText = HTMLlang == 'fr-FR'?'Nombre de jours demandés doit être au maximum de 20':'Nb of days requested should be max 20';
+  if(NombreDeJoursDemandes > 20){
+    alert(errorText);
+    if($('#divFieldINTERVENTIONS_EN_COURS_VALEUR953').find('.error').length< 1){
+      $('#divFieldINTERVENTIONS_EN_COURS_VALEUR953').append('<span class="error" style="color:red">'+errorText+'</span>');
+      formulaire.INTERVENTIONS_EN_COURS$VALEUR953.value = NombreDeJoursDemandesOldVal;
+      checkFlag = 1;
+    }    
+  }else{
+    if($('#divFieldINTERVENTIONS_EN_COURS_VALEUR953').find('.error').length > 0){
+      $('#divFieldINTERVENTIONS_EN_COURS_VALEUR953').find('.error').remove();
+      checkFlag = 0;
+    }
+  }
+};
 /****************************
 * Launch Javascript on submit
 *****************************/
@@ -672,5 +696,6 @@ window.launchOnSubmit = function () {
 
     //add control before submit
     checkForm();
+    maxTwentyInField();
 };
 neocase.form.event.bind("submit", launchOnSubmit);

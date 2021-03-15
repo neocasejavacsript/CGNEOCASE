@@ -8,15 +8,21 @@ Description - JS started 1st time for this form
              -Hide Hidden Section
 ------------------------------------------------------------------------
 Developer   - Ahana Sarkar
-Date	    - 06/25/2019 (MM/DD/YYYY)
+Date	    - 06/25/2020 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - JS to copy and manipulate value in the section Social Security absence
 ------------------------------------------------------------------------
 Developer   - Ahana Sarkar
-Date	    - 07/07/2019 (MM/DD/YYYY)
+Date	    - 07/07/2020 (MM/DD/YYYY)
 Change No   - MOD-003
 Description - exclude please choose criteria to copy
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 01/14/2021 (MM/DD/YYYY)
+Change No   - MOD-004
+Description - added Bereavement Leave related values in social_security_absence array
 ----------------------------------------------------------------------------*/ 
+
 
 /*---- MOD-001 STARS ----*/
 //Hide Technical Section
@@ -74,6 +80,12 @@ window.setSocialSecurityAbsence = function(){
             'social_security_absence_reason_HRO_code': "1762",
             'HRA_Code_Social_Security_Absence_val': 'ZZZ',
             'HRA_Code_Social_Security_Absence_code': "1754"
+        },{
+            'social_security_absence_reason_HRO_val': 'Bereavement Leave',
+            'social_security_absence_reason_HRO_val_fr': 'Congé de deuil enfant',
+            'social_security_absence_reason_HRO_code': "1842",
+            'HRA_Code_Social_Security_Absence_val': 'DEU',
+            'HRA_Code_Social_Security_Absence_code': "2022"
         }
     ];
 

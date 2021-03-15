@@ -1,10 +1,10 @@
 // JavaScript Document
-/**************		UK_KB_FeedBack Front Office (C) Technical Fields	*************
+/**************		IN_KB_FeedBack Front Office (C) Technical Fields	*************
 ********************************************************************************
-Developer   - Ayan Dey
-Date	    - 06/25/2019
+Developer   - Smita Singh
+Date	    - 06/07/2019
 Change No   - MOD-001
-Description - UK to set value in field 'Article name' & 'Keywords used to search the article'
+Description - IN to set value in field 'Please mention the article name'
 ***************************************************************************
 ------------------------------------
 Code inserted in th eKB search page +++
@@ -22,8 +22,7 @@ setArticleNameToLink();
  * Hide Sections
  *****************/
 //Technical section
-console.log('value');
-neocase.form.section("section4f4f40c1762d2302dcea").hide();
+neocase.form.section("section7e9ed77ac3b366d19ce2").hide();
 //document.getElementById("section7e9ed77ac3b366d19ce2").style.display = "none";
 
 
@@ -31,23 +30,12 @@ neocase.form.section("section4f4f40c1762d2302dcea").hide();
  * ACTIONS ON LOAD COMPLETE
  **************************/
 window.onloadForm = function() {
-var value = localStorage.getItem("articlename"); 
-// console.log(value);
-if(value){
-	var rex = /(<([^>]+)>)/ig;
-	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR254').setValue((value.replace(rex , "")).trim());
-}
-$('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR254')['name']).attr('readonly','readonly');
 
-var searchText = localStorage.getItem("searchkeyword"); 
-if(searchText){
-	// console.log(searchText);
-	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR324').setValue(localStorage.getItem("searchkeyword"));
-}
-$('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR324')['name']).attr('readonly','readonly');
+var value = localStorage.getItem("articlename"); 
+console.log(value);
+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR254').setValue(value);
 //field.setValue(value);
-localStorage.removeItem("articlename");
-localStorage.removeItem("searchkeyword");
+
 };
 //ThisForm.Bind('loadcomplete', onloadForm);
 neocase.form.event.bind('loadcomplete', onloadForm);

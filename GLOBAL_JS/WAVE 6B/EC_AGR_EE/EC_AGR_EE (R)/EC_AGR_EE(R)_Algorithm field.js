@@ -78,7 +78,9 @@ var Tableau = [
     // Leave of Absence Details
     'sectioncd63a8991f3eb30e24d6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_LOA paid;EC_LOA unpaid',
 	// Return from Leave of Absence
-    'sectioncd640930da31043390ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Return from LOA'
+    'sectioncd640930da31043390ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Return from LOA',
+    // L&D form 
+   'section7181099c0f6e03d22119#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_L&D request form'
 ];
 var enableManageField;
 

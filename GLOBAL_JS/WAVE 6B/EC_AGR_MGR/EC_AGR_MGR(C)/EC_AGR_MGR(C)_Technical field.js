@@ -75,14 +75,14 @@ window.copyFields = function () {
     // copy HRBP name value
     neocase.form.field('UTILISATEURS$CHAMPU58').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR427');
     // copy Base Office Location (Personnel Sub Area Desc.)(new) to Work Location (new)
-    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR123').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR735');
+    //neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR123').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR735');
     // copy Base Office Location (Personnel Sub Area Desc.) to Work Location 
-    neocase.form.field('UTILISATEURS$CHAMPU29').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR734');
+    //neocase.form.field('UTILISATEURS$CHAMPU29').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR734');
 };
 
 window.setAllPopups = function () {
     // popup Work location (new)
-    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR735, "/Custom_Referential/PersonalArea.aspx?Id_User="); //Work location
+    //popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR735, "/Custom_Referential/PersonalArea.aspx?Id_User="); //Work location
     // popup Base Office Location (Personnel Sub Area Desc.)(new)
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR119, "/Custom_Referential/PersonalArea.aspx?Id_User="); //Personal area
     // popup Performance Reviewer Name (new)
@@ -112,7 +112,9 @@ window.disableCusFields = function () {
     //disbale performance reviewer
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR154")); 
     //disable "HRBP name (new)"
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR386")); 
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR386"));
+    //disable "HRDP name (new)"
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR142"));
     // disable mentor name (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR166")); 
     //disable myconnect supervisor (new)
@@ -126,14 +128,14 @@ window.disableCusFields = function () {
     $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR182')['elementHTML']['id']).css({'background': "transparent",'color':'#000','padding-left':0});
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR427"));
     $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR427')['elementHTML']['id']).css({'background': "transparent",'color':'#000','padding-left':0});
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR734"));
-    $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR734')['elementHTML']['id']).css({'background': "transparent",'color':'#000','padding-left':0});
+    // disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR734"));
+    // $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR734')['elementHTML']['id']).css({'background': "transparent",'color':'#000','padding-left':0});
     //Cost Center
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR11")); //disable Organization unit code (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR13")); //disable Organization unit (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR15")); //disable Cost Center | PU (new)
     
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR735")); 
+    //disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR735")); 
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR231")); 
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR232")); 
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR406")); 
@@ -177,6 +179,27 @@ window.launchOnceLoadComplete = function(){
         }, 800);
     }
 };
+window.manipulateDropdowns = function(){
+    var countryIsoCode = neocase.form.field('UTILISATEURS$CHAMPU19').getText(),
+        countrySAPCode = neocase.form.field('UTILISATEURS$CHAMPU232').getText(),
+        subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue(),
+        reasonForTerminationSelectobject = formulaire.INTERVENTIONS_EN_COURS$VALEUR730;
+
+    if(countryIsoCode !== 'CN' && countrySAPCode !== '28'){
+        for (var k=0; k< reasonForTerminationSelectobject.length; k++) {
+            if (reasonForTerminationSelectobject.options[k].getAttribute('code') == '1909'){
+                reasonForTerminationSelectobject.remove(k);
+            }
+        }
+    }
+    if(countryIsoCode !== 'IT' && countrySAPCode !== '15'){
+        for (var l=0; l< reasonForTerminationSelectobject.length; l++) {
+            if (reasonForTerminationSelectobject.options[l].getAttribute('code') == '1910'){
+                reasonForTerminationSelectobject.remove(l);
+            }
+        }
+    }
+};
 window.countryWiseSectionVisibility = function(){
     var countryIsoCode = neocase.form.field('UTILISATEURS$CHAMPU19').getText(),
         countrySAPCode = neocase.form.field('UTILISATEURS$CHAMPU232').getText();
@@ -200,6 +223,7 @@ window.launchOnloadcomplete = function () {
     launchOnceLoadComplete();
     copyFields(); // Copy Employee Catalog field values to Request Catalog field
     countryWiseSectionVisibility();
+    manipulateDropdowns();
     console.log('launch load complete');
     
 };

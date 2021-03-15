@@ -55,6 +55,11 @@ Developer   - Ahana Sarkar
 Date	     - 12/02/2020 (MM/DD/YYYY)
 Change No   - MOD-012
 Description - show section for 02 Addedum for given days
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	     - 12/08/2020 (MM/DD/YYYY)
+Change No   - MOD-013
+Description - restrict this field Nombre de jours demandés (max 20), to not allow users to enter anything more than 20.
 ----------------------------------------------------------------------------*/ 
 
 
@@ -230,7 +235,7 @@ window.setPopups = function () {
   //'Service Line'
   popupLink(formulaire.INTERVENTIONS_EN_COURS_VALEUR39, "/Custom_Referential/ServiceLine.aspx");
   //'Industry'
-  popupLink(formulaire.INTERVENTIONS_EN_COURS_VALEUR31, "/Custom_Referential/Industry.aspx");
+  //popupLink(formulaire.INTERVENTIONS_EN_COURS_VALEUR31, "/Custom_Referential/Industry.aspx");
   //'Default approver'
   popupLink(formulaire.INTERVENTIONS_EN_COURS_VALEUR288, "/Custom_Referential/ManagerDefaultName.aspx");
   //'Performance reviewer'
@@ -366,13 +371,13 @@ SC_Nm_ServiceLineDesc = function (fieldValue) {
 };
 
 //Management Popup - Industry - (Old Neocase Function) - OK
-SC_Nm_IndustryCode = function (fieldValue) {
-  formulaire.INTERVENTIONS_EN_COURS$VALEUR29.value = fieldValue;
-};
-SC_Nm_IndustryDesc = function (fieldValue) {
-  formulaire.INTERVENTIONS_EN_COURS$VALEUR31.value = fieldValue;
-  champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR31, false);
-};
+// SC_Nm_IndustryCode = function (fieldValue) {
+//   formulaire.INTERVENTIONS_EN_COURS$VALEUR29.value = fieldValue;
+// };
+// SC_Nm_IndustryDesc = function (fieldValue) {
+//   formulaire.INTERVENTIONS_EN_COURS$VALEUR31.value = fieldValue;
+//   champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR31, false);
+// };
 
 //job name - (Old Neocase Function) -  OK
 FillCf_Job_code = function (fieldValue) {
@@ -625,7 +630,7 @@ window.disableFields = function () {
   //Disable "Service Line desc (new)"
   disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR39")); // MOD-002 ++
   //Disable "Industry desc (new)"
-  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR31")); // MOD-002 ++
+  //disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR31")); // MOD-002 ++
   //Disable "Default Approver name (new)"
   disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR288")); // MOD-002 ++
   //Disable "Performance Reviewer name (new)"
@@ -757,7 +762,26 @@ window.customMandatory = function () {
     var subtopic = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getText();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR214').noMandatory();   
   }, 1000);
+};
 
+var checkFlag = 0;
+window.maxTwentyInField = function(){//++MOD-013
+  var NombreDeJoursDemandes = formulaire.INTERVENTIONS_EN_COURS$VALEUR953.value;
+  var HTMLlang = document.documentElement.lang;
+  var errorText = HTMLlang == 'fr-FR'?'Nombre de jours demandés doit être au maximum de 20':'Nb of days requested should be max 20';
+  if(NombreDeJoursDemandes > 20){
+    alert(errorText);
+    if($('#divFieldINTERVENTIONS_EN_COURS_VALEUR953').find('.error').length< 1){
+      $('#divFieldINTERVENTIONS_EN_COURS_VALEUR953').append('<span class="error" style="color:red">'+errorText+'</span>');
+      formulaire.INTERVENTIONS_EN_COURS$VALEUR953.value = '';
+      checkFlag = 1;
+    }    
+  }else{
+    if($('#divFieldINTERVENTIONS_EN_COURS_VALEUR953').find('.error').length > 0){
+      $('#divFieldINTERVENTIONS_EN_COURS_VALEUR953').find('.error').remove();
+      checkFlag = 0;
+    }
+  }
 };
 /* ------------- End of MOD-006 changes -------------*/
 /**************************
@@ -804,5 +828,18 @@ window.launchOnLoadComplete = function () {
   mandateLDP();//++MOD-011
 };
 
+/****************************
+ * Launch Javascript on submit
+ *****************************/
+window.launchOnSubmit = function () { 
+  maxTwentyInField();
+  if(checkFlag == 1){
+    return false;
+  }else{
+    return true;
+  }
+};
+
 neocase.form.event.bind("init", launchOnInit);
 neocase.form.event.bind("loadcomplete", launchOnLoadComplete);
+neocase.form.event.bind("submit", launchOnSubmit);

@@ -67,13 +67,14 @@ var Tableau = [
     //start day visible for only china
     //sectionea92097af791926325d9
     //Effective Date for all subtopics
-    //'sectionafa86caf1d6a3f71fb40'
-    //Action reason
-    'sectionf6ce498515a5a965b6e9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Cost center change;EC_Work location transfer;EC_Grade / Job change;EC_Fixed term contract extension;EC_Contract change;EC_Promotion/demotion;EC_Pay change;EC_Reorganization (MU);EC_Company change',
+    // 'sectionafa86caf1d6a3f71fb40#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Experienced hire;EC_College hire;EC_Emergency hire;EC_Hire with prior service;EC_InterCo./CrossCountry transfer;EC_Change in start date;EC_Non EE activation;EC_Contract to hire;EC_Mass hire;EC_Change in management team;EC_Cost center change;EC_Work location transfer;EC_Grade / Job change;EC_Fixed term contract extension;EC_Contract change;EC_Promotion/demotion;EC_Pay change;EC_Company change;EC_Reorganization (MU);EC_Change in management team (MU);EC_Change in working hours (MU);EC_Cost center change (MU);EC_Work location transfer (MU);EC_Grade / Job change (MU);EC_Fix term contract extension (MU);EC_Contract change (MU);EC_Promotion/demotion (MU);EC_Pay change (MU);EC_Probation period update (MU);EC_Pay change - ARC (MU);EC_Change in operational team (MU);EC_Company change (MU);EC_Mass termination',
+
+    //Action reason 
+    'sectionf6ce498515a5a965b6e9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Cost center change;EC_Work location transfer;EC_Grade / Job change;EC_Fixed term contract extension;EC_Contract change;EC_Promotion/demotion;EC_Pay change;EC_Company change;EC_Change in working hours (MU);EC_Cost center change (MU);EC_Work location transfer (MU);EC_Grade / Job change (MU);EC_Fix term contract extension (MU);EC_Contract change (MU);EC_Promotion/demotion (MU);EC_Pay change (MU);EC_Reorganization (MU)',
     //Supporting Document
     'section6485c1350e02f98262bc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Assignment outbound start;EC_Assignment outbound extension;EC_Assignment inbound start;EC_Assignment inbound extension',
     //Hiring details
-    'sectiona3eb8e4752e504958351#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Experienced hire;EC_College hire;EC_Hire with prior service;EC_InterCo./CrossCountry transfer;EC_Non EE activation;EC_Contract to hire;EC_Assignment inbound start',
+    'sectiona3eb8e4752e504958351#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Experienced hire;EC_College hire;EC_Hire with prior service;EC_Emergency hire;EC_InterCo./CrossCountry transfer;EC_Non EE activation;EC_Contract to hire;EC_Assignment inbound start',
     //Expected end date
     'sectione0b2dfc647a3c1804c07#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Assignment outbound start;EC_Assignment outbound extension;EC_Assignment inbound start;EC_Assignment inbound extension',
     //confirm assignment date
@@ -86,16 +87,16 @@ var Tableau = [
     //'section2239e1c460c4b3db0ada#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Grade / Job change;EC_Contract change;EC_Promotion/demotion',
     //grade details -
     //'section0e6c0fd578bb11fdfc84#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Grade / Job change;EC_Contract change;EC_Promotion/demotion',
-    //Contract Details
-    'section79c45f6fa3b8e0b7dec5#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Fixed term contract extension;EC_Contract change',
-    //work location
-    'section43b29de1b2e77fa0cfec#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Work location transfer',
+    //Contract Details -- Removed EC_Fixed term contract extension on 06/01/2021
+    'section79c45f6fa3b8e0b7dec5#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Contract change',
+    //work location  --- Removed on 5th January, 2021
+    //'section43b29de1b2e77fa0cfec#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Work location transfer',
     //working hours details
     // 'section3a57f97323a1b1c24e09#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Contract change',
     //pay
     // 'sectionb0dd56a45df23cc39163#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Promotion/demotion;EC_Contract change;EC_Pay change',
     //for portugal
-    'section44488696b2a7d3bc14f4#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Promotion/demotion;EC_Contract change;EC_Pay change',
+    //'section44488696b2a7d3bc14f4#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Promotion/demotion;EC_Contract change;EC_Pay change',
     //variable pay sceme
     'section63bad9abc7b06e8be482#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Promotion/demotion',
     //management team
@@ -115,7 +116,7 @@ var Tableau = [
     //deployment model
     'sectionc8ff983b321bc33146e1#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Assignment outbound start;EC_Assignment inbound start',
     //country/company moving to/from
-    'section9c8c87bef1a386ebf21f#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Assignment outbound start;EC_Assignment outbound end;EC_Assignment inbound start;EC_Assignment inbound end',
+    'section9c8c87bef1a386ebf21f#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Assignment outbound start;EC_Assignment outbound end;EC_Assignment inbound start;EC_Assignment inbound end;EC_Secondment to permanent',
     //leave of absence details
     //'section3075018341bd1efb957b#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_LOA paid;EC_LOA unpaid',
     //return from leave of absence
@@ -123,8 +124,13 @@ var Tableau = [
     //fixed term contract
     // 'section563353c95e2f168176a4#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Fixed term contract extension',
     //mass upload
-    'section37e77bd7349dc053db2c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Organization management;EC_Change in management team (MU);EC_Change in working hours (MU);EC_Cost center change (MU);EC_Work location transfer (MU);EC_Grade / Job change (MU);EC_Fix term contract extension (MU);EC_Contract change (MU);EC_Promotion/demotion (MU);EC_Pay change (MU);EC_Probation period update (MU);EC_Company change (MU);EC_Change in operational team (MU);EC_Pay change - ARC (MU);EC_Reorganization (MU);EC_Mass Hire;EC_Mass Termination'
-	
+    'section37e77bd7349dc053db2c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Organization management;EC_Change in management team (MU);EC_Change in working hours (MU);EC_Cost center change (MU);EC_Work location transfer (MU);EC_Grade / Job change (MU);EC_Fix term contract extension (MU);EC_Contract change (MU);EC_Promotion/demotion (MU);EC_Pay change (MU);EC_Probation period update (MU);EC_Company change (MU);EC_Change in operational team (MU);EC_Pay change - ARC (MU);EC_Reorganization (MU);EC_Mass hire;EC_Mass termination;EC_Company change (MU)',
+	// Section: Only for china - service line
+	//'sectionbcd7291503b71806886d#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Cost center change;EC_Work location transfer;EC_Grade / Job change;EC_Contract change;EC_Promotion/demotion;EC_Company Change',
+	// Section: Only for china - service line
+	//'section9ebef54711e2b82b3524#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Contract change;EC_Promotion/demotion;EC_Company Change;EC_Pay change'
+	//Employee details(contains EG/ESG)
+    'sectiona932dc42655cc81fbc04#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Secondment to permanent'
 ];
 var enableManageField;
 

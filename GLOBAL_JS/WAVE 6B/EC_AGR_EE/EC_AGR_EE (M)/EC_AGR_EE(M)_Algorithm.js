@@ -1,4 +1,4 @@
-/*----------LC_AGR_EE(M)_ALGO----------*/
+/*----------EC_AGR_EE(M)_ALGO----------*/
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -68,11 +68,13 @@ var Tableau = [
    // Permanent transfer termination details
    'section88171e7f9e8e5fac02c3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_International permanent transfer',
    // Last working day
-   'section86e718b448092d19fb96#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Retirement;EC_Change in last working day',
+   'section86e718b448092d19fb96#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Retirement;EC_Change in last working day;EC_LOA paid',
    // Leave of Absence Details
    'sectioncd63a8991f3eb30e24d6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_LOA paid;EC_LOA unpaid',
    // Return from Leave of Absence
-   'sectioncd640930da31043390ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Return from LOA'
+   'sectioncd640930da31043390ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Return from LOA',
+   // L&D form 
+   'sectionbcbe082c5679ea0f8895#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_L&D request form'
 ];
 var enableManageField;
 

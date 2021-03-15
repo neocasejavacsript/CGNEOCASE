@@ -1,366 +1,483 @@
-/*************LC_AGR (M) - Technical Field Code*************/
-/*--------------------------------------------------------------------------
-Developer   - Ayan Dey
-Date	    - 03/22/2020 (MM/DD/YYYY)
+// JavaScript Document
+/**************		FS_AGR Front Office (M) Technical Fields	*************
+********************************************************************************
+Developer   - 
+Date	    - 10/16/2017
 Change No   - MOD-001
+Description - 
+***************************************************************************
+Developer   - Smita singh
+Date	    - 02/05/2019
+Change No   - MOD-002
 Description - Rewriting JS
-Form Name   - LC_AGR (M)
---------------------------------------------------------------------------*/
+***************************************************************************
+Developer   - Smita singh
+Date	    - 02nd July,2019
+Change No   - MOD-003
+Description - Check if the Last working date is set or not
+***************************************************************************
+***********************************************************/
 
-//Hide Technical Section
-neocase.form.section("section27ccdb3ef8455f99e9ad").hide();
+/*****************
+ * Hide Sections
+ *****************/
+ThisForm.HideSection("sectiond468895ba7e076561ca9");
 
-var fsLightCountries =  
-[ 
-    {"name":"IN","code":"40"},  
-    {"name":"CN","code":"28"},
-    {"name":"HK","code":"27"},
-    {"name":"JP","code":"22"},  
-    {"name":"MY","code":"14"},
-    {"name":"PH","code":"48"},  
-    {"name":"SA","code":"24"},
-    {"name":"SG","code":"25"},  
-    {"name":"ZA","code":"16"},
-    {"name":"CH","code":"02"},
-    {"name":"TW","code":"42"},  
-    {"name":"AE","code":"AE"},
-    {"name":"GB","code":"08"},  
-    {"name":"VN","code":"VN"}
-]; 
+/************************************************
+ * FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
+ *************************************************/
 
-var waveSixACountries =  
-[ 
-    {"name":"CZ","code":"18"},
-    {"name":"HU","code":"21"},  
-    {"name":"IE","code":"11"}
-];
+//Management Popup - Reviewer
+FillCf_Reviewer_First_Name = function(fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR154.value = fieldValue;
+};
+FillCf_Reviewer_LastName = function(fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR154.value += " " + fieldValue;
+    champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR154, false);
+};
 
-// Function to populate the reason for LOA Unpaid
-window.populateReasonForLOAPaid = function(countrySAPCode){
-    console.log("called Paid method");
-    //setTimeout(function(){
-    //var reasonForLOA = document.getElementById("ctl04_ctl12_ctl00_INTERVENTIONS_EN_COURS_VALEUR690");
-    var reasonForLOA_new = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR690')['name'];
-    var reasonForLOALength = $("#"+reasonForLOA_new+ " option").length;
-    var reasonForLOA = document.getElementById(reasonForLOA_new);
+FillCf_Reviewer_PersonelNum = function(fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR158.value = fieldValue;
+    champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR158, false);
+};
+//Management Popup - Supervisor
+FillCf_Supervisor_First_Name = function(fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR183.value = fieldValue;
+};
+FillCf_Supervisor_LastName = function(fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR183.value += " " + fieldValue;
+    champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR183, false);
+};
 
-    console.log(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR690')['name']);
-    console.log("reasonForLOA_new::::::"+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR690')['name']);
-    console.log("reasonForLOALength is: "+reasonForLOALength);
+FillCf_Supervisor_PersonelNum = function(fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR187.value = fieldValue;
+    champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR187, false);
+};
 
-    for (var i = 0; i< reasonForLOA.length; i++){
-    var option = reasonForLOA.options[i];
-    // now have option.text, option.value
-    //console.log(i+" "+option.value);
+//Management Popup - Mentor 
+FillCf_Mentor_First_Name = function(fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR166.value = fieldValue;
+};
+FillCf_Mentor_LastName = function(fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR166.value += " " + fieldValue;
+    champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR166, false);
+};
 
-    //Check if the WAVE 6 country should display the option, else remove
-    for(var j = 0; j< waveSixACountries.length; j++) {
-        var obj = waveSixACountries[j];
-        if(obj.code == countrySAPCode){
-             $('#'+reasonForLOA_new).children('option[value="Training leave (paid)"]').remove();
-             $('#'+reasonForLOA_new).children('option[value="Mobility Leave (paid)"]').remove();
-             $('#'+reasonForLOA_new).children('option[value="Paid leave"]').remove();
-             $('#'+reasonForLOA_new).children('option[value="Redeployment leave"]').remove();
+FillCf_Mentor_PersonelNum = function(fieldValue) {
+    formulaire.INTERVENTIONS_EN_COURS$VALEUR170.value = fieldValue;
+    champObligatoire(formulaire.INTERVENTIONS_EN_COURS$VALEUR170, false);
+}; 
+
+window.getParamFromUrl = function(param) {
+    var vars = {};
+    window.location.href.replace(location.hash, '').replace(
+        /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+        function(m, key, value) { // callback
+            vars[key] = value !== undefined ? value : '';
         }
-    }
+    );
 
-    for(var k = 0; k< fsLightCountries.length; k++) {
-        var object = fsLightCountries[k];
-        if(object.code == countrySAPCode){
-            $('#'+reasonForLOA_new).find('option[value="Other"]').remove();
-            $('#'+reasonForLOA_new).find('option[value="Jury service"]').remove();
-            $('#'+reasonForLOA_new).find('option[value="Work Accident"]').remove();
-            $('#'+reasonForLOA_new).find('option[value="Parental Leave (paid)"]').remove();
-            $('#'+reasonForLOA_new).find('option[value="Educational Leave (paid)"]').remove();
-        }
+    if (param) {
+        return vars[param] ? vars[param] : null;
     }
-    }   
+    return vars;
 
+};
+
+/****************************
+ * MANAGE SECTION
+ *****************************/
+window.hideAllSection = function() {
+	
+	neocase.form.section("section19a724421fa2bcf87255").hide(); //Effective date section
+	neocase.form.section("section458").hide();
+	neocase.form.section("section388").hide();
+	neocase.form.section("section253").hide();
+	neocase.form.section("sectionc66882a8b1a5fe6b9f78").hide();
+	neocase.form.section("sectiondfb1c572fed6c3cbfa1b").hide();
+	neocase.form.section("section978").hide();
+	neocase.form.section("section3ee5542f26a2def7f5bf").hide();  //Termination info
+  neocase.form.section("section68c682c7983b6784dfdf").hide();  //Resignation info
+  neocase.form.section("section5da0b635bb7c2fa7da10").hide();  //Last working day
+  neocase.form.section("sectiona03e205dbc1585c07446").hide();  //LOA
+  neocase.form.section("section3393ec064b2dcf13f2bf").hide();  //Return LOA
+	
+	console.log("hideAllSection");
+	
+};
+
+window.manageSection = function() {
+	try{
+	hideAllSection();
+	
+	var topic = neocase.form.field('INTERVENTIONS_EN_COURS$MOTCLE').getNumber();
+	var subtopic = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getNumber();
+
+
+		if (topic == '2209') {
+			//	Mass Upload
+			if (subtopic == '2117') {
+				// Supervisor / reviewer
+			}
+			if (subtopic == '2223') {
+				//Personal data
+			}
+		}
+		if (topic == '2237') {
+			//Employment data change
+			if (subtopic == '2169') {
+				//Management team FO
+			}
+			if (subtopic == '2170') {
+				//Probation Period update
+				neocase.form.section('section458').show();
+			}
+		}
+
+
+		if (topic == '2241') {
+			neocase.form.section('sectiona03e205dbc1585c07446').show();
+			document.getElementById('sectiona03e205dbc1585c07446').style.display = 'block'; //LOA details
+		}
+	
+		if (topic == '2239') {
+			//	Leave involuntary FO
+			if (subtopic == '2199') {
+				//Involuntary leave
+				neocase.form.section('section3ee5542f26a2def7f5bf').show(); //Termination info
+				neocase.form.section('section5da0b635bb7c2fa7da10').show(); //Last working day
+				//document.getElementById("section3ee5542f26a2def7f5bf").style.display = "block";		//Termination info
+			}
+			if (subtopic == '2200') {
+				//End of Fixed Term Contract - MGR
+				neocase.form.section('section253').show(); //Fixed Term Contract
+				neocase.form.section('section3ee5542f26a2def7f5bf').show(); //Termination info
+				neocase.form.section('section5da0b635bb7c2fa7da10').show(); //Last working day
+				//document.getElementById("section3ee5542f26a2def7f5bf").style.display = "block";		//Confirmed Leaving dates
+			}
+			if (subtopic == '2143') {
+			//Retirement 
+				neocase.form.section('section5da0b635bb7c2fa7da10').show(); //Last working day
+				//document.getElementById("section3ee5542f26a2def7f5bf").style.display = "block";		//Confirmed Leaving dates
+			}
+			/*if(subtopic == "2374") {	//Resignation withdrawn
+			document.getElementById("section3ee5542f26a2def7f5bf").style.display = "block";		//Confirmed Leaving dates 
+		} */
+		}
+		if (topic == '2242') {
+			if (subtopic == '2376') {
+				//LOA Unpaid
+				neocase.form.section('sectiona03e205dbc1585c07446').show();
+				document.getElementById('sectiona03e205dbc1585c07446').style.display = 'block'; //LOA details
+			}
+		}
+		if (topic == '2243') {
+			if (subtopic == '2021') {
+				//Return from LOA
+				neocase.form.section('section3393ec064b2dcf13f2bf').show();
+				document.getElementById('section3393ec064b2dcf13f2bf').style.display = 'block'; //Return from LOA details
+			}
+		}
+
+		if (topic == '2240') {
+			//	Leave voluntary FO
+			if (subtopic == '2142') {
+				//End of Fixed Term Contract - EE
+				neocase.form.section('section253').show();
+				neocase.form.section('section3ee5542f26a2def7f5bf').show(); //Confirmed Leaving dates
+				document.getElementById('section3ee5542f26a2def7f5bf').style.display = 'block'; //Confirmed Leaving dates
+				neocase.form.section('section68c682c7983b6784dfdf').show(); //Resignation info
+				document.getElementById('section68c682c7983b6784dfdf').style.display = 'block'; //Resignation info
+			}
+			if (subtopic == '2143') {
+				//Retirement
+				//document.getElementById('section3ee5542f26a2def7f5bf').style.display = 'block'; //Confirmed Leaving dates
+				//neocase.form.section('section3ee5542f26a2def7f5bf').show(); //Confirmed Leaving dates
+				neocase.form.section('section5da0b635bb7c2fa7da10').show(); //Last working day
+			}
+			if (subtopic == '2240') {
+				//	Voluntary leave
+				neocase.form.section('section68c682c7983b6784dfdf').show(); //Resignation info
+				document.getElementById('section68c682c7983b6784dfdf').style.display = 'block'; //Resignation info
+				//	document.getElementById("section3ee5542f26a2def7f5bf").style.display = "block";	//Confirmed Leaving dates
+				//	neocase.form.section("section3ee5542f26a2def7f5bf").show();	//Confirmed Leaving dates
+				//last working day section
+				//document.getElementById("section5da0b635bb7c2fa7da10").style.display = "block";
+				neocase.form.section('section5da0b635bb7c2fa7da10').show();
+			}
+		}
+		if (topic == '2244') {
+			//	General request
+			if (subtopic == '2316') {
+				//Other request (EE)
+			}
+		}
+
+		console.log('manageSection');
+	} catch (error) {
+		console.log(error.message);
+	}
+};
+//Function to set default date as today's date
+window.defaultLastWorkingDate = function()
+{
+	var rDate = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR376").getValue();
+	var resignationDate = new Date(rDate);
+	var newResignationDate = resignationDate.addMonths(1);
+	
+	var resignationDatedd = newResignationDate.getDate();
+	var resignationDatemm = newResignationDate.getMonth() + 1; //03 for march
+	var resignationYYYY = newResignationDate.getFullYear();
+
+	var defaultDate = "";
+		
+		defaultDate = resignationDatemm +'/'+resignationDatedd+'/'+ resignationYYYY;	
+		return defaultDate;
+	
 };
 
 
 
-// Function to populate the reason for LOA Unpaid
-window.populateReasonForLOAUnpaid = function(countrySAPCode){
-    console.log("called Unpaid method");
-    //setTimeout(function(){
-    //var reasonForLOA = document.getElementById("ctl04_ctl12_ctl00_INTERVENTIONS_EN_COURS_VALEUR690");
-
-    var reasonForLOA_new = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR690')['name'];
-    var reasonForLOALength = $("#"+reasonForLOA_new+ " option").length;
-    var reasonForLOA = document.getElementById(reasonForLOA_new);
-
-    for (var i = 0; i< reasonForLOA.length; i++){
-    var option = reasonForLOA.options[i];
-    // now have option.text, option.value
-    //console.log(i+" "+option.value);
-
-    //Check if the WAVE 6 country should display the option, else remove
-    for(var j = 0; j< waveSixACountries.length; j++) {
-        var obj = waveSixACountries[j];
-        if(obj.code == countrySAPCode){
-            //console.log("country SAP Code is: "+countrySAPCode+" AND I AM WITHIN WAVE6 COUNTRIES for LOA UNNN PAID");
-            $('#'+reasonForLOA_new).children('option[value="Adoption preparation leave"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="Business creation leave"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="Disability"]').remove();
-            //$('#'+reasonForLOA_new).children('option[value="Family leave"]').hide();
-            $('#'+reasonForLOA_new).children('option[value="Family support leave"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="International solidarity leave"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="Mobility leave (unpaid)"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="Parental presence leave"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="Training leave (unpaid)"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="Transfers"]').remove();
-        }
-    }
-
-    for(var k = 0; k< fsLightCountries.length; k++) {
-        var object = fsLightCountries[k];
-        if(object.code == countrySAPCode){
-            //console.log("country SAP Code is: "+countrySAPCode+" AND I AM WITHIN FSLIGHT COUNTRIES for LOA UNNN PAID");
-            $('#'+reasonForLOA_new).children('option[value="Military Leave"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="Longterm Sickness (unpaid)"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="Paternity leave (unpaid)"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="Maternity leave (unpaid)"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="Other"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="Adoption (unpaid)"]').remove();
-            $('#'+reasonForLOA_new).children('option[value="Career break"]').remove();
-            //$('#'+reasonForLOA_new).children('option[value="Family leave"]').hide();
-            $('#'+reasonForLOA_new).children('option[value="Bereavement"]').remove();
-        }
-    }
-    }   
-
-};
-
-// Function to populate the reason for termination dropdown
-window.populateReasonForTermination = function(countrySAPCode){
-    //console.log("Inside function: populateReasonForTermination");
-    //console.log(countrySAPCode);
-	//var reasonForTermination = document.getElementById("ctl04_ctl13_ctl00_INTERVENTIONS_EN_COURS_VALEUR692");
-
-	var reasonForTermination_new = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR692')['name'];
-    var reasonForTerminationLength = $("#"+reasonForTermination_new+ " option").length;
-    var reasonForTermination = document.getElementById(reasonForTermination_new);
-
-
-    for (var i = 0; i< reasonForTermination.length; i++){
-      var option = reasonForTermination.options[i];
-      // now have option.text, option.value
-
-      //Check if the country should display the option, else remove
-      for(var j = 0; j< waveSixACountries.length; j++) {
-            var obj = waveSixACountries[j];
-            if(obj.code == countrySAPCode){
-                $('#'+reasonForTermination_new).children('option[value="Conduct related"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="Gross misconduct"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="Leave Expired"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="Failed Employment Check"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="eVerify Involuntary"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="Non Performance Related"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="Quit Performance Plan"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="Capability Related"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="Redundancy (Compulsory)"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="Involuntary Termination"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="Dismissal"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="Hired by Client"]').remove();
-            }
-        }
-
-        for(var k = 0; k< fsLightCountries.length; k++) {
-            var object = fsLightCountries[k];
-            if(object.code == countrySAPCode){
-                $('#'+reasonForTermination_new).children('option[value="Other"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="End of Client Contract"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="TUPE Transfer Out"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="End Temporary Employment"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="InterCo./CrossCountry Transfer"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="New joiner no show"]').remove();
-                $('#'+reasonForTermination_new).children('option[value="Candidate withdrawal"]').remove();
-            }
-        }
-    }   
+/****************************
+ * AUTOMATICALLY FILL TOPIC
+ *****************************/
+window.manageTopicSubtopic = function() {
+	
+	setTimeout(function() {
+		var gettingval1 = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getText();
+		neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR204').setValue(gettingval1);
+	}, 1000);
+	
+	setTimeout(function() {
+		var gettingval2 = neocase.form.field('INTERVENTIONS_EN_COURS_MOTCLE').getText();
+		neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR203').setValue(gettingval2);
+	}, 1000);
 
 };
 
 /*************************************
-* Restrict user to input back date 
-**************************************/
-window.setResignationDateRange = function(){
-	var dateElement = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR687").elementHTML;
-    $(dateElement).parent().find('span#wrongDate').remove();
-    //var dateElement = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR376");
-
-	var dateSelected = "";
-	dateSelected = dateElement.value;
-
-    if( dateSelected != "" ) {
-        var today = new Date();
-        var currMonth = today.getMonth()+1; //jan = 0;
-        var currDay = today.getDate();
-        var currYear = today.getFullYear();
-        var todayDateText = currMonth + "/" + currDay + "/" + currYear;
-        var todayDateFormatted = new Date(currYear,(currMonth-1),currDay);
-        
-        var newDate = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR687").getValue();
-        var splitDate= newDate.split('/');
-
-        var dd = parseInt(splitDate[0]);
-        var mm = splitDate[1]-1;
-        var yyyy = splitDate[2];
-
-        var selectedDateFormatted = new Date(yyyy,mm,dd);
-
-        console.log("todayDateFormatted:  "+todayDateFormatted);
-        console.log("selectedDateFormatted:  "+selectedDateFormatted);
-
-        if(selectedDateFormatted< todayDateFormatted){
-            //console.log("smaller");
-            $(dateElement).after("<span id='wrongDate' style='color:red;'>Date cannot be back dated</span>");
-            $(".submitSimpleRequestButton").css("pointer-events","none");
-
-        }
-        else{
-            $(".submitSimpleRequestButton").css("pointer-events","");
-            //console.log("greater");
-        }
-    }
-
-};
-
-//Function to set default date as today's date
-window.defaultLastWorkingDate = function()
-{
-    try{
-        var datePickerType = $.datepicker._defaults.dateFormat;
-    }
-    catch ( e ) {
-        console.log("Error: " + e.description );
-    }
-     finally {
-         if(datePickerType){
-            var rDate = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR687").getValue();
-            var resignationDate;
-            var newResignationDate;
-            var resignationDatedd;
-            var resignationDatemm; 
-            var resignationYYYY;
-            var defaultDate = "";
-            
-            if(datePickerType == 'm/d/yy'){
-                resignationDate = new Date(rDate);
-                newResignationDate = resignationDate.addMonths(1);
-                resignationDatedd = newResignationDate.getDate();
-                resignationDatemm = newResignationDate.getMonth() + 1; //03 for march
-                resignationYYYY = newResignationDate.getFullYear();            
-                defaultDate = resignationDatemm +'/'+resignationDatedd+'/'+ resignationYYYY;	
-             }else if(datePickerType == 'dd/mm/yy'){
-				var a = rDate.split('/');
-				resignationDate = new Date(a[2],a[1],a[0]);
-				newResignationDate = resignationDate.addMonths(1);
-                resignationDatedd = newResignationDate.getDate();
-                resignationDatemm = newResignationDate.getMonth(); //03 for march
-                resignationYYYY = newResignationDate.getFullYear();           
-                defaultDate = (('0'+resignationDatedd).slice(-2))+'/'+('0'+resignationDatemm).slice(-2)+'/'+resignationYYYY;	
-
-             }else{
-                 console.log("//Do nothing");
-             }     
-             
-         }
-           return defaultDate;
-     }
-        
-};
-
-/************************************************
-To check if the response is field is empty or not
-*************************************************/
-window.checkValueOfField = function(fieldId){
-    if (!$.trim($("#" + fieldId ).val())) {
-            return false;
-    }else{
-            return true;
-    }
-};
-
-/*********************************
-Get the text area id
-*********************************/
-window.findTextAreabyID = function(nameElement) {
-    var tempData = true,
-        possibleElements = $('[id*="' + nameElement + '"]');
-        for (var i = 0; i< possibleElements.length; ++i) {
-            if (possibleElements[i].localName === "textarea") {
-                tempData = checkValueOfField(possibleElements[i].id);
-            }
-        }
-        
-    return tempData;
-}; 
-
-window.launchOnInit = function(){
-    formulaire.question.readOnly = "true";
-};
-neocase.form.event.bind("init",launchOnInit);
-
-/**************************
-* Launch Javascript on init
-***************************/
-window.onloadForm = function(){
-
-    setTimeout(function() {
-    var topic = neocase.form.field('INTERVENTIONS_EN_COURS_MOTCLE').getText();
-    var subtopic = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getText();
-    
-    neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR204').setValue(subtopic);
-    neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR203').setValue(topic);
-
-    neocase.form.field('INTERVENTIONS_EN_COURS$MOTCLE').hide();
-    neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').hide();
-
-    var countrySAPCode = neocase.form.field('UTILISATEURS$CHAMPU232').getText();
-    
-    var lastWorkingDate = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR221");
-   
-    if(subtopic == "LC_Resignation"){
-        if(lastWorkingDate.getValue() == ""){
-            lastWorkingDate.setValue(defaultLastWorkingDate());
-        }else{
-            //Do nothing
-           
-        }
-    } 
-
-     
-    populateReasonForTermination(countrySAPCode);
-
-    if(subtopic=="LC_LOA Paid"){
-        populateReasonForLOAPaid(countrySAPCode);
-        console.log("Calling function: populateReasonForLOAPaid with SAP CODE: "+countrySAPCode);
-    }else if(subtopic=="LC_LOA Unpaid"){
-        populateReasonForLOAUnpaid(countrySAPCode);
-        console.log("Calling function: populateReasonForLOAUnpaid with SAP CODE: "+countrySAPCode);
-    } else {
-
-    }
-    }, 800);
-};
-neocase.form.event.bind("loadcomplete",onloadForm);
-
-
-window.launchOnSubmit = function(){
-    var againTempData = true;
-	againTempData = findTextAreabyID("response");
-	if(againTempData)
-		{
-		//checkForm();
+ * MANAGE PROBATION STATUS DEPENDANCIES
+ **************************************/
+window.probationCodeToDesc = function() {
+	
+	
+		//Définition des variables
+		var msg = "fonction probationCodeToDesc : ";
+		var probationCode = formulaire.INTERVENTIONS_EN_COURS$VALEUR130;
+		var probationType = formulaire.INTERVENTIONS_EN_COURS$VALEUR132;
+		if (probationCode) {
+			if (probationType) {
+				//Si les 2 champs concernés sont trouvés, on exécute la fonction
+				if (probationCode.options[probationCode.selectedIndex].getAttribute("code") == "408") {
+					$(probationType).find('option[code*=413]').prop('selected', true);
+					//probationType.code = "413";
+				} else if (probationCode.options[probationCode.selectedIndex].getAttribute("code") == "409") {
+					$(probationType).find('option[code*=414]').prop('selected', true);
+					//probationType.code = "414";
+				} else if (probationCode.options[probationCode.selectedIndex].getAttribute("code") == "410") {
+					$(probationType).find('option[code*=415]').prop('selected', true);
+					//probationType.code = "415";
+				} else if (probationCode.options[probationCode.selectedIndex].getAttribute("code") == "411") {
+					$(probationType).find('option[code*=416]').prop('selected', true);
+					//probationType.code = "416";
+				} else if (probationCode.options[probationCode.selectedIndex].getAttribute("code") == "227") {
+					$(probationType).find('option[code*=228]').prop('selected', true);
+					//probationType.code = "228";
+				} else if (probationCode.options[probationCode.selectedIndex].getAttribute("code") == "412") {
+					$(probationType).find('option[code*=417]').prop('selected', true);
+					//probationType.code = "417";
+				}
+			} else {
+				msg += "var probationType (formulaire.INTERVENTIONS_EN_COURS$VALEUR132) non trouvée > champ absent ou non chargé";
+				console.log(msg);
+			}
+		} else {
+			msg += "var probationCode (formulaire.INTERVENTIONS_EN_COURS$VALEUR130) non trouvée > champ absent ou non chargé";
+			console.log(msg);
 		}
-	else{
-        alert("Response field is mandatory");
-        return false;
-    } 
+	
 };
-neocase.form.event.bind("submit",launchOnSubmit);
+window.probationDescToCode = function() {
+
+		//Définition des variables
+		var msg = "fonction probationDescToCode : ";
+		var probationCode = formulaire.INTERVENTIONS_EN_COURS$VALEUR130;
+		var probationType = formulaire.INTERVENTIONS_EN_COURS$VALEUR132;
+		if (probationCode) {
+			if (probationType) {
+				//Si les 2 champs concernés sont trouvés, on exécute la fonction
+				if (probationType.options[probationType.selectedIndex].getAttribute("code") == "413") {
+					$(probationCode).find('option[code*=408]').prop('selected', true);
+					//probationCode.code = "408Þ01";
+				} else if (probationType.options[probationType.selectedIndex].getAttribute("code") == "414") {
+					$(probationCode).find('option[code*=409]').prop('selected', true);
+					//probationCode.code = "409Þ02";
+				} else if (probationType.options[probationType.selectedIndex].getAttribute("code") == "415") {
+					$(probationCode).find('option[code*=411]').prop('selected', true);
+					//probationCode.code = "411Þ04";
+				} else if (probationType.options[probationType.selectedIndex].getAttribute("code") == "416") {
+					$(probationCode).find('option[code*=411]').prop('selected', true);
+					//probationCode.code = "411Þ04";
+				} else if (probationType.options[probationType.selectedIndex].getAttribute("code") == "228") {
+					$(probationCode).find('option[code*=227]').prop('selected', true);
+					//probationCode.code = "227Þ05";
+				} else if (probationType.options[probationType.selectedIndex].getAttribute("code") == "417") {
+					$(probationCode).find('option[code*=412]').prop('selected', true);
+					//probationCode.code = "412Þ06";
+				}
+			} else {
+				msg += "var probationType (formulaire.INTERVENTIONS_EN_COURS$VALEUR132) non trouvée > champ absent ou non chargé";
+				console.log(msg);
+			}
+		} else {
+			msg += "var probationCode (formulaire.INTERVENTIONS_EN_COURS$VALEUR130) non trouvée > champ absent ou non chargé";
+			console.log(msg);
+		}
+	
+};
 
 
-/*---- MOD-001 ENDS ----*/
+
+window.popupLink = function(field, url) {
+    var msg = "function popupLink : ";
+    if (field) {
+        //get field label
+        var fieldId = field.id;
+        var fieldLabel;
+        if (fieldId.search("INTERVENTIONS") != -1) {
+            fieldLabel = fieldId.replace("INTERVENTIONS", "lblINTERVENTIONS");
+        } else if (fieldId.search("UTILISATEURS") != -1) {
+            fieldLabel = fieldId.replace("UTILISATEURS", "lblUTILISATEURS");
+        } else {
+            msg += "type de champ non prit en compte " + fieldId;
+            console.log(msg);
+        }
+        if (fieldLabel.search("_display") != -1) {
+            fieldLabel = fieldLabel.replace("_display", "");
+        }
+        //add case number in the URL if needed
+        if (url.search("Id_Demande") != -1) {
+            url = url.replace("Id_Demande=", "Id_Demande=" + numeroIntervention);
+        }
+        //add contact ID in the URL if needed
+        if (url.search("Id_User") != -1) {
+            url = url.replace("Id_User=", "Id_User=" + CodeUtilisateurBis);
+        }
+        //Create hyperlink on label
+        var onclick = "window.open('" + url + "','_blank')";
+        var createPopup = document.createElement("a");
+        createPopup.setAttribute("onclick", onclick);
+        var popupText = document.getElementById(fieldLabel).innerHTML;
+        var t = document.createTextNode(popupText);
+        createPopup.appendChild(t);
+        if (document.getElementById(fieldLabel).innerHTML.search("</a>") == -1) {
+            document.getElementById(fieldLabel).innerHTML = "";
+            document.getElementById(fieldLabel).appendChild(createPopup);
+        }
+    } else {
+        msg += "champ non trouvé";
+        console.log(msg);
+    }
+};
+
+window.popupLinkFunction = function() {
+	
+	//neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR154').setLink('/Custom_Referential/SubArea.aspx?Id_User=','_blank','style-button');
+	popupLink(document.getElementById("INTERVENTIONS_EN_COURS$VALEUR154"), "/Custom_Referential/ManagerReviewer.aspx");
+	popupLink(document.getElementById("INTERVENTIONS_EN_COURS$VALEUR166"), "/Custom_Referential/ManageMentor.aspx");
+	popupLink(document.getElementById("INTERVENTIONS_EN_COURS$VALEUR183"), "/Custom_Referential/ManageSupervisor.aspx");
+};
+
+
+window.disableField = function(field) {
+    var msg = "function disableField : ";
+    if (field) {
+        field.onkeydown = function() { return false; };
+    } else {
+        msg += "field undefined or readonly";
+        console.log(msg);
+    }
+};
+
+window.disableFields = function() {
+	//Mangement team
+	disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR154);
+	disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR158);
+    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR183);
+    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR187);
+    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR170);
+    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR166);
+	
+	console.log("disableFields");
+	
+};
+
+//MANDATORY FIELDS
+window.noMandatories = function() {
+	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR132').noMandatory();	//Probation status desc (new)
+	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').noMandatory();	//Last day of probation (new)
+	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').noMandatory();	//Confirmed Leaving dates -> Termination date
+};
+
+window.manageMandatoryFields = function() {
+	
+	console.log("In Mandatory FIELDS");
+	
+	noMandatories();
+	
+	var topic = neocase.form.field('INTERVENTIONS_EN_COURS$MOTCLE').getNumber();
+	var subtopic = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getNumber();
+	
+	if(topic == "2237") {	//Employment data change
+		if(subtopic == "2170") {	//Probation Period update
+			setTimeout(function() {
+				neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR132').mandatory("Termination date Need to be filledup");	//Probation status desc (new)
+				neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR134').mandatory("Termination date Need to be filledup");	//Last day of probation (new)
+			}, 2000);
+			
+		}
+	}
+	
+	if((topic == "2239")||(topic == "2240")) {	//	Leave involuntary FO  ||	Leave voluntary FO
+		if((subtopic == "2199")|| (subtopic == "2200")||(subtopic == "2142") || (subtopic == "2143") || (subtopic == "2240")) {	//Involuntary leave	||	End of Fixed Term Contract - MGR || End of Fixed Term Contract - EE || Retirement || Resignation info
+			setTimeout(function() {
+				//neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR220').mandatory("Termination date Need to be filledup");	//Confirmed Leaving dates -> Termination date
+			}, 2000);
+		}
+	}
+	
+	console.log("manageMandatoryFields");
+};
+
+
+
+/*************************
+ * ACTIONS ON LOAD COMPLETE
+ **************************/
+window.onloadForm = function() {
+	
+	formulaire.question.readOnly = "true"; 
+
+	manageTopicSubtopic();
+	manageSection();
+	//disableFields();
+	//manageMandatoryFields();
+	var sel1 = formulaire.INTERVENTIONS_EN_COURS_VALEUR130;
+	var sel2 = formulaire.INTERVENTIONS_EN_COURS_VALEUR132;
+	
+	//Set Last working day as Resignation date + 1 month
+	var lastWorkingDate = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR221");
+	
+	if(lastWorkingDate.getValue() == ""){
+		lastWorkingDate.setValue(defaultLastWorkingDate());
+	}else{
+		//Do nothing
+		
+	}
+	//sel1.addEventListener('change', function() { probationCodeToDesc(); }, false);
+	//sel2.addEventListener('change', function() { probationDescToCode(); }, false);
+    
+	//popupLinkFunction();
+	
+};
+neocase.form.event.bind('loadcomplete', onloadForm);

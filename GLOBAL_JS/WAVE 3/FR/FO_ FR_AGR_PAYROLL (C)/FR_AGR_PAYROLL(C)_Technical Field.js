@@ -55,6 +55,11 @@ Developer   - Ayan Dey
 Date	    - 10/20/2020 (MM/DD/YYYY)
 Change No   - MOD-010
 Description - Commented out FR_03_Bicycle allowance calculation. Added logic to check if end date is before 1st Sept 2020 for subtopic: Sustainable Mobility Package (2699)
+---------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 01/27/2021 (MM/DD/YYYY)
+Change No   - MOD-011
+Description - Updated the logic for wfh allowance
 ----------------------------------------------------------------------------*/
 
 //Hide Technical Section
@@ -223,7 +228,7 @@ window.disableFields = function(){
 window.checkSSARValueMaladie = function(){
 	var sSARValue = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR935').getValue(),
 		CERFAyesOrNoField = $('#'+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR934')['elementHTML']['id']),
-		alertMsg = document.documentElement.lang == "en-GB" ? "If you work all day, put Yes, otherwise, put No" : "Si la journée a été travaillée en totalité, mettre OUI, sinon mettre NON";
+		alertMsg = document.documentElement.lang == "en-GB" ? "If you start working, put Yes, otherwise, put No" : "Si la journée a été commencée mettre OUI, sinon mettre NON";
 
 	if(sSARValue == 'Sickness' || sSARValue == 'Maladie'){
 		if($(CERFAyesOrNoField).closest('div').find('.alertMsg').length< 1){
@@ -330,6 +335,10 @@ window.launchOnSubmit = function(){
 	var d = new Date();
 	var currentMonth = d.getMonth();
 	var currentYear = d.getFullYear();
+	
+	//var currentMonth = 1;
+	//var currentYear = 2021;
+	
 	var shortYear = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR943").getText();
 	var shortMonth = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR948").getText();
 	
@@ -344,6 +353,10 @@ window.launchOnSubmit = function(){
 	//Get Value from WFH Year and WFH Month
 	var wfhYearValue = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR943").getValue();
 	var wfhMonthValue = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR948").getValue();
+	
+		
+	var januaryMonth = 0;
+	
 	if(wfhYearValue!="" && wfhMonthValue!=""){
 		if(currentYear == 2020 && currentMonth == 8){ // current month = September & current year = 2020 // ++MOD-009
 			if(shortYear<=currentYear){	
@@ -366,9 +379,53 @@ window.launchOnSubmit = function(){
 				return false;
 			}
 		}
+		else if(currentYear == 2021 && currentMonth == januaryMonth){ // Current year: 2021 and Curent Month: January
+
+			if(shortYear<currentYear){	
+				
+				if(shortMonth>=1 && shortMonth<11){
+					if (lang == "fr") {
+						msg = "La déclaration télétravail (hors avenant) doit concerner uniquement le mois dernier ou le mois en cours.";
+					} else {
+						msg = "The work from home declaration must be only for last month or current month";
+					}
+					alert(msg);
+					return false;
+				}
+			}else if(shortYear==currentYear){	
+				
+				if(shortMonth!=1){
+					if (lang == "fr") {
+						msg = "La déclaration télétravail (hors avenant) doit concerner uniquement le mois dernier ou le mois en cours.";
+					} else {
+						msg = "The work from home declaration must be only for last month or current month";
+					}
+					alert(msg);
+					return false;
+				}
+			}else{
+				if (lang == "fr") {
+						msg = "La déclaration télétravail (hors avenant) doit concerner uniquement le mois dernier ou le mois en cours.";
+					} else {
+						msg = "The work from home declaration must be only for last month or current month";
+					}
+				alert(msg);
+				return false;
+			}
+		}
 		else {
-			if(shortYear<=currentYear){
-				if(shortMonth>currentMonth+1 || shortMonth< currentMonth){ // ++MOD-009
+			if(shortYear< currentYear){
+				if(shortMonth>=currentMonth+1 || shortMonth<= currentMonth){ // ++MOD-011
+					if (lang == "fr") {
+						msg = "La déclaration télétravail (hors avenant) doit concerner uniquement le mois dernier ou le mois en cours.";
+					} else {
+						msg = "The work from home declaration must be only for last month or current month";
+					}
+					alert(msg);
+					return false;
+				}
+			}else if(shortYear == currentYear){
+				if(shortMonth>currentMonth+1 || shortMonth< currentMonth){ // ++MOD-009 
 					if (lang == "fr") {
 						msg = "La déclaration télétravail (hors avenant) doit concerner uniquement le mois dernier ou le mois en cours.";
 					} else {

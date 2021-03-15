@@ -70,6 +70,16 @@ Developer   - Ahana Sarkar
 Date	    - 06/12/2020 (MM/DD/YYYY)
 Change No   - MOD-003
 Description - Display social security absence related section
+----------------------------------------------------------------------
+Developer   - Ayan Dey
+Date	    - 07/20/2020 (MM/DD/YYYY)
+Change No   - MOD-004
+Description - Display Days worked from home during the month related section
+----------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 12/11/2020 (MM/DD/YYYY)
+Change No   - MOD-005
+Description - Instruction 3 & 4 visibilbility based on subtopic
 ------------------------------------------------------------------------------*/ 
 
 
@@ -79,21 +89,33 @@ Fields and display settings
 ***************************/
 var Tableau = [
     //'section18df573b1c1114661f65#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',
-    // Instruction
+    // Instruction 2
+    'sectionc5e11bb7bd399f077b15#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Sustainable mobility package;Forfait mobilité durable',
+	// Instruction 1
     'sectiona7c38a771a8f58e6989b#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_02_Province;Province;FR_01_Ile-de-France;Île-de-France',//MOD-003
+    // Instruction 3
+    'section64c65fb5f2404f76f963#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant)',//MOD-005
+    // Instruction 4
+    'section62b915cb2111d01f42a4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail',//MOD-005
 	//Ile-de-France
 	'section9c3e5f4e4a4e763ab3b9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France', //MOD-002
 	//Province
 	'section40e78eea92a69245b309#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_02_Province;Province',//MOD-002
 	//Bicycle Allowance
-	'sectionc33d0e5a2cded1f67db0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo',//MOD-002
+	'sectionc33d0e5a2cded1f67db0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_03_Sustainable mobility package;Forfait mobilité durable',//MOD-002
     //Section - Refund period
-    'sectionbce808b16afaf1c6e9e7#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_02_Province;Province;FR_01_Ile-de-France;Île-de-France',//MOD-003
+    'sectionbce808b16afaf1c6e9e7#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_02_Province;Province;FR_01_Ile-de-France;Île-de-France;FR_03_Sustainable mobility package;Forfait mobilité durable',//MOD-003
     //Section - Social security absence
     'section2b5def23bad07230c544#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail',//MOD-003
     // Section - How to declare my social security absence
-    'section60d59d8a7a0fef16fa06#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail'//MOD-003
-
+    'section60d59d8a7a0fef16fa06#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail',//MOD-003
+	//Section - Days worked from home during the month
+	'section52cea27607cd0ad68e1f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant)',//MOD-004
+	// Section - How to declare my work from home
+	'section4edda08382cf6f22e3ed#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant)',//MOD-004
+	// Employee Details
+	'section0609ddba621eb2cb1092#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France;FR_Social security absence;Déclaration arrêt de travail;FR_03_Sustainable mobility package;Forfait mobilité durable;FR_02_Province;Province;FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant)'
+	
 ];
 var enableManageField;
 

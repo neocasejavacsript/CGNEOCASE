@@ -164,7 +164,7 @@ window.disableFields = function(){
 window.checkSSARValueMaladie = function(){
 	var sSARValue = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR935').getValue(),
 		CERFAyesOrNoField = $('#'+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR934')['elementHTML']['id']),
-		alertMsg = document.documentElement.lang == "en-GB" ? "If you work all day, put Yes, otherwise, put No" : "Si la journée a été travaillée en totalité, mettre OUI, sinon mettre NON";
+		alertMsg = document.documentElement.lang == "en-GB" ? "If you start working, put Yes, otherwise, put No" : "Si la journée a été commencée mettre OUI, sinon mettre NON";
 
 	if(sSARValue == 'Sickness' || sSARValue == 'Maladie'){
 		if($(CERFAyesOrNoField).closest('div').find('.alertMsg').length< 1){

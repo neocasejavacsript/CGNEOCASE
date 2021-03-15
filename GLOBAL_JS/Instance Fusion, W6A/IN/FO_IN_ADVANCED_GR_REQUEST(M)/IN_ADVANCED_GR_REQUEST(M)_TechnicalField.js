@@ -26,17 +26,51 @@ Version - MOD-004
 Author - Riya Dutta	
 Creation Date - 01/02/2019 (MM/DD/YYYY)
 Description - Upgrading to New JS Framework (//need update)
-********************************************************************
-Version - MOD-004
-Author - Debraj Sarkar	
-Creation Date - 11/03/2020 (MM/DD/YYYY)
-Description - Upgrading to New JS Framework (//need update)
 ********************************************************************/
 
 /************************************
 * Hide Technical Sections
 ************************************/
-neocase.form.section("section247").hide();
+//ThisForm.HideSection("section616ee1dff413d0fdad43");  //MOD-004 --
+neocase.form.section("section616ee1dff413d0fdad43").hide();  //MOD-004 ++
+
+window.getParamFromUrl = function(param){
+
+var vars = {};
+  window.location.href.replace( location.hash, '' ).replace( 
+    /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+    function( m, key, value ) { // callback
+      vars[key] = value !== undefined ? value : '';
+    }
+  );
+
+  if ( param ) {
+    return vars[param] ? vars[param] : null;  
+  }
+  return vars;
+
+};
+
+//Function Added as a part of MOD-003
+//Manage Visiblity of Concerned Employee Section
+window.manageSection_EmployeeDetails = function(){
+
+//Hide When employee tries to create a request for itself.
+//Show when employee tries to create a request on behalf of someone.
+
+var pageId = getParamFromUrl('PageId');
+
+if(pageId != '1029'){
+
+//Hide Technical section
+neocase.form.section("sectionc6b9578fd7dce6ffb20f").hide();
+
+}
+
+
+};
+
+
 
 /***************************************************************************
 Manage download option on the HTML DOM and make it readonly for modify form
@@ -44,12 +78,11 @@ Manage download option on the HTML DOM and make it readonly for modify form
 
 window.manageDownloadField = function(){
 
-	var buttonId= document.getElementsByClassName("btn btn-upload multifileinput-button")[0].childNodes[2].id;
+	var buttonId= document.getElementsByClassName("btn btn-upload fileinput-button")[0].childNodes[2].id;
 		document.getElementById(buttonId).readOnly = true;
 		console.log("The download button is not working");
 
 };
-
 
 /***************************
  ACTIONS ON LOAD COMPLETE
@@ -61,19 +94,11 @@ window.onloadForm = function()
 	formulaire.question.readOnly = true; //MOD-002
 
 	//Manage Visiblity of Concerned Employee Section
-	var pageId = getParamFromUrl('PageId');
-	//Hide When employee tries to create a request for itself.
-	//Show when employee tries to create a request on behalf of someone.
-	if(pageId != '1236'){
-		//Hide Technical section
-		neocase.form.section("section570").hide();
-	}
-	
+	manageSection_EmployeeDetails(); // MOD-003++ 
 
 	//Manage download button in modify form
-	//manageDownloadField();
-	//disableField(neocase.form.field('INTERVENTIONS_EN_COURS$MOTCLE'));
-	//disableField(neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT'));
+	manageDownloadField();
 	
 	};
 neocase.form.event.bind('loadcomplete', onloadForm);
+

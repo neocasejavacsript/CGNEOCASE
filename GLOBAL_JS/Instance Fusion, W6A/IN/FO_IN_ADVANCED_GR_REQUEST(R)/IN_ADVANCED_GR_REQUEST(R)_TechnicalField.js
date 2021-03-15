@@ -6,36 +6,60 @@ Author - Md Shahbaz Khan
 Creation Date - 22/09/2017
 Description - Hiding Concerned Employee Details Section for all pages
               other than manager pages.
-******************************************************************
-Version - MOD-002
-Author - Debraj Sarkar	
-Creation Date - 10/03/2020
-Description - Hiding Concerned Employee Details Section for all pages
-              other than manager pages.
 ******************************************************************/
 /**************
  * Hide Sections
  ***************/
-//Hide Technical Section
-neocase.form.section("section247").hide();
-console.log(neocase.form.field('INTERVENTIONS_EN_COURS$MOTCLE').getText());
+//Technical section
+//neocase.form.section("section484c8440f8f43fa8cfd5").hide();
+document.getElementById("section484c8440f8f43fa8cfd5").style.display = "none";
 
-/**************************
-* Launch Javascript on init
-***************************/
-window.launchOnInit = function(){	
-	/*neocase.form.field('INTERVENTIONS_EN_COURS$TYPE').hide();
-	neocase.form.field('INTERVENTIONS_EN_COURS$DELAI').hide();
-	var topic = neocase.form.field('INTERVENTIONS_EN_COURS$MOTCLE').getText();
-	var subtopic = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getText();
-	console.log(topic+','+subtopic);
-	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR203').setValue(topic);
-	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR204').setValue(subtopic);*/
-	var pageId = getParamFromUrl('PageId');
-    if (pageId != '1372' && pageId != '1373') {
-        neocase.form.section("section570").hide();
+window.getParamFromUrl = function (param) {
+
+    var vars = {};
+    window.location.href.replace(location.hash, '').replace(
+        /[?&]+([^=&]+)=?([^&]*)?/gi, // regexp
+        function (m, key, value) { // callback
+            vars[key] = value !== undefined ? value : '';
+        }
+    );
+
+    if (param) {
+        return vars[param] ? vars[param] : null;
     }
- };
-neocase.form.event.bind("loadcomplete",launchOnInit);
+    return vars;
 
-/*---- MOD-001 ENDS ----*/
+};
+
+//Function Added as a part of MOD-003
+//Manage Visiblity of Concerned Employee Section
+window.manageSection_EmployeeDetails = function () {
+
+    //Hide When employee tries to create a request for itself.
+    //Show when employee tries to create a request on behalf of someone.
+
+    var pageId = getParamFromUrl('PageId');
+
+    if (pageId != '1030' && pageId != '1029') {
+        document.getElementById("section4e25f07eee4a6db8125d").style.display = "none";
+        //Hide Technical section
+        //neocase.form.section("section4e25f07eee4a6db8125d").hide();
+        //
+    }
+};
+
+/***************************
+ ACTIONS ON LOAD COMPLETE
+**************************/
+window.onloadForm = function () {
+    //Manage Visiblity of Concerned Employee Section
+    manageSection_EmployeeDetails(); // MOD-002++ 
+
+};
+//neocase.form.event.bind('loadcomplete', onloadForm);
+//manageSection_EmployeeDetails();
+
+$(document).ready(function () {
+    onloadForm();
+    manageSection_EmployeeDetails();
+});

@@ -4,7 +4,20 @@ Developer   - Ahana Sarkar
 Date	    - 10/30/2020 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - Basic JS
-----------------------------------------------*/  
+---------------------------------------------- 
+Developer   - Ahana Sarkar
+Date	    - 12/01/2020 (MM/DD/YYYY)
+Change No   - MOD-002
+Description - countryWiseSectionVisibility() to show/hide sections based on country
+            - generateDocumentButtonDisplay() to show/hide generate document button based on country
+            - copyFunctions() to copy values from one field to another
+----------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 12/29/2020 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - completedButtonDisplayHide() to display completed button based on topic/subtopic
+----------------------------------------------*/
+
 
 //hide technical section
 neocase.form.section("section2f6123534cd0910a1d30").hide();
@@ -37,12 +50,54 @@ window.countryWiseSectionVisibility = function(){
         console.log(error);
     }
 };
+window.generateDocumentButtonDisplay = function(){
+    var countryIsoCode = neocase.form.field('UTILISATEURS$CHAMPU19').getText(),
+    countrySAPCode = neocase.form.field('UTILISATEURS$CHAMPU232').getText(),
+    elementGenerateButton = document.getElementById('bouton_evenement3562');
+    try{
+        if(elementGenerateButton !== null){
+            if(countryIsoCode == 'PT' ||countryIsoCode == 'CN' || countryIsoCode == 'LU' || countryIsoCode == 'BE' || countryIsoCode == 'IE'){
+                elementGenerateButton.style.display = 'block';
+            }else{
+                elementGenerateButton.style.display = 'none';
+            }
+        }
+    }catch(error){
+        console.log(error);
+    }
+};
+window.completedButtonDisplayHide = function(){ //++MOD-003
+    var elementCompletedButton = document.getElementById('bouton_evenement3560'), // Compelted button
+        topic = formulaire.INTERVENTIONS_EN_COURS$MOTCLE.value,
+        subtopic = formulaire.INTERVENTIONS_EN_COURS$ELEMENT.value;
+    try{
+        console.log(topic,subtopic);
+        if(elementCompletedButton !== null){
+            if(topic == '2773' && subtopic == '2989'){ // topic = EC_General request; subtopic = EC_Other request(MGR)
+                elementCompletedButton.style.display = 'block';
+            }else{
+                elementCompletedButton.style.display = 'none';
+            }
+        }
+    }catch(error){
+        console.log(error);
+    }
+};
 /**************************
  * Launch Javascript on init
  ***************************/
 window.launchOnloadcomplete = function(){
+    if(formulaire.question.value !== ''){
+        formulaire.question.readOnly = true;
+    }
+    else{
+        formulaire.question.readOnly = false;
+    }
     copyFunctions();  
+    generateDocumentButtonDisplay();
+    completedButtonDisplayHide();
     countryWiseSectionVisibility();
+    
 };
 //neocase.form.event.bind("init",launchOnInit);
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

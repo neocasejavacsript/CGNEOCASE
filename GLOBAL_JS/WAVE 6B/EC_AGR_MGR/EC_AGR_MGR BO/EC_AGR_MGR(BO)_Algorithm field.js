@@ -68,7 +68,7 @@ var Tableau = [
     // Reason for action
     'sectionaac0164932f59a3105c3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Work location transfer',
     // Working location
-    'section245234279744398154ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Work location transfer',
+    //'section245234279744398154ba#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Work location transfer',
     // Organization assignment
     'sectionb3d26af2017b12af1900#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Work location transfer',
     // Management team

@@ -15,7 +15,30 @@ Description - Popup + disable field + country wise section visibility
 neocase.form.section("section1882b8598378661e788e").hide();
 // hide hidden section
 neocase.form.section("sectione295d41b8c7053b5e0e3").hide();
-
+/************************************************
+To check if the response is field is empty or not
+*************************************************/
+window.checkValueOfField = function(fieldId){
+    if (!$.trim($("#" + fieldId ).val())) {
+            return false;
+    }else{
+            return true;
+    }
+};
+/*********************************
+Get the text area id
+*********************************/
+window.findTextAreabyID = function(nameElement) {
+    var tempData = true,
+        possibleElements = $('[id*="' + nameElement + '"]');
+        for (var i = 0; i< possibleElements.length; ++i) {
+            if (possibleElements[i].localName === "textarea") {
+                tempData = checkValueOfField(possibleElements[i].id);
+            }
+        }
+        
+    return tempData;
+};
 SC_Nm_SubAreaCode = function (fieldValue) {// Base location code(new)
     formulaire.INTERVENTIONS_EN_COURS$VALEUR121.value = fieldValue;
 };
@@ -75,7 +98,7 @@ FillCf_LocalName_PersonelNum = function (fieldValue) {
 
 window.setAllPopups = function () {
     // popup Work location (new)
-    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR735, "/Custom_Referential/PersonalArea.aspx?Id_User="); //Work location
+    //popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR735, "/Custom_Referential/PersonalArea.aspx?Id_User="); //Work location
     // popup Base Office Location (Personnel Sub Area Desc.)(new)
     popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR119, "/Custom_Referential/PersonalArea.aspx?Id_User="); //Personal area
     // popup Performance Reviewer Name (new)
@@ -106,6 +129,8 @@ window.disableCusFields = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR154")); 
     //disable "HRBP name (new)"
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR386")); 
+    //disable "HRDP name (new)"
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR142"));
     // disable mentor name (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR166")); 
     //disable myconnect supervisor (new)
@@ -119,18 +144,39 @@ window.disableCusFields = function () {
     $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR182')['elementHTML']['id']).css({'background': "transparent",'color':'#000','padding-left':0});
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR427"));
     $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR427')['elementHTML']['id']).css({'background': "transparent",'color':'#000','padding-left':0});
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR734"));
-    $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR734')['elementHTML']['id']).css({'background': "transparent",'color':'#000','padding-left':0});
+    // disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR734"));
+    // $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR734')['elementHTML']['id']).css({'background': "transparent",'color':'#000','padding-left':0});
     //Cost Center
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR11")); //disable Organization unit code (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR13")); //disable Organization unit (new)
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR15")); //disable Cost Center | PU (new)
     
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR735")); 
+    //disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR735")); 
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR231")); 
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR232")); 
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR406")); 
     
+};
+window.manipulateDropdowns = function(){
+    var countryIsoCode = neocase.form.field('UTILISATEURS$CHAMPU19').getText(),
+        countrySAPCode = neocase.form.field('UTILISATEURS$CHAMPU232').getText(),
+        subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue(),
+        reasonForTerminationSelectobject = formulaire.INTERVENTIONS_EN_COURS$VALEUR730;
+
+    if(countryIsoCode !== 'CN' && countrySAPCode !== '28'){
+        for (var k=0; k< reasonForTerminationSelectobject.length; k++) {
+            if (reasonForTerminationSelectobject.options[k].getAttribute('code') == '1909'){
+                reasonForTerminationSelectobject.remove(k);
+            }
+        }
+    }
+    if(countryIsoCode !== 'IT' && countrySAPCode !== '15'){
+        for (var l=0; l< reasonForTerminationSelectobject.length; l++) {
+            if (reasonForTerminationSelectobject.options[l].getAttribute('code') == '1910'){
+                reasonForTerminationSelectobject.remove(l);
+            }
+        }
+    }
 };
 window.countryWiseSectionVisibility = function(){
     var countryIsoCode = neocase.form.field('UTILISATEURS$CHAMPU19').getText(),
@@ -156,6 +202,7 @@ window.launchOnloadcomplete = function () {
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
     setAllPopups();
     disableCusFields();
+    manipulateDropdowns();
     countryWiseSectionVisibility();
     
 };
