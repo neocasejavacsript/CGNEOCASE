@@ -4,6 +4,14 @@ Developer   - Ayan Dey
 Date	    - 11/18/2019 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - Hide Technical section
+
+---------------------------------------------------------
+
+Developer   - Soumyashree Nayak
+Date	    - 02/17/2021 (MM/DD/YYYY)
+Change No   - MOD-002
+Description - set Other location value according to Delivery address
+
 ---------------------------------------------------------*/ 
 // hide Technical section
 neocase.form.section("sectionb02be3a7974f055f17f2").hide();
@@ -411,21 +419,122 @@ window.updateReasonForAbsence = function(){
 		$('#ctl04_ctl12_ctl00_INTERVENTIONS_EN_COURS_VALEUR604').children('option[value="Maternity Leave"]').hide();
 	}
 };
+
+/**
+ * Remove option for topic and subtopic
+ * If subtopic = PL_Start Unpaid leave of absence [3330] : only "Unpaid Leave" will be available for Reason for absence
+ * If subtopic = PL_Start Unpaid leave of absence [3330] : absence type should show "Select..." with 2 possible values : "Paid Leave" or "Unpaid leave"
+ **/
+
+window.addAttri = function() {
+    console.log("Called");
+    
+    // For absence type
+    var select = document.getElementById('INTERVENTIONS_EN_COURS$VALEUR702');
+    var option;
+
+    for (var i=0; i<select.options.length; i++) {
+    option = select.options[i];
+
+    if (option.value == 'Unpaid Leave') {
+        option.selected = true;
+         return;
+    } 
+    }
+  };
+  window.addAttri1 = function() {
+    console.log("Called1");
+    
+    // For absence type
+    var select1 = document.getElementById('INTERVENTIONS_EN_COURS$VALEUR703');
+    var option1;
+
+    for (var i=0; i<select1.options.length; i++) {
+    option1 = select1.options[i];
+
+    if (option1.value == 'Unpaid Leave') {
+        option1.selected = true;
+         return;
+    } 
+    }
+  };
+
+window.loadTopic = function(){
+    if(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() !== null ){
+            updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
+			copyValue("INTERVENTIONS_EN_COURS$MOTCLE","INTERVENTIONS_EN_COURS$VALEUR203");
+        }
+};
+
+window.loadSubTopic = function(){
+    if(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() !== null ){
+		if(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() !== null ){ 
+            updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
+			copyValue("INTERVENTIONS_EN_COURS$ELEMENT","INTERVENTIONS_EN_COURS$VALEUR204");
+		}
+	}
+};
+
+// -------------------------MOD-002-Start--------------------------------//
+
+window.setOtherLocation = function(){
+	var fieldValue = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR709").getCode();
+    console.log(fieldValue);
+    var otherLocationLabel = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR478").label();
+	if(fieldValue == "2092" || fieldValue == "2093"){ // Private address = 2092; Other office location=2093
+		neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR478").mandatory(otherLocationLabel);
+	}else{
+		neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR478").noMandatory();
+	}
+};
+
+// -------------------------MOD-002-end--------------------------------//
+
+/********************************************
+* Launch Javascript only once on loadcomplete
+*********************************************/
+window.launchOnceLoadComplete = function(){
+    if(!sessionStorage.getItem('loadcomplete')){
+        sessionStorage.setItem('loadcomplete',true);
+        console.log("launched once on loadcomplete");
+        loadTopic();
+        setTimeout(function () {
+            loadSubTopic();  
+        }, 800);
+    }
+};
+
 /**************************
 * Launch Javascript on init
 ***************************/
 window.launchOnInit = function(){
-	    updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"),getParamFromUrl('topic'));
-    setTimeout(function(){
-        updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"),getParamFromUrl('subtopic'));
-        manageFields();
-		copyValue("INTERVENTIONS_EN_COURS$MOTCLE","INTERVENTIONS_EN_COURS$VALEUR203");
-		copyValue("INTERVENTIONS_EN_COURS$ELEMENT","INTERVENTIONS_EN_COURS$VALEUR204");
-		
-    }, 600);
-    
+    if(sessionStorage.getItem('loadcomplete')){
+        sessionStorage.removeItem('loadcomplete');
+        
+    }
+    if($('#requestarea').length > 0){
+        if($('.not-mandatory-msg').length > 0){
+            $('.not-mandatory-msg').hide();
+        }
+    }
+   
 };
 neocase.form.event.bind("init",launchOnInit);
+
+/**************************
+* Launch Javascript on loadcomplete
+***************************/
+window.launchOnloadcomplete = function(){
+    launchOnceLoadComplete();
+	manageFields();
+	if(document.getElementById('section366aa5a550dd5a165f76').style.display !== 'none'){ 
+		addAttri();
+		addAttri1();
+	}
+    setOtherLocation();
+    console.log('launch load complete');
+};
+neocase.form.event.bind("loadcomplete",launchOnloadcomplete);
 
 /****************************
 * Launch Javascript on submit

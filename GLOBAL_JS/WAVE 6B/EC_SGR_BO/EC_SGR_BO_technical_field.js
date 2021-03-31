@@ -309,6 +309,11 @@ window.countryWiseSectionVisibility = function(){
             neocase.form.section('section44488696b2a7d3bc14f4').hide();
             neocase.form.section('section9ebef54711e2b82b3524').hide();
         }
+        if(subtopic == '3011'){
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR512').hide();
+        }else{
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR512').show();
+        }
         console.log('work schedule');
         if(subtopic == "2973" && (countryIsoCode == 'LU' || countryIsoCode == 'BE')){
             console.log('Work schedule show');
@@ -480,20 +485,20 @@ window.manipulateDropdowns = function(){
         {
             countryCD : 'BE',
             country : 'Belgium',
-            workScheduleId : '0,2477,2478,2479,2482,2483,2484,2485,2486,2487,2488,2489,2491,2492,2493,2497,2498,2499,2500,2505,2507,2508,2509,2510,2511,2512,2513,2514,2515,2516,2517,2518,2519,2520,2521,2522,2523,2524,2525,2526,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2541,2543'
+            workScheduleId : '2477,2478,2479,2482,2483,2484,2485,2486,2487,2488,2489,2491,2492,2493,2497,2498,2499,2505,2507,2508,2509,2510,2511,2512,2513,2514,2515,2516,2517,2518,2519,2520,2521,2522,2523,2524,2525,2526,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2542,2543,2544'
 
         },
         {
             countryCD : 'LU',
             country : 'Luxembourg',
-            workScheduleId : '0,2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2501,2502,2503,2504,2505,2506,2507,2508,2540'
+            workScheduleId : '2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2502,2503,2504,2505,2506,2507,2508,2544'
         }
     ];
-    var workScheduleField = formulaire.INTERVENTIONS_EN_COURS$VALEUR755;
+    var workScheduleField = 'INTERVENTIONS_EN_COURS$VALEUR755';
     workSchedule.forEach(function(workScheduleObj){
         if(workScheduleObj.countryCD == countryIsoCode){
             var workScheduleIdArray = (workScheduleObj.workScheduleId).split(',');
-            $(workScheduleField.options).each(function() {
+            $("[name='" +workScheduleField+"'] > option").each(function(){
                 if(workScheduleIdArray.indexOf(this.getAttribute('code')) === -1 && this.value !== ''){
                     //console.log(this.getAttribute('code'));
                     $(this).remove();
@@ -657,11 +662,11 @@ window.subtopicVisibility = function(){
         console.log('subtopicVisibility2'+countryIsoCode);
         $('#ELEMENTS').children('option[value="3016"]').remove(); 
     }
-    if(countryIsoCode !== 'PT'){ //EC_Secondment to permanent subtopic visible only for Portugal
-        console.log('subtopicVisibility3'+countryIsoCode);
-        $('#ELEMENTS').children('option[value="3081"]').remove();
-    }
-    //$('#ELEMENTS').children('option[value="3081"]').remove();//Later on it should be comment out : For the time being it is hidden till business' confirm requirement
+    // if(countryIsoCode !== 'PT'){ //EC_Secondment to permanent subtopic visible only for Portugal
+    //     console.log('subtopicVisibility3'+countryIsoCode);
+    //     $('#ELEMENTS').children('option[value="3081"]').remove();
+    // }
+    $('#ELEMENTS').children('option[value="3081"]').remove();//Later on it should be comment out : For the time being it is hidden till business' confirm requirement
 };
 window.sectionShowHide = function(){
     showJobDetailsSection();

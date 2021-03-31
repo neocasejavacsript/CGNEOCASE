@@ -105,6 +105,49 @@ window.partTimeLeaveVisibility = function(){
         }
     }
 };
+/*----------------- calculate annual Salary Prorated -----------------*/
+window.calculateAnnualSalProrated = function() {
+	
+	var annualSalProNew = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR78');
+	var annualSalActualFTENew = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR76');
+	var empPercentage = neocase.form.field('UTILISATEURS$CHAMPU248').getValue();
+	var empPercentageNew = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR249').getValue();
+	//Annual salary prorated  (new) =If Employment percentage (new) is NOT empty ROUND((Annual salary at actual FTE (new) * Employment percentage (new)) / 100, 2) else ROUND((Annual salary at actual FTE (new) * Employment percentage) / 100, 2)
+	
+	if(annualSalActualFTENew) {
+        if (empPercentageNew != ''){
+			if (annualSalProNew){
+				var annualSalActualFTENewVal = parseFloat(annualSalActualFTENew.getValue());
+                var empPercentageNewValue = parseFloat(empPercentageNew);
+				if (isNaN(annualSalActualFTENewVal)) {
+					annualSalActualFTENewVal = 0;
+				}
+				if (isNaN(empPercentageNewValue)) {
+					empPercentageNewValue = 0;
+				}
+				annualSalProNew.setValue(((annualSalActualFTENewVal * empPercentageNewValue)/100).toFixed(2));
+			}
+			
+		}
+        else if (empPercentage!= ''){
+			if (annualSalProNew){
+				var annualSalActualFTENewVal1 = parseFloat(annualSalActualFTENew.getValue());
+                var empPercentageValue = parseFloat(empPercentage);
+				if (isNaN(annualSalActualFTENewVal1)) {
+					annualSalActualFTENewVal1 = 0;
+				}
+				if (isNaN(empPercentageValue)) {
+					empPercentageValue = 0;
+				}
+				annualSalProNew.setValue(((annualSalActualFTENewVal1 * empPercentageValue)/100).toFixed(2));
+			}
+        }
+        else{
+            console("No value present");
+        }
+		
+	}
+};
 window.sectionVisibilityFunc = function(){
     var countryISOCode = neocase.form.field("UTILISATEURS$CHAMPU19").getValue(),
         subTopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();
@@ -116,14 +159,21 @@ window.sectionVisibilityFunc = function(){
         console.log('Work schedule hide');
         neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR755").hide();
     }
+    if((countryISOCode !== 'PT' && subTopic == '2968') || (countryISOCode == 'PT' && subTopic !== '2968') || (countryISOCode !== 'PT' && subTopic !== '2968')){
+        neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR249").noMandatory();
+        disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR249")); //disable Employment percentage (new)
+        neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR76").noMandatory();
+        disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR76")); //disable Annual salary at actual FTE (new)
+    }
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR78")); //disable Annual salary prorated  (new)
 };
-/**************************
- * Launch Javascript on init
- ***************************/
-window.launchOnInit = function(){	
-};
-//neocase.form.event.bind("init",launchOnInit);
-neocase.form.event.bind('loadcomplete', launchOnInit);
+// /**************************
+//  * Launch Javascript on init
+//  ***************************/
+// window.launchOnInit = function(){	
+// };
+// //neocase.form.event.bind("init",launchOnInit);
+// neocase.form.event.bind('loadcomplete', launchOnInit);
 
 /**************************
 * Launch Javascript on loadcomplete
@@ -141,6 +191,9 @@ window.launchOnloadcomplete = function(){
 	manipulateDropdowns();
 	reasonForAbsenceFields();
     partTimeLeaveVisibility();
-	
+    if(countryCode == 'PT'){
+        calculateAnnualSalProrated();
+    }
+    
 };
 neocase.form.event.bind("loadcomplete",launchOnloadcomplete);

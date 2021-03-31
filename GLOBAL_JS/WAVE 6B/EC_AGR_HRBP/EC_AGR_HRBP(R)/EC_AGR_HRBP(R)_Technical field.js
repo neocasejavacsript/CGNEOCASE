@@ -4,17 +4,7 @@ Developer   - Ahana Sarkar
 Date	    - 11/02/2019 (MM/DD/YYYY)
 Change No   - MOD-001
 Description - Basic JS
----------------------------------------------------------
-Developer   - Ahana Sarkar
-Date	    - 02/23/2021 (MM/DD/YYYY)
-Change No   - MOD-002
-Description - partTimeLeaveVisibility() added
----------------------------------------------------------
-Developer   - Ahana Sarkar
-Date	    - 03/12/2021 (MM/DD/YYYY)
-Change No   - MOD-003
-Description - countryWiseSectionVisibility() updated - Work schedule (new) visibility for BE & LU
----------------------------------------------------------*/ 
+-------------------------------------------------------------------*/ 
 
 // hide Technical section
 checkSectionHide("section37b6e0495886e35199ed");
@@ -86,13 +76,10 @@ window.countryWiseSectionVisibility = function(){
             document.getElementById('section84e881c7b3478d8d1722').style.display = 'none';
             document.getElementById('section427f15229084f1a43748').style.display = 'none';
             document.getElementById('section3f5fe52bb66ddf74f137').style.display = 'none';
+            
         }
-        if(subtopic == "EC_Contract change" && (countryIsoCode == 'LU' || countryIsoCode == 'BE')){
-            console.log('Work schedule show');
-            document.getElementById('divLblINTERVENTIONS_EN_COURS_VALEUR755').parentElement.style.display = 'flex';
-        }else{
-            console.log('Work schedule hide');
-            document.getElementById('divLblINTERVENTIONS_EN_COURS_VALEUR755').parentElement.style.display = 'none';
+        if(subtopic == 'EC_Non start'){
+            document.getElementById('divINTERVENTIONS_EN_COURS_VALEUR512').style.display = 'none';
         }
     }catch(error){
         console.log(error);

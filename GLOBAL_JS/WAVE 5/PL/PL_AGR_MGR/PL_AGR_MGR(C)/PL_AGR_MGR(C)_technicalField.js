@@ -31,7 +31,12 @@ window.launchOnInit = function () {
     loadTopic();
     setTimeout(function () {
         loadSubTopic();
-    }, 800);
+    }, 800);   
+    if($('#requestarea').length > 0){
+        if($('.not-mandatory-msg').length > 0){
+            $('.not-mandatory-msg').hide();
+        }
+    }
 };
 neocase.form.event.bind("init", launchOnInit);
 
@@ -49,4 +54,3 @@ neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
  *****************************/
 window.launchOnSubmit = function () { };
 neocase.form.event.bind("submit", launchOnSubmit);
-

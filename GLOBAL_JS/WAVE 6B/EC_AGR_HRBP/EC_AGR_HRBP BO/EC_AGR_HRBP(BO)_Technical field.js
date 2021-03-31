@@ -117,6 +117,9 @@ window.countryWiseSectionVisibility = function(){
             neocase.form.section('section427f15229084f1a43748').hide();
             neocase.form.section('section18a545ec1d9cea2a8917').hide();
         }
+        if(subtopic == '3011'){
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR512').hide();
+        }
         console.log('work schedule');
         if(subtopic == "2973" && (countryIsoCode == 'LU' || countryIsoCode == 'BE')){
             console.log('Work schedule show');

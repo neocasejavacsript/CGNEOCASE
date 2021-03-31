@@ -331,6 +331,9 @@ window.countryWiseSectionVisibility = function(){
             neocase.form.section('section427f15229084f1a43748').hide();// Only for China - with organization
             neocase.form.section('section3f5fe52bb66ddf74f137').hide();//Variable Pay Scheme details
         }
+        if(subtopic == '3011'){
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR512').hide();
+        }
         if(countryIsoCode == 'PT'){
             if(subtopic == '2992'){ //EC_Resignation
                 neocase.form.section('section6067a76d04d3e544c43e').show(); //Please deliver original to Local HR<
@@ -548,20 +551,20 @@ window.manipulateDropdowns = function(){
         {
             countryCD : 'BE',
             country : 'Belgium',
-            workScheduleId : '2477,2478,2479,2482,2483,2484,2485,2486,2487,2488,2489,2491,2492,2493,2497,2498,2499,2500,2505,2507,2508,2509,2510,2511,2512,2513,2514,2515,2516,2517,2518,2519,2520,2521,2522,2523,2524,2525,2526,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2541,2543'
+            workScheduleId : '2477,2478,2479,2482,2483,2484,2485,2486,2487,2488,2489,2491,2492,2493,2497,2498,2499,2505,2507,2508,2509,2510,2511,2512,2513,2514,2515,2516,2517,2518,2519,2520,2521,2522,2523,2524,2525,2526,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2542,2543,2544'
 
         },
         {
             countryCD : 'LU',
             country : 'Luxembourg',
-            workScheduleId : '2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2501,2502,2503,2504,2505,2506,2507,2508,2540'
+            workScheduleId : '2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2502,2503,2504,2505,2506,2507,2508,2544'
         }
     ];
-    var workScheduleField = formulaire.INTERVENTIONS_EN_COURS$VALEUR755;
+    var workScheduleField = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR755');
     workSchedule.forEach(function(workScheduleObj){
         if(workScheduleObj.countryCD == countryIsoCode){
             var workScheduleIdArray = (workScheduleObj.workScheduleId).split(',');
-            $(workScheduleField.options).each(function() {
+            $("#" +workScheduleField['elementHTML']['id']+" > option").each(function(){
                 if(workScheduleIdArray.indexOf(this.getAttribute('code')) === -1 && this.value !== ''){
                     $(this).remove();
                 }
@@ -600,12 +603,13 @@ window.setEffectiveDateLimit = function(){
             $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR5')['elementHTML']['id']).val('');
             alert(errorMSG);
         }
-    }else{
-        $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR5')['elementHTML']['id']).datepicker( "option", "maxDate", '');
-        if($('#sectionafa86caf1d6a3f71fb40').find('.limit-set').length > 0){
-            $('#sectionafa86caf1d6a3f71fb40').find('.limit-set').remove();
-        }
     }
+    // else{
+    //     $('#'+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR5')['elementHTML']['id']).datepicker( "option", "maxDate", '');
+    //     if($('#sectionafa86caf1d6a3f71fb40').find('.limit-set').length > 0){
+    //         $('#sectionafa86caf1d6a3f71fb40').find('.limit-set').remove();
+    //     }
+    // }
 };
 window.loadTopic = function () {
     if (neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() !== null) {
