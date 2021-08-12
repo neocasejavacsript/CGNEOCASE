@@ -33,6 +33,13 @@ Date	    - 03/12/2021 (MM/DD/YYYY)
 Change No   - MOD-005
 Description - Work schedule (new) visibility for BE & LU
             - update manipulateDropdown() with new functionality for work schedule (new) population
+-------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 07/27/2021 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - For Subtopic EC_Change in working hours (2968): update - Portugal only
+            - workingHoursFieldVisibility() to maintain Work schedule & Return to initial working hours date visibility for PT
+            - calculateEmpPercentageNew(),limitEmpPercentage() added 
 -------------------------------------------------------------------------*/ 
 
 
@@ -268,11 +275,15 @@ window.countryWiseSectionVisibility = function(){
     console.log('countryWiseSectionVisibility' + subtopic);
     neocase.fieldInstances = [];    
     try{
+		neocase.form.field('UTILISATEURS$CHAMPU297').hide(); //Target Variable Compensation (100%) ARC
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').hide(); //Target Variable Compensation at Actual FTE %
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR748').hide();//Company Transfer date field
         neocase.form.section('section01ee534f26f37ec7ecd5').hide(); //Only for China : Additional Pay
         neocase.form.section('section4b46190382e80df0747b').hide(); //Only for China : Additional Pay : Allowances
         neocase.form.section('sectionf99e166117cf04466a47').hide(); //Note with speciality for China
         if(countryIsoCode == 'CN' && countrySAPCode == '28'){
+			neocase.form.field('UTILISATEURS$CHAMPU297').show(); //Target Variable Compensation (100%) ARC
+			neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').show();//Target Variable Compensation at Actual FTE %
             neocase.form.section('section40f08ffa22efc26c3d7d').show(); // Only for China - Start date
             neocase.form.section('section427f15229084f1a43748').show(); // Only for China - with organization
             if(subtopic == '2969' || subtopic == '2970' || subtopic == '2971' || subtopic == '2973' || subtopic == '2974' || subtopic == '2977'){//EC_Cost center change ;EC_Work location transfer;EC_Grade / Job change;EC_Contract change;EC_Promotion/demotion;EC_Company Change // +MOD-003
@@ -325,6 +336,8 @@ window.countryWiseSectionVisibility = function(){
             neocase.form.section('section84e881c7b3478d8d1722').hide();//To be visible only for Belgium
         }
         else{
+			neocase.form.field('UTILISATEURS$CHAMPU297').hide(); //Target Variable Compensation (100%) ARC
+			neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').hide(); //Target Variable Compensation at Actual FTE %
             neocase.form.section('section40f08ffa22efc26c3d7d').hide();// Only for China - Start date
             neocase.form.section('section2230db16f4162c31e868').hide();//Client location
             neocase.form.section('section84e881c7b3478d8d1722').hide();//To be visible only for Belgium
@@ -551,13 +564,13 @@ window.manipulateDropdowns = function(){
         {
             countryCD : 'BE',
             country : 'Belgium',
-            workScheduleId : '2477,2478,2479,2482,2483,2484,2485,2486,2487,2488,2489,2491,2492,2493,2497,2498,2499,2505,2507,2508,2509,2510,2511,2512,2513,2514,2515,2516,2517,2518,2519,2520,2521,2522,2523,2524,2525,2526,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2542,2543,2544'
-
+            workScheduleId : '2477,2478,2479,2482,2483,2484,2485,2486,2487,2488,2489,2491,2492,2493,2497,2498,2499,2505,2507,2508,2509,2510,2511,2512,2513,2514,2515,2516,2517,2518,2520,2521,2522,2523,2524,2525,2526,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2542,2543,2544,2560'
+    
         },
         {
             countryCD : 'LU',
             country : 'Luxembourg',
-            workScheduleId : '2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2502,2503,2504,2505,2506,2507,2508,2544'
+            workScheduleId : '2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2502,2503,2504,2505,2506,2507,2508,2544,2559'
         }
     ];
     var workScheduleField = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR755');
@@ -570,7 +583,7 @@ window.manipulateDropdowns = function(){
                 }
               });
         }
-    });
+    });    
 };
 window.partTimeLeaveVisibility = function(){
     var countryIsoCode = neocase.form.field('UTILISATEURS$CHAMPU19').getText(),
@@ -610,6 +623,65 @@ window.setEffectiveDateLimit = function(){
     //         $('#sectionafa86caf1d6a3f71fb40').find('.limit-set').remove();
     //     }
     // }
+};
+window.workingHoursFieldVisibility = function(){
+    var countryIsoCode = neocase.form.field('UTILISATEURS$CHAMPU19').getText(),
+        countrySAPCode = neocase.form.field('UTILISATEURS$CHAMPU232').getText(),
+        subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();
+    if(countryIsoCode == 'PT' && subtopic == '2968'){
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR57').mandatory();
+        neocase.form.field('UTILISATEURS$CHAMPU183').show();
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR380').show();
+    }
+    else{
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR57').noMandatory();
+        neocase.form.field('UTILISATEURS$CHAMPU183').hide();
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR380').hide();
+    }
+};
+/*----------------- calculate Employment percentage for PT only -----------------*/
+window.calculateEmpPercentageNew = function() {
+	var weeklyWorkHours = parseFloat(neocase.form.field('UTILISATEURS$CHAMPU184').getValue());
+	var weeklyWorkHoursNew = parseFloat(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR57').getValue());
+    var empPercentageNew = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR249');
+    var countryISOCode = neocase.form.field("UTILISATEURS$CHAMPU19").getValue(),
+        subTopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();
+	//Employment percentage (new) =  ROUND((Weekly work hours(new) * 100) / Weekly working hours, 2)
+	if(countryISOCode == 'PT' && subTopic == '2968'){
+        if(weeklyWorkHoursNew) {
+			if (weeklyWorkHours){
+				if (isNaN(weeklyWorkHoursNew)) {
+					weeklyWorkHoursNew = 0;
+				}
+				if (isNaN(weeklyWorkHours)) {
+					weeklyWorkHours = 0;
+				}
+                var empPercentageNewVal = ((weeklyWorkHoursNew * 100)/weeklyWorkHours).toFixed(2);
+                //empPercentageNew.setValue(n);
+                $('#'+empPercentageNew['elementHTML']['id']).val(empPercentageNewVal);
+                limitEmpPercentage();
+			}
+            else{
+                console.log("No value present");
+            }
+	    }
+    }
+   
+};
+window.limitEmpPercentage = function(){
+    var empPercentageNewField = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR249');
+    var empPercentageNew = $('#'+empPercentageNewField['elementHTML']['id']);
+        empPercentageNewLabel = $.trim(empPercentageNewField.label().split(':')[0]);
+    if(parseFloat(empPercentageNew.val()) > 100){
+        if(empPercentageNew.closest('div').find('.errMsg').length< 1){
+            empPercentageNew.closest('div').append('<span class="errMsg" style="color: red">'+empPercentageNewLabel+' must not exceed 100%</span>');
+        }
+        empPercentageNew.val(100);
+    }else{
+        if(empPercentageNew.closest('div').find('.errMsg').length > 0){
+            empPercentageNew.closest('div').find('.errMsg').remove();
+        }
+    }
 };
 window.loadTopic = function () {
     if (neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() !== null) {
@@ -661,6 +733,7 @@ window.launchOnloadcomplete = function(){
     variablePaySchemeDropdown();
     manipulateDropdowns();
     partTimeLeaveVisibility();
+    workingHoursFieldVisibility();
     console.log('launch load complete');
 };
 neocase.form.event.bind("loadcomplete",launchOnloadcomplete);

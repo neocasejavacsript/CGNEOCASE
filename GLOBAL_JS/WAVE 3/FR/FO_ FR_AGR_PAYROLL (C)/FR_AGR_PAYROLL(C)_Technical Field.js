@@ -60,12 +60,36 @@ Developer   - Ahana Sarkar
 Date	    - 01/27/2021 (MM/DD/YYYY)
 Change No   - MOD-011
 Description - Updated the logic for wfh allowance
+---------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 05/31/2021 (MM/DD/YYYY)
+Change No   - MOD-012
+Description - setSMPAllowance() to change Sustainable Mobility Package allowance before and after 1st July,2021 respectively;called from field
+---------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 07/06/2021 (MM/DD/YYYY)
+Change No   - MOD-013
+Description - articleLinManageWidSection() to generalize the adjustment of the<hr> line with section; and update for new 2 sections
+			- Hide Request details for subtopic FR_Addendum return;Renvoi avenant (3701)
+---------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 07/16/2021 (MM/DD/YYYY)
+Change No   - MOD-013
+Description - Auto-populated effective date to 1st November,2021 for subtopic FR_Addendum return;Renvoi avenant (3701)
+			- disable effective date for subtopic FR_Addendum return;Renvoi avenant (3701)
+---------------------------------------------------------------------------			
+Developer   - Ahana Sarkar
+Date	    - 07/22/2021 (MM/DD/YYYY)
+Change No   - MOD-014
+Description - Amount and Supporting document mange visibility for subtopic FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord) (3089)
+			- calculateWFHAmountAgreement() to calculate Work from home amount agreement;disable Amount for subtopic FR_Addendum return;Renvoi avenant (3089)
 ----------------------------------------------------------------------------*/
+
 
 //Hide Technical Section
 neocase.form.section("section17d9e1e3613d919575f8").hide();
 //Hide Hidden Section
-neocase.form.section("sectionfbdcfa0715d768bb875a").hide();
+//neocase.form.section("sectionfbdcfa0715d768bb875a").hide();
 
 /*-------------------------- For FR_02_Province -----------------STARTS------------*/
 window.calculate_monthlyRefndAmnt = function() {
@@ -240,11 +264,74 @@ window.checkSSARValueMaladie = function(){
 		}
 	}
 };
-//Calling the function using 1000 msec timer	
-//topicTimer = setInterval(loadTopic, 1000);
-	// setTimeout(function(){
-	// 	loadTopic();
-	// }, 500);
+window.setDateLimit = function(startDateField){
+	var stD,stDate,nextDay,alertMsg;
+	var startDateFieldId = $('#'+ neocase.form.field(startDateField)['elementHTML']['id']),
+		today = new Date(),
+		errorMsg = '<span style="color:red" class="error-msg-date"> This request can’t start before september 1st, 2020</span>';
+		startDateFieldId.datepicker( "option", "minDate", new Date('2020-09-01'));
+	
+};
+window.setSMPAllowance = function(){ // ++MOD-012
+	var startDateField = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR5'),
+		endDateField = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR261'),
+		subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic');
+	if(subtopic == '2699'){ // Subtopic = FR_03_Sustainable mobility package
+		if(startDateField.getValue() !== '' && endDateField.getValue() !== ''){
+			var restrictTime = new Date(2021,6,1).getTime(), // Date = 1st July,2021
+				stDateTime = startDateField.getDate().getTime(),
+				enDateTime = endDateField.getDate().getTime(),
+				SMPAllowance = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR910'),
+				alertChange = document.documentElement.lang == 'fr-FR' ? 'Bonjour. Le montant remboursé et le justificatif correspondant ont changé au 01/07/2021. Merci de bien vouloir ouvrir une autre requête débutant à cette date et mettre le 30/06/2021 en date de fin sur celle-ci. Merci de votre compréhension.' : 'Hello. The refunded amount and corresponding proof changed on 07/01/2021. Please open a new request starting on this date an put 06/30/2021 as end date on this request. Thanks for your understanding.';
+				errorAlert = document.documentElement.lang == 'fr-FR' ? 'Fournir la date de fin après la date de début':'Provide End date after Start date';
+			if((stDateTime !== ''|| typeof stDateTime !== 'undefined' || !isNaN(stDateTime)) && (enDateTime !== ''|| typeof enDateTime !== 'undefined' || !isNaN(enDateTime))){
+				if((stDateTime< restrictTime && enDateTime >= restrictTime) && (stDateTime<= enDateTime)){
+					alert(alertChange);
+					startDateField.setValue('');
+					endDateField.setValue('');
+				}
+				else if((stDateTime< restrictTime && enDateTime< restrictTime) && (stDateTime<= enDateTime)){
+					SMPAllowance.setCode('1832'); //value = 000000025000
+				}
+				else if((stDateTime >= restrictTime && enDateTime >= restrictTime) && (stDateTime<= enDateTime)){
+					SMPAllowance.setCode('2562');//value = 000000041670
+				}
+				else if((stDateTime >= restrictTime && enDateTime< restrictTime) || (stDateTime > enDateTime)){
+					alert(errorAlert);
+					startDateField.setValue('');
+					endDateField.setValue('');
+				}else{
+					console.log("Something messy.Please check Start date & End date");
+				}
+			}
+		}
+	}
+};
+window.articleLinManageWidSection = function(mainSection, articleSection){
+	
+	if($('#'+mainSection).css('display') != 'none' && $('#'+articleSection).css('display') != 'none'){ 
+		if($('#'+mainSection).find('hr').length > 0){
+			$('#'+mainSection).find('hr').remove();
+		}
+		if($('#'+articleSection).find('hr').length< 1){
+			$('#'+articleSection).append('<hr>');
+		}
+	}
+};
+window.calculateWFHAmountAgreement = function(){
+	var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic'),
+		numberOfDays = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR944").getValue(),
+		amountOfAgreement = 0,zeroCheck = 0,
+		WFHAllowanceAgreement = '+0000000';
+	if(subtopic == '3089'){ // Subtopic: FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)
+		if(numberOfDays || numberOfDays !== ''){
+			amountOfAgreement = parseFloat(numberOfDays) * 2.5 > 35 ? 35 : parseFloat(numberOfDays) * 2.5; //number of days x 2.5 and never more than 35
+		}
+		neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR964").setValue(amountOfAgreement);
+		WFHAllowanceAgreement += (amountOfAgreement !== zeroCheck) ? (amountOfAgreement * 1000) : '00000';
+		neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR965").setValue(WFHAllowanceAgreement);
+	}
+};
 /********************************************
 * Launch Javascript only once on loadcomplete
 *********************************************/
@@ -256,61 +343,44 @@ window.launchOnceLoadComplete = function(){
         setTimeout(function () {
 			loadSubtopic();
 			//++MOD-006
-			if($('#section60d59d8a7a0fef16fa06').css('display') != 'none' && $('#section2b5def23bad07230c544').css('display') != 'none'){ // Section: Social security absence + How to declare my social security absence
-				if($('#section2b5def23bad07230c544').find('hr').length > 0){
-					$('#section2b5def23bad07230c544').find('hr').remove();
-				}
-				if($('#section60d59d8a7a0fef16fa06').find('hr').length< 1){
-					$('#section60d59d8a7a0fef16fa06').append('<hr>');
-				}
+			articleLinManageWidSection('section2b5def23bad07230c544', 'section60d59d8a7a0fef16fa06'); // Section: Social security absence + How to declare my social security absence
+			articleLinManageWidSection('section52cea27607cd0ad68e1f', 'section4edda08382cf6f22e3ed'); // Section: FR_Work from home allowance without contract addendum. + How to declare WFH
+			articleLinManageWidSection('sectionb16e96806dbcee0df0b8', 'section9a2c948c0381a2c12151'); // Section: FR_Work From Home addendum. + New work from home addendum article
+			var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic');
+			if(subtopic == '3701'){ // Subtopic: FR_Addendum return;Renvoi avenant
+				//neocase.form.field('question').noMandatory();
+				neocase.form.field('question').hide();
+				neocase.form.section('section6e882a6f246deed213dd').hide();
+				$('#'+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR420')['elementHTML']['id']).datepicker('setDate', new Date('2021-11-01')); // auto-populated effective date to 1st November,2021
+				disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR420")); //disable effective date 
 			}
-			
-			if($('#section4edda08382cf6f22e3ed').css('display') != 'none' && $('#section52cea27607cd0ad68e1f').css('display') != 'none'){ // Section: FR_Work from home allowance without contract addendum. + How to declare WFH
-				if($('#section52cea27607cd0ad68e1f').find('hr').length > 0){
-					$('#section52cea27607cd0ad68e1f').find('hr').remove();
-				}
-				if($('#section4edda08382cf6f22e3ed').find('hr').length< 1){
-					$('#section4edda08382cf6f22e3ed').append('<hr>');
-				}
+			neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR964").hide();
+			if(subtopic == '3089'){ // Subtopic: FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)
+				neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR964").show();
+				disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR964"));
+				disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR965"));
+				neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR945").hide();
+				articleLinManageWidSection('section52cea27607cd0ad68e1f','section749482fad7aaa4fff85c');
 			}
-			
-			
         }, 800);
     }
 };
-
-
-window.setDateLimit = function(startDateField){
-    var stD,stDate,nextDay,alertMsg;
-    var startDateFieldId = $('#'+ neocase.form.field(startDateField)['elementHTML']['id']),
-        today = new Date(),
-        errorMsg = '<span style="color:red" class="error-msg-date"> This request can’t start before september 1st, 2020</span>';
-		startDateFieldId.datepicker( "option", "minDate", new Date('2020-09-01'));
-	
-};
-
 /**************************
 * Launch Javascript on loadcomplete
 ***************************/
 window.launchOnloadcomplete = function(){
 	launchOnceLoadComplete();
+	//setSMPAllowance();
     console.log('launch load complete');
 
 };
 neocase.form.event.bind("loadcomplete",launchOnloadcomplete);
+
 window.onloadForm = function () {
     if(sessionStorage.getItem('loadcomplete')){
         sessionStorage.removeItem('loadcomplete');
     }
-	disableFields();
-	//Calling the function using 1000 msec timer	
-	//topicTimer = setInterval(loadTopic, 1000);
-	//topicTimer = 
-
-
-	//Calling the function using 1000 msec timer	
-	//topicTimer1 = 
-	
+	disableFields();	
 };
 neocase.form.event.bind('init', onloadForm);
 
@@ -464,9 +534,7 @@ window.launchOnSubmit = function(){
 			return false;
 		}
 	}
-	// Mod-010 Ends
-
-	
+	// Mod-010 Ends	
 };
 neocase.form.event.bind("submit",launchOnSubmit);
 //MOD-007 ends

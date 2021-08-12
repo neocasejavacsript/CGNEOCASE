@@ -15,10 +15,26 @@ Developer   - Ahana Sarkar
 Date	    - 11/09/2020 (MM/DD/YYYY)
 Change No   - MOD-003
 Description - calculate,Show or hide monthly annual salary field based on topic FR_Certificates (in English) / Attestations (in French) [code=2813] or subtopics under the same
--------------------------------------------------------*/ 
+------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 05/11/2021 (MM/DD/YYYY)
+Change No   - MOD-004
+Description - setNomenclature() added to add “n°rq_GGID_LASTNAME_Firstname”
+----------------------------------------------------------------------------*/ 
 
 //hide technical section
 neocase.form.section("sectionb36e5127657a3dd43dd0").hide();	//MOD-001
+window.setNomenclature = function(){
+    var reqNo = neocase.form.field('INTERVENTIONS_EN_COURS$NUMERO').getValue(),
+    ggid = neocase.form.field("UTILISATEURS$CHAMPU1").getValue(),
+    lastname = neocase.form.field("UTILISATEURS$CHAMPU8").getValue(),
+    firstname = neocase.form.field("UTILISATEURS$CHAMPU9").getValue();
+    var nomenclature = reqNo + '_' + ggid + '_' + lastname + '_' + firstname;
+    var nomenclatureField = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR963');
+    if(nomenclatureField){
+        nomenclatureField.setValue(nomenclature);
+    }    
+};
 
 /************************************
  * Launch Javascript on loadcomplete
@@ -51,6 +67,7 @@ window.launchOnloadcomplete = function(){
     }else{
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR429').hide();
     }
+    setNomenclature();
 };
 
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

@@ -56,6 +56,13 @@ V20 - PJUY - 06/08/2019
     - add controle on localstorage
 V21 - PJUY - 10/01/2020
     - change class 'req' to 'required'
+V22 - PJUY MME - 19/03/2021
+	- correction de l'ID des champs fichiers dans la fonction "champObligatoire"
+V23 - PJUY - 30/03/2021
+	- Correction du css des champs obligatoire côté backoffice
+V24 - PJUY - 26/05/2021
+	- add controle on field label before editing it
+	- update controle on 'champObligatoire' BO side, 'VALID===true : use the attribute required instead of localStorage'
 */
 
 /*--------------------------------------------------------------------------
@@ -155,6 +162,9 @@ window.champObligatoire = function (FIELD, VALID) {
     if (document.getElementById(FIELD.id)) {
         //ID du champ obligatoire
         var FIELD_ID = FIELD.id;
+  if (FIELD_ID.search("_display") != -1) {
+            FIELD_ID = FIELD_ID.replace("_display", "");
+        }
         var LBL_FIELD_ID;
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             LBL_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
@@ -186,13 +196,15 @@ window.champObligatoire = function (FIELD, VALID) {
                 if (BM_VALUES.search(BM_SEARCH) != -1 || BM_CLIENT.search(BM_SEARCH) != -1) {
                     BM_CLIENT = BM_CLIENT.replace(BM_REPLACE, "");
                     BM_VALUES = BM_VALUES.replace(BM_REPLACE, "");
-                    document.getElementById(LBL_FIELD_ID).className = "label";
                 }
+				if( document.getElementById(LBL_FIELD_ID) ){
+					document.getElementById(LBL_FIELD_ID).className = "label";
+				}
                 document.getElementById("champsobligatoiresproprietes").value = BM_VALUES;
                 document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
             } else {
                 //enable mandatory field
-                if (localStorage.getItem("mandatoryListFields").search(BM_SEARCH) != -1) {
+                if (FIELD.required) {
                     if (BM_VALUES.search(BM_SEARCH) == -1 && BM_CLIENT.search(BM_SEARCH) == -1) {
                         if (BM_VALUES != "" && BM_VALUES != " ") {
                             BM_VALUES = BM_VALUES + BM_REPLACE;
@@ -202,7 +214,9 @@ window.champObligatoire = function (FIELD, VALID) {
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
                     }
-                    document.getElementById(LBL_FIELD_ID).className = "label required";
+					if( document.getElementById(LBL_FIELD_ID) ){
+						document.getElementById(LBL_FIELD_ID).className = "label required";
+					}
                 }
             }
         }
@@ -262,7 +276,7 @@ window.viderChamp = function (FIELD) {
         DECOCHER LES CHAMPS NEOCASE
         ***************************/
         if (FIELD.type == "checkbox") {
-            //Décocher case à cocher
+            //décocher case à cocher
             FIELD.checked = false;
             FIELD.value = 0;
         } else if (FIELD.type == "text") {

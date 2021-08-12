@@ -1,24 +1,14 @@
-//FR GENERAL REQUEST - GENERIC FORM 2-BO - Technical Field
+//FR General request - BO - Technical Field
 /*---------------------------------------------
-
-Developer   - Smita Singh
-Date	    - 10/22/2018 (MM/DD/YYYY)
-Change No   - MOD-001
-Description - Hide Technical section
-------------------------------------------------------
-Developer   - Ahana Sarkar
-Date	    - 03/05/2020 (MM/DD/YYYY)
-Change No   - MOD-002
-Description - Read only 'Request Details'
-------------------------------------------
 Developer   - Ahana Sarkar
 Date	    - 05/11/2021 (MM/DD/YYYY)
-Change No   - MOD-004
+Change No   - MOD-001
 Description - setNomenclature() added to add “n°rq_GGID_LASTNAME_Firstname”
 ----------------------------------------------------------------------------*/ 
 
+
 //hide technical section
-neocase.form.section("sectionf0c153b8a166e640619c").hide();	//MOD-001
+neocase.form.section("sectionab9d78769608a6cd42bc").hide();
 
 window.setNomenclature = function(){
     var reqNo = neocase.form.field('INTERVENTIONS_EN_COURS$NUMERO').getValue(),
@@ -31,19 +21,14 @@ window.setNomenclature = function(){
         nomenclatureField.setValue(nomenclature);
     }    
 };
-/************************************
+
+/**************************
  * Launch Javascript on loadcomplete
- ************************************/
-window.launchOnloadcomplete = function(){
-	/*-- Read only 'Request Details'--*/
-	if(formulaire.question.value !== ''){
-        formulaire.question.readOnly = true;
-    }
-    else{
-        formulaire.question.readOnly = false;
-    }
-    /*--X-- Read only 'Request Details'--X--*/
+ ***************************/
+//* ------------- End of MOD-002 changes -------------*//
+window.launchOncomplete = function () {
     setNomenclature();
 };
 
-neocase.form.event.bind('loadcomplete', launchOnloadcomplete);
+neocase.form.event.bind('loadcomplete', launchOncomplete);
+

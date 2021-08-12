@@ -14,6 +14,11 @@ Developer   - Ahana Sarkar
 Date	    - 02/28/2020 (MM/DD/YYYY)
 Change No   - MOD-003
 Description - Read only 'Request Details'
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 05/11/2021 (MM/DD/YYYY)
+Change No   - MOD-004
+Description - setNomenclature() added to add “n°rq_GGID_LASTNAME_Firstname”
 ----------------------------------------------------------------------------*/ 
 
 //hide technical section
@@ -265,7 +270,18 @@ popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR438,"/Custom_Referential/emplo
 
 };
 /* ------------- MOD-001 ----------------- */
-
+window.setNomenclature = function(){
+    var reqNo = neocase.form.field('INTERVENTIONS_EN_COURS$NUMERO').getValue(),
+    ggid = neocase.form.field("UTILISATEURS$CHAMPU1").getValue(),
+    lastname = neocase.form.field("UTILISATEURS$CHAMPU8").getValue(),
+    firstname = neocase.form.field("UTILISATEURS$CHAMPU9").getValue();
+    var nomenclature = reqNo + '_' + ggid + '_' + lastname + '_' + firstname;
+    var nomenclatureField = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR963');
+    if(nomenclatureField){
+        nomenclatureField.setValue(nomenclature);
+    }    
+    //disableField(nomenclatureField);
+};
 
 /**************************
 * Launch Javascript on init
@@ -280,9 +296,9 @@ window.launchOnInit = function(){
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR255"));
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR384"));
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR385"));
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR262"));
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR263"));
-	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR264"));
+	// disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR262"));
+	// disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR263"));
+	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR264"));
 	
 	// Disabling Documents Fields
 	disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR438"));	// MOD-001
@@ -302,6 +318,7 @@ window.launchOnloadcomplete = function(){
         formulaire.question.readOnly = false;
     }
     /*--X-- Read only 'Request Details'--X--*/
+	setNomenclature();
 };
 
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

@@ -36,6 +36,12 @@ Date	    - 10/19/2020 (MM/DD/YYYY)
 Change No   - MOD-007
 Description - Rollback Mod-006
             - Remove reason = Salary Continuance from dropdown
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 04/16/2021 (MM/DD/YYYY)
+Change No   - MOD-008
+Description - mandateDocument(fieldname,subtopic) to make file type field mandatory for specific subtopics
+            - displayDoc() - merged function for all the show/hide field and section except LOA
 ---------------------------------------------------------*/ 
 
 // hide Technical section
@@ -183,6 +189,72 @@ window.displayLoaDoc = function(){
 //     }
 // };
 
+/*---------Make Document field as Mandatory for required subtopic---++MOD-008------*/
+window.mandateDocument = function(fieldName, subtopic){ // ++MOD-008
+    var subtopicPopulated = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();
+    var fieldLabel = $.trim(neocase.form.field(fieldName).label().split(':')[0]),
+        divEle = $(neocase.form.field(fieldName)['elementHTML']).closest('div');
+    if(subtopicPopulated == subtopic){
+            neocase.form.field(fieldName).mandatory(fieldLabel);
+            if($(divEle).find('.ValidatorCautionBox').length< 1){
+                $(divEle).find('.fileupload').append("<span class='ValidatorCautionBox'></span>");
+            }
+            $($(divEle).find('.btn').children()[2]).attr('neo-required-message', fieldLabel);
+    }
+    $($(divEle).find('.btn').children()[1]).on('change', function () {    
+        console.log('Changing...');
+            if(subtopicPopulated == subtopic){
+                var interval  = setInterval(function() {
+                    if($($(divEle).find('.btn').children()[2]).val() != '' && $(divEle).find('.ValidatorCautionBox').length > 0){
+                        console.log('File uploaded'+$('.fileinput-display').children().length);
+                        $(divEle).find('.ValidatorCautionBox').remove();
+                        $($(divEle).find('.btn').children()[2]).removeAttr('neo-required-message');
+                        clearInterval(interval);
+                    }
+                }, 1000);
+            }
+    
+    });
+    $($(divEle).find('.btn').children()[2]).on('change', function () {    
+        console.log('Changing to...');
+            if(subtopicPopulated == subtopic){
+                if ($($(divEle).find('.btn').children()[2]).val() == '' && $(divEle).find('.ValidatorCautionBox').length<= 0){
+                    console.log('File removed');
+                    if($(divEle).find('.ValidatorCautionBox').length< 1){
+                        $(divEle).find('.fileupload').append("<span class='ValidatorCautionBox'></span>");
+                        $($(divEle).find('.btn').children()[2]).attr('neo-required-message', fieldLabel);
+                    }
+                }
+            }  
+    });
+};
+/*----xxxxx-----Make Document field as Mandatory for required subtopic---xxxxx------*/
+
+/*---------Document display for required subtopic---------*/
+window.displayDoc = function(){
+    var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic'),
+        countryISOCode = neocase.form.field("UTILISATEURS$CHAMPU19").getValue();
+    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR705').hide(); // Hide Supporting document
+    if(countryISOCode == 'SE'){
+        if(subtopic == '2889'){ // SCFI_Change in working hours
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR705').show(); // Show Supporting document
+        }
+    }
+    neocase.form.section('sectione9065459a3c77f8d97c1').hide();
+    neocase.form.section('section9a8e38f65d8a41ef52d1').hide();
+    if(countryISOCode == 'FI'){
+        if(subtopic == '3319'){ // SCFI_Retirement
+            neocase.form.section('sectione9065459a3c77f8d97c1').show();  
+            mandateDocument("INTERVENTIONS_EN_COURS$VALEUR510", '3319'); // Here subtopic = 3319
+        }
+        else if(subtopic == '3318'){ // SCFI_Resignation
+            neocase.form.section('section9a8e38f65d8a41ef52d1').show();
+            mandateDocument("INTERVENTIONS_EN_COURS_VALEUR509", '3318'); // Here subtopic = 3318
+        }        
+    }    
+};
+/*----xxxxx-----Document display for required subtopic---xxxxx------*/
+
 /**************************
 * Launch Javascript on init
 ***************************/
@@ -192,7 +264,6 @@ window.launchOnInit = function(){
     }
     setPopups();
     disableAllFields();
-   
 };
 neocase.form.event.bind("init",launchOnInit);
 
@@ -205,7 +276,8 @@ window.launchOnceLoadComplete = function(){
         console.log("launched once on loadcomplete");
         loadTopic();
         setTimeout(function () {
-            loadSubTopic();  
+            loadSubTopic(); 
+            displayDoc(); 
         }, 800);
     }
 };
@@ -222,9 +294,9 @@ window.launchOnloadcomplete = function(){
         //showLwd();// ++MOD-006
     }
     var reasonAbsenceSalCode = $("#"+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR517')['elementHTML']['id'] + " option[code='1829']");
-        if($(reasonAbsenceSalCode).length > 0){
-            $(reasonAbsenceSalCode).remove(); // ++MOD-007
-        }
+    if($(reasonAbsenceSalCode).length > 0){
+        $(reasonAbsenceSalCode).remove(); // ++MOD-007
+    }
     console.log('launch load complete');
 };
 neocase.form.event.bind("loadcomplete",launchOnloadcomplete);

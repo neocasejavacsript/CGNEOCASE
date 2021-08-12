@@ -50,21 +50,34 @@ V17 - PJU - 11/01/2018
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
 V18 - PJU - 01/03/2018
 	- add specific code for 'MOTCLE' in manageFields
+V19 - PJU - 24/08/2017
+    - La fonction qui ajoute la classe 'req' au label d'un champ obligatoire côté BO était appelée au mauvais endroit
+V20 - PJUY - 06/08/2019
+    - add controle on localstorage
+V21 - PJUY - 10/01/2020
+    - change class 'req' to 'required'
+V22 - PJUY MME - 19/03/2021
+	- correction de l'ID des champs fichiers dans la fonction "champObligatoire"
+V23 - PJUY - 30/03/2021
+	- Correction du css des champs obligatoire côté backoffice
+V24 - PJUY - 26/05/2021
+	- add controle on field label before editing it
+	- update controle on 'champObligatoire' BO side, 'VALID===true : use the attribute required instead of localStorage'
 */
 
 /**************************
  Fields and display settings
  ***************************/
-var Tableau = [
+ var Tableau = [
     // 'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change;SCFI_Change in management team;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Grade/job change;SCFI_Promotion/demotion;SCFI_Allowances;SCFI_ARC values;SCFI_Change in pay;SCFI_Change in position;SCFI_Management team;SCFI_Management team'
     'section55f892f62f3afcca3e30#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|SCFI_Employment data change;SCFI_Mass upload',
-    'section9213255958525ed8d3c6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Promotion/demotion;SCFI_Pay change',
+    'section9213255958525ed8d3c6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Promotion/demotion;SCFI_Pay change;SCFI_Variable pay change',
     // 'section53dadebc95298c97becf#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Change in working hours;SCFI_Cost center change;SCFI_Pay change;SCFI_Promotion/demotion',
     'section53dadebc95298c97becf#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
     'section1d7a8c6c5fee152def1c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Promotion/demotion',
     'section47f43bb03a3b54d3755c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Cost center change;SCFI_Promotion/demotion',
     'sectionca8ab669a43738d73f85#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
-    'section3a1672591877062f60c4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours;SCFI_Promotion/demotion;SCFI_Pay change',
+    'section3a1672591877062f60c4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours;SCFI_Promotion/demotion;SCFI_Pay change;SCFI_Variable pay change',
     'sectionbda9142fda9eeeb04f53#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in management team',
     'sectionb53edb2799b26257c98a#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Allowance change',
     'sectionc8335e456c745f700ba4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Grade/job change;SCFI_Cost center change;SCFI_Promotion/demotion',
@@ -137,6 +150,7 @@ window.affichageChamp = function (FIELD, VALID) {
     }
 };
 
+
 /**************************************
  FONCTION GERANT LES CHAMPS OBLIGATOIRES
  ***************************************/
@@ -144,15 +158,18 @@ window.champObligatoire = function (FIELD, VALID) {
     if (document.getElementById(FIELD.id)) {
         //ID du champ obligatoire
         var FIELD_ID = FIELD.id;
+  if (FIELD_ID.search("_display") != -1) {
+            FIELD_ID = FIELD_ID.replace("_display", "");
+        }
         var LBL_FIELD_ID;
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             LBL_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
         } else if (FIELD_ID.search("UTILISATEURS") != -1) {
             LBL_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "lblUTILISATEURS");
         }
-		/**************
-		 CÔTE BACKOFFICE
-		 ***************/
+        /**************
+        CÔTE BACKOFFICE
+        ***************/
         var BACKOFFICE_MANDATORY = document.getElementById("champsobligatoiresproprietes");
         if (BACKOFFICE_MANDATORY) {
             BM_FIELD = FIELD_ID.replace("$", "\\$");
@@ -166,6 +183,8 @@ window.champObligatoire = function (FIELD, VALID) {
                     localStorage.setItem("mandatoryListFields", BM_VALUES);
                 } else if (BM_CLIENT != "" && BM_CLIENT != " ") {
                     localStorage.setItem("mandatoryListFields", BM_CLIENT);
+                }else{
+                    localStorage.setItem("mandatoryListFields", "");
                 }
             }
             if (VALID === false) {
@@ -173,13 +192,15 @@ window.champObligatoire = function (FIELD, VALID) {
                 if (BM_VALUES.search(BM_SEARCH) != -1 || BM_CLIENT.search(BM_SEARCH) != -1) {
                     BM_CLIENT = BM_CLIENT.replace(BM_REPLACE, "");
                     BM_VALUES = BM_VALUES.replace(BM_REPLACE, "");
-                    document.getElementById(LBL_FIELD_ID).className = "label";
                 }
+				if( document.getElementById(LBL_FIELD_ID) ){
+					document.getElementById(LBL_FIELD_ID).className = "label";
+				}
                 document.getElementById("champsobligatoiresproprietes").value = BM_VALUES;
                 document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
             } else {
                 //enable mandatory field
-                if (localStorage.getItem("mandatoryListFields").search(BM_SEARCH) != -1) {
+                if (FIELD.required) {
                     if (BM_VALUES.search(BM_SEARCH) == -1 && BM_CLIENT.search(BM_SEARCH) == -1) {
                         if (BM_VALUES != "" && BM_VALUES != " ") {
                             BM_VALUES = BM_VALUES + BM_REPLACE;
@@ -188,15 +209,17 @@ window.champObligatoire = function (FIELD, VALID) {
                             BM_CLIENT = BM_CLIENT + BM_REPLACE;
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
-                        document.getElementById(LBL_FIELD_ID).className = "label req";
                     }
+					if( document.getElementById(LBL_FIELD_ID) ){
+						document.getElementById(LBL_FIELD_ID).className = "label required";
+					}
                 }
             }
         }
 
-		/*******************************
-		 VALIDATOR DES CHAMPS FORMULAIRES
-		 ********************************/
+        /*******************************
+        VALIDATOR DES CHAMPS FORMULAIRES
+        ********************************/
         var VALIDATOR_FIELD_ID;
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             VALIDATOR_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
@@ -214,9 +237,9 @@ window.champObligatoire = function (FIELD, VALID) {
             ValidatorEnable(document.getElementById(VALIDATOR_FIELD_ID), VALID);
         }
 
-		/*********************************
-		 VALIDATOR DES BOUTONS RADIO CUSTOM
-		 **********************************/
+        /*********************************
+        VALIDATOR DES BOUTONS RADIO CUSTOM
+        **********************************/
         if (document.getElementById(FIELD.id + "_radio_Validator")) {
             var RADIO_VALIDATOR_ID = FIELD.id + "_radio_Validator";
             if (VALID === true) {
@@ -233,9 +256,9 @@ window.champObligatoire = function (FIELD, VALID) {
  **************************/
 window.viderChamp = function (FIELD) {
     if (document.getElementsByName(FIELD.name + "_radio").length > 0) {
-		/****************************
-		 DECOCHER BOUTONS RADIO CUSTOM
-		 *****************************/
+        /****************************
+        DECOCHER BOUTONS RADIO CUSTOM
+        *****************************/
         //récupérer les boutons radio
         var RADIO_NAME = document.getElementsByName(FIELD.name + "_radio");
         //décocher tous les boutons radio
@@ -245,11 +268,11 @@ window.viderChamp = function (FIELD) {
         //mettre la valeur par défaut au champ select masqué
         FIELD.value = "";
     } else {
-		/**************************
-		 DECOCHER LES CHAMPS NEOCASE
-		 ***************************/
+        /**************************
+        DECOCHER LES CHAMPS NEOCASE
+        ***************************/
         if (FIELD.type == "checkbox") {
-            //Décocher case à cocher
+            //décocher case à cocher
             FIELD.checked = false;
             FIELD.value = 0;
         } else if (FIELD.type == "text") {

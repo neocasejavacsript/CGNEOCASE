@@ -12,6 +12,11 @@ Date	    - 03/12/2021 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Work schedule (new) visibility for BE & LU
             - update manipulateDropdown() with new functionality for work schedule (new) population
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 04/13/2021 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - Add mandatory asterisk(*) to Response
 ---------------------------------------------------------*/ 
 /*---- MOD-001 STARTS ----*/
 console.log("EC_AGR_EE(M)");
@@ -204,13 +209,13 @@ window.manipulateDropdowns = function(){
         {
             countryCD : 'BE',
             country : 'Belgium',
-            workScheduleId : '2477,2478,2479,2482,2483,2484,2485,2486,2487,2488,2489,2491,2492,2493,2497,2498,2499,2505,2507,2508,2509,2510,2511,2512,2513,2514,2515,2516,2517,2518,2519,2520,2521,2522,2523,2524,2525,2526,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2542,2543,2544'
-
+            workScheduleId : '2477,2478,2479,2482,2483,2484,2485,2486,2487,2488,2489,2491,2492,2493,2497,2498,2499,2505,2507,2508,2509,2510,2511,2512,2513,2514,2515,2516,2517,2518,2520,2521,2522,2523,2524,2525,2526,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2542,2543,2544,2560'
+    
         },
         {
             countryCD : 'LU',
             country : 'Luxembourg',
-            workScheduleId : '2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2502,2503,2504,2505,2506,2507,2508,2544'
+            workScheduleId : '2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2502,2503,2504,2505,2506,2507,2508,2544,2559'
         }
     ];
     var workScheduleField = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR755');
@@ -238,7 +243,23 @@ window.sectionVisibilityFunc = function(){
         neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR755").hide();
     }
 };
-
+/*---- Add mandatory asterisk(*) to Response----*/
+window.responseMandateAsterisk = function(){
+    var responsePanel = $('.mix-caseForm-panel-response');
+    responsePanel.css('position','relative'); // add position relative to make the * absolute
+    if(responsePanel.find('.ValidatorCautionBox').length< 1){
+        responsePanel.append('<span class="ValidatorCautionBox customAsterisk" style="right: 0;" title="response"></span>');
+    }
+    $('textarea[id*="response"]').on('blur',function(){
+        if($('textarea[id*="response"]').val().length > 0){
+            responsePanel.find('.ValidatorCautionBox').remove();
+        }else{
+            if(responsePanel.find('.ValidatorCautionBox').length< 1){
+                responsePanel.append('<span class="ValidatorCautionBox customAsterisk" style="right: 0;" title="response"></span>');
+            }
+        }
+    });    
+};
 /**************************
 * Launch Javascript on loadcomplete
 ***************************/
@@ -251,7 +272,7 @@ window.launchOnloadcomplete = function(){
 	setPopups();
 	mandateResigLetterCountryWise();
 	reasonForAbsenceFields();
-	
+	responseMandateAsterisk();
 };
 neocase.form.event.bind("loadcomplete",launchOnloadcomplete);
 

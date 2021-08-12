@@ -59,29 +59,29 @@ window.disableFields = function(){
 
 /* ------------- MOD-001 ----------------- */
 
-window.setRejectionMandate = function(){ // ++MOD-003
-    var decManager = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR273').getCode();
-    if(decManager !== '430'){
-        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR274').noMandatory();
-    }else{
-        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR274').mandatory();
-    }
-};
+// window.setRejectionMandate = function(){ // ++MOD-003
+//     var decManager = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR273').getCode();
+//     if(decManager !== '430'){
+//         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR274').noMandatory();
+//     }else{
+//         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR274').mandatory();
+//     }
+// };
 /**************************
 * Launch Javascript on init
 ***************************/
 window.launchOnInit = function(){
 
-neocase.form.section('sectiona2e40fb2909aa3b1bb4a').hide();
+    neocase.form.section('sectiona2e40fb2909aa3b1bb4a').hide();
 
-setPopups();		// MOD-001
-disableFields();	// MOD-001
+    setPopups();		// MOD-001
+    disableFields();	// MOD-001
 
 };
 neocase.form.event.bind("init",launchOnInit);
 
 
-window.launchOnLoadComplete = function () {  
-    setRejectionMandate();// ++MOD-003
-};
-neocase.form.event.bind("loadcomplete", launchOnLoadComplete);
+// window.launchOnLoadComplete = function () {  
+//     setRejectionMandate();// ++MOD-003
+// };
+// neocase.form.event.bind("loadcomplete", launchOnLoadComplete);

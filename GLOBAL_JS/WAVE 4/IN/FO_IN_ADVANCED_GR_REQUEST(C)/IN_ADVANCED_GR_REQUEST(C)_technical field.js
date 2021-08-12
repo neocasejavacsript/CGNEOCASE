@@ -22,6 +22,11 @@ Description -   Prevent an infinite loop due to methode updateAndDisabledField o
                 which trigger back methode updateAndDisableField and so on...
                 Adding controles, variables and methodes to simplify the code
 
+******************************************************************
+Version - MOD-004
+Author - Ahana Sarkar
+Creation Date - 27/07/2021
+Description -  Add loadTopic() to generate topic from URL parameter
 ******************************************************************/
 
 /******************
@@ -51,6 +56,7 @@ window.hideEmployeeSection = function(){
 window.updateSubtopic = function(){
     console.log('function updateSubtopic on technical field');
     try {
+
         //update standard field
         var subtopic = getParamFromUrl('subtopic');
         if(fieldSubtopicStandard.getValue() !== subtopic){
@@ -75,8 +81,13 @@ window.updateSubtopic = function(){
         console.log('updateSubtopic =>', error.message);
     }
 };
-
-
+window.loadTopic = function () {
+    if(getParamFromUrl('topic') !== null){
+        if (neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() && neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE").getValue() !== null) {
+            updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"), getParamFromUrl('topic'));
+        }
+    }
+};
 /**************
 * CALL METHODES
 ***************/
@@ -95,7 +106,11 @@ window.launchOnceLoadComplete = function(){
     if(!sessionStorage.getItem('loadcomplete')){
         sessionStorage.setItem('loadcomplete',true);
         console.log("launched once on loadcomplete");
-        updateSubtopic();
+        loadTopic();
+        setTimeout(function () {
+            updateSubtopic();
+        }, 800);
+        
     }
 };
 /**************************

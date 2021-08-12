@@ -63,10 +63,13 @@ Developer   - Ahana Sarkar
 Date	    - 03/12/2021 (MM/DD/YYYY)
 Change No   - MOD-011
 Description - countryWiseSectionVisibility() updated - Work schedule (new) visibility for BE & LU
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 07/08/2021 (MM/DD/YYYY)
+Change No   - MOD-012
+Description - Remove Voluntary leaver topic for countries except China 
+            - 29//07/2021 : Based on country requirement Voluntary leaver topic added for all
 ---------------------------------------------------------*/ 
-
-
-
 
 neocase.form.section("section4b793a95c26f1fd30bb9").hide();
 
@@ -195,8 +198,8 @@ window.copyValues = function(){
     neocase.form.field('UTILISATEURS$CHAMPU311').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR738');
     // copy Job Name to Job Title Desc.
     neocase.form.field('UTILISATEURS$CHAMPU40').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR45');
-    // copy Global Grade to Local /  Unified Grade
-    neocase.form.field('UTILISATEURS$CHAMPU34').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR40');
+    // copy Local Grade to Local /  Unified Grade
+    neocase.form.field('UTILISATEURS$CHAMPU35').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR40');
     // copy Employment percentage to Employment Percentage
     neocase.form.field('UTILISATEURS$CHAMPU248').copyValueTo('INTERVENTIONS_EN_COURS$VALEUR739');
 	
@@ -271,11 +274,15 @@ window.countryWiseSectionVisibility = function(){
     console.log('countryWiseSectionVisibility' + subtopic);
     neocase.fieldInstances = [];
     try{
-        
+        neocase.form.field('UTILISATEURS$CHAMPU297').hide(); //Target Variable Compensation (100%) ARC
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').hide(); //Target Variable Compensation at Actual FTE %
         neocase.form.section('sectionbcd7291503b71806886d').hide();// Service Line section to be displayed only for china
         neocase.form.section('sectionc4f3296eb9e5164a851e').hide();//Note for service line
         neocase.form.section('section9ebef54711e2b82b3524').hide(); //Allowance -additional pay
         if(countryIsoCode == 'CN' && countrySAPCode == '28'){
+			
+			neocase.form.field('UTILISATEURS$CHAMPU297').show(); //Target Variable Compensation (100%) ARC
+			neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').show();//Target Variable Compensation at Actual FTE %
             neocase.form.section('sectionea92097af791926325d9').show();
             neocase.form.section('section44488696b2a7d3bc14f4').hide();
 			
@@ -305,6 +312,8 @@ window.countryWiseSectionVisibility = function(){
             neocase.form.section('sectionea92097af791926325d9').hide();
             neocase.form.section('section9ebef54711e2b82b3524').hide();
         }else{
+			neocase.form.field('UTILISATEURS$CHAMPU297').hide(); //Target Variable Compensation (100%) ARC
+			neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').hide(); //Target Variable Compensation at Actual FTE %
             neocase.form.section('sectionea92097af791926325d9').hide();
             neocase.form.section('section44488696b2a7d3bc14f4').hide();
             neocase.form.section('section9ebef54711e2b82b3524').hide();
@@ -485,13 +494,13 @@ window.manipulateDropdowns = function(){
         {
             countryCD : 'BE',
             country : 'Belgium',
-            workScheduleId : '2477,2478,2479,2482,2483,2484,2485,2486,2487,2488,2489,2491,2492,2493,2497,2498,2499,2505,2507,2508,2509,2510,2511,2512,2513,2514,2515,2516,2517,2518,2519,2520,2521,2522,2523,2524,2525,2526,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2542,2543,2544'
-
+            workScheduleId : '2477,2478,2479,2482,2483,2484,2485,2486,2487,2488,2489,2491,2492,2493,2497,2498,2499,2505,2507,2508,2509,2510,2511,2512,2513,2514,2515,2516,2517,2518,2520,2521,2522,2523,2524,2525,2526,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2542,2543,2544,2560'
+    
         },
         {
             countryCD : 'LU',
             country : 'Luxembourg',
-            workScheduleId : '2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2502,2503,2504,2505,2506,2507,2508,2544'
+            workScheduleId : '2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2502,2503,2504,2505,2506,2507,2508,2544,2559'
         }
     ];
     var workScheduleField = 'INTERVENTIONS_EN_COURS$VALEUR755';
@@ -569,7 +578,7 @@ window.showTerminationDateSection = function(){
 };
 window.showLastWorkingDaySection = function(){
 	neocase.fieldInstances = [];
-    if(neocase.form.field('ELEMENTS').getValue() === '3005' || neocase.form.field('ELEMENTS').getValue() === '2992' || neocase.form.field('ELEMENTS').getValue() === '2994' || neocase.form.field('ELEMENTS').getValue() === '2997'){ //EC_Change in last working day;EC_Resignation;EC_Involuntary leaver;EC_Retirement;EC_LOA paid
+    if(neocase.form.field('ELEMENTS').getValue() === '3005' || neocase.form.field('ELEMENTS').getValue() === '2992' || neocase.form.field('ELEMENTS').getValue() === '2994' || neocase.form.field('ELEMENTS').getValue() === '2997' || neocase.form.field('ELEMENTS').getValue() === '3018'){ //EC_Change in last working day;EC_Resignation;EC_Involuntary leaver;EC_Retirement;EC_LOA paid
         neocase.form.section("sectionb41dfc8be21dea6aff58").show();
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR221').mandatory();
     }else{
@@ -588,12 +597,12 @@ window.showLOADetailsSection = function(){
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR333').noMandatory();
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR334').noMandatory();
 
-        neocase.form.section("section3075018341bd1efb957b").hide();
+        neocase.form.section("section3075018341bd1`efb957b").hide();
     }
 };
 window.showFixedTermContactSection = function(){
 	neocase.fieldInstances = [];
-    if(neocase.form.field('ELEMENTS').getValue() === '2972'){ //EC_Fixed term contract extension
+    if(neocase.form.field('ELEMENTS').getValue() === '2972' || neocase.form.field('ELEMENTS').getValue() === '3019'){ //EC_Fixed term contract extension;EC_End of fix-term contract
         neocase.form.section("section563353c95e2f168176a4").show();
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR126').mandatory();
     }else{
@@ -653,10 +662,11 @@ window.subtopicVisibility = function(){
     var countryIsoCode = neocase.form.field('UTILISATEURS$CHAMPU19').getText(),
         countrySAPCode = neocase.form.field('UTILISATEURS$CHAMPU232').getText();
     var subtopic = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getValue();
-    if(countryIsoCode !== 'CN'){// Company change, company change (MU) - BO - Visible only for china
+    if(countryIsoCode !== 'CN'){// Subtopic : Company change, company change (MU)
         console.log('subtopicVisibility1'+countryIsoCode);
         $('#ELEMENTS').children('option[value="2977"]').remove();
         $('#ELEMENTS').children('option[value="3031"]').remove();
+        //$('#MOTSCLES').children('option[value="2776"]').remove(); //++MOD-012
     }
     if(countryIsoCode !== 'RO'){// Change in operational team(MU) - Visible only Romania t
         console.log('subtopicVisibility2'+countryIsoCode);
@@ -667,6 +677,7 @@ window.subtopicVisibility = function(){
     //     $('#ELEMENTS').children('option[value="3081"]').remove();
     // }
     $('#ELEMENTS').children('option[value="3081"]').remove();//Later on it should be comment out : For the time being it is hidden till business' confirm requirement
+    
 };
 window.sectionShowHide = function(){
     showJobDetailsSection();

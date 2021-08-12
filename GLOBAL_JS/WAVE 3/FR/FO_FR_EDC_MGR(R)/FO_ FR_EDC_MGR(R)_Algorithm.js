@@ -82,7 +82,7 @@ Description - Removed Individual Bonus Section's code
 -----------------------------------------------
 Developer   - Ahana Sarkar
 Date	    - 03/10/2020 (MM/DD/YYYY)
-Change No   - MOD-006
+Change No   - MOD-007
 Description - To display the section "Probation period" for the topic "FR_Start Date Change;Décalage date d\'entrée".
 -----------------------------------------------*/ 
 
@@ -108,7 +108,8 @@ var Tableau = [
         'section8e4872d12bdfde866980#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Career Change;Données carrière;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche', //MOD-004
         'section8092f7bfcd5224c8f89d#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Career Change;Données carrière;FR_Contract;Contrat',
         'sectiond8fb7d24d1e2d78f0c16#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche',
-        'section9b9f9007125da66521c3#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche'
+        'section9b9f9007125da66521c3#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche',
+        'section6e389aaae7dd2aba2bc2#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
         
     /* ------------- End of MOD-002 changes -------------*/
     

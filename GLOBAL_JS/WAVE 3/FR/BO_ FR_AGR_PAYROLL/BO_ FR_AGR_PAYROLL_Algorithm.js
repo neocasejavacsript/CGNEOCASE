@@ -50,7 +50,20 @@ V17 - PJU - 11/01/2018
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
 V18 - PJU - 01/03/2018
 	- add specific code for 'MOTCLE' in manageFields
+V19 - PJU - 24/08/2017
+    - La fonction qui ajoute la classe 'req' au label d'un champ obligatoire côté BO était appelée au mauvais endroit
+V20 - PJUY - 06/08/2019
+    - add controle on localstorage
+V21 - PJUY - 10/01/2020
+    - change class 'req' to 'required'
+V22 - PJUY MME - 19/03/2021
+	- correction de l'ID des champs fichiers dans la fonction "champObligatoire"
+V23 - PJUY - 30/03/2021
+	- Correction du css des champs obligatoire côté backoffice
+V24 - PJUY - 26/05/2021
+	- add controle on field label before editing it
 */
+
 
 /*-----------------------------------------------------------------------------
 Developer   - Riya Dutta
@@ -68,6 +81,11 @@ Developer   - Ahana Sarkar
 Date	    - 06/12/2020 (MM/DD/YYYY)
 Change No   - MOD-003
 Description - Display social security absence related section
+----------------------------------------------------------------------
+Developer   - Ayan Dey
+Date	    - 07/20/2020 (MM/DD/YYYY)
+Change No   - MOD-004
+Description - Display Days worked from home during the month related section
 ------------------------------------------------------------------------------*/ 
 
 /**************************
@@ -79,12 +97,22 @@ var Tableau = [
 	'section61a7a940dcb974aab0f9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France', //MOD-002
 	//Province
 	'sectioncdd4a5ebb56b20821d5d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_02_Province;Province',//MOD-002
-	//Bicycle Allowance
-    'section15f11ae72f4cc069d9e6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo',//MOD-002
+	//Sustainable Mobility Package
+    'section15f11ae72f4cc069d9e6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_03_Sustainable mobility package;Forfait mobilité durable',//MOD-002
     //Section - Refund period
-    'sectionbfafef9d681b5fbf2163#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_02_Province;Province;FR_01_Ile-de-France;Île-de-France',//MOD-003
+    'sectionbfafef9d681b5fbf2163#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_02_Province;Province;FR_01_Ile-de-France;Île-de-France;FR_03_Sustainable mobility package;Forfait mobilité durable',//MOD-003
     //Section - Social security absence
-    'section74c99c5b3fecf9fb40e6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail'//MOD-003
+    'section74c99c5b3fecf9fb40e6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail',//MOD-003
+	//Section - Days worked from home during the month
+    'section32a5f9dffd9e8f559a73#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)',//MOD-004
+    // Work From Home addendum
+    'section3ead8324954dbb76e071#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant',
+    // Work From Home addendum Article link
+    'section62aa65d81f1733160643#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant',
+    // Section - How to declare my wfh agreement? Read the article
+    'section5238425f4fed0e13a62f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)',
+    // Work from home rythm
+    'section10c3a43ce2ed89c2febe#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant'
 ];
 var enableManageField;
 
@@ -153,6 +181,9 @@ window.champObligatoire = function (FIELD, VALID) {
     if (document.getElementById(FIELD.id)) {
         //ID du champ obligatoire
         var FIELD_ID = FIELD.id;
+  if (FIELD_ID.search("_display") != -1) {
+            FIELD_ID = FIELD_ID.replace("_display", "");
+        }
         var LBL_FIELD_ID;
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             LBL_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
@@ -184,13 +215,15 @@ window.champObligatoire = function (FIELD, VALID) {
                 if (BM_VALUES.search(BM_SEARCH) != -1 || BM_CLIENT.search(BM_SEARCH) != -1) {
                     BM_CLIENT = BM_CLIENT.replace(BM_REPLACE, "");
                     BM_VALUES = BM_VALUES.replace(BM_REPLACE, "");
-                    document.getElementById(LBL_FIELD_ID).className = "label";
                 }
+				if( document.getElementById(LBL_FIELD_ID) ){
+					document.getElementById(LBL_FIELD_ID).className = "label";
+				}
                 document.getElementById("champsobligatoiresproprietes").value = BM_VALUES;
                 document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
             } else {
                 //enable mandatory field
-                if (localStorage.getItem("mandatoryListFields").search(BM_SEARCH) != -1) {
+                if (FIELD.required) {
                     if (BM_VALUES.search(BM_SEARCH) == -1 && BM_CLIENT.search(BM_SEARCH) == -1) {
                         if (BM_VALUES != "" && BM_VALUES != " ") {
                             BM_VALUES = BM_VALUES + BM_REPLACE;
@@ -199,9 +232,10 @@ window.champObligatoire = function (FIELD, VALID) {
                             BM_CLIENT = BM_CLIENT + BM_REPLACE;
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
-                        //document.getElementById(LBL_FIELD_ID).className = "label req";
                     }
-                    document.getElementById(LBL_FIELD_ID).className = "label required";
+					if( document.getElementById(LBL_FIELD_ID) ){
+						document.getElementById(LBL_FIELD_ID).className = "label required";
+					}
                 }
             }
         }
@@ -261,7 +295,7 @@ window.viderChamp = function (FIELD) {
         DECOCHER LES CHAMPS NEOCASE
         ***************************/
         if (FIELD.type == "checkbox") {
-            //Décocher case à cocher
+            //décocher case à cocher
             FIELD.checked = false;
             FIELD.value = 0;
         } else if (FIELD.type == "text") {
@@ -404,14 +438,14 @@ window.manageCheckbox = function () {
 };
 
 window.mandatoryList = function () {
-    if(document.getElementById("champsobligatoiresproprietes")){
+    if (document.getElementById("champsobligatoiresproprietes")) {
         var BM_VALUES = document.getElementById("champsobligatoiresproprietes").value;
         var BM_CLIENT = document.getElementById("champsobligatoiresclient").value;
         if (localStorage.getItem("mandatoryListFields") !== null && localStorage.getItem("mandatoryListFields") !== "") {
             localStorage.setItem("mandatoryListFields", BM_VALUES + BM_CLIENT);
         }
     }
-    
+
 };
 
 /*************************************************
@@ -597,7 +631,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER1_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
+                                } else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -644,7 +678,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER2_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER2_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
+                                } else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER2_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -841,7 +875,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
+                                } else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }

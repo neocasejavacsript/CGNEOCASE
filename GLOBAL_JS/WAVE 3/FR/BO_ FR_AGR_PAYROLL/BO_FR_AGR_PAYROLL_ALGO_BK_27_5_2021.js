@@ -1,11 +1,8 @@
-//	MA_EDC - Algorithm - BO
-/*************************************
-Developer   - SURAJIT DALAL
-Date	    - 26/05/2017
-Change No   - MOD-001
-Description - Changed code to Hide Perner Field which is visible in Management Team Section
-**************************************
-
+//FR_AGR_PAYROLL(BO)  - Algorithm Code
+/*
+_________________________________________
+launch with 'ThisForm.Bind(loadcomplete)'
+_________________________________________
 V2 - PJU - 12/10/2015
 	- Manage fields visibilities
 	- Add file fields management
@@ -34,7 +31,7 @@ V9.0 - PJU - 08/12/2016
 	- add 'iframe' management
 V10.0 - PJU - 02/01/2016
 	- manage var 'OBLIGATOIRE_RESPECTEE' and 'OBLIGATOIRE_NON_RESPECTEE' in section 9E
-V10.1 - PJU - 17/01/2016
+V10.1 - PJU - 17/01/2017
 	- manage var 'OBLIGATOIRE_RESPECTEE' and 'OBLIGATOIRE_NON_RESPECTEE' in section 9C, 9D
 V11 - PJU - 18/01/2017
 	- Ajout de la variable enableManageField = true; dans l'ouverture côté backoffice
@@ -53,67 +50,59 @@ V17 - PJU - 11/01/2018
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
 V18 - PJU - 01/03/2018
 	- add specific code for 'MOTCLE' in manageFields
-V19 - PJU - 24/08/2017
-    - La fonction qui ajoute la classe 'req' au label d'un champ obligatoire côté BO était appelée au mauvais endroit
-V20 - PJUY - 06/08/2019
-    - add controle on localstorage
-V21 - PJUY - 10/01/2020
-    - change class 'req' to 'required'
-V22 - PJUY MME - 19/03/2021
-	- correction de l'ID des champs fichiers dans la fonction "champObligatoire"
-V23 - PJUY - 30/03/2021
-	- Correction du css des champs obligatoire côté backoffice
-V24 - PJUY - 26/05/2021
-	- add controle on field label before editing it
 */
 
-/*		**************************************************************
-Modified version - MOD-001
-Developer Name: SURAJIT DALAL
-Date: 25/05/2017
-Description: To modify the existing code with the new requirement
-****************************************************************/
-
+/*-----------------------------------------------------------------------------
+Developer   - Riya Dutta
+Date	    - 02/11/2018 (MM/DD/YYYY)
+Change No   - MOD-001
+Description - TOOK BASIC UPDATED ALGO DONE BY NEOCASE FROM FR_EDC_MGR(C) Form
+			- Did basic clean up and changes based on mock up
+---------------------------------------------------------------------
+Developer   - Smita Singh
+Date	    - 02/15/2018 (MM/DD/YYYY)
+Change No   - MOD-002
+Description - Display specific section based on subtopic
+----------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 06/12/2020 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - Display social security absence related section
+----------------------------------------------------------------------
+Developer   - Ayan Dey
+Date	    - 07/20/2020 (MM/DD/YYYY)
+Change No   - MOD-004
+Description - Display Days worked from home during the month related section
+------------------------------------------------------------------------------*/ 
 
 /**************************
 Fields and display settings
 ***************************/
-// MOD-001 START
 var Tableau = [
-	//Grades
-	'section379#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|Change in job/grade;Promotion;Rôle / Grade',
-	//Job
-	'section604#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|Change in job/grade;Promotion;Rôle / Grade',
-	//Fixed Term Contract
-	'section365#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|Fixed term contract extension;Prolongation CDD',
-	//Base Location
-	'section533#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|Base loc. Transfer;Site de rattachement',
-	//Pay - Pay only !
-	'section965#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|Change in Pay(Annual salary/TVC);Promotion;Changement de salaire (salaire annuel / var)',
-	//Pay - ARC Pay !
-	'section951#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|Change in Pay(Annual salary/TVC);Promotion;Changement de salaire (salaire annuel / var)',
-	//Probation Update
-	'section102#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|Probation Period update;Mise à jour de la période d\'essai',
-	//Management Team
-	'section970#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|Managment team;Equipe managériale',
-	//Contract Details
-	'section786#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|Contract;Contrat de travail',
-	//Employee Group Subgroup - Back Office Only !
-	'section258#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|Contract;Contrat de travail;Promotion'
+	//'section18df573b1c1114661f65#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',
+	//Ile-de-France
+	'section61a7a940dcb974aab0f9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France', //MOD-002
+	//Province
+	'sectioncdd4a5ebb56b20821d5d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_02_Province;Province',//MOD-002
+	//Sustainable Mobility Package
+    'section15f11ae72f4cc069d9e6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_03_Sustainable mobility package;Forfait mobilité durable',//MOD-002
+    //Section - Refund period
+    'sectionbfafef9d681b5fbf2163#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_02_Province;Province;FR_01_Ile-de-France;Île-de-France;FR_03_Sustainable mobility package;Forfait mobilité durable',//MOD-003
+    //Section - Social security absence
+    'section74c99c5b3fecf9fb40e6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail',//MOD-003
+	//Section - Days worked from home during the month
+    'section32a5f9dffd9e8f559a73#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant)'//MOD-004
 ];
-// MOD-001 END
-
-var algorithmField = formulaire.INTERVENTIONS_EN_COURS$VALEUR202;
 var enableManageField;
 
 /**************************
 IMPLEMENTATION DE FONCTIONS
 ***************************/
 //fonctions d'affichage des messages dans la console si elle est ouverte
-window.msg = function(MESSAGE){
-	if(console){
-		console.log(MESSAGE);
-	}
+window.msg = function (MESSAGE) {
+    if (console) {
+        console.log(MESSAGE);
+    }
 };
 
 /*********************************
@@ -171,9 +160,6 @@ window.champObligatoire = function (FIELD, VALID) {
     if (document.getElementById(FIELD.id)) {
         //ID du champ obligatoire
         var FIELD_ID = FIELD.id;
-  if (FIELD_ID.search("_display") != -1) {
-            FIELD_ID = FIELD_ID.replace("_display", "");
-        }
         var LBL_FIELD_ID;
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             LBL_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
@@ -205,15 +191,13 @@ window.champObligatoire = function (FIELD, VALID) {
                 if (BM_VALUES.search(BM_SEARCH) != -1 || BM_CLIENT.search(BM_SEARCH) != -1) {
                     BM_CLIENT = BM_CLIENT.replace(BM_REPLACE, "");
                     BM_VALUES = BM_VALUES.replace(BM_REPLACE, "");
+                    document.getElementById(LBL_FIELD_ID).className = "label";
                 }
-				if( document.getElementById(LBL_FIELD_ID) ){
-					document.getElementById(LBL_FIELD_ID).className = "label";
-				}
                 document.getElementById("champsobligatoiresproprietes").value = BM_VALUES;
                 document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
             } else {
                 //enable mandatory field
-                if (FIELD.required) {
+                if (localStorage.getItem("mandatoryListFields").search(BM_SEARCH) != -1) {
                     if (BM_VALUES.search(BM_SEARCH) == -1 && BM_CLIENT.search(BM_SEARCH) == -1) {
                         if (BM_VALUES != "" && BM_VALUES != " ") {
                             BM_VALUES = BM_VALUES + BM_REPLACE;
@@ -222,10 +206,9 @@ window.champObligatoire = function (FIELD, VALID) {
                             BM_CLIENT = BM_CLIENT + BM_REPLACE;
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
+                        //document.getElementById(LBL_FIELD_ID).className = "label req";
                     }
-					if( document.getElementById(LBL_FIELD_ID) ){
-						document.getElementById(LBL_FIELD_ID).className = "label required";
-					}
+                    document.getElementById(LBL_FIELD_ID).className = "label required";
                 }
             }
         }
@@ -285,7 +268,7 @@ window.viderChamp = function (FIELD) {
         DECOCHER LES CHAMPS NEOCASE
         ***************************/
         if (FIELD.type == "checkbox") {
-            //décocher case à cocher
+            //Décocher case à cocher
             FIELD.checked = false;
             FIELD.value = 0;
         } else if (FIELD.type == "text") {
@@ -301,75 +284,75 @@ window.viderChamp = function (FIELD) {
 /************************************************************
 FONCTION PERMETTANT DE TRANSFORMER UNE LISTE EN BOUTONS RADIO
 *************************************************************/
-window.boutonRadio = function(FIELD){
-  //récupérer l'ID/le name du champ
-  var CHAMP_SELECT_ID = FIELD.id;
-  var CHAMP_SELECT_NAME = FIELD.name;
-  var CHAMP_SELECT_VALUE = FIELD.value;
-  //récupérer l'ID du label
-  var SELECT_LABEL_ID;
-  var SELECT_OBLIGATOIRE_ID;
-  if(CHAMP_SELECT_ID.search("INTERVENTIONS") != -1){
-    SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS","lblINTERVENTIONS");
-    SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS","Validator_INTERVENTIONS");
-  }else if(CHAMP_SELECT_ID.search("UTILISATEURS") != -1){
-    SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("UTILISATEURS","lblUTILISATEURS");
-    SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("UTILISATEURS","Validator_UTILISATEURS");
-  }
-  //Si le champ est obligatoire, on masque simplement l'étoile d'origine et on cré une nouvelle étoile à côté du label
-  if(document.getElementById(SELECT_OBLIGATOIRE_ID)){
-    //document.getElementById(SELECT_OBLIGATOIRE_ID).style.display = "none";
-    //document.getElementById(SELECT_LABEL_ID).outerHTML += "<span style='color: Red; visibility: visible;' class='ValidatorCautionBox' id='"+CHAMP_SELECT_ID+"_radio_Validator' title='Champ obligatoire'></span>";
-  }
-  //faire une boucle sur les options à partir de 1 pour ne pas prendre la valeur nulle
-  window[CHAMP_SELECT_ID].onloadcomplete = function(){
-    var selectObject = FIELD;
-    var ajaxList = selectObject.id;
-    var SELECT_OPTIONS = selectObject.options;
-    for(var o=SELECT_OPTIONS.length-1; o>=1; o--){
-      var RADIO_ID = selectObject.id+"_radio"+o;
-      var RADIO_NAME = selectObject.name+'_radio';
-      var RADIO_ID_LBL = RADIO_ID+'_lbl';
-      var RADIO_NAME_LBL = RADIO_NAME+'_lbl';
-      var OPTION_VALUE = SELECT_OPTIONS[o].value;
-      selectObject.insertAdjacentHTML("afterend", "<span class='radio_button'><input type='radio' value = '"+OPTION_VALUE+"' id='"+RADIO_ID+"' name='"+RADIO_NAME+"' onchange='getSelectValue(this)' class='radio_input'><span id='"+RADIO_ID_LBL+"' name='"+RADIO_NAME_LBL+"' class='radio_label'>"+OPTION_VALUE+"</span></span>");
-      if(OPTION_VALUE == selectObject.value){
-        document.getElementById(RADIO_ID).checked = true;
-      }
+window.boutonRadio = function (FIELD) {
+    //récupérer l'ID/le name du champ
+    var CHAMP_SELECT_ID = FIELD.id;
+    var CHAMP_SELECT_NAME = FIELD.name;
+    var CHAMP_SELECT_VALUE = FIELD.value;
+    //récupérer l'ID du label
+    var SELECT_LABEL_ID;
+    var SELECT_OBLIGATOIRE_ID;
+    if (CHAMP_SELECT_ID.search("INTERVENTIONS") != -1) {
+        SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
+    } else if (CHAMP_SELECT_ID.search("UTILISATEURS") != -1) {
+        SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "lblUTILISATEURS");
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
     }
-  };
-  
-  //eval(CHAMP_SELECT_ID).onloadcomplete = new Function("var selectObject = FIELD;var ajaxList = eval(selectObject.id);msg(ajaxList);var SELECT_OPTIONS = selectObject.options;msg(SELECT_OPTIONS);for(var o=SELECT_OPTIONS.length-1; o>=1; o--){var RADIO_ID = selectObject.id+\"_radio\"+o;var RADIO_NAME = selectObject.name+\'_radio\';var RADIO_ID_LBL = RADIO_ID+\'_lbl\';var RADIO_NAME_LBL = RADIO_NAME+\'_lbl\';var OPTION_VALUE = SELECT_OPTIONS[o].value;selectObject.insertAdjacentHTML(\"afterend\", \"<input type=\'radio\' value = \'\"+OPTION_VALUE+\"\' id=\'\"+RADIO_ID+\"\' name=\'\"+RADIO_NAME+\"\' onchange=\'getSelectValue(this)\'><span id=\'\"+RADIO_ID_LBL+\"\' name=\'\"+RADIO_NAME_LBL+\"\'>\"+OPTION_VALUE+\"</span>\");if(OPTION_VALUE == selectObject.value){document.getElementById(RADIO_ID).checked = true;}}");
-  //Une fois les boutons créés, on masque le SELECT
-  FIELD.style.display = "none";
+    //Si le champ est obligatoire, on masque simplement l'étoile d'origine et on cré une nouvelle étoile à côté du label
+    if (document.getElementById(SELECT_OBLIGATOIRE_ID)) {
+        //document.getElementById(SELECT_OBLIGATOIRE_ID).style.display = "none";
+        //document.getElementById(SELECT_LABEL_ID).outerHTML += "<span style='color: Red; visibility: visible;' class='ValidatorCautionBox' id='"+CHAMP_SELECT_ID+"_radio_Validator' title='Champ obligatoire'></span>";
+    }
+    //faire une boucle sur les options à partir de 1 pour ne pas prendre la valeur nulle
+    window[CHAMP_SELECT_ID].onloadcomplete = function () {
+        var selectObject = FIELD;
+        var ajaxList = selectObject.id;
+        var SELECT_OPTIONS = selectObject.options;
+        for (var o = SELECT_OPTIONS.length - 1; o >= 1; o--) {
+            var RADIO_ID = selectObject.id + "_radio" + o;
+            var RADIO_NAME = selectObject.name + '_radio';
+            var RADIO_ID_LBL = RADIO_ID + '_lbl';
+            var RADIO_NAME_LBL = RADIO_NAME + '_lbl';
+            var OPTION_VALUE = SELECT_OPTIONS[o].value;
+            selectObject.insertAdjacentHTML("afterend", "<span class='radio_button'><input type='radio' value = '" + OPTION_VALUE + "' id='" + RADIO_ID + "' name='" + RADIO_NAME + "' onchange='getSelectValue(this)' class='radio_input'><span id='" + RADIO_ID_LBL + "' name='" + RADIO_NAME_LBL + "' class='radio_label'>" + OPTION_VALUE + "</span></span>");
+            if (OPTION_VALUE == selectObject.value) {
+                document.getElementById(RADIO_ID).checked = true;
+            }
+        }
+    };
+
+    //eval(CHAMP_SELECT_ID).onloadcomplete = new Function("var selectObject = FIELD;var ajaxList = eval(selectObject.id);msg(ajaxList);var SELECT_OPTIONS = selectObject.options;msg(SELECT_OPTIONS);for(var o=SELECT_OPTIONS.length-1; o>=1; o--){var RADIO_ID = selectObject.id+\"_radio\"+o;var RADIO_NAME = selectObject.name+\'_radio\';var RADIO_ID_LBL = RADIO_ID+\'_lbl\';var RADIO_NAME_LBL = RADIO_NAME+\'_lbl\';var OPTION_VALUE = SELECT_OPTIONS[o].value;selectObject.insertAdjacentHTML(\"afterend\", \"<input type=\'radio\' value = \'\"+OPTION_VALUE+\"\' id=\'\"+RADIO_ID+\"\' name=\'\"+RADIO_NAME+\"\' onchange=\'getSelectValue(this)\'><span id=\'\"+RADIO_ID_LBL+\"\' name=\'\"+RADIO_NAME_LBL+\"\'>\"+OPTION_VALUE+\"</span>\");if(OPTION_VALUE == selectObject.value){document.getElementById(RADIO_ID).checked = true;}}");
+    //Une fois les boutons créés, on masque le SELECT
+    FIELD.style.display = "none";
 };
 
 /**************************************************************
-* FONCTION MASQUANT UNE SECTION SI TOUS SES CHAMPS SONT MASQUES
-***************************************************************/
-window.masquerSection = function(SECTION){
-  /*var ST_TD = SECTION.getElementsByTagName("td");
-  var FIELD_DISPLAY;
-  //boucle sur les TD d'une section
-  for(z=0; z<ST_TD.length; z++){
-    if(ST_TD[z].childNodes.length > 1){
-      //on élimine les TDs vides
-      if(ST_TD[z].style.display != "none"){
-        FIELD_DISPLAY = true;
+ * FONCTION MASQUANT UNE SECTION SI TOUS SES CHAMPS SONT MASQUES
+ ***************************************************************/
+window.masquerSection = function (SECTION) {
+    /*var ST_TD = SECTION.getElementsByTagName("td");
+    var FIELD_DISPLAY;
+    //boucle sur les TD d'une section
+    for(z=0; z<ST_TD.length; z++){
+      if(ST_TD[z].childNodes.length > 1){
+        //on élimine les TDs vides
+        if(ST_TD[z].style.display != "none"){
+          FIELD_DISPLAY = true;
 
+        }
       }
     }
-  }
-  if(FIELD_DISPLAY !== true){
-    SECTION.style.display = "none";
-  }else{
-    SECTION.style.display = "";
-  }*/
+    if(FIELD_DISPLAY !== true){
+      SECTION.style.display = "none";
+    }else{
+      SECTION.style.display = "";
+    }*/
 };
 
 /****************************************
-* FONCTION AFFICHANT/MASQUANT UNE SECTION
-*****************************************/
+ * FONCTION AFFICHANT/MASQUANT UNE SECTION
+ *****************************************/
 window.affichageSection = function (SECTION, VALID) {
     //déclarer les variables
     var SECTION_INPUT = SECTION.getElementsByTagName("input");
@@ -426,15 +409,16 @@ window.manageCheckbox = function () {
         }
     }
 };
+
 window.mandatoryList = function () {
-    if (document.getElementById("champsobligatoiresproprietes")) {
+    if(document.getElementById("champsobligatoiresproprietes")){
         var BM_VALUES = document.getElementById("champsobligatoiresproprietes").value;
         var BM_CLIENT = document.getElementById("champsobligatoiresclient").value;
         if (localStorage.getItem("mandatoryListFields") !== null && localStorage.getItem("mandatoryListFields") !== "") {
             localStorage.setItem("mandatoryListFields", BM_VALUES + BM_CLIENT);
         }
     }
-
+    
 };
 
 /*************************************************
@@ -620,7 +604,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER1_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                } else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
+                                }else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -667,7 +651,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER2_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER2_FIELD[c] = document.getElementById("ELEMENTS");
-                                } else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
+                                }else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER2_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -864,7 +848,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                } else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
+                                }else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -1180,34 +1164,65 @@ window.manageFields = function (DECLENCHEUR) {
 /******************************************************************
 PASSER LA VALEUR DU BOUTON RADIO SUR LE SELECT MASQUE CORREPSONDANT
 *******************************************************************/
-window.getSelectValue = function(RADIO_BUTTON){
-  var SPLIT_RADIO_ID = RADIO_BUTTON.id.split("_radio");
-  var SELECT_ID = SPLIT_RADIO_ID[0];
-  var RADIO_VALIDATOR_ID = SELECT_ID+"_radio_Validator";
-  var RADIO_INDEX = RADIO_BUTTON.index;
-  if(RADIO_BUTTON.value == ""){
-    champObligatoire(document.getElementById(SELECT_ID), true);
-  }else{
-    champObligatoire(document.getElementById(SELECT_ID), false);
-  }
-  document.getElementById(SELECT_ID).selectedIndex = RADIO_BUTTON.index;
-  document.getElementById(SELECT_ID).value = RADIO_BUTTON.value;
-  if(document.getElementById(SELECT_ID).fireEvent){
-    document.getElementById(SELECT_ID).fireEvent('onchange');
-  }else if(document.getElementById(SELECT_ID).dispatchEvent){
-    var oEvent = document.createEvent("HTMLEvents");
-    oEvent.initEvent("change", true, true);
-    document.getElementById(SELECT_ID).dispatchEvent(oEvent);
-  }
+window.getSelectValue = function (RADIO_BUTTON) {
+    var SPLIT_RADIO_ID = RADIO_BUTTON.id.split("_radio");
+    var SELECT_ID = SPLIT_RADIO_ID[0];
+    var RADIO_VALIDATOR_ID = SELECT_ID + "_radio_Validator";
+    var RADIO_INDEX = RADIO_BUTTON.index;
+    if (RADIO_BUTTON.value == "") {
+        champObligatoire(document.getElementById(SELECT_ID), true);
+    } else {
+        champObligatoire(document.getElementById(SELECT_ID), false);
+    }
+    document.getElementById(SELECT_ID).selectedIndex = RADIO_BUTTON.index;
+    document.getElementById(SELECT_ID).value = RADIO_BUTTON.value;
+    if (document.getElementById(SELECT_ID).fireEvent) {
+        document.getElementById(SELECT_ID).fireEvent('onchange');
+    } else if (document.getElementById(SELECT_ID).dispatchEvent) {
+        var oEvent = document.createEvent("HTMLEvents");
+        oEvent.initEvent("change", true, true);
+        document.getElementById(SELECT_ID).dispatchEvent(oEvent);
+    }
 
 };
+
+/**************************
+* Summation and result cal
+***************************/
+window.calOnPopulation = function() {
+
+var employPercentage = formulaire.UTILISATEURS$CHAMPU248.value;
+var annualSalaryAtFTE = formulaire.UTILISATEURS$CHAMPU168.value;
+var employPourcent = formulaire.INTERVENTIONS_EN_COURS$VALEUR249.value;
+var targetVarCompAtFTE = formulaire.UTILISATEURS$CHAMPU170.value;
+var empPerc = Number(annualSalaryAtFTE / employPercentage);
+var finalAnnualSalary = Number(employPourcent * empPerc);
+finalAnnualSalary = finalAnnualSalary.toFixed(2);
+var targetVar = Number(targetVarCompAtFTE / employPercentage);
+var finalTargetVar =  Number(employPourcent * targetVar);
+finalTargetVar = finalTargetVar.toFixed(2);
+if(finalAnnualSalary != "0" || finalAnnualSalary != " " || finalAnnualSalary != "NaN" || finalAnnualSalary != "null"  ){
+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR384').setValue(finalAnnualSalary);
+	//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR384"));
+}
+if(finalTargetVar != "0" || finalTargetVar != " " || finalTargetVar != "NaN" || finalTargetVar != "null"  ){
+neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').setValue(finalTargetVar);
+//disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR385"));
+}
+//formulaire.INTERVENTIONS_EN_COURS$VALEUR384.value = finalAnnualSalary;
+//formulaire.INTERVENTIONS_EN_COURS$VALEUR385.value = finalTargetVar;
+
+};
+
 
 /**************************************************************************************
 APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
 ***************************************************************************************/
-window.onloadManageField = function(){
-	mandatoryList();
+window.onloadForm = function () {
+    mandatoryList();
     enableManageField = true;
-	manageFields("ouverture");
+    manageFields("ouverture");
+//calOnPopulation();
+
 };
-ThisForm.Bind('loadcomplete', onloadManageField);
+neocase.form.event.bind('loadcomplete', onloadForm);

@@ -53,7 +53,7 @@ V18 - PJU - 01/03/2018
 */
 
 /*--------------------------------------------------------------------------
-Developer   - 
+Developer   - Ahana Sarkar
 Date	    -  (MM/DD/YYYY)
 Change No   - MOD-001
 Description - Hide Section based on Subtopics
@@ -70,9 +70,9 @@ var Tableau = [
     //Only for China with start date
     //section40f08ffa22efc26c3d7d
     //effective date 
-    'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Experienced hire;EC_College hire;EC_Emergency hire;EC_Hire with prior service;EC_InterCo./CrossCountry transfer;EC_Change in start date;EC_Non EE activation;EC_Contract to hire;EC_Mass hire;EC_Change in management team;EC_Cost center change;EC_Work location transfer;EC_Grade / Job change;EC_Fixed term contract extension;EC_Contract change;EC_Promotion/demotion;EC_Pay change;EC_Company change;EC_Reorganization (MU);EC_Change in management team (MU);EC_Change in working hours (MU);EC_Cost center change (MU);EC_Work location transfer (MU);EC_Grade / Job change (MU);EC_Fix term contract extension (MU);EC_Contract change (MU);EC_Promotion/demotion (MU);EC_Pay change (MU);EC_Probation period update (MU);EC_Pay change - ARC (MU);EC_Change in operational team (MU);EC_Mass termination',
+    'sectionee52cf4693ac8ed8bc74#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Experienced hire;EC_College hire;EC_Emergency hire;EC_Hire with prior service;EC_InterCo./CrossCountry transfer;EC_Change in start date;EC_Non EE activation;EC_Contract to hire;EC_Mass hire;EC_Change in management team;EC_Cost center change;EC_Work location transfer;EC_Grade / Job change;EC_Fixed term contract extension;EC_Contract change;EC_Promotion/demotion;EC_Pay change;EC_Company change;EC_Reorganization (MU);EC_Change in management team (MU);EC_Change in working hours (MU);EC_Cost center change (MU);EC_Work location transfer (MU);EC_Grade / Job change (MU);EC_Fix term contract extension (MU);EC_Contract change (MU);EC_Promotion/demotion (MU);EC_Pay change (MU);EC_Probation period update (MU);EC_Pay change - ARC (MU);EC_Change in operational team (MU);EC_Mass termination;EC_Change in working hours',
     //reason for action
-    'section67ad5029b53ea0c020fc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Cost center change;EC_Work location transfer;EC_Grade / Job change;EC_Fixed term contract extension;EC_Contract change;EC_Promotion/demotion;EC_Pay change;EC_Company change;EC_Reorganization (MU);EC_Change in working hours (MU);EC_Cost center change (MU);EC_Work location transfer (MU);EC_Grade / Job change (MU);EC_Fix term contract extension (MU);EC_Contract change (MU);EC_Promotion/demotion (MU);EC_Pay change (MU)',
+    'section67ad5029b53ea0c020fc#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Cost center change;EC_Work location transfer;EC_Grade / Job change;EC_Fixed term contract extension;EC_Contract change;EC_Promotion/demotion;EC_Pay change;EC_Company change;EC_Reorganization (MU);EC_Change in working hours (MU);EC_Cost center change (MU);EC_Work location transfer (MU);EC_Grade / Job change (MU);EC_Fix term contract extension (MU);EC_Contract change (MU);EC_Promotion/demotion (MU);EC_Pay change (MU);EC_Change in working hours',
     //Hiring details 
     'sectiondb5a670766b5a6bc8758#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Experienced hire;EC_College hire;EC_Hire with prior service;EC_InterCo./CrossCountry transfer;EC_Non EE activation;EC_Contract to hire;EC_Emergency hire',
     //Change in Start Date
@@ -90,7 +90,7 @@ var Tableau = [
     //Client location --
     //'section2230db16f4162c31e868#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Work location transfer;EC_Company change;',
     //Working Hours Details
-   'section7a0413ee5e85bb83d57e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Contract change',
+   'section7a0413ee5e85bb83d57e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Contract change;EC_Change in working hours',
     //Pay -- 
     'sectione86d2b5ce968e3134eda#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Contract change;EC_Promotion/demotion;EC_Pay change;EC_Company change',
     //To be visible only for Belgium 

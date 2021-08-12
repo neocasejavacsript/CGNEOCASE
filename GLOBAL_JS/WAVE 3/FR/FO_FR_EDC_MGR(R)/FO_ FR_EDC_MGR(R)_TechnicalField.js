@@ -30,4 +30,9 @@ $(document).ready(function(){
     }else{
         document.getElementById('sectione1f18b879578ddb1e491').style.display = 'none';
     }
+    if(subtopicVal == 'FR_05-End work from home' || subtopicVal == '05-Arrêt télétravail'){
+        document.getElementById('section0a8fde7bc4a751179ae5').style.display = 'block';
+    }else{
+        document.getElementById('section0a8fde7bc4a751179ae5').style.display = 'none';
+    }
 });

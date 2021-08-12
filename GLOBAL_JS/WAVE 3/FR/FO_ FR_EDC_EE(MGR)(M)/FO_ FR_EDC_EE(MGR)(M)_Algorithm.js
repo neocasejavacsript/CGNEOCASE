@@ -70,7 +70,9 @@ var Tableau = [
 	'section73c5e19ef289fe605567#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Working hours;Temps de travail',  //MOD-001 ++
 	
 	//Work from home
-	'section9c1754deb8db686ca728#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'  //MOD-001 ++
+	'section9c1754deb8db686ca728#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',  //MOD-001 ++
+    'section5fba1ace4387fc287807#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
+    'section6dcef63ef8df103a83f5#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Working hours;Temps de travail;FR_LOA;Absence longue durée' 
 ];
 var enableManageField;
 
@@ -196,9 +198,9 @@ window.champObligatoire = function (FIELD, VALID) {
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             VALIDATOR_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
         } else if (FIELD_ID.search("UTILISATEURS") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
+            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
         } else if (FIELD_ID.search("n_question") != -1) {
-            VALIDATOR_FIELD_ID = FIELD_ID.replace("n_question", "n_questionvalidator");
+            VALIDATOR_FIELD_ID = FIELD_ID + '_validator';
         }
         //manage file fields
         if (VALIDATOR_FIELD_ID.search("_display") != -1) {
@@ -270,10 +272,10 @@ window.boutonRadio = function (FIELD) {
     var SELECT_OBLIGATOIRE_ID;
     if (CHAMP_SELECT_ID.search("INTERVENTIONS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("INTERVENTIONS", "Validator_INTERVENTIONS");
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
     } else if (CHAMP_SELECT_ID.search("UTILISATEURS") != -1) {
         SELECT_LABEL_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "lblUTILISATEURS");
-        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID.replace("UTILISATEURS", "Validator_UTILISATEURS");
+        SELECT_OBLIGATOIRE_ID = CHAMP_SELECT_ID + '_validator';
     }
     //Si le champ est obligatoire, on masque simplement l'étoile d'origine et on cré une nouvelle étoile à côté du label
     if (document.getElementById(SELECT_OBLIGATOIRE_ID)) {

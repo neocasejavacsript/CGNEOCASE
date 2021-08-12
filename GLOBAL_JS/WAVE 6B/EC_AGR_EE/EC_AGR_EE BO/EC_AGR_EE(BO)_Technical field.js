@@ -78,10 +78,12 @@ window.manipulateDropdowns = function(){
     }
 };
 
-window.generateDocumentButtonDisplay = function(){
+window.buttonDisplay = function(){
     var countryIsoCode = neocase.form.field('UTILISATEURS$CHAMPU19').getText(),
-    countrySAPCode = neocase.form.field('UTILISATEURS$CHAMPU232').getText(),
-    elementGenerateButton = document.getElementById('bouton_evenement3537');
+        countrySAPCode = neocase.form.field('UTILISATEURS$CHAMPU232').getText(),
+        elementGenerateButton = document.getElementById('bouton_evenement3537'),
+        elementSendToTTButton = document.getElementById('bouton_evenement3551'),
+        subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();
     try{
         if(elementGenerateButton !== null){
             if(countryIsoCode == 'PT' || countryIsoCode == 'CN' || countryIsoCode == 'LU' || countryIsoCode == 'BE' || countryIsoCode == 'IE'){
@@ -90,9 +92,16 @@ window.generateDocumentButtonDisplay = function(){
                 elementGenerateButton.style.display = 'none';
             }
         }
+        if(countryIsoCode == 'CN' && subtopic !== '2978'){
+            if(elementSendToTTButton !== null){
+                elementSendToTTButton.style.display = 'none';
+            }
+        }
     }catch(error){
         console.log(error);
     }
+    
+    
 };
 window.partTimeLeaveVisibility = function(){
     var countryIsoCode = neocase.form.field('UTILISATEURS$CHAMPU19').getText(),
@@ -179,7 +188,7 @@ window.sectionVisibilityFunc = function(){
 * Launch Javascript on loadcomplete
 ***************************/
 window.launchOnloadcomplete = function(){
-	 generateDocumentButtonDisplay();
+	 buttonDisplay();
 	 
 	var countryCode = neocase.form.field("UTILISATEURS$CHAMPU19").getValue();
 	if( countryCode=="CN"){

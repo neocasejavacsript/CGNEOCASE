@@ -812,6 +812,17 @@ window.launchOnLoadComplete = function () {
   }else{
     neocase.form.section('section3dc29cfb4b66f60624d6').hide();
   }
+  if(subtopicVal !== '2521'){
+    neocase.form.section('section9cacda1c5df6b3756ff5').hide();
+    neocase.form.section('sectiondf17165b4a6eeb5c05ea').hide();
+  }else{
+    neocase.form.section('section9cacda1c5df6b3756ff5').show();
+    neocase.form.section('sectiondf17165b4a6eeb5c05ea').show();
+  }
+  neocase.form.section('sectionbaa26670b6d2f9108d7c').hide();
+  if(subtopicVal == '2519' || subtopicVal == '2525'){
+    neocase.form.section('sectionbaa26670b6d2f9108d7c').show(); 
+  }
   /*-- ++MOD-007 --*/
   if(neocase.form.field('INTERVENTIONS_EN_COURS_MOTCLE').getValue() == '2362' && neocase.form.field("INTERVENTIONS_EN_COURS_ELEMENT").getValue() == '2595'){ // If topic = FR-Career Change, Subtopic = FR_01- With pay change
 	neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR279').noMandatory();

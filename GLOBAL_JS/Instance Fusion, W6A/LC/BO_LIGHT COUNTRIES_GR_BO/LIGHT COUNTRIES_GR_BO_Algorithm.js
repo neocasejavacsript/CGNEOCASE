@@ -55,10 +55,7 @@ V18 - PJU - 01/03/2018
 /**************************
  Fields and display settings
  ***************************/
-var Tableau = [
-    
-
-];
+ var Tableau = [];
 var enableManageField;
 
 /**************************

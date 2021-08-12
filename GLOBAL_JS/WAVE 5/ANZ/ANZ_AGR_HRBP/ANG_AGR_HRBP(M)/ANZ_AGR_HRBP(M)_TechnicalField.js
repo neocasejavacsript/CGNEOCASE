@@ -614,10 +614,12 @@ window.validAbsenceStartEndDate = function(AbsenceStartDateField, AbsenceendDate
 	
 	var startDate = convertToDateTime(neocase.form.field(AbsenceStartDateField).getValue()),
 		endDate = convertToDateTime(neocase.form.field(AbsenceendDateField).getValue());
-	
+    var startDateText = $.trim($('#'+ neocase.form.field(AbsenceStartDateField)['elementHTML']['id']).closest('.row').find('label').text()),
+        endDateText = $.trim($('#'+ neocase.form.field(AbsenceendDateField)['elementHTML']['id']).closest('.row').find('label').text());
 		if(startDate !== null && endDate !== null){
 			if(endDate< startDate){
-				alert("Expected Return date must be greater than Absence Start date");
+                var alertText = "'"+endDateText+"' " +"must be greater than"+" '"+startDateText+"'";
+				alert(alertText);
 				neocase.form.field(AbsenceStartDateField).setValue(initalstartDate);
 				neocase.form.field(AbsenceendDateField).setValue(initialEndDate);
 			}

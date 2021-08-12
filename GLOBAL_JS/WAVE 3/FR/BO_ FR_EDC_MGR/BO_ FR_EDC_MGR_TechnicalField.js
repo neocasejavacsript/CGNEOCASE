@@ -44,6 +44,11 @@ Developer   - Ahana Sarkar
 Date	    - 12/02/2020 (MM/DD/YYYY)
 Change No   - MOD-009
 Description - show section for 02 Addedum for given days
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 05/11/2021 (MM/DD/YYYY)
+Change No   - MOD-010
+Description - setNomenclature() added to add “n°rq_GGID_LASTNAME_Firstname”
 ----------------------------------------------------------------------------*/ 
 
 
@@ -313,8 +318,18 @@ window.checkSubtopicValue = function () {
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR412').noMandatory();
     }
 };
-
-
+window.setNomenclature = function(){
+    var reqNo = neocase.form.field('INTERVENTIONS_EN_COURS$NUMERO').getValue(),
+    ggid = neocase.form.field("UTILISATEURS$CHAMPU1").getValue(),
+    lastname = neocase.form.field("UTILISATEURS$CHAMPU8").getValue(),
+    firstname = neocase.form.field("UTILISATEURS$CHAMPU9").getValue();
+    var nomenclature = reqNo + '_' + ggid + '_' + lastname + '_' + firstname;
+    var nomenclatureField = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR963');
+    if(nomenclatureField){
+        nomenclatureField.setValue(nomenclature);
+    }    
+    //disableField(nomenclatureField);
+};
 
 /* ------------- Starts of MOD-002 changes ****CopyValueTo***** -------------*/
 
@@ -377,11 +392,16 @@ window.launchOnInit = function () {
         neocase.form.section('section30a2dc194eb698303bb6').hide();
     }
 
+    if(subtopicVal !== '2521'){
+        neocase.form.section('sectionfed1be4e714a5abbced4').hide();
+    }else{
+        neocase.form.section('sectionfed1be4e714a5abbced4').show();
+    }
     checkSubtopicValue();
+    setNomenclature();
     console.log("executed");
 	console.log("all done");
-
+    
 };
 // neocase.form.event.bind("init",launchOnInit);
 neocase.form.event.bind('loadcomplete', launchOnInit);
-

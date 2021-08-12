@@ -585,7 +585,7 @@ Neocase.checkForm = function() {
 };
 
 //Execute the custom function before the submit function
-Neocase.attachBefore(window, 'ValidatorAlertRequiredFieldsOnSubmit', function() { return Neocase.checkForm(); });
+//Neocase.attachBefore(window, 'ValidatorAlertRequiredFieldsOnSubmit', function() { return Neocase.checkForm(); });
 
 //Replace the label
 window.replaceField = function(field, replace) {

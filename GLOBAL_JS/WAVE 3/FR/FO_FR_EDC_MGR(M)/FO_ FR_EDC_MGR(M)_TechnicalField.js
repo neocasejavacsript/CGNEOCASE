@@ -483,6 +483,8 @@ window.copyValueToField = function (fieldToCopy, field) {
 window.disableFields = function () {
     //Disable fields
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"));
+    //Disable subtopic
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT"));
     //Disable SAT Field
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR281"));
 
@@ -667,6 +669,17 @@ neocase.form.event.bind('loadcomplete', function () {
         neocase.form.section('section5a0e4bbc45afb559325a').show();
     }else{
         neocase.form.section('section5a0e4bbc45afb559325a').hide();
+    }
+    if(subtopicVal == 'FR_05-End work from home' || subtopicVal == '05-Arrêt télétravail'){
+        neocase.form.section('sectionafc3f0e2538f26a7adb7').show();
+        neocase.form.section('section23b75469a8fa6ef1e98a').show();
+    }else{
+        neocase.form.section('sectionafc3f0e2538f26a7adb7').hide();
+        neocase.form.section('section23b75469a8fa6ef1e98a').hide();
+    }
+    neocase.form.section('section56b57769d23dadd613a5').hide();
+    if((subtopicVal == 'FR_03-Work from home suspension' || subtopicVal == '03-Suspension télétravail') || (subtopicVal == 'FR_04-End of suspension' || subtopicVal == '04-Fin suspension télétravail')){
+        neocase.form.section('section56b57769d23dadd613a5').show(); 
     }
 });
 var checkFlag = 0;

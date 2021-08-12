@@ -9,7 +9,12 @@ Developer   - Ahana Sarkar
 Date	    - 12/01/2020 (MM/DD/YYYY)
 Change No   - MOD-002
 Description - Popup + disable field + country wise section visibility
---------------------------------------------------*/ 
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 04/13/2021 (MM/DD/YYYY)
+Change No   - MOD-003
+Description - Add mandatory asterisk(*) to Response
+---------------------------------------------------------*/ 
 
 // hide Technical section
 neocase.form.section("section1882b8598378661e788e").hide();
@@ -194,6 +199,23 @@ window.countryWiseSectionVisibility = function(){
         console.log(error);
     }
 };
+/*---- Add mandatory asterisk(*) to Response----*/
+window.responseMandateAsterisk = function(){
+    var responsePanel = $('.mix-caseForm-panel-response');
+    responsePanel.css('position','relative'); // add position relative to make the * absolute
+    if(responsePanel.find('.ValidatorCautionBox').length < 1){
+        responsePanel.append('<span class="ValidatorCautionBox customAsterisk" style="right: 0;" title="response"></span>');
+    }
+    $('textarea[id*="response"]').on('blur',function(){
+        if($('textarea[id*="response"]').val().length > 0){
+            responsePanel.find('.ValidatorCautionBox').remove();
+        }else{
+            if(responsePanel.find('.ValidatorCautionBox').length < 1){
+                responsePanel.append('<span class="ValidatorCautionBox customAsterisk" style="right: 0;" title="response"></span>');
+            }
+        }
+    });    
+};
 /**************************
  * Launch Javascript on loadcomplete
  ***************************/
@@ -204,7 +226,7 @@ window.launchOnloadcomplete = function () {
     disableCusFields();
     manipulateDropdowns();
     countryWiseSectionVisibility();
-    
+	responseMandateAsterisk();
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 

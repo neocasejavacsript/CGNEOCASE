@@ -51,6 +51,18 @@ V17 - PJU - 11/01/2018
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
 V18 - PJU - 01/03/2018
 	- add specific code for 'MOTCLE' in manageFields
+V19 - PJU - 24/08/2017
+    - La fonction qui ajoute la classe 'req' au label d'un champ obligatoire côté BO était appelée au mauvais endroit
+V20 - PJUY - 06/08/2019
+    - add controle on localstorage
+V21 - PJUY - 10/01/2020
+    - change class 'req' to 'required'
+V22 - PJUY MME - 19/03/2021
+	- correction de l'ID des champs fichiers dans la fonction "champObligatoire"
+V23 - PJUY - 30/03/2021
+	- Correction du css des champs obligatoire côté backoffice
+V24 - PJUY - 26/05/2021
+	- add controle on field label before editing it
 */
 
 /*--------------------------------------------------------------------------
@@ -68,7 +80,7 @@ var Tableau = [
     //sectionea92097af791926325d9
     //Effective Date for all subtopics
     // 'sectionafa86caf1d6a3f71fb40#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Experienced hire;EC_College hire;EC_Emergency hire;EC_Hire with prior service;EC_InterCo./CrossCountry transfer;EC_Change in start date;EC_Non EE activation;EC_Contract to hire;EC_Mass hire;EC_Change in management team;EC_Cost center change;EC_Work location transfer;EC_Grade / Job change;EC_Fixed term contract extension;EC_Contract change;EC_Promotion/demotion;EC_Pay change;EC_Company change;EC_Reorganization (MU);EC_Change in management team (MU);EC_Change in working hours (MU);EC_Cost center change (MU);EC_Work location transfer (MU);EC_Grade / Job change (MU);EC_Fix term contract extension (MU);EC_Contract change (MU);EC_Promotion/demotion (MU);EC_Pay change (MU);EC_Probation period update (MU);EC_Pay change - ARC (MU);EC_Change in operational team (MU);EC_Company change (MU);EC_Mass termination',
-
+    
     //Action reason 
     'sectionf6ce498515a5a965b6e9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Cost center change;EC_Work location transfer;EC_Grade / Job change;EC_Fixed term contract extension;EC_Contract change;EC_Promotion/demotion;EC_Pay change;EC_Company change;EC_Change in working hours (MU);EC_Cost center change (MU);EC_Work location transfer (MU);EC_Grade / Job change (MU);EC_Fix term contract extension (MU);EC_Contract change (MU);EC_Promotion/demotion (MU);EC_Pay change (MU);EC_Reorganization (MU)',
     //Supporting Document
@@ -106,7 +118,7 @@ var Tableau = [
     //non employee deactivation details
     'sectionc4c3e5b08f1ff44233f5#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Non employee deactivation',
     //Resignation info
-    'sectionbb0382c7a0075d7c9a62#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Resignation;EC_Resignation withdrawn',
+    'sectionbb0382c7a0075d7c9a62#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Resignation',
     //termination dates
     // 'sectionff5754960ae6130842dd#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Assignment inbound end',
     //termination info
@@ -116,7 +128,9 @@ var Tableau = [
     //deployment model
     'sectionc8ff983b321bc33146e1#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Assignment outbound start;EC_Assignment inbound start',
     //country/company moving to/from
-    'section9c8c87bef1a386ebf21f#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Assignment outbound start;EC_Assignment outbound end;EC_Assignment inbound start;EC_Assignment inbound end;EC_Secondment to permanent',
+    'section9c8c87bef1a386ebf21f#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_Assignment outbound start;EC_Assignment outbound end;EC_Assignment inbound start;EC_Assignment inbound end;EC_Secondment to permanent;EC_International permanent transfer',
+    //Permanent transfer termination details
+    'section454dbed0c0c61b789d4a#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_International permanent transfer',
     //leave of absence details
     //'section3075018341bd1efb957b#formulaire.INTERVENTION_EN_COURS$ELEMENT|EC_LOA paid;EC_LOA unpaid',
     //return from leave of absence
@@ -199,6 +213,9 @@ window.champObligatoire = function (FIELD, VALID) {
     if (document.getElementById(FIELD.id)) {
         //ID du champ obligatoire
         var FIELD_ID = FIELD.id;
+  if (FIELD_ID.search("_display") != -1) {
+            FIELD_ID = FIELD_ID.replace("_display", "");
+        }
         var LBL_FIELD_ID;
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             LBL_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
@@ -230,13 +247,15 @@ window.champObligatoire = function (FIELD, VALID) {
                 if (BM_VALUES.search(BM_SEARCH) != -1 || BM_CLIENT.search(BM_SEARCH) != -1) {
                     BM_CLIENT = BM_CLIENT.replace(BM_REPLACE, "");
                     BM_VALUES = BM_VALUES.replace(BM_REPLACE, "");
-                    document.getElementById(LBL_FIELD_ID).className = "label";
                 }
+				if( document.getElementById(LBL_FIELD_ID) ){
+					document.getElementById(LBL_FIELD_ID).className = "label";
+				}
                 document.getElementById("champsobligatoiresproprietes").value = BM_VALUES;
                 document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
             } else {
                 //enable mandatory field
-                if (localStorage.getItem("mandatoryListFields").search(BM_SEARCH) != -1) {
+                if (FIELD.required) {
                     if (BM_VALUES.search(BM_SEARCH) == -1 && BM_CLIENT.search(BM_SEARCH) == -1) {
                         if (BM_VALUES != "" && BM_VALUES != " ") {
                             BM_VALUES = BM_VALUES + BM_REPLACE;
@@ -246,7 +265,9 @@ window.champObligatoire = function (FIELD, VALID) {
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
                     }
-                    document.getElementById(LBL_FIELD_ID).className = "label required";
+					if( document.getElementById(LBL_FIELD_ID) ){
+						document.getElementById(LBL_FIELD_ID).className = "label required";
+					}
                 }
             }
         }
@@ -306,7 +327,7 @@ window.viderChamp = function (FIELD) {
         DECOCHER LES CHAMPS NEOCASE
         ***************************/
         if (FIELD.type == "checkbox") {
-            //Décocher case à cocher
+            //décocher case à cocher
             FIELD.checked = false;
             FIELD.value = 0;
         } else if (FIELD.type == "text") {
@@ -449,14 +470,14 @@ window.manageCheckbox = function () {
 };
 
 window.mandatoryList = function () {
-    if(document.getElementById("champsobligatoiresproprietes")){
+    if (document.getElementById("champsobligatoiresproprietes")) {
         var BM_VALUES = document.getElementById("champsobligatoiresproprietes").value;
         var BM_CLIENT = document.getElementById("champsobligatoiresclient").value;
         if (localStorage.getItem("mandatoryListFields") !== null && localStorage.getItem("mandatoryListFields") !== "") {
             localStorage.setItem("mandatoryListFields", BM_VALUES + BM_CLIENT);
         }
     }
-    
+
 };
 
 
@@ -775,7 +796,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER1_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
+                                } else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -822,7 +843,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER2_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER2_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
+                                } else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER2_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -1019,7 +1040,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
+                                } else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -1331,7 +1352,6 @@ window.manageFields = function (DECLENCHEUR) {
         }
     }
 };
-
 /******************************************************************
 PASSER LA VALEUR DU BOUTON RADIO SUR LE SELECT MASQUE CORREPSONDANT
 *******************************************************************/

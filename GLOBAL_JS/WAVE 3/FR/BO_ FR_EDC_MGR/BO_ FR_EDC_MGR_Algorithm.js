@@ -98,7 +98,7 @@ Description - To display the section "Probation period" for the topic "FR_Start 
 /**************************
  Fields and display settings
  ***************************/
-var Tableau = [
+ var Tableau = [
     /* ------------- Start of MOD-002 changes ------- & MOD-003 ++ ------*/
     'sectionaf8e21a9e07f57645bdb#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',
     'section34c6f76b69d0d854871b#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Contract;Contrat',
@@ -116,7 +116,8 @@ var Tableau = [
     'section279d89c112918967459f#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche',
     'sectionbc443238e8702507a24d#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche',
     'sectionebe64907e4d4554cf48d#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Career Change;Données carrière;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche',// MOD-004
-    'section8a946d74df34143b2a03#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_LOA;Absence longue durée;FR_Contract;Contrat;FR_Work from home;Télétravail;FR_Leaver;Sortie des effectifs'
+    'section8a946d74df34143b2a03#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_LOA;Absence longue durée;FR_Contract;Contrat;FR_Work from home;Télétravail;FR_Leaver;Sortie des effectifs',
+    'section6928f2f55e40e3b3a638#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
 
     /* ------------- End of MOD-002 changes ------ & MOD-003 ++ -------*/
 ];

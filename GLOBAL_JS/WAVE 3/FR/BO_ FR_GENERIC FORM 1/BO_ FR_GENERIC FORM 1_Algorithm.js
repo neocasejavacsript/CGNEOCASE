@@ -68,7 +68,8 @@ var Tableau = [
 	'section4c57745bc6d725f0ced3#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Bonus Mass Upload;Primes chargement en masse', //Bonus mass Upload details 
 	'section897#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_General request;Demande générique;FR_Certificates;Attestations',  //Generated Document details 
 	'section114#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_General request;Demande générique;FR_Certificates;Attestations',  //Generated Document details remark
-	'section762cab01ad8765318ef0#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_General request;Demande générique;FR_Certificates;Attestations' //Fields for generated document
+	'section762cab01ad8765318ef0#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_General request;Demande générique;FR_Certificates;Attestations', //Fields for generated document
+    'section14d8d2107e8b36ffa748#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_PER COL Monetisation;Monetisation PER COL'
 		
 	
 	];

@@ -1,4 +1,4 @@
-//FR_EDC_MGR(M) - FRONT END - Algorithm Code
+//------ FR_EDC_MGR(EE) M (Algorithm)
 /*
 _________________________________________
 launch with 'ThisForm.Bind(loadcomplete)'
@@ -50,78 +50,24 @@ V17 - PJU - 11/01/2018
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
 */
 
-/*--------------------------------------------------------------------------------------------
+/*--------------------------------------------------------------------------------
 Developer   - Riya Dutta
 Date	    - 03/29/2018 (MM/DD/YYYY)
 Change No   - MOD-001
-Description - Hide sections based on Topic,made "initial question" as read-only,Code cleanUp
----------------------------------------------------------------------------------------------
-Developer   - Md Shahbaz Khan
-Date	    - 04/30/2018 (MM/DD/YYYY)
-Change No   - MOD-002
-Description - Phase 3 - Plan C
----------------------------------------------------------------------------------------------
-Developer   - Riya Dutta
-Date	    - 05/28/2018 (MM/DD/YYYY)
-Change No   - MOD-003
-Description - Change effective date corrected for hide section
------------------------------------------------
-Developer   - Surajit Dalal
-Date	    - 07/12/2018 (MM/DD/YYYY)
-Change No   - MOD-004
-Description - display the section  "Date d'effet du changement (Change effective date)" for the topic "Start data change" 
------------------------------------------------
-Developer   - Smita Singh
-Date	    - 10/11/2018 (MM/DD/YYYY)
-Change No   - MOD-004
-Description - France business wants to display the section "salary details" for the topic "Hiring confirmation".
----------------------------------------------------------------------------------------------
-Developer   - Riya Dutta
-Date	    - 11/21/2018 (MM/DD/YYYY)
-Change No   - MOD-005
-Description - Removed Individual Bonus Section's code
------------------------------------------------
-Developer   - Ahana Sarkar
-Date	    - 03/10/2020 (MM/DD/YYYY)
-Change No   - MOD-006
-Description - To display the section "Probation period" for the topic "FR_Start Date Change;Décalage date d\'entrée".
------------------------------------------------*/ 
+Description - Hide section based on topic,Hide Initial Question,code Clean up
+----------------------------------------------------------------------------------*/ 
 
 /**************************
 Fields and display settings
 ***************************/
 var Tableau = [
     /* ------------- Start of MOD-001 changes -------------*/
-        'section599cc6a0234d4e7c79b3#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',
-        'sectiona6df67fb00c68e6df1be#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Contract;Contrat', //MOD-002++
-        'sectiond6952bef90ed6566c06c#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Hiring confirmation;Confirmation d\'embauche', //MOD-002++
-        //Grade Details
-        'sectione580f5ed399305f0fc50#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Career Change;Données carrière;FR_Contract;Contrat', //MOD-002++
-        //Job Details
-        'section484dc8577b590d8050ea#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Career Change;Données carrière;FR_Contract;Contrat', //MOD-002++
-        //Collective Aggrement
-        'sectiondcc0137b304e90543a2e#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Career Change;Données carrière;FR_Contract;Contrat', //MOD-002++
-        //Salary Details
-        'section94b3823604d36d4b1d21#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Career Change;Données carrière;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche', //MOD-004//MOD-002++
-        //Probation Period
-        'section8faed1b170b841bf3adc#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Probation period;Période d\'essai;FR_Contract;Contrat;FR_Start Date Change;Décalage date d\'entrée', //MOD-002++
-        //Organization Details
-        'sectionf3a48e680b8d7bd8daa2#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche', //MOD-002++
-        //Management Team
-        'section3f08372b9f1bd3fcd7aa#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche', //MOD-002++
-        'section88c248f71f3c618592aa#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Leaver;Sortie des effectifs',
-        /* ------------- End of MOD-005 changes -------------*/
-        //'section037afe2bcca6fe1fd689#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Individual bonus;Prime individuelle',
-        /* ------------- End of MOD-005 changes -------------*/
-        //'section1edc0aaa8df6a5b6fdf5#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Legal entity;Entité légale', //MOD-002--
-        'section1edc0aaa8df6a5b6fdf5#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Legal entity;Entité légale;FR_Probation period;Période d\'essai;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche;FR_Start Date Change;Décalage date d\'entrée', //MOD-002++ //MOD-003++ //MOD-004++ 
-        
-        'section13e713ebb59a2b401f7b#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
-        // 'section23b75469a8fa6ef1e98a#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
-        'section10fbe4c54089975cc3a8#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée;FR_Leaver;Sortie des effectifs;FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche;FR_Probation period;Période d\'essai;FR_Start Date Change;Décalage date d\'entrée;FR_Cancelation Leavers;Annulation sortie des effectifs;FR_Legal entity;Entité légale'
-        
+        //'section599cc6a0234d4e7c79b3#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',//MOD-002--
+        //'section88c248f71f3c618592aa#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Leaver;Sortie des effectifs',//MOD-002--
+        //'section037afe2bcca6fe1fd689#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Individual bonus;Prime individuelle',//MOD-002--
+        //'section1edc0aaa8df6a5b6fdf5#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Legal entity;Entité légale'//MOD-002--
     /* ------------- End of MOD-001 changes -------------*/
-    
+    'section3637520dcf0aa92a2d58#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
     ];
     var enableManageField;
     
@@ -1201,7 +1147,7 @@ var Tableau = [
         }
     
     };
-    /*--------- MOD-001 Starts ----- Code cleanUp----cut & pasted from Technical field ---------*/
+    /* ------------- Start of MOD-001 changes,code clean up, cut & pasted code from Technical field -------------*/
     /***************
     * DISABLE FIELDS
     ****************/
@@ -1346,39 +1292,16 @@ var Tableau = [
             console.log(msg);
         }
     };
-    
-    /*--------- MOD-001 END ----- Code cleanUp----cut & pasted from Technical field ---------*/
-    /*--------- MOD-002 STARTS -----*/
-    /************************************************
-    * FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
-    *************************************************/
-    window.getASPid = function(fieldName){
-        //Only on FrontOffice Side
-        if(document.getElementsByClassName("bloc-content").length > 0){
-            var label = document.getElementsByClassName("bloc-content")[0].getElementsByTagName("label");
-            for(lbl=0; lbl<label.length; lbl++){
-                
-                //if we find an ASP.NET id we return the dynamic ID number
-                if(label[lbl].id.search("_lbl") != -1){
-                    fieldName = label[lbl].id.split("lbl")[0]+fieldName;
-                    fieldName = fieldName.replace("$","_");
-                    return fieldName;
-                }
-    
-            }
-        }
-        return fieldName;
-    };
-    /*--------- MOD-002 END -----*/
+    /* ------------- End of MOD-001 changes,code clean up, cut & pasted code from Technical field -------------*/
     /**************************************************************************************
     APPEL DES FONCTIONS GERANT L'AFFICHAGE DES CHAMPS UNE FOIS QUE LE FORMULAIRE EST CHARGE
     ***************************************************************************************/
     window.onloadForm = function () {
-            
         mandatoryList();
         enableManageField = true;
         manageFields("ouverture");
         formulaire.question.readOnly = "true"; //MOD-001 ++
+        //document.querySelector('.mix-caseForm-panel-question textarea').setAttribute("readonly", "raedonly");
     
     };
     neocase.form.event.bind('init', onloadForm);

@@ -664,27 +664,27 @@ window.disableField = function(field) {
 };
 window.disableFields = function() {
     //Cost Center
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR15);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR17);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR231);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR232);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR233);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR15);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR17);
+    //disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR231);
+    //disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR232);
+    //disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR233);
     //Organization Unit
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR11);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR13);
+    //disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR11);
+    //disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR13);
 
     //Organization Detail - Service Line /!\ MISSING
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR37);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR39);
+    //disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR37);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR39);
     //Organization Detail - Industry
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR29);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR31);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR29);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR31);
     //Organization Detail - Community
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR33);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR35);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR33);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR35);
     //Organization Detail - Affiliated
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR25);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR27);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR25);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR27);
 
     //Grade
     disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR41);
@@ -703,9 +703,9 @@ window.disableFields = function() {
     disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR50);
 
     //Working Hours - PT Work Schedule
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR255);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR256);
-    if (formulaire.INTERVENTIONS_EN_COURS$VALEUR249) {
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR255);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR256);
+    /*if (formulaire.INTERVENTIONS_EN_COURS$VALEUR249) {
         if (formulaire.INTERVENTIONS_EN_COURS$VALEUR57) {
             if (formulaire.INTERVENTIONS_EN_COURS$VALEUR249.value != "") {
                 disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR57);
@@ -733,19 +733,19 @@ window.disableFields = function() {
                 formulaire.INTERVENTIONS_EN_COURS$VALEUR249.value = "";
             }
         }
-    }
+    }*/
 
     //Work From Home
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR262);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR263);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR264);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR265);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR266);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR267);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR268);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR269);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR270);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR271);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR262);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR263);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR264);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR265);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR266);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR267);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR268);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR269);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR270);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR271);
 
     //Base Location
     disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR283);
@@ -763,25 +763,25 @@ window.disableFields = function() {
     disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR292);
     disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR293);
     //Contract Detail - Qualification/Status/Position/Coef
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR298);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR299);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR300);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR301);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR302);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR303);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR298);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR299);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR300);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR301);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR302);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR303);
 
     //Employee Group
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR314);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR314);
     disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR315);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR179);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR181);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR179);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR181);
 
     //Mandate Details
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR316);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR317);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR320);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR325);
-    disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR326);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR316);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR317);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR320);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR325);
+    // disableField(formulaire.INTERVENTIONS_EN_COURS$VALEUR326);
 
     // Emplyee Sub Group
     /*
@@ -1323,7 +1323,7 @@ window.popupLinkFunction = function() {
 
     //COntract Details - Contract Type
     //popupLink(document.getElementById("INTERVENTIONS_EN_COURS$VALEUR124"),"/Custom_Referential/ContratType.aspx");
-    popupLink(document.getElementById("UTILISATEURS$CHAMPU273"), "/Custom_Referential/ContratType.aspx");
+    popupLink(document.getElementById("UTILISATEURS$CHAMPU273"), "/Custom_Referential/ContratType.aspx?Id_User=");
 
     //Contract Details - Employee Notice
     popupLink(document.getElementById("UTILISATEURS$CHAMPU275"), "/Custom_Referential/NoticePeriod.aspx?Id_User=");

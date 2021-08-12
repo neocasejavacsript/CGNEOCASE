@@ -27,6 +27,11 @@ Developer   - Ahana Sarkar
 Date	    - 03/12/2021 (MM/DD/YYYY)
 Change No   - MOD-005
 Description - countryWiseSectionVisibility() updated - Work schedule (new) visibility for BE & LU
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 07/27/2021 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - workingHoursFieldVisibility() added - Work schedule & Return to initial working hours date visibility for PT & subtopic EC_Change in working hours(2968)
 ---------------------------------------------------------*/ 
 
 //hide technical section
@@ -58,11 +63,14 @@ window.countryWiseSectionVisibility = function(){
     console.log('countryWiseSectionVisibility' + subtopic);
     neocase.fieldInstances = [];
     try{
+		neocase.form.field('UTILISATEURS$CHAMPU297').hide(); //Target Variable Compensation (100%) ARC
+		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').hide(); //Target Variable Compensation at Actual FTE %
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR748').hide();//Company Transfer date field
         neocase.form.section('sectionb4413bd750568ec43b8a').hide(); //Only for China : Additional Pay 
         neocase.form.section('section245234279744398154ba').hide(); //Only for China : Additional Pay: Allowances   
         if(countryIsoCode == 'CN' && countrySAPCode == '28'){
-            
+            neocase.form.field('UTILISATEURS$CHAMPU297').show(); //Target Variable Compensation (100%) ARC
+			neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').show();//Target Variable Compensation at Actual FTE %
             neocase.form.section('sectionef9a73fadd03e6002aa8').show();
             neocase.form.section('section427f15229084f1a43748').show();
             if(subtopic == '2969' || subtopic == '2970' || subtopic == '2971' || subtopic == '2973' || subtopic == '2974' || subtopic == '2977'){//EC_Cost center change ;EC_Work location transfer;EC_Grade / Job change;EC_Contract change;EC_Promotion/demotion;EC_Company Change // +MOD-003
@@ -111,6 +119,8 @@ window.countryWiseSectionVisibility = function(){
             neocase.form.section('sectionc905e00d48b94f75eaba').hide();
         }
         else{
+			neocase.form.field('UTILISATEURS$CHAMPU297').hide(); //Target Variable Compensation (100%) ARC
+			neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR385').hide(); //Target Variable Compensation at Actual FTE %
             neocase.form.section('sectionef9a73fadd03e6002aa8').hide();
             neocase.form.section('sectioncf1f15e3eccc8ab1e1ab').hide();
             neocase.form.section('sectionc905e00d48b94f75eaba').hide();
@@ -201,6 +211,18 @@ window.completedButtonDisplayHide = function(){ //++MOD-003
         console.log(error);
     }
 };
+window.workingHoursFieldVisibility = function(){
+    var countryIsoCode = neocase.form.field('UTILISATEURS$CHAMPU19').getText(),
+        subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();
+    if(countryIsoCode == 'PT' && subtopic == '2968'){
+        neocase.form.field('UTILISATEURS$CHAMPU183').show();
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR380').show();
+    }
+    else{
+        neocase.form.field('UTILISATEURS$CHAMPU183').hide();
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR380').hide();
+    }
+};
 /**************************
  * Launch Javascript on init
  ***************************/
@@ -217,6 +239,7 @@ window.launchOnloadcomplete = function(){
     completedButtonDisplayHide();
     countryWiseSectionVisibility();
     partTimeLeaveVisibility();
+    workingHoursFieldVisibility();
 };
 //neocase.form.event.bind("init",launchOnInit);
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

@@ -17,7 +17,18 @@ Developer   - Ahana Sarkar
 Date	    - 03/30/2021 (MM/DD/YYYY)
 Change No   - MOD-003
 Description - For PT only - hide salary related fields for EC_Change in working hours
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 04/13/2021 (MM/DD/YYYY)
+Change No   - MOD-004
+Description - Add mandatory asterisk(*) to Response
+---------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 04/27/2021 (MM/DD/YYYY)
+Change No   - MOD-005
+Description - Add limitEmpPercentage() to limit employment percentage(new) value till 100
 ---------------------------------------------------------*/ 
+
 /*---- MOD-001 STARTS ----*/
 console.log("EC_AGR_EE_HRBP(M)");
 //Hide Hidden Section
@@ -121,7 +132,23 @@ $($('#divINTERVENTIONS_EN_COURS_VALEUR509').find('.btn').children()[2]).on('chan
     }
         
 });
-
+var empPercentageNewPrevVal = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR249').getValue();
+window.limitEmpPercentage = function(){
+    var empPercentageNewField = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR249');
+    var empPercentageNew = $('#'+empPercentageNewField['elementHTML']['id']);
+        empPercentageNewLabel = $.trim(empPercentageNewField.label().split(':')[0]);
+    if(parseFloat(empPercentageNew.val()) > 100){
+        if(empPercentageNew.closest('div').find('.errMsg').length< 1){
+            empPercentageNew.closest('div').append('<span class="errMsg" style="color: red">'+empPercentageNewLabel+' must not exceed 100%</span>');
+        }
+        empPercentageNew.val(empPercentageNewPrevVal);
+    }else{
+        if(empPercentageNew.closest('div').find('.errMsg').length > 0){
+            empPercentageNew.closest('div').find('.errMsg').remove();
+            empPercentageNewPrevVal = empPercentageNewField.getValue();
+        }
+    }
+};
 /******************************************************************************
 * Show / Hide specific fields based on Reason for absence selected value`
 *******************************************************************************/
@@ -175,6 +202,35 @@ FillCf_CountryMovingDescription = function (fieldValue) {
 };
 FillCf_CountryMoving = function (fieldValue) {
     formulaire.INTERVENTIONS_EN_COURS$VALEUR927.value = fieldValue; //Country
+};
+/*----------------- calculate Employment percentage for PT only -----------------*/
+window.calculateEmpPercentageNew = function() {
+	var weeklyWorkHours = parseFloat(neocase.form.field('UTILISATEURS$CHAMPU184').getValue());
+	var weeklyWorkHoursNew = parseFloat(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR57').getValue());
+    var empPercentageNew = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR249');
+    var countryISOCode = neocase.form.field("UTILISATEURS$CHAMPU19").getValue(),
+        subTopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();
+	//Employment percentage (new) =  ROUND((Weekly work hours(new) * 100) / Weekly working hours, 2)
+	if(countryISOCode == 'PT' && subTopic == '2968'){
+        if(weeklyWorkHoursNew) {
+			if (weeklyWorkHours){
+				if (isNaN(weeklyWorkHoursNew)) {
+					weeklyWorkHoursNew = 0;
+				}
+				if (isNaN(weeklyWorkHours)) {
+					weeklyWorkHours = 0;
+				}
+                var empPercentageNewVal = ((weeklyWorkHoursNew * 100)/weeklyWorkHours).toFixed(2);
+                //empPercentageNew.setValue(n);
+                $('#'+empPercentageNew['elementHTML']['id']).val(empPercentageNewVal);
+                limitEmpPercentage();
+			}
+            else{
+                console.log("No value present");
+            }
+	    }
+    }
+   
 };
 /*----------------- calculate annual Salary Prorated -----------------*/
 window.calculateAnnualSalProrated = function() {
@@ -278,13 +334,13 @@ window.manipulateDropdowns = function(){
         {
             countryCD : 'BE',
             country : 'Belgium',
-            workScheduleId : '2477,2478,2479,2482,2483,2484,2485,2486,2487,2488,2489,2491,2492,2493,2497,2498,2499,2505,2507,2508,2509,2510,2511,2512,2513,2514,2515,2516,2517,2518,2519,2520,2521,2522,2523,2524,2525,2526,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2542,2543,2544'
-
+            workScheduleId : '2477,2478,2479,2482,2483,2484,2485,2486,2487,2488,2489,2491,2492,2493,2497,2498,2499,2505,2507,2508,2509,2510,2511,2512,2513,2514,2515,2516,2517,2518,2520,2521,2522,2523,2524,2525,2526,2527,2528,2529,2530,2531,2532,2533,2534,2535,2536,2537,2538,2539,2542,2543,2544,2560'
+    
         },
         {
             countryCD : 'LU',
             country : 'Luxembourg',
-            workScheduleId : '2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2502,2503,2504,2505,2506,2507,2508,2544'
+            workScheduleId : '2477,2478,2479,2480,2481,2482,2483,2484,2485,2486,2487,2488,2489,2490,2491,2492,2493,2494,2495,2496,2497,2498,2499,2500,2502,2503,2504,2505,2506,2507,2508,2544,2559'
         }
     ];
     var workScheduleField = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR755');
@@ -317,6 +373,23 @@ window.sectionVisibilityFunc = function(){
         neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR78").hide();
     }
 };
+/*---- Add mandatory asterisk(*) to Response----*/
+window.responseMandateAsterisk = function(){
+    var responsePanel = $('.mix-caseForm-panel-response');
+    responsePanel.css('position','relative'); // add position relative to make the * absolute
+    if(responsePanel.find('.ValidatorCautionBox').length< 1){
+        responsePanel.append('<span class="ValidatorCautionBox customAsterisk" style="right: 0;" title="response"></span>');
+    }
+    $('textarea[id*="response"]').on('blur',function(){
+        if($('textarea[id*="response"]').val().length > 0){
+            responsePanel.find('.ValidatorCautionBox').remove();
+        }else{
+            if(responsePanel.find('.ValidatorCautionBox').length< 1){
+                responsePanel.append('<span class="ValidatorCautionBox customAsterisk" style="right: 0;" title="response"></span>');
+            }
+        }
+    });    
+};
 /**************************
 * Launch Javascript on loadcomplete
 ***************************/
@@ -334,7 +407,7 @@ window.launchOnloadcomplete = function(){
     partTimeLeaveVisibility();
 	mandateResigLetterCountryWise();
 	reasonForAbsenceFields();
-	
+	responseMandateAsterisk();
 };
 neocase.form.event.bind("loadcomplete",launchOnloadcomplete);
 

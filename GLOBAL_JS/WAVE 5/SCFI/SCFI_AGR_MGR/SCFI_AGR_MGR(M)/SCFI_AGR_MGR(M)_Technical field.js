@@ -426,13 +426,45 @@ window.showLwd = function(){ // ++MOD-012
         }
     }
 };
-window.tipTextTodoc = function(){ // ++MOD-13
-    var sectionDocument = $('#sectionfc59b4c07d363e822a35'),
+// window.tipTextTodoc = function(){ // ++MOD-13
+//     var sectionDocument = $('#sectionfc59b4c07d363e822a35'),
+//         tipTextDoc = "Please add previous email communication with Mobility/ISOW/etc.";
+//     if($(sectionDocument).find('.bloc-content .row .row .tip-text').length< 1){
+//         $(sectionDocument).find('.bloc-content .row .row').append('<div class="col-sm-12 tip-text"><span style="color:red;">'+tipTextDoc+'</span></div>');
+//     }
+// };
+
+/*---------Document display for required subtopic---------*/
+window.displayDoc = function(){
+    var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic');
+    console.log(subtopic);
+    var countryISOCode = neocase.form.field("UTILISATEURS$CHAMPU19").getValue();
+    console.log(countryISOCode);
+    neocase.form.section("sectionfc59b4c07d363e822a35").hide();
+    if(subtopic == '2905' || subtopic == '2903'){
+        neocase.form.section("sectionfc59b4c07d363e822a35").show();
+        var sectionDocument = $('#sectionfc59b4c07d363e822a35'),
         tipTextDoc = "Please add previous email communication with Mobility/ISOW/etc.";
-    if($(sectionDocument).find('.bloc-content .row .row .tip-text').length< 1){
-        $(sectionDocument).find('.bloc-content .row .row').append('<div class="col-sm-12 tip-text"><span style="color:red;">'+tipTextDoc+'</span></div>');
+        if($(sectionDocument).find('.bloc-content .row .row .tip-text').length< 1){
+            $(sectionDocument).find('.bloc-content .row .row').append('<div class="col-sm-12 tip-text"><span style="color:red;">'+tipTextDoc+'</span></div>');
+        }
+    }
+    else if(countryISOCode == 'SE'){
+        console.log("inside SE");
+        if(subtopic == '2889'){ // SCFI_Change in working hours
+            console.log("inside 2889");
+            neocase.form.section("sectionfc59b4c07d363e822a35").show();// Show Supporting document
+            var divEleDoc = $(neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR705')['elementHTML']).closest('div');
+            if($(divEleDoc).find('a').text() !== ''){
+                $(divEleDoc).find('.fileupload').css('background-color','transparent');
+                $(divEleDoc).find('.btn-upload').css('display','none');
+                $(divEleDoc).find('.btn-delete').css('display','none');
+            }
+        }
     }
 };
+/*----xxxxx-----Document display for required subtopic---xxxxx------*/
+
 /**************************
  * Launch Javascript on init
  ***************************/
@@ -445,6 +477,7 @@ window.tipTextTodoc = function(){ // ++MOD-13
  * Launch Javascript on loadcomplete
  ***************************/
 window.launchOnloadcomplete = function () {
+    displayDoc();   
     copyFields(); // Copy Employee Catalog field values to Request Catalog field
     formulaire.question.readOnly = "true";
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT")); // disable subtopic
@@ -468,7 +501,7 @@ window.launchOnloadcomplete = function () {
     if(document.getElementById('sectionffc3e75f608d65eb5d98').style.display !== 'none' && document.getElementById('section185d40ae088e855570b9').style.display !== 'none'){ // Section: Effective date & Expected end date ++MOD-011
         setDateLimit('INTERVENTIONS_EN_COURS$VALEUR5','INTERVENTIONS_EN_COURS$VALEUR445'); //Fields: 'Effective date :' , 'Expected assignment end date :'
     }
-    tipTextTodoc(); // ++MOD-13
+    //tipTextTodoc(); // ++MOD-13
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 

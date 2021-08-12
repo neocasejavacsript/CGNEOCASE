@@ -69,6 +69,11 @@ Developer   - Ahana Sarkar
 Date	    - 12/11/2020 (MM/DD/YYYY)
 Change No   - MOD-004
 Description - Instruction 3 & 4 visibilbility based on subtopic
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 07/06/2020 (MM/DD/YYYY)
+Change No   - MOD-005
+Description - Instruction 5 & Work From Home addendum related section visibilbility based on subtopic
 ------------------------------------------------------------------------------*/ 
 
 
@@ -85,6 +90,8 @@ var Tableau = [
     'section064b0bc629b18479f8d0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant)',//MOD-004
     // Instruction 4
     'section6efdb56e982f1e81611f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail',//MOD-004
+     // Instruction 5 //++MOD-005
+     //'sectionf9ab8dc961f36485f1c8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant',
     //Ile-de-France
 	'section9c3e5f4e4a4e763ab3b9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France', //MOD-002
 	//Province
@@ -98,7 +105,11 @@ var Tableau = [
     // Section - How to declare my social security absence
     'section84e7611d6efb046e5667#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail',//MOD-003
 	// Employee Details Section
-	'section0609ddba621eb2cb1092#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France;FR_Social security absence;Déclaration arrêt de travail;FR_03_Sustainable mobility package;Forfait mobilité durable;FR_02_Province;Province;FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant)'
+	'section0609ddba621eb2cb1092#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France;FR_Social security absence;Déclaration arrêt de travail;FR_03_Sustainable mobility package;Forfait mobilité durable;FR_02_Province;Province;FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Addendum return;Renvoi avenant'
+    // Work From Home addendum //++MOD-005
+    //'sectionabea415e41bee9c5db50#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant',
+    // New work from home addendum article //++MOD-005
+    //'section08de324a6bd027cdcfbd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant'
 ];
 var enableManageField;
 

@@ -116,27 +116,27 @@ function customMandatory() {
     }, 1000);
 
 }
-window.addrsMandate = function(){
-	var subtopicVal = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getValue();
-	if( subtopicVal != '2517'){
-		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR348').noMandatory();
-	}
-	else{
-		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR348').mandatory();
-	}
-};
+// window.addrsMandate = function(){
+// 	var subtopicVal = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getValue();
+// 	if( subtopicVal != '2517'){
+// 		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR348').noMandatory();
+// 	}
+// 	else{
+// 		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR348').mandatory();
+// 	}
+// };
 /**************************
 * Launch Javascript on init
 ***************************/
 window.launchOnInit = function () {
     //update 'level 1' value
     updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"), getParamFromUrl('topic'));
-    popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR264, "/Custom_Referential/WorkFromHome.aspx");
+    // popupLink(formulaire.INTERVENTIONS_EN_COURS$VALEUR264, "/Custom_Referential/WorkFromHome.aspx");
     //Disable fields
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR262"));
     disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR263"));
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR264"));
-    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR421"));
+    // disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR264"));
+    //disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR421"));
     neocase.form.section('sectioned6d242fae72700857e9').hide();
     customMandatory();
 
@@ -146,10 +146,10 @@ neocase.form.event.bind("init", launchOnInit);
 /**************************
  * Launch Javascript on loadcomplete
  ***************************/
-window.launchOnloadcomplete = function () {
-	addrsMandate();
-};
-neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
+// window.launchOnloadcomplete = function () {
+// 	addrsMandate();
+// };
+// neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 /****************************
 * Launch Javascript on submit
 *****************************/

@@ -21,14 +21,38 @@ Developer   - Ahana Sarkar
 Date	    - 01/14/2021 (MM/DD/YYYY)
 Change No   - MOD-004
 Description - added Bereavement Leave related values in social_security_absence array
-----------------------------------------------------------------------------*/ 
-
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 05/11/2021 (MM/DD/YYYY)
+Change No   - MOD-005
+Description - setNomenclature() added to add “n°rq_GGID_LASTNAME_Firstname”
+--------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 07/12/2021 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - convertTitleToHTML() implemented for BO to convert Title string to HTML format
+--------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 07/16/2021 (MM/DD/YYYY)
+Change No   - MOD-007
+Description - populateRequestDetails() implemented for BO to auto-populate Request details for FR_Addendum return, since we can't make request details not mandatory
+--------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 07/22/2021 (MM/DD/YYYY)
+Change No   - MOD-008
+Description - Subtopic - FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord) related field visibility maintain & article link to convert into HTML format
+--------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 08/06/2021 (MM/DD/YYYY)
+Change No   - MOD-009
+Description - Work from home rythm title and section HTML conversion
+---------------------------------------------------------*/
 
 /*---- MOD-001 STARS ----*/
 //Hide Technical Section
 neocase.form.section("sectionb1e81185de7be178f685").hide();
 //Hide Hidden Section
-neocase.form.section("sectionaa99b8d285a4871dc632").hide();
+//neocase.form.section("sectionaa99b8d285a4871dc632").hide();
 /*---- MOD-001 ENDS ----*/
 window.setSocialSecurityAbsence = function(){
     var social_security_absence = [
@@ -164,21 +188,72 @@ window.copyANDSetSocialSecurityValues = function(){
         CERFATypeElem.dispatchEvent(CERFATypeEvent);
     }, 1000);*/
 };
-
+window.setNomenclature = function(){
+    var reqNo = neocase.form.field('INTERVENTIONS_EN_COURS$NUMERO').getValue(),
+    ggid = neocase.form.field("UTILISATEURS$CHAMPU1").getValue(),
+    lastname = neocase.form.field("UTILISATEURS$CHAMPU8").getValue(),
+    firstname = neocase.form.field("UTILISATEURS$CHAMPU9").getValue();
+    var nomenclature = reqNo + '_' + ggid + '_' + lastname + '_' + firstname;
+    var nomenclatureField = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR963');
+    if(nomenclatureField){
+        nomenclatureField.setValue(nomenclature);
+    }    
+    //disableField(nomenclatureField);
+};
+/*---------Convert Title string to HTML format-----------*/
+window.convertTitleToHTML = function(sectionId){
+    //var sectionTitle = neocase.form.section(sectionId).elementHTML.querySelector('a');
+    localStorage.removeItem(sectionId);
+    var sectionTitle = neocase.form.section(sectionId).elementHTML.querySelector('.title');
+    if(localStorage.getItem(sectionId) === null){
+        localStorage.setItem(sectionId,sectionTitle.innerText);
+    }
+    sectionTitle.innerHTML = localStorage.getItem(sectionId);  
+};
+window.populateRequestDetails = function(){ // ++MOD-007
+    var subtopic = document.getElementById('ELEMENTS'),
+        htmlLang = document.documentElement.lang;
+    var requestDet = (htmlLang == 'fr-FR' ? 'Demande soulevée pour la sous-catégorie : ' : 'Request raised for subtopic: ') + subtopic.options[subtopic.selectedIndex].text;
+    if(subtopic.value == '3701'){
+        neocase.form.field('question').setValue(requestDet);
+    }
+};
 /**************************
  * Launch Javascript on init
  ***************************/
 window.launchOnloadcomplete = function(){
+    populateRequestDetails();// ++MOD-007
     if(formulaire.question.value !== ''){
         formulaire.question.readOnly = true;
     }
     else{
         formulaire.question.readOnly = false;
     }
+    
     /*--++MOD-002--*/
     copyANDSetSocialSecurityValues();
     setSocialSecurityAbsence();
     setCERFAType();
+    setNomenclature();
+    convertTitleToHTML('section62aa65d81f1733160643');
+    convertTitleToHTML('section5238425f4fed0e13a62f');
+    // Work from home rythm title and section HTML conversion ++MOD-009
+    convertTitleToHTML('section10c3a43ce2ed89c2febe');
+    var wfhRythm = neocase.form.section('section10c3a43ce2ed89c2febe').elementHTML;
+    if(wfhRythm.style.display !== 'none'){
+        var addTextWFH = wfhRythm.querySelector('.title font');
+        wfhRythm.querySelector('.content').prepend(addTextWFH);
+        console.log("wfhRythm" + addTextWFH);
+    }
+    
+    var subtopic = document.getElementById('ELEMENTS');
+    if(subtopic.value == '3089'){ // Subtopic: FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)
+        neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR964").show();
+        neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR945").hide();
+    }else{
+        neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR964").hide();
+        neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR945").show();
+    }
 };
 //neocase.form.event.bind("init",launchOnInit);
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

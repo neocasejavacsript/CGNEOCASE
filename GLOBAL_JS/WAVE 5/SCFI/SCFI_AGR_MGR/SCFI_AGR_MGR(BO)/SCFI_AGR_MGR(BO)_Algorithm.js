@@ -49,7 +49,20 @@ V17 - PJU - 11/01/2018
 	- delete var enableManageField
 	- update functions 'champObligatoire' and 'mandatoryList' to use localStorage instead of custom field input to store mandatory fields list
 V18 - PJU - 01/03/2018
-	- add specific code for 'MOTCLE' in manageFields
+    - add specific code for 'MOTCLE' in manageFields
+V19 - PJU - 24/08/2017
+    - La fonction qui ajoute la classe 'req' au label d'un champ obligatoire côté BO était appelée au mauvais endroit
+V20 - PJUY - 06/08/2019
+    - add controle on localstorage
+V21 - PJUY - 10/01/2020
+    - change class 'req' to 'required'
+V22 - PJUY MME - 19/03/2021
+	- correction de l'ID des champs fichiers dans la fonction "champObligatoire"
+V23 - PJUY - 30/03/2021
+	- Correction du css des champs obligatoire côté backoffice
+V24 - PJUY - 26/05/2021
+	- add controle on field label before editing it
+	- update controle on 'champObligatoire' BO side, 'VALID===true : use the attribute required instead of localStorage'
 */
 
 /*--------------------------------------------------------------------------
@@ -92,7 +105,7 @@ var Tableau = [
     // SAP form
     'section4a7bf57833e2be8b53f3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed inbound start',
     // Documents
-    'sectiond24fa8a5415c01571758#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound extension;SCFI_Landed outbound start',
+    //'sectiond24fa8a5415c01571758#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound extension;SCFI_Landed outbound start',
     // Expected end date
     'sectiona5be8f4172c8764ee3a9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Landed outbound start;SCFI_Secondment outbound start;SCFI_Landed outbound extension;SCFI_Secondment outbound extension;SCFI_Landed inbound start;SCFI_Landed inbound extension;SCFI_Secondment inbound extension',
     // Confirm assignment end date
@@ -185,6 +198,9 @@ window.champObligatoire = function (FIELD, VALID) {
     if (document.getElementById(FIELD.id)) {
         //ID du champ obligatoire
         var FIELD_ID = FIELD.id;
+  if (FIELD_ID.search("_display") != -1) {
+            FIELD_ID = FIELD_ID.replace("_display", "");
+        }
         var LBL_FIELD_ID;
         if (FIELD_ID.search("INTERVENTIONS") != -1) {
             LBL_FIELD_ID = FIELD_ID.replace("INTERVENTIONS", "lblINTERVENTIONS");
@@ -207,8 +223,8 @@ window.champObligatoire = function (FIELD, VALID) {
                     localStorage.setItem("mandatoryListFields", BM_VALUES);
                 } else if (BM_CLIENT != "" && BM_CLIENT != " ") {
                     localStorage.setItem("mandatoryListFields", BM_CLIENT);
-                }else{	
-                    localStorage.setItem("mandatoryListFields", "");	
+                }else{
+                    localStorage.setItem("mandatoryListFields", "");
                 }
             }
             if (VALID === false) {
@@ -216,13 +232,15 @@ window.champObligatoire = function (FIELD, VALID) {
                 if (BM_VALUES.search(BM_SEARCH) != -1 || BM_CLIENT.search(BM_SEARCH) != -1) {
                     BM_CLIENT = BM_CLIENT.replace(BM_REPLACE, "");
                     BM_VALUES = BM_VALUES.replace(BM_REPLACE, "");
-                    document.getElementById(LBL_FIELD_ID).className = "label";
                 }
+				if( document.getElementById(LBL_FIELD_ID) ){
+					document.getElementById(LBL_FIELD_ID).className = "label";
+				}
                 document.getElementById("champsobligatoiresproprietes").value = BM_VALUES;
                 document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
             } else {
                 //enable mandatory field
-                if (localStorage.getItem("mandatoryListFields").search(BM_SEARCH) != -1) {
+                if (FIELD.required) {
                     if (BM_VALUES.search(BM_SEARCH) == -1 && BM_CLIENT.search(BM_SEARCH) == -1) {
                         if (BM_VALUES != "" && BM_VALUES != " ") {
                             BM_VALUES = BM_VALUES + BM_REPLACE;
@@ -231,9 +249,10 @@ window.champObligatoire = function (FIELD, VALID) {
                             BM_CLIENT = BM_CLIENT + BM_REPLACE;
                             document.getElementById("champsobligatoiresclient").value = BM_CLIENT;
                         }
-                        //document.getElementById(LBL_FIELD_ID).className = "label req";
                     }
-                    document.getElementById(LBL_FIELD_ID).className = "label required";
+					if( document.getElementById(LBL_FIELD_ID) ){
+						document.getElementById(LBL_FIELD_ID).className = "label required";
+					}
                 }
             }
         }
@@ -293,7 +312,7 @@ window.viderChamp = function (FIELD) {
         DECOCHER LES CHAMPS NEOCASE
         ***************************/
         if (FIELD.type == "checkbox") {
-            //Décocher case à cocher
+            //décocher case à cocher
             FIELD.checked = false;
             FIELD.value = 0;
         } else if (FIELD.type == "text") {
@@ -436,16 +455,15 @@ window.manageCheckbox = function () {
 };
 
 window.mandatoryList = function () {
-    if(document.getElementById("champsobligatoiresproprietes")){
+    if (document.getElementById("champsobligatoiresproprietes")) {
         var BM_VALUES = document.getElementById("champsobligatoiresproprietes").value;
         var BM_CLIENT = document.getElementById("champsobligatoiresclient").value;
         if (localStorage.getItem("mandatoryListFields") !== null && localStorage.getItem("mandatoryListFields") !== "") {
             localStorage.setItem("mandatoryListFields", BM_VALUES + BM_CLIENT);
         }
     }
-    
-};
 
+};
 /*************************************************
 ALGORITHME GERANT L'AFFICHAGE DYNAMIQUE DES CHAMPS
 **************************************************/
@@ -629,7 +647,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER1_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
+                                } else if (PARAMETER1_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -676,7 +694,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER2_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER2_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
+                                } else if (PARAMETER2_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER2_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
@@ -873,7 +891,7 @@ window.manageFields = function (DECLENCHEUR) {
                                 } else if (PARAMETER_SPLIT[1].search("ELEMENT") != -1) {
                                     //Exceptions for 'ELEMENT' field
                                     PARAMETER_FIELD[c] = document.getElementById("ELEMENTS");
-                                }else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
+                                } else if (PARAMETER_SPLIT[1].search("MOTCLE") != -1) {
                                     //Exceptions for 'MOTCLE' field
                                     PARAMETER_FIELD[c] = document.getElementById("MOTSCLES");
                                 }
