@@ -203,14 +203,14 @@ window.countryWiseSectionVisibility = function(){
 window.responseMandateAsterisk = function(){
     var responsePanel = $('.mix-caseForm-panel-response');
     responsePanel.css('position','relative'); // add position relative to make the * absolute
-    if(responsePanel.find('.ValidatorCautionBox').length < 1){
+    if(responsePanel.find('.ValidatorCautionBox').length< 1){
         responsePanel.append('<span class="ValidatorCautionBox customAsterisk" style="right: 0;" title="response"></span>');
     }
     $('textarea[id*="response"]').on('blur',function(){
         if($('textarea[id*="response"]').val().length > 0){
             responsePanel.find('.ValidatorCautionBox').remove();
         }else{
-            if(responsePanel.find('.ValidatorCautionBox').length < 1){
+            if(responsePanel.find('.ValidatorCautionBox').length< 1){
                 responsePanel.append('<span class="ValidatorCautionBox customAsterisk" style="right: 0;" title="response"></span>');
             }
         }

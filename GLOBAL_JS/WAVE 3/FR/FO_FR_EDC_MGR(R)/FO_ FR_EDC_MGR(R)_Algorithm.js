@@ -99,7 +99,7 @@ var Tableau = [
         //'section700f775159b124382aa3#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Legal entity;Entité légale;FR_Probation period;FR_Contract;FR_Hiring confirmation;FR_Work from Home',  //MOD-002--
     /* ------------- End of MOD-001 changes -------------*/
     /* ------------- Start of MOD-002 changes -------------*/
-        'section700f775159b124382aa3#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Legal entity;Entité légale;FR_Probation period;Période d\'essai;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche;FR_Work from Home;Télétravail;FR_Start Date Change;Décalage date d\'entrée',   //MOD-003++
+        'section700f775159b124382aa3#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Legal entity;Entité légale;FR_Probation period;Période d\'essai;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche;FR_Start Date Change;Décalage date d\'entrée;FR_Work from home;Télétravail',   //MOD-003++
         'section1341dfcf192649a4f817#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Contract;Contrat',
         'section490ab1210f57d13543c6#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Hiring confirmation;Confirmation d\'embauche',
         'sectionbaf80203e9933ef689a2#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Probation period;Période d\'essai;FR_Contract;Contrat;FR_Start Date Change;Décalage date d\'entrée',
@@ -109,7 +109,17 @@ var Tableau = [
         'section8092f7bfcd5224c8f89d#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Career Change;Données carrière;FR_Contract;Contrat',
         'sectiond8fb7d24d1e2d78f0c16#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche',
         'section9b9f9007125da66521c3#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche',
-        'section6e389aaae7dd2aba2bc2#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
+        'section6e389aaae7dd2aba2bc2#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
+        /*// Section Employee Documents
+        'sectionf973f14c67d329830c20#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail;FR_LOA;Absence longue durée',
+        // Section Leave Documents
+        'section92f83e1895ff61bda08b#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Leaver;Sortie des effectifs',
+        // Section: Additional Documents
+        'section33d99444b64c871fd917#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Start Date Change;Décalage date d\'entrée;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Probation period;Période d\'essai;FR_Contract;Contrat',
+        // Section: Hiring Documents
+        'section876d6b89b03146c35cda#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Hiring confirmation;Confirmation d\'embauche'*/
+        //WFH article link
+        'sectionc0fcabbf7a4d16669e64#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
         
     /* ------------- End of MOD-002 changes -------------*/
     

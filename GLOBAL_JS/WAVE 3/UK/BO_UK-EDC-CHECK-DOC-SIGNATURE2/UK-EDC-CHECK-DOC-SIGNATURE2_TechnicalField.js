@@ -23,7 +23,7 @@ Description:
 ***************/
 //Technical section
 ThisForm.HideSection("section646");
-
+ThisForm.HideSection("section058f60c831651b540265");//Imagenow document
 /***********************************
 * COPY VALUE FROM 1 FIELD TO ANOTHER
 ************************************/

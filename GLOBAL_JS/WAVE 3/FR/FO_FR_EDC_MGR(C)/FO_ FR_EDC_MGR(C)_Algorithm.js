@@ -104,9 +104,17 @@ var Tableau = [
         'section82231c5f2bab823e7c2e#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche',
         // 'sectiondf17165b4a6eeb5c05ea#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
         'sectionea08adf374930447995a#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
-        'section4bfca2fcb024b12ab3ba#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée;FR_Leaver;Sortie des effectifs;FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche;FR_Probation period;Période d\'essai;FR_Start Date Change;Décalage date d\'entrée;FR_Cancelation Leavers;Annulation sortie des effectifs;FR_Legal entity;Entité légale'
-    
+        'section4bfca2fcb024b12ab3ba#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée;FR_Leaver;Sortie des effectifs;FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche;FR_Probation period;Période d\'essai;FR_Start Date Change;Décalage date d\'entrée;FR_Cancelation Leavers;Annulation sortie des effectifs;FR_Legal entity;Entité légale',
+        // Section Employee Documents
+        'sectiona49a31197460097c80a9#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail;FR_LOA;Absence longue durée',
+        // Section Leave Documents
+        'sectioneb9404cd42bb18fbaa8c#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Leaver;Sortie des effectifs',
+        // Section: Additional Documents
+        'section90c926cf1e99518d33c6#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Start Date Change;Décalage date d\'entrée;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Probation period;Période d\'essai;FR_Contract;Contrat',
+        // Section: Hiring Documents
+        'section77d93bccd1f6e848fe82#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Hiring confirmation;Confirmation d\'embauche',
     /* ------------- End of MOD-001 changes -------------*/
+        'section8f6ce60ea0af0c0c868a#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
     /* ------------- End of MOD-002 changes -------------*/
     ];
     var enableManageField;
@@ -1412,5 +1420,3 @@ var Tableau = [
         //calculate_monthlySalary();
     };
     neocase.form.event.bind('init', onloadForm);
-    
-    

@@ -3,7 +3,7 @@
 ***************/
 //Technical section
 ThisForm.HideSection("section646");
-
+ThisForm.HideSection("section55a8a310e6b36848f0c3");//Imagenow document
 /***********************************
 * COPY VALUE FROM 1 FIELD TO ANOTHER
 ************************************/

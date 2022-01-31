@@ -40,12 +40,29 @@ Developer   - Ahana Sarkar
 Date	     - 12/08/2020 (MM/DD/YYYY)
 Change No   - MOD-013
 Description - restrict this field Nombre de jours demandés (max 20), to not allow users to enter anything more than 20.
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	     - 10/01/2021 (MM/DD/YYYY)
+Change No   - MOD-014
+Description - Section visibility update
+            - Reason Of Suspension  manipulated
+            - Reason of End manipulated(10/4/2021)
 ----------------------------------------------------------------------------*/ 
 //hide technical section
 neocase.form.section("section2768aff2e9a727689da1").hide();
 
 //Hiding "Hidden Section"
 neocase.form.section("section1864d4eba29a638c63a0").hide();
+
+// FR IMAGE NOW HIDING SECTIONS BEFORE IMEX
+// Section Employee Documents
+neocase.form.section("section3f8db623861c0fc4d137").hide();
+// Section Leave Documents
+neocase.form.section("section0107e54af4663ec0ce3a").hide();
+// Section: Additional Documents
+neocase.form.section("section81b1b9e0cb75817cf1e7").hide();
+// Section: Hiring Documents
+neocase.form.section("sectionb5ffc388a31f3b1d3bb4").hide();
 
 window.checkForm = function () {
 	/***************************************
@@ -670,17 +687,57 @@ neocase.form.event.bind('loadcomplete', function () {
     }else{
         neocase.form.section('section5a0e4bbc45afb559325a').hide();
     }
-    if(subtopicVal == 'FR_05-End work from home' || subtopicVal == '05-Arrêt télétravail'){
+    if(subtopicVal == 'FR_04-End work from home' || subtopicVal == '04-Arrêt du télétravail'){
         neocase.form.section('sectionafc3f0e2538f26a7adb7').show();
         neocase.form.section('section23b75469a8fa6ef1e98a').show();
+        var reasonOfEndArray = [].slice.call(formulaire.INTERVENTIONS_EN_COURS$VALEUR711.options);
+        reasonOfEndArray.forEach(function(item, index, array){
+            var itemCode = item.getAttribute('code');
+            if(itemCode !== '2646' && itemCode !== '2645' && itemCode !== '2644' && itemCode !== '2643' && itemCode !== '2642' &&  item.getAttribute('value') !== ''){
+                // item.remove();//ie doesnot support
+                $(item).remove();
+            }         
+        });
+        $('#sectionafc3f0e2538f26a7adb7').find('hr').remove();// Work from home suspension
+        if($('#sectioncd4b71e45041abf96078').find('hr').length< 1){// New work from home addendum article Section
+            $('#sectioncd4b71e45041abf96078').append('<hr>');// New work from home addendum article Section
+        }
     }else{
         neocase.form.section('sectionafc3f0e2538f26a7adb7').hide();
         neocase.form.section('section23b75469a8fa6ef1e98a').hide();
     }
     neocase.form.section('section56b57769d23dadd613a5').hide();
-    if((subtopicVal == 'FR_03-Work from home suspension' || subtopicVal == '03-Suspension télétravail') || (subtopicVal == 'FR_04-End of suspension' || subtopicVal == '04-Fin suspension télétravail')){
+    if((subtopicVal == 'FR_02-Work from home suspension' || subtopicVal == '02-Suspension du télétravail') || (subtopicVal == 'FR_03-End of suspension' || subtopicVal == '03-Fin de suspension du télétravail')){
         neocase.form.section('section56b57769d23dadd613a5').show(); 
     }
+    if((subtopicVal == 'FR_03-End of suspension' || subtopicVal == '03-Fin de suspension du télétravail')){
+        $('#section13e713ebb59a2b401f7b').find('hr').remove();// Work from home suspension
+        if($('#sectioncd4b71e45041abf96078').find('hr').length< 1){// New work from home addendum article Section
+            $('#sectioncd4b71e45041abf96078').append('<hr>');// New work from home addendum article Section
+        }
+    }
+    neocase.form.section('section4b8d79f8b24a71097391').hide();//Work from home suspension
+    if(subtopicVal == 'FR_02-Work from home suspension' || subtopicVal == '02-Suspension du télétravail'){
+        neocase.form.section('section4b8d79f8b24a71097391').show();//Work from home suspension
+        var reasonOfSuspensionArray = [].slice.call(formulaire.INTERVENTIONS_EN_COURS$VALEUR712.options);
+        reasonOfSuspensionArray.forEach(function(item, index, array){
+            if(item.getAttribute('code') !== '2726' && item.getAttribute('code') !== '2727' && item.getAttribute('value') !== ''){
+               // item.remove();//ie doesnot support
+                $(item).remove();
+            }
+        });
+        $('#section4b8d79f8b24a71097391').find('hr').remove();// Work from home suspension
+        if($('#sectioncd4b71e45041abf96078').find('hr').length< 1){// New work from home addendum article Section
+            $('#sectioncd4b71e45041abf96078').append('<hr>');// New work from home addendum article Section
+        }
+        
+    }
+    var topic = neocase.form.field('INTERVENTIONS_EN_COURS$MOTCLE').getText();
+    if(topic == 'FR_Work from home' || topic == 'Télétravail'){
+        disableField(neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR5'));
+        neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR357').hide();
+    }
+    // neocase.form.field('UTILISATEURS$CHAMPU389').hide();
 });
 var checkFlag = 0;
 var NombreDeJoursDemandesOldVal = formulaire.INTERVENTIONS_EN_COURS$VALEUR953.value;

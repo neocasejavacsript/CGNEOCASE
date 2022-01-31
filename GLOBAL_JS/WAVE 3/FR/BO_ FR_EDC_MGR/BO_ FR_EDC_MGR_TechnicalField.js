@@ -49,11 +49,26 @@ Developer   - Ahana Sarkar
 Date	    - 05/11/2021 (MM/DD/YYYY)
 Change No   - MOD-010
 Description - setNomenclature() added to add “n°rq_GGID_LASTNAME_Firstname”
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 05/11/2021 (MM/DD/YYYY)
+Change No   - MOD-011
+Description - Section visibility updated for WFH subtopics
 ----------------------------------------------------------------------------*/ 
 
 
 //hide technical section
 neocase.form.section("sectionb0db2555c209c78721f6").hide();	//MOD-001
+
+/*// Hide Image now related sections
+// Section Employee Documents
+neocase.form.section("sectiond77fee2e9543fe8fa2a8").hide();	
+// Section Leave Documents
+neocase.form.section("sectiond2310bddab82cd23df9b").hide();	
+// Section: Additional Documents
+neocase.form.section("section96985415c7c4fd4f40e8").hide();	
+// Section: Hiring Documents
+neocase.form.section("section50b50e380bdfc8c57e32").hide();*/
 /************************************************
  * FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
  *************************************************/
@@ -331,8 +346,140 @@ window.setNomenclature = function(){
     //disableField(nomenclatureField);
 };
 
-/* ------------- Starts of MOD-002 changes ****CopyValueTo***** -------------*/
 
+var subcategoryByDocumentType = {
+  "FR_Contrat de travail / convention": [{code:"2666", value:"Contrat de travail"}],
+  "FR_Dossier d'embauche": [{code:"2667", value:"Dossier d'embauche"}],
+  "FR_Avenant / courrier": [{code:"2668", value:"Avenant et courriers"}],
+  "FR_Période d'essai": [{code:"2669", value:"Période d'essai"}],
+  "FR_Lettre de remunération": [{code:"2670", value:"Variable"}],
+  "FR_Pièce d'identité": [{code:"2671", value:"Pièce d'identité"}],
+  "FR_Diplôme": [{code:"2672", value:"Diplôme"}],
+  "FR_Attestation Sécurité Sociale": [{code:"2673", value:"Attestation Sécurité Sociale"}],
+  "FR_Titre de séjour": [{code:"2674", value:"Autorisation de Travail"}],
+  "FR_Att des chartes et notices du groupe": [{code:"2675", value:"Att des chartes et notices du groupe"}],
+  "FR_Attestation assurance télétravail": [{code:"2676", value:"Justificatif"}],
+  "FR_DPAE": [{code:"2677", value:"DPAE"}],
+  "FR_Impatriation": [{code:"2678", value:"Mobilité internationale"}],
+  "FR_Autorisation de travail": [{code:"2678", value:"Mobilité internationale"}],
+  "FR_Suspension de contrat": [{code:"2679", value:"Suspension de contrat"}],
+  "FR_Expatriation": [{code:"2679", value:"Suspension de contrat"}],
+  "FR_Arrêt de travail": [{code:"2680", value:"Arrêt de travail"}],
+  "FR_Déclaration AT": [{code:"2681", value:"Accident de travail/trajet"}],
+  "FR_Avis médecin du travail": [{code:"2682", value:"Visite médicale"}],
+  "FR_RQTH": [{code:"2683", value:"RQTH"}],
+  "FR_Sortie": [{code:"2684", value:"Sortie"}],
+  "FR_Disciplinaire": [{code:"2685", value:"Disciplinaire"}],
+  "FR_Saisie sur salaire / ATD": [{code:"2686", value:"Saisie sur salaire / ATD"}]
+};
+
+window.setImSubcategory = function(sourceField, destinationField){
+    var sourceFieldId = "INTERVENTIONS_EN_COURS$VALEUR"+sourceField;
+    var destinationFieldId = "INTERVENTIONS_EN_COURS$VALEUR"+destinationField;
+    console.log("SourceField: "+sourceField);//INTERVENTIONS_EN_COURS$VALEUR881
+    console.log("Destination: "+destinationField);//INTERVENTIONS_EN_COURS$VALEUR880
+    var ImDocumentTypeValue = neocase.form.field(sourceFieldId).getValue();
+  if (ImDocumentTypeValue === 'PLEASE CHOOSE...' || ImDocumentTypeValue === 'A QUALIFIER'){
+      document.getElementById(destinationFieldId).innerHTML = "<option value='PLEASE CHOOSE...'>PLEASE CHOOSE...</option>";
+      
+  }else {
+      var catOptions = "";
+      for (categoryId in subcategoryByDocumentType[ImDocumentTypeValue]) {
+          //catOptions += "<option value='"+subcategoryByDocumentType[ImDocumentTypeValue][categoryId].value+"'>"+subcategoryByDocumentType[ImDocumentTypeValue][categoryId].value+"</option>";
+          catOptions += '<option value="'+subcategoryByDocumentType[ImDocumentTypeValue][categoryId].value+'">'+subcategoryByDocumentType[ImDocumentTypeValue][categoryId].value+'</option>';
+
+      }
+      document.getElementById(destinationFieldId).innerHTML = catOptions;
+      
+  }
+  setTimeout(function(){ 
+    var element = document.getElementById(destinationFieldId);
+    element.dispatchEvent(new Event("change"));
+   }, 1000);
+
+};
+
+var documentTypeBySubcategory = {
+    2666: [{code:"2687", value:"FR_Contrat de travail / convention"}],
+    2667: [{code:"2688", value:"FR_Dossier d'embauche"}],
+    2668: [{code:"2689", value:"FR_Avenant / courrier"}],
+    2669: [{code:"2690", value:"FR_Période d'essai"}],
+    2670: [{code:"2691", value:"FR_lettre de remunération"}],
+    2671: [{code:"2692", value:"FR_Pièce d'identité"}],
+    2672: [{code:"2693", value:"FR_Diplôme"}],
+    2673: [{code:"2694", value:"FR_Attestation Sécurité Sociale"}],
+    2674: [{code:"2695", value:"FR_Titre de séjour"}],
+    2675: [{code:"2696", value:"FR_Attestation des chartes et notices du groupe"}],
+    2676: [{code:"2697", value:"FR_Attestation assurance télétravail"}],
+    2677: [{code:"2698", value:"FR_DPAE"}],
+    2678: [{code:"2699", value:"FR_Impatriation"}, {code:"2700", value:"FR_Autorisation de travail"}],
+    2679: [{code:"2701", value:"FR_Suspension de contrat"}, {code:"2702", value:"FR_Expatriation"}],
+    2680: [{code:"2703", value:"FR_Arrêt de travail"}],
+    2681: [{code:"2704", value:"FR_Déclaration AT"}],
+    2682: [{code:"2705", value:"FR_Avis médecin du travail"}],
+    2683: [{code:"2706", value:"FR_RQTH"}],
+    2684: [{code:"2707", value:"FR_Sortie"}],
+    2685: [{code:"2708", value:"FR_Disciplinaire"}],
+    2686: [{code:"2709", value:"FR_Saisie sur salaire / ATD"}]
+};
+window.setImDocumentType = function(sourceField, destinationField){
+    var sourceFieldId = "INTERVENTIONS_EN_COURS$VALEUR"+sourceField;
+    var destinationFieldId = "INTERVENTIONS_EN_COURS$VALEUR"+destinationField;
+    console.log("SourceField: "+sourceFieldId);//INTERVENTIONS_EN_COURS$VALEUR778
+    console.log("Destination: "+destinationFieldId);//INTERVENTIONS_EN_COURS$VALEUR779
+    var ImSubcategoryValue = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR778').getCode();
+    console.log(ImSubcategoryValue);
+    if (ImSubcategoryValue === '0'){
+        document.getElementById(sourceFieldId).innerHTML = "<option value='PLEASE CHOOSE...' code='0'></option>";
+    }else {
+        var catOptions = "";
+        for (categoryId in documentTypeBySubcategory[ImSubcategoryValue]) {
+            catOptions += "<option value='"+documentTypeBySubcategory[ImSubcategoryValue][categoryId].value+"' code='"+documentTypeBySubcategory[ImSubcategoryValue][categoryId].code+"'>"+documentTypeBySubcategory[ImSubcategoryValue][categoryId].value+"</option>";
+        }
+        document.getElementById(destinationFieldId).innerHTML = catOptions;
+    }
+
+};
+
+window.hideImageNowFields = function(){
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR971"));
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR972"));
+
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR974"));
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR975"));
+
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR778"));
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR777"));
+
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR880"));
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR879"));
+
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR883"));
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR882"));
+
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR886"));
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR885"));
+
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR889"));
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR888"));
+
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR892"));
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR891"));
+
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR895"));
+  disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR894"));
+};
+
+/* ------------- Starts of MOD-002 changes ****CopyValueTo***** -------------*/
+window.convertTitleToHTML = function(sectionId){
+    //var sectionTitle = neocase.form.section(sectionId).elementHTML.querySelector('a');
+    // localStorage.removeItem(sectionId);
+    var sectionTitle = neocase.form.section(sectionId).elementHTML.querySelector('.title');
+    if(localStorage.getItem(sectionId) === null){
+        localStorage.setItem(sectionId,sectionTitle.innerText);
+    }
+    sectionTitle.innerHTML = localStorage.getItem(sectionId);  
+};
 /**************************
  * Launch Javascript on loadcomplete
  ***************************/
@@ -392,13 +539,26 @@ window.launchOnInit = function () {
         neocase.form.section('section30a2dc194eb698303bb6').hide();
     }
 
-    if(subtopicVal !== '2521'){
+    if(subtopicVal !== '2521'){ // FR_04-End work from home 
         neocase.form.section('sectionfed1be4e714a5abbced4').hide();
     }else{
         neocase.form.section('sectionfed1be4e714a5abbced4').show();
     }
+    //++MOD-011
+    neocase.form.section('section303d556ce846bed7c043').hide();//Work from home suspension
+    if(subtopicVal == '2519'){ // FR_02-Work from home suspension 
+        neocase.form.section('section303d556ce846bed7c043').show();
+    }
+    var topic = neocase.form.field('INTERVENTIONS_EN_COURS$MOTCLE').getValue();
+    console.log('topic'+topic);
+    if(topic == '2361'){//FR_Work form home
+        document.getElementById('INTERVENTIONS_EN_COURS$VALEUR357').closest('.fieldTD').style.display = 'none';
+        document.getElementById('lblINTERVENTIONS_EN_COURS$VALEUR357').closest('.fieldTD').style.display = 'none';
+        convertTitleToHTML('section1d682ae70e4dfa152f56');
+    }
     checkSubtopicValue();
     setNomenclature();
+    hideImageNowFields();
     console.log("executed");
 	console.log("all done");
     

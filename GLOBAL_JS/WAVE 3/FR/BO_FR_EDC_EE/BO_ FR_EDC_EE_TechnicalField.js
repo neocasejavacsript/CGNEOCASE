@@ -282,7 +282,71 @@ window.setNomenclature = function(){
     }    
     //disableField(nomenclatureField);
 };
+/*---------Convert Title string to HTML format-----------*/
+window.convertTitleToHTML = function(sectionId){
+    //var sectionTitle = neocase.form.section(sectionId).elementHTML.querySelector('a');
+    // localStorage.removeItem(sectionId);
+    var sectionTitle = neocase.form.section(sectionId).elementHTML.querySelector('.title');
+    if(localStorage.getItem(sectionId) === null){
+        localStorage.setItem(sectionId,sectionTitle.innerText);
+    }
+    sectionTitle.innerHTML = localStorage.getItem(sectionId);  
+};
+window.convertLabelHTML = function(SLabel){
+	var sectionLabel = document.getElementById(SLabel);
+	if(localStorage.getItem(SLabel) === null){
+		localStorage.setItem(SLabel,sectionLabel.innerText);
+	}
+	sectionLabel.innerHTML = localStorage.getItem(SLabel); 
+};
+window.wfhSubtopicVisibility = function(){
+    var subtopic = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getValue();
+    if(subtopic !== '2517'){
+        neocase.form.section('section8147a66a0ae9d69d1414').hide();
+        neocase.form.section('sectiond0ec4a43410a67b237b9').hide();
+        neocase.form.section('sectionf2a82bbea8d9cdb2f4aa').hide();
+		if(subtopic == '2519'){//Subtopic : FR_02-Work from home suspension
+            neocase.form.section('sectiond0ec4a43410a67b237b9').show();// New work from home addendum article Section
+			convertTitleToHTML('sectiond0ec4a43410a67b237b9');
+        }
+        if(subtopic == '2525'){// Subtopic: FR_03-End of suspension
+            neocase.form.section('sectiond0ec4a43410a67b237b9').show();// New work from home addendum article Section
+			convertTitleToHTML('sectiond0ec4a43410a67b237b9');
+        }
+        if(subtopic == '2521'){// Subtopic : FR_04-End work from home
+            neocase.form.section('sectiond0ec4a43410a67b237b9').show();// New work from home addendum article Section
+			convertTitleToHTML('sectiond0ec4a43410a67b237b9');
+        } 
+    }else{
+        neocase.form.section('section8147a66a0ae9d69d1414').show();
+        neocase.form.section('sectiond0ec4a43410a67b237b9').show();
+		convertTitleToHTML('sectiond0ec4a43410a67b237b9');
+        neocase.form.section('sectionf2a82bbea8d9cdb2f4aa').show();
+		convertTitleToHTML('sectionf2a82bbea8d9cdb2f4aa');
+        neocase.form.section('section0289e51241640a252695').hide();
+		convertLabelHTML('lblINTERVENTIONS_EN_COURS$VALEUR5');//Expected effective date
+    }
+	neocase.form.section('section656090533c8b36d34ba8').hide();
+	neocase.form.section('section2329b62284abdc76059d').hide();
+    if(subtopic == '2521' || subtopic == '2519' || subtopic == '2525'){
+        neocase.form.section('section0289e51241640a252695').show();
+        if(subtopic == '2521'){
+            neocase.form.section('section2329b62284abdc76059d').show();
+        }
+        if(subtopic == '2519'){
+            neocase.form.section('section656090533c8b36d34ba8').show();
+            // var reasonOfSuspensionArray = [].slice.call(formulaire.INTERVENTIONS_EN_COURS$VALEUR712.options);
+            // reasonOfSuspensionArray.forEach(function(item, index, array){
+            //     console.log(typeof item.getAttribute('code'));
+            //     if(item.getAttribute('code') == '2726' || item.getAttribute('code') == '2727'){
+            //         item.remove();
+            //     }
+            // });
+        }
 
+    }
+    // // 2521 : section1171c624df5df12dcd3e, end wfh section
+};
 /**************************
 * Launch Javascript on init
 ***************************/
@@ -319,6 +383,7 @@ window.launchOnloadcomplete = function(){
     }
     /*--X-- Read only 'Request Details'--X--*/
 	setNomenclature();
+	wfhSubtopicVisibility();
 };
 
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

@@ -1,3 +1,5 @@
+//------ FR_EDC_EE(C)  (Technical)
+/*---------------------------------------------*/
 //hide technical section
 neocase.form.section("sectionbfe60022f9a8c8b57e7f").hide();
 
@@ -125,6 +127,91 @@ function customMandatory() {
 // 		neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR348').mandatory();
 // 	}
 // };
+window.wfhSubtopicVisibility = function(){
+    var subtopic = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getValue();
+    if(subtopic !== '2517'){ // Subtopic : FR_01-Work from home initial request
+        neocase.form.section('section03df308ecdd4f061ceeb').hide();// Work from home demand Section
+        neocase.form.section('sectionafd9cfda7a2324fd5d1c').hide();// New work from home addendum article Section
+        neocase.form.section('section8224e97d2f94b6ecb2da').hide();// Work from home rythm
+        if(subtopic == '2519'){//Subtopic : FR_02-Work from home suspension
+            neocase.form.section('sectionafd9cfda7a2324fd5d1c').show();// New work from home addendum article Section
+            $('#section2b8271224bbd6619f541').find('hr').remove();//Work from home suspension Section
+            if($('#sectionafd9cfda7a2324fd5d1c').find('hr').length< 1){// New work from home addendum article Section
+                $('#sectionafd9cfda7a2324fd5d1c').append('<hr>');// New work from home addendum article Section
+            }
+            if($('#section1171c624df5df12dcd3e').find('hr').length< 1){//Effective date Section
+                $('#section1171c624df5df12dcd3e').append('<hr>');
+            }
+            if($('#sectionaa5b769650c88557d364').find('hr').length< 1){//End work from home Section
+                $('#sectionaa5b769650c88557d364').append('<hr>');
+            }
+        }
+        if(subtopic == '2525'){// Subtopic: FR_03-End of suspension
+            neocase.form.section('sectionafd9cfda7a2324fd5d1c').show();// New work from home addendum article Section
+            $('#section1171c624df5df12dcd3e').find('hr').remove();//Effective date Section
+            if($('#sectionafd9cfda7a2324fd5d1c').find('hr').length< 1){// New work from home addendum article Section
+                $('#sectionafd9cfda7a2324fd5d1c').append('<hr>');// New work from home addendum article Section
+            }
+            if($('#section2b8271224bbd6619f541').find('hr').length< 1){//Work from home suspension Section
+                $('#section2b8271224bbd6619f541').append('<hr>');
+            }
+            if($('#sectionaa5b769650c88557d364').find('hr').length< 1){//End work from home Section
+                $('#sectionaa5b769650c88557d364').append('<hr>');
+            }
+        }
+        if(subtopic == '2521'){// Subtopic : FR_04-End work from home
+            neocase.form.section('sectionafd9cfda7a2324fd5d1c').show();// New work from home addendum article Section
+            $('#sectionaa5b769650c88557d364').find('hr').remove();//End work from home Section
+            if($('#sectionafd9cfda7a2324fd5d1c').find('hr').length< 1){// New work from home addendum article Section
+                $('#sectionafd9cfda7a2324fd5d1c').append('<hr>');// New work from home addendum article Section
+            }
+            if($('#section2b8271224bbd6619f541').find('hr').length< 1){//Work from home suspension Section
+                $('#section2b8271224bbd6619f541').append('<hr>');
+            }
+            if($('#section1171c624df5df12dcd3e').find('hr').length< 1){//Effective date Section
+                $('#section1171c624df5df12dcd3e').append('<hr>');
+            }
+        }        
+    }else{
+        neocase.form.section('section03df308ecdd4f061ceeb').show();// Work from home demand Section
+        neocase.form.section('sectionafd9cfda7a2324fd5d1c').show();// New work from home addendum article Section
+        neocase.form.section('section8224e97d2f94b6ecb2da').show();// Work from home rythm
+        neocase.form.section('section1171c624df5df12dcd3e').hide();// Effective date
+        $('#section03df308ecdd4f061ceeb').find('hr').remove();// Work from home demand Section
+        if($('#sectionafd9cfda7a2324fd5d1c').find('hr').length< 1){// New work from home addendum article Section
+            $('#sectionafd9cfda7a2324fd5d1c').append('<hr>');// New work from home addendum article Section
+        }
+        var effectiveDate = $('#'+ neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR5')['elementHTML']['id']);
+        effectiveDate.datepicker('option', 'minDate', new Date(2021,11,1));
+    }
+    neocase.form.section('section2b8271224bbd6619f541').hide();
+    neocase.form.section('sectionaa5b769650c88557d364').hide();
+    if(subtopic == '2521' || subtopic == '2519' || subtopic == '2525'){ // Subtopic : FR_04-End work from home || FR_02-Work from home suspension || FR_03-End of suspension
+        neocase.form.section('section1171c624df5df12dcd3e').show();// Effective date
+        if(subtopic == '2521'){//Subtopic : FR_04-End work from home
+            neocase.form.section('sectionaa5b769650c88557d364').show();
+            var reasonOfEndArray = [].slice.call(formulaire.INTERVENTIONS_EN_COURS$VALEUR711.options);
+            reasonOfEndArray.forEach(function(item, index, array){ 
+                var itemCode = item.getAttribute('code');
+                if(itemCode !== '2728' && itemCode !== '2729' && itemCode !== '2730' && itemCode !== '2731' &&  item.getAttribute('value') !== '')  {
+                    // item.remove(); //ie doesnot support
+                    $(item).remove();
+                }         
+            });
+        }
+        if(subtopic == '2519'){
+            neocase.form.section('section2b8271224bbd6619f541').show();
+            var reasonOfSuspensionArray = [].slice.call(formulaire.INTERVENTIONS_EN_COURS$VALEUR712.options);
+            reasonOfSuspensionArray.forEach(function(item, index, array){
+                console.log(typeof item.getAttribute('code'));
+                if(item.getAttribute('code') == '2726' || item.getAttribute('code') == '2727'){
+                    // item.remove();//ie doesnot support
+                    $(item).remove();
+                }
+            });
+        }
+    }
+};
 /**************************
 * Launch Javascript on init
 ***************************/
@@ -146,10 +233,11 @@ neocase.form.event.bind("init", launchOnInit);
 /**************************
  * Launch Javascript on loadcomplete
  ***************************/
-// window.launchOnloadcomplete = function () {
-// 	addrsMandate();
-// };
-// neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
+window.launchOnloadcomplete = function () {
+	// addrsMandate();
+    wfhSubtopicVisibility();
+};
+neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 /****************************
 * Launch Javascript on submit
 *****************************/

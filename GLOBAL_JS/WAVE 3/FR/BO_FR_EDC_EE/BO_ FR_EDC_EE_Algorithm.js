@@ -63,6 +63,7 @@ var Tableau = [
 
 	//Display section Work from home details
 	'section0289e51241640a252695#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
+    // 'section164fd599a165f7e805e0#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
 ];
 var enableManageField;
 

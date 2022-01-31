@@ -1,1 +1,1 @@
-checkSSARValueMaladie();
+checkSSARValue();

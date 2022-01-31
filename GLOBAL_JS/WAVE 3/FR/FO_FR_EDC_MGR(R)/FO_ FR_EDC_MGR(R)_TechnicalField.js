@@ -13,7 +13,12 @@ Developer   - Ahana Sarkar
 Date	     - 12/02/2020 (MM/DD/YYYY)
 Change No   - MOD-003
 Description - show section for 02 Addedum for given days
-----------------------------------------------------------------------------*/ 
+----------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	     - 10/01/2021 (MM/DD/YYYY)
+Change No   - MOD-004
+Description - Visibility of section updated for 2 subtopics.
+--------------------------------------------------------------------*/ 
 
 /* ------------- Start of MOD-001 changes -------------*/
 document.getElementById("section3803e028f8171d781013").style.display = "none";
@@ -30,9 +35,18 @@ $(document).ready(function(){
     }else{
         document.getElementById('sectione1f18b879578ddb1e491').style.display = 'none';
     }
-    if(subtopicVal == 'FR_05-End work from home' || subtopicVal == '05-Arrêt télétravail'){
+    if(subtopicVal == 'FR_04-End work from home' || subtopicVal == '04-Arrêt du télétravail'){
         document.getElementById('section0a8fde7bc4a751179ae5').style.display = 'block';
     }else{
         document.getElementById('section0a8fde7bc4a751179ae5').style.display = 'none';
+    }
+    if(subtopicVal == 'FR_02-Work from home suspension' || subtopicVal == '02-Suspension du télétravail'){//MOD-004
+        document.getElementById('sectionf8a448c0fc103bcdbeaf').style.display = 'block';
+    }else{
+        document.getElementById('sectionf8a448c0fc103bcdbeaf').style.display = 'none';
+    }
+    var topic = document.getElementById('divFieldINTERVENTIONS_EN_COURS_MOTCLE').children[0].innerText;
+    if(topic == 'FR_Work from home' || topic == 'Télétravail'){
+        document.getElementById('divINTERVENTIONS_EN_COURS_VALEUR357').style.display = 'none';
     }
 });

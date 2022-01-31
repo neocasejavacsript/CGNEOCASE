@@ -4,6 +4,11 @@ Developer   - Ahana Sarkar
 Date	    - 10/28/2020(MM/DD/YYYY)
 Change No   - MOD-001
 Description - Basic JS
+-------------------------------------------------------------------------
+Developer   - Choudhury Shahin
+Date	    - 03/01/2021 (MM/DD/YYYY)
+Change No   - MOD-002
+Description - Add method 'checkQuestion' to replace space by empty
 ---------------------------------------------------------*/ 
 
 // hide Technical section
@@ -216,6 +221,15 @@ window.countryWiseSectionVisibility = function(){
         console.log(error);
     }
 };
+
+window.checkQuestion = function () {
+    var question = neocase.form.field('question');
+    var trimmedValue = question.elementHTML.value.replaceAll(' ', '');
+    if (trimmedValue.length === 0) {
+        question.emptyValue();
+    }
+};
+
 /**************************
  * Launch Javascript on loadcomplete
  ***************************/
@@ -230,7 +244,10 @@ window.launchOnloadcomplete = function () {
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 
 /****************************
- * Launch Javascript on submit
- *****************************/
-window.launchOnSubmit = function () { };
-neocase.form.event.bind("submit", launchOnSubmit);
+* Launch Javascript on submit
+*****************************/
+window.submitMethods = function () {
+    checkQuestion();
+};
+
+neocase.form.event.bind('submit', submitMethods);

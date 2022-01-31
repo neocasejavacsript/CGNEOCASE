@@ -104,7 +104,7 @@ var Tableau = [
     //Section - Social security absence
     'section74c99c5b3fecf9fb40e6#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail',//MOD-003
 	//Section - Days worked from home during the month
-    'section32a5f9dffd9e8f559a73#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)',//MOD-004
+    'section32a5f9dffd9e8f559a73#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord);FR_Work from home allowance (on medical recommendation without addendum or more than 70%);Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%);FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)',//MOD-004
     // Work From Home addendum
     'section3ead8324954dbb76e071#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant',
     // Work From Home addendum Article link
@@ -112,7 +112,11 @@ var Tableau = [
     // Section - How to declare my wfh agreement? Read the article
     'section5238425f4fed0e13a62f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)',
     // Work from home rythm
-    'section10c3a43ce2ed89c2febe#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant'
+    'section10c3a43ce2ed89c2febe#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant',
+    //Article link with field
+    'section340acfe6789d8a449cfd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (on medical recommendation without addendum or more than 70%);Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%)',
+    //Article link for WFH exceptional allowances
+    'section293f4c8f03fbe9ca42ff#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)'
 ];
 var enableManageField;
 

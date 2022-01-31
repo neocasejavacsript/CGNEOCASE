@@ -40,7 +40,7 @@ neocase.form.section("section2768aff2e9a727689da1").hide();
 //hide Hidden section
 neocase.form.section("section57bf2d341f024ce4bae3").hide();
 var checkFlag = 0;
-var NombreDeJoursDemandesOldVal = formulaire.INTERVENTIONS_EN_COURS$VALEUR953.value;
+var NombreDeJoursDemandesOldVal = !formulaire.INTERVENTIONS_EN_COURS$VALEUR953 ? formulaire.INTERVENTIONS_EN_COURS$VALEUR953.value : '';
 window.maxTwentyInField = function(){ //++MOD-005
   var NombreDeJoursDemandes = formulaire.INTERVENTIONS_EN_COURS$VALEUR953.value;
   var HTMLlang = document.documentElement.lang;
@@ -76,7 +76,27 @@ neocase.form.event.bind('loadcomplete', function () {
     }else{
         neocase.form.section('sectionb92db6fd0939bf716601').hide();
     }
-
+    neocase.form.section('section4c10406ee92561cdfd32').hide();//Work from home suspension
+    if(subtopicVal == 'FR_02-Work from home suspension' || subtopicVal == '02-Suspension du télétravail'){
+        neocase.form.section('section4c10406ee92561cdfd32').show();//Work from home suspensio
+        $('#section4c10406ee92561cdfd32').find('hr').remove();// Work from home suspension
+        if($('#section5988b22221a91f473fa2').find('hr').length< 1){// New work from home addendum article Section
+            $('#section5988b22221a91f473fa2').append('<hr>');// New work from home addendum article Section
+        }
+    }
+    if(subtopicVal == '03-Fin de suspension du télétravail' || subtopicVal == 'FR_03-End of suspension'){
+      $('#section3637520dcf0aa92a2d58').find('hr').remove();// Effective date
+      if($('#section5988b22221a91f473fa2').find('hr').length< 1){// New work from home addendum article Section
+          $('#section5988b22221a91f473fa2').append('<hr>');// New work from home addendum article Section
+      }
+    }
+    if(subtopicVal == 'FR_04-End work from home' || subtopicVal == '04-Arrêt du télétravail'){
+      $('#section3637520dcf0aa92a2d58').find('hr').remove();// Effective date
+      if($('#section5988b22221a91f473fa2').find('hr').length< 1){// New work from home addendum article Section
+          $('#section5988b22221a91f473fa2').append('<hr>');// New work from home addendum article Section
+      }
+    }
+    
 });
 neocase.form.event.bind("init",launchOnInit);
 /* ------------- End of MOD-001 changes -------------*/

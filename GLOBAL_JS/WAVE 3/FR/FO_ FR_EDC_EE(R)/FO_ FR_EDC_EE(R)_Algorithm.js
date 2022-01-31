@@ -56,11 +56,9 @@ Fields and display settings
 ***************************/
 var Tableau = [
 	'section626#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée',
-	'sectionb42c57ce87da48a26003#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Working hours;Temps de travail', 
+	'sectionb42c57ce87da48a26003#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Working hours;Temps de travail',
     'section85d300fad9f1ed53878b#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
-    
-	
-	
+    'section9cd01ab680a2a57c3438#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'  	
 ];
 var enableManageField;
 

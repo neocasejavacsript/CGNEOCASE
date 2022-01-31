@@ -60,6 +60,13 @@ Developer   - Ahana Sarkar
 Date	     - 12/08/2020 (MM/DD/YYYY)
 Change No   - MOD-013
 Description - restrict this field Nombre de jours demandés (max 20), to not allow users to enter anything more than 20.
+------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	     - 10/01/2021 (MM/DD/YYYY)
+Change No   - MOD-014
+Description - Section visibility update
+            - Reason Of Suspension  manipulated
+            - Reason of End manipulated(10/4/2021)
 ----------------------------------------------------------------------------*/ 
 
 
@@ -67,6 +74,14 @@ Description - restrict this field Nombre de jours demandés (max 20), to not all
 neocase.form.section("sectionc2cc4d34acf160b6e62a").hide();
 neocase.form.section("section0217b9d450f128c8a4bb").hide(); //MOD-001 ++
 neocase.form.section("section4916f629c34edbd9a4c1").hide(); //MOD-002 ++
+/*// Section Employee Documents
+neocase.form.section("sectiona49a31197460097c80a9").hide();
+// Section Leave Documents
+neocase.form.section("sectioneb9404cd42bb18fbaa8c").hide();
+// Section: Additional Documents
+neocase.form.section("section90c926cf1e99518d33c6").hide();
+// Section: Hiring Documents
+neocase.form.section("section77d93bccd1f6e848fe82").hide(); */
 
 /* ------------- Start of MOD-001 changes -------------*/
 window.setLOAtypeForSubtopic = function () {
@@ -800,12 +815,7 @@ window.launchOnInit = function () {
   neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR380').noMandatory();
 
 };
-
-window.launchOnLoadComplete = function () {
-  var annualBaseSal = neocase.form.field("UTILISATEURS_CHAMPU292");
-  var payPeriods = neocase.form.field("UTILISATEURS_CHAMPU293");
-  var monthlySal = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR429");
-  calculate_monthlySalary(annualBaseSal, payPeriods, monthlySal);//Calculate Monthly Salary - Ends
+window.subtopicManipulation = function(){
   var subtopicVal = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getValue();
   if(subtopicVal == '2950'){
     neocase.form.section('section3dc29cfb4b66f60624d6').show();
@@ -815,13 +825,65 @@ window.launchOnLoadComplete = function () {
   if(subtopicVal !== '2521'){
     neocase.form.section('section9cacda1c5df6b3756ff5').hide();
     neocase.form.section('sectiondf17165b4a6eeb5c05ea').hide();
-  }else{
+  }else{//2521
     neocase.form.section('section9cacda1c5df6b3756ff5').show();
     neocase.form.section('sectiondf17165b4a6eeb5c05ea').show();
+    var reasonOfEndArray = [].slice.call(formulaire.INTERVENTIONS_EN_COURS$VALEUR711.options);
+    reasonOfEndArray.forEach(function(item, index, array){
+        var itemCode = item.getAttribute('code');
+        if(itemCode !== '2646' && itemCode !== '2645' && itemCode !== '2644' && itemCode !== '2643' && itemCode !== '2642' &&  item.getAttribute('value') !== ''){
+           // item.remove();//ie doesnot support
+           $(item).remove();
+        }         
+    });
+    $('#section9cacda1c5df6b3756ff5').find('hr').remove();// End Work from home Section
+    if($('#section8f6ce60ea0af0c0c868a').find('hr').length< 1){// New work from home addendum article Section
+        $('#section8f6ce60ea0af0c0c868a').append('<hr>');// New work from home addendum article Section
+    }
+    if($('#sectionea08adf374930447995a').find('hr').length< 1){// Effective date Section
+      $('#sectionea08adf374930447995a').append('<hr>');// Effective date Section
+    }
+    if($('#section446bb73b1d12acb28344').find('hr').length< 1){// Work from home suspension Section
+      $('#section446bb73b1d12acb28344').append('<hr>');// Work from home suspension section
+    }
   }
   neocase.form.section('sectionbaa26670b6d2f9108d7c').hide();
   if(subtopicVal == '2519' || subtopicVal == '2525'){
     neocase.form.section('sectionbaa26670b6d2f9108d7c').show(); 
+  }
+  if(subtopicVal == '2525'){
+    $('#sectionea08adf374930447995a').find('hr').remove();// work from home suspension Section
+    if($('#section8f6ce60ea0af0c0c868a').find('hr').length< 1){// New work from home addendum article Section
+        $('#section8f6ce60ea0af0c0c868a').append('<hr>');// New work from home addendum article Section
+    }
+    if($('#section9cacda1c5df6b3756ff5').find('hr').length< 1){// End wfh Section
+      $('#section9cacda1c5df6b3756ff5').append('<hr>');// End wfh Section
+    }
+    if($('#section446bb73b1d12acb28344').find('hr').length< 1){// work from home suspension Section
+      $('#section446bb73b1d12acb28344').append('<hr>');// work from home suspension Section
+    }
+  }
+  neocase.form.section('section446bb73b1d12acb28344').hide();//Work from home suspension
+  if(subtopicVal == '2519'){
+    neocase.form.section('section446bb73b1d12acb28344').show();
+    var reasonOfSuspensionArray = [].slice.call(formulaire.INTERVENTIONS_EN_COURS$VALEUR712.options);
+    reasonOfSuspensionArray.forEach(function(item, index, array){
+        if(item.getAttribute('code') !== '2726' && item.getAttribute('code') !== '2727' && item.getAttribute('value') !== ''){
+            // item.remove();//ie doesnot support
+            $(item).remove();
+        }
+    });
+    $('#section446bb73b1d12acb28344').find('hr').remove();// Work from home demand Section
+    if($('#section8f6ce60ea0af0c0c868a').find('hr').length< 1){// New work from home addendum article Section
+        $('#section8f6ce60ea0af0c0c868a').append('<hr>');// New work from home addendum article Section
+    }
+    if($('#sectionea08adf374930447995a').find('hr').length< 1){// Effective date Section
+      $('#sectionea08adf374930447995a').append('<hr>');// Effective date Section
+    }
+    if($('#section9cacda1c5df6b3756ff5').find('hr').length< 1){// Work from home suspension Section
+      $('#section9cacda1c5df6b3756ff5').append('<hr>');// Work from home suspension Section
+    }
+    
   }
   /*-- ++MOD-007 --*/
   if(neocase.form.field('INTERVENTIONS_EN_COURS_MOTCLE').getValue() == '2362' && neocase.form.field("INTERVENTIONS_EN_COURS_ELEMENT").getValue() == '2595'){ // If topic = FR-Career Change, Subtopic = FR_01- With pay change
@@ -835,8 +897,16 @@ window.launchOnLoadComplete = function () {
   else{
 	neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR279').noMandatory();
   }
+};
+window.launchOnLoadComplete = function () {
+  var annualBaseSal = neocase.form.field("UTILISATEURS_CHAMPU292");
+  var payPeriods = neocase.form.field("UTILISATEURS_CHAMPU293");
+  var monthlySal = neocase.form.field("INTERVENTIONS_EN_COURS_VALEUR429");
+  calculate_monthlySalary(annualBaseSal, payPeriods, monthlySal);//Calculate Monthly Salary - Ends
+  subtopicManipulation();
   /*-- MOD-007 Ends --*/
   mandateLDP();//++MOD-011
+  // neocase.form.field('UTILISATEURS$CHAMPU389').hide();
 };
 
 /****************************

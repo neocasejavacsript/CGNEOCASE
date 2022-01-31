@@ -46,13 +46,23 @@ Developer   - Ahana Sarkar
 Date	    - 08/06/2021 (MM/DD/YYYY)
 Change No   - MOD-009
 Description - Work from home rythm title and section HTML conversion
----------------------------------------------------------*/
+--------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 09/01/2021 (MM/DD/YYYY)
+Change No   - MOD-010
+Description - populateRequestDetails() updated for BO to auto-populate Request details for FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)(3089), since we can't make request details not mandatory
+--------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 12/01/2021 (MM/DD/YYYY)
+Change No   - MOD-011
+Description - visibility of fields managed for WFH medical allowance (3714) & WFH exceptional allowance(3715)
+--------------------------------------------------------------------------*/
 
 /*---- MOD-001 STARS ----*/
 //Hide Technical Section
 neocase.form.section("sectionb1e81185de7be178f685").hide();
 //Hide Hidden Section
-//neocase.form.section("sectionaa99b8d285a4871dc632").hide();
+neocase.form.section("sectionaa99b8d285a4871dc632").hide();
 /*---- MOD-001 ENDS ----*/
 window.setSocialSecurityAbsence = function(){
     var social_security_absence = [
@@ -214,7 +224,7 @@ window.populateRequestDetails = function(){ // ++MOD-007
     var subtopic = document.getElementById('ELEMENTS'),
         htmlLang = document.documentElement.lang;
     var requestDet = (htmlLang == 'fr-FR' ? 'Demande soulevée pour la sous-catégorie : ' : 'Request raised for subtopic: ') + subtopic.options[subtopic.selectedIndex].text;
-    if(subtopic.value == '3701'){
+    if(subtopic.value == '3701' || subtopic.value == '3089'|| subtopic.value == '3715'){
         neocase.form.field('question').setValue(requestDet);
     }
 };
@@ -239,6 +249,8 @@ window.launchOnloadcomplete = function(){
     convertTitleToHTML('section5238425f4fed0e13a62f');
     // Work from home rythm title and section HTML conversion ++MOD-009
     convertTitleToHTML('section10c3a43ce2ed89c2febe');
+    convertTitleToHTML('section340acfe6789d8a449cfd');
+    convertTitleToHTML('section293f4c8f03fbe9ca42ff');
     var wfhRythm = neocase.form.section('section10c3a43ce2ed89c2febe').elementHTML;
     if(wfhRythm.style.display !== 'none'){
         var addTextWFH = wfhRythm.querySelector('.title font');
@@ -247,13 +259,20 @@ window.launchOnloadcomplete = function(){
     }
     
     var subtopic = document.getElementById('ELEMENTS');
-    if(subtopic.value == '3089'){ // Subtopic: FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)
+    
+    document.getElementById('lblINTERVENTIONS_EN_COURS$VALEUR876').closest('tr').style.display = 'none';
+    if(subtopic.value == '3089' || subtopic.value == '3714' || subtopic.value == '3715'){ // Subtopic: FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord),FR_Work from home allowance (on medical recommendation without addendum or > 70%) (3714),WFH exceptional allowances(3715)
         neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR964").show();
         neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR945").hide();
+        
     }else{
         neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR964").hide();
         neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR945").show();
     }
+    if(subtopic.value == '3714'){
+        document.getElementById('lblINTERVENTIONS_EN_COURS$VALEUR876').closest('tr').style.display = 'block';
+    }
+    
 };
 //neocase.form.event.bind("init",launchOnInit);
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

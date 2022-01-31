@@ -597,7 +597,7 @@ window.showLOADetailsSection = function(){
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR333').noMandatory();
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR334').noMandatory();
 
-        neocase.form.section("section3075018341bd1`efb957b").hide();
+        neocase.form.section("section3075018341bd1efb957b").hide();
     }
 };
 window.showFixedTermContactSection = function(){

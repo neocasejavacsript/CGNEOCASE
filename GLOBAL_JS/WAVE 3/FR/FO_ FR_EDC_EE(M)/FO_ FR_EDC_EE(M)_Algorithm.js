@@ -57,7 +57,8 @@ var Tableau = [
 	'section118c32a1bb878135cfe5#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Working hours;Temps de travail', 
 	'section141#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
     'section9f90b5009751842e0f15#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
-    'section9ad2e74c95b471807100#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Working hours;Temps de travail;FR_LOA;Absence longue durée'  
+    'section9ad2e74c95b471807100#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Working hours;Temps de travail;FR_LOA;Absence longue durée',
+    'section2d7be53c1850d4e6aecc#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
 	
 ];
 var enableManageField;

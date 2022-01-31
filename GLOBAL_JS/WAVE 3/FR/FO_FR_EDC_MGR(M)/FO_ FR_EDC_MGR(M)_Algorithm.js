@@ -114,11 +114,13 @@ var Tableau = [
         //'section037afe2bcca6fe1fd689#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Individual bonus;Prime individuelle',
         /* ------------- End of MOD-005 changes -------------*/
         //'section1edc0aaa8df6a5b6fdf5#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Legal entity;Entité légale', //MOD-002--
-        'section1edc0aaa8df6a5b6fdf5#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Legal entity;Entité légale;FR_Probation period;Période d\'essai;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche;FR_Start Date Change;Décalage date d\'entrée', //MOD-002++ //MOD-003++ //MOD-004++ 
+        'section1edc0aaa8df6a5b6fdf5#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Legal entity;Entité légale;FR_Probation period;Période d\'essai;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche;FR_Start Date Change;Décalage date d\'entrée;FR_Work from home;Télétravail', //MOD-002++ //MOD-003++ //MOD-004++ 
         
         'section13e713ebb59a2b401f7b#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
         // 'section23b75469a8fa6ef1e98a#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
         'section10fbe4c54089975cc3a8#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée;FR_Leaver;Sortie des effectifs;FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche;FR_Probation period;Période d\'essai;FR_Start Date Change;Décalage date d\'entrée;FR_Cancelation Leavers;Annulation sortie des effectifs;FR_Legal entity;Entité légale'
+        //Change effective date
+        // 'section5b48f4992ba3471b8ebe#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'        
         
     /* ------------- End of MOD-001 changes -------------*/
     

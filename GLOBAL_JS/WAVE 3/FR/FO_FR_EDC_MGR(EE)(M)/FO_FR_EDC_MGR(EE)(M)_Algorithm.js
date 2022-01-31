@@ -67,7 +67,10 @@ var Tableau = [
         //'section037afe2bcca6fe1fd689#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Individual bonus;Prime individuelle',//MOD-002--
         //'section1edc0aaa8df6a5b6fdf5#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Legal entity;Entité légale'//MOD-002--
     /* ------------- End of MOD-001 changes -------------*/
-    'section3637520dcf0aa92a2d58#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
+    'section3637520dcf0aa92a2d58#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
+    //Change effective date
+    'sectioncbe69ce557625c2f63b1#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
+    'section5988b22221a91f473fa2#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
     ];
     var enableManageField;
     
@@ -1300,7 +1303,7 @@ var Tableau = [
         mandatoryList();
         enableManageField = true;
         manageFields("ouverture");
-        formulaire.question.readOnly = "true"; //MOD-001 ++
+        // formulaire.question.readOnly = "true"; //MOD-001 ++
         //document.querySelector('.mix-caseForm-panel-question textarea').setAttribute("readonly", "raedonly");
     
     };

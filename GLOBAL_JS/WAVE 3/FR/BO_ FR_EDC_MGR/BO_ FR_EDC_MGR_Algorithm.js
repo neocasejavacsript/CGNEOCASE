@@ -117,8 +117,16 @@ Description - To display the section "Probation period" for the topic "FR_Start 
     'sectionbc443238e8702507a24d#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Organization;Données organisationnelles;FR_Hiring confirmation;Confirmation d\'embauche',
     'sectionebe64907e4d4554cf48d#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Career Change;Données carrière;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche',// MOD-004
     'section8a946d74df34143b2a03#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_LOA;Absence longue durée;FR_Contract;Contrat;FR_Work from home;Télétravail;FR_Leaver;Sortie des effectifs',
-    'section6928f2f55e40e3b3a638#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
-
+    'section6928f2f55e40e3b3a638#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
+    // Section Employee Documents
+    'sectiond77fee2e9543fe8fa2a8#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail;FR_LOA;Absence longue durée',
+    // Section Leave Documents
+    'sectiond2310bddab82cd23df9b#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Leaver;Sortie des effectifs',
+    // Section: Additional Documents
+    'section96985415c7c4fd4f40e8#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Start Date Change;Décalage date d\'entrée;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Probation period;Période d\'essai;FR_Contract;Contrat',
+    // Section: Hiring Documents
+    'section50b50e380bdfc8c57e32#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Hiring confirmation;Confirmation d\'embauche',
+    'section1d682ae70e4dfa152f56#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
     /* ------------- End of MOD-002 changes ------ & MOD-003 ++ -------*/
 ];
 var enableManageField;

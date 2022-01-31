@@ -255,7 +255,7 @@ window.generateDocumentButtonDisplay = function(){
     console.log(getSubtopicValue);
     try{
         if(elementGenerateButton !== null){
-            if(getSubtopicValue == 'LC_Employment Verification Letter (HRBP)' || getSubtopicValue == 'LC_Employment Verification Letter (MGR)' || getSubtopicValue == 'LC_Employment Verification Letter (EE)'){
+            if(getSubtopicValue == 'LC_Employment Verification Letter (HRBP)' || getSubtopicValue == 'LC_Employment Verification Letter (MGR)' || getSubtopicValue == 'LC_Employment Verification Letter (EE)' || getSubtopicValue == 'LC_Employment Verification Letter'){
                 elementGenerateButton.style.display = 'block';
             }else{
                 elementGenerateButton.style.display = 'none';

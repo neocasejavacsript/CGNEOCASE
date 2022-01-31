@@ -90,6 +90,11 @@ Developer   - Ahana Sarkar
 Date	    - 07/22/2020 (MM/DD/YYYY)
 Change No   - MOD-007
 Description - Section visibilbility based on subtopic Work from home allowance (new agreement)
+------------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 12/01/2021 (MM/DD/YYYY)
+Change No   - MOD-008
+Description - Section visibilbility based on subtopic Work from home health allowance & exception allowance
 ------------------------------------------------------------------------------*/ 
 
 /******************************* STARTS OF MOD-001 ****************************/
@@ -103,7 +108,7 @@ var Tableau = [
 	// Instruction 1
     'sectiona7c38a771a8f58e6989b#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_03_Bicycle allowance;IK Vélo;FR_02_Province;Province;FR_01_Ile-de-France;Île-de-France',//MOD-003
     // Instruction 3
-    'section64c65fb5f2404f76f963#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)',//MOD-005
+    'section64c65fb5f2404f76f963#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant)',//MOD-005
     // Instruction 4
     'section62b915cb2111d01f42a4#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail',//MOD-005
     // Instruction 5 //++MOD-006
@@ -121,11 +126,11 @@ var Tableau = [
     // Section - How to declare my social security absence
     'section60d59d8a7a0fef16fa06#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Social security absence;Déclaration arrêt de travail',//MOD-003
 	//Section - Days worked from home during the month
-	'section52cea27607cd0ad68e1f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)',//MOD-004
+	'section52cea27607cd0ad68e1f#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord);FR_Work from home allowance (on medical recommendation without addendum or more than 70%);Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%);FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)',//MOD-004
 	// Section - How to declare my work from home
 	'section4edda08382cf6f22e3ed#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant)',//MOD-004
 	// Employee Details
-	'section0609ddba621eb2cb1092#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France;FR_Social security absence;Déclaration arrêt de travail;FR_03_Sustainable mobility package;Forfait mobilité durable;FR_02_Province;Province;FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Addendum return;Renvoi avenant;FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)',
+	'section0609ddba621eb2cb1092#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France;FR_Social security absence;Déclaration arrêt de travail;FR_03_Sustainable mobility package;Forfait mobilité durable;FR_02_Province;Province;FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Addendum return;Renvoi avenant;FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord);FR_Work from home allowance (on medical recommendation without addendum or more than 70%);Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%);FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)',
     // Work From Home addendum //++MOD-006
     'sectionb16e96806dbcee0df0b8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant',
     // New work from home addendum article //++MOD-006
@@ -133,8 +138,18 @@ var Tableau = [
     // Section - How to declare my wfh agreement? Read the article
     'section749482fad7aaa4fff85c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)',
     // section - Work from home rythm
-    'section952885dcdbec144c3d8c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant'
-	
+    'section952885dcdbec144c3d8c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant',
+	// WFH new agreement instruction
+    'section31c28b75b73bc30eff81#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)',
+    //instruction
+    'section0d14ec19141db7f47776#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (on medical recommendation without addendum or more than 70%);Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%)',
+    //New work from home addendum article link with one field
+    'section00679762c68fb528005d#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (on medical recommendation without addendum or more than 70%);Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%)',
+    //Instruction-exception allowance
+    'section91882e9e2104a45412ee#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)',
+    //Article link-exception allowance
+    'section728e2a0c13d6123cded0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)'
+    
 ];
 var enableManageField;
 

@@ -72,6 +72,7 @@ var Tableau = [
 	//Work from home
 	'section9c1754deb8db686ca728#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',  //MOD-001 ++
     'section5fba1ace4387fc287807#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
+    'section1807ae5d6b0e6b8caba0#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
     'section6dcef63ef8df103a83f5#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Working hours;Temps de travail;FR_LOA;Absence longue durée' 
 ];
 var enableManageField;
@@ -1248,7 +1249,18 @@ window.disableField = function(field){
 		console.log(msg);
 	}
 };
-
+window.enableField = function(field){ // field = formulaire.fieldID
+	if(document.getElementById("champsobligatoiresproprietes")){
+	//BackOffice
+		field.removeAttribute('readonly');
+		field.onmousedown = function(){return true;};
+	}else{
+	//FrontOffice
+		field.removeAttribute('readonly');
+		field.onkeydown = function(){return true;};
+		field.onmousedown = function(){return true;};
+	}
+};
 /******************************************
 * CREATE HYPERLINK ON LABEL TO OPEN A POPUP
 *******************************************/
