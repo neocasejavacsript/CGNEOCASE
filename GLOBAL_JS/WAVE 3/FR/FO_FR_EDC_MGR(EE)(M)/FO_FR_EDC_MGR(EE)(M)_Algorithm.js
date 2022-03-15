@@ -70,7 +70,8 @@ var Tableau = [
     'section3637520dcf0aa92a2d58#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
     //Change effective date
     'sectioncbe69ce557625c2f63b1#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
-    'section5988b22221a91f473fa2#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
+    'section5988b22221a91f473fa2#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
+    'section2d899400c280516353b1#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée'
     ];
     var enableManageField;
     

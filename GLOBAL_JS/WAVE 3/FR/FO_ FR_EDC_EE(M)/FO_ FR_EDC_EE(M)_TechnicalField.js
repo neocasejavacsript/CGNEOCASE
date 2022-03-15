@@ -1,4 +1,10 @@
 //------ FR_EDC_EE(M)  (Technical)
+/*--------------------------------------------------------------------------
+Developer   - Choudhury Shahin
+Date	    - 03/01/2021 (MM/DD/YYYY)
+Change No   - MOD-001
+Description - Add method 'checkQuestion' to replace space by empty
+----------------------------------------------------------------------------*/ 
 /*---------------------------------------------*/
 //hide technical section
 neocase.form.section("section2768aff2e9a727689da1").hide();
@@ -137,6 +143,27 @@ window.wfhSubtopicVisibility = function(){
     }
 };
 
+window.checkQuestion = function () {
+    var question = neocase.form.field('question');
+    var trimmedValue = question.elementHTML.value.replaceAll(' ', '');
+    if (trimmedValue.length === 0) {
+        question.emptyValue();
+    }
+};
+window.visibilityHealthInsurance = function(){
+    neocase.form.section('sectionc45c295f63aa60d61208').hide();
+    if($('#section73c5e19ef289fe605567').find('hr').length< 1){
+        $('#section73c5e19ef289fe605567').append('<hr>');
+    }
+    var LOAType = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR378').getValue();
+    console.log(LOAType);
+    if(LOAType == 'LOA Unpaid' || LOAType == 'Absence longue durée non payée'){
+        if($('#section73c5e19ef289fe605567').find('hr').length > 0){
+            $('#section73c5e19ef289fe605567').find('hr').remove();
+        }
+        neocase.form.section('sectionc45c295f63aa60d61208').show();
+    }
+};
 /**************************
 * Launch Javascript on init
 ***************************/
@@ -161,6 +188,7 @@ neocase.form.event.bind("init",launchOnInit);
  window.launchOnloadcomplete = function () {
 	
     wfhSubtopicVisibility();
+    visibilityHealthInsurance();
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 /****************************
@@ -169,5 +197,6 @@ neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
 window.launchOnSubmit = function(){
 	//add control before submit
 	checkForm();
+        checkQuestion();
 	};
 neocase.form.event.bind("submit",launchOnSubmit);

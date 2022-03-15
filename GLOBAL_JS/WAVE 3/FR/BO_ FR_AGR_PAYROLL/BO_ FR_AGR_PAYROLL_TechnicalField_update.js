@@ -56,7 +56,17 @@ Developer   - Ahana Sarkar
 Date	    - 12/01/2021 (MM/DD/YYYY)
 Change No   - MOD-011
 Description - visibility of fields managed for WFH medical allowance (3714) & WFH exceptional allowance(3715)
---------------------------------------------------------------------------*/
+--------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 02/07/2022 (MM/DD/YYYY)
+Change No   - MOD-012
+Description - Hide 'Update HRA Automatically' button for subtopic (3734)FR_Lunch vouchers cancelation;Radiation titres restaurant,(3738)FR_Early back to work following sick leave;Reprise anticipée arrêt de travail
+------------------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 03/02/2022 (MM/DD/YYYY)
+Change No   - MOD-013
+Description - Set visibility of field 'Reason for exceptional allowance' for subtopic FR_Work from home allowance (new agreement);Indemnités télétravail (Circonstances exceptionnelles)-(3715)
+------------------------------------------------------------------------------------*/
 
 /*---- MOD-001 STARS ----*/
 //Hide Technical Section
@@ -259,11 +269,13 @@ window.launchOnloadcomplete = function(){
     }
     
     var subtopic = document.getElementById('ELEMENTS');
-    
+    neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR968").hide();//++MOD-013
+    neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR469").hide();
     document.getElementById('lblINTERVENTIONS_EN_COURS$VALEUR876').closest('tr').style.display = 'none';
     if(subtopic.value == '3089' || subtopic.value == '3714' || subtopic.value == '3715'){ // Subtopic: FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord),FR_Work from home allowance (on medical recommendation without addendum or > 70%) (3714),WFH exceptional allowances(3715)
         neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR964").show();
         neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR945").hide();
+        neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR469").show();
         
     }else{
         neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR964").hide();
@@ -272,7 +284,18 @@ window.launchOnloadcomplete = function(){
     if(subtopic.value == '3714'){
         document.getElementById('lblINTERVENTIONS_EN_COURS$VALEUR876').closest('tr').style.display = 'block';
     }
-    
+    if(subtopic.value == '3715'){//++MOD-013
+        neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR968").show(); 
+    }
+    // ++MOD-012
+    var updateHRAAutomaticallyButton = document.getElementById('bouton_evenement2942');
+    if(updateHRAAutomaticallyButton !== null){
+        if(subtopic.value == '3734' || subtopic.value == '3738'){
+            updateHRAAutomaticallyButton.style.display = 'none';
+        }else{
+            updateHRAAutomaticallyButton.style.display = 'block';
+        }
+    }
 };
 //neocase.form.event.bind("init",launchOnInit);
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

@@ -199,11 +199,74 @@ window.setTerminationDateLimit = function(startDateField, endDateField){
 //         }
 //     }
 // };
+window.displaySupDoc = function(){
+    var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic'),
+        countryISOCode = neocase.form.field("UTILISATEURS$CHAMPU19").getValue();
+    if(subtopic == '2889'){
+        if(countryISOCode == 'SE'){
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR705').show();
+        }else if(countryISOCode == 'FI'){
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR705').hide();
+        }else if(countryISOCode == 'NO'){
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR705').hide();
+        }else if(countryISOCode == 'DK'){
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR705').hide();
+        }else{
+            neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR705').hide();
+        }
+    }
+};
+
+/*---------Document display for required subtopic---------*/
+window.displayDoc = function(){
+    var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic');
+    console.log(subtopic);
+    var countryISOCode = neocase.form.field("UTILISATEURS$CHAMPU19").getValue();
+    console.log(countryISOCode);
+    try{
+    neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR705').hide();
+    document.getElementById('lblINTERVENTIONS_EN_COURS$VALEUR705').style.display = 'none';
+    document.getElementById('INTERVENTIONS_EN_COURS$VALEUR705_fileupload').style.display = 'none';
+    //neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR57').hide();
+    
+    console.log("test"); // Hide Supporting document
+    }
+    catch(err){
+        console.log(err.message);
+    }
+        if(countryISOCode == 'SE'){
+            console.log("inside SE");
+            if(subtopic == '2889'){ // SCFI_Change in working hours
+                console.log("inside 2889");
+                neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR705').show();// Show Supporting document
+                document.getElementById('lblINTERVENTIONS_EN_COURS$VALEUR705').style.display = '';
+                document.getElementById('INTERVENTIONS_EN_COURS$VALEUR705_fileupload').style.display = '';
+            }
+        }
+};
+/*----xxxxx-----Document display for required subtopic---xxxxx------*/
+
+/*---------Monthly fixed salary based on current work% need to be auto populated as Base salary/12---------*/
+window.baseSalaryNew = function(){
+    var baseSalaryValue = neocase.form.field("UTILISATEURS$CHAMPU168").getValue();
+    var baseSalaryNewValue=	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR76');
+    console.log(baseSalaryValue);
+    console.log(baseSalaryNewValue);
+    var baseSalaryNew = baseSalaryValue/12;
+    baseSalaryNewValue.setValue(baseSalaryNew);
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR76"));
+
+};
+/*----xxxxx-----Monthly fixed salary based on current work% need to be auto populated as Base salary/12---xxxxx------*/
 /**************************
  * Launch Javascript on init
  ***************************/
 window.launchOnloadcomplete = function(){
+    // neocase.form.section('section35351af104092f324f62').hide();
+    displayDoc();
+    displaySupDoc();
     copyFunctions();
+    baseSalaryNew();
     /*if(document.getElementById('section30472c7448462e18d86c').style.display !== 'none'){ // Section: Start/Update leave of absence details
         setDateLimit('INTERVENTIONS_EN_COURS$VALEUR333','INTERVENTIONS_EN_COURS$VALEUR503'); //Fields: 'Absence start date (new) :' , 'Expected return date (new) :'
     }

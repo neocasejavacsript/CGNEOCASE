@@ -47,7 +47,19 @@ Change No   - MOD-014
 Description - Section visibility update
             - Reason Of Suspension  manipulated
             - Reason of End manipulated(10/4/2021)
+-------------------------------------------------------------------------
+Developer   - Choudhury Shahin
+Date	    - 03/01/2021 (MM/DD/YYYY)
+Change No   - MOD-015
+Description - Add method 'checkQuestion' to replace space by empty
+
+-------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 02/17/2022 (MM/DD/YYYY)
+Change No   - MOD-016
+Description - Add method 'visibilityHealthInsurance' for LOA type variation
 ----------------------------------------------------------------------------*/ 
+
 //hide technical section
 neocase.form.section("section2768aff2e9a727689da1").hide();
 
@@ -670,6 +682,21 @@ window.launchOnInit = function () {
     checkSubtopicValue();
 
 };
+window.visibilityHealthInsurance = function(){
+    neocase.form.section('sectionf577bd3047d81ae1fdd6').hide();
+
+    if($('#section599cc6a0234d4e7c79b3').find('hr').length< 1){
+    $('#section599cc6a0234d4e7c79b3').append('<hr>');
+    }
+    var LOAType = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR378').getCode();
+    console.log(LOAType);
+    if(LOAType == 'LOA Unpaid' || LOAType == 'Absence longue durée non payée'){
+    if($('#section599cc6a0234d4e7c79b3').find('hr').length > 0){
+        $('#section599cc6a0234d4e7c79b3').find('hr').remove();
+    }
+    neocase.form.section('sectionf577bd3047d81ae1fdd6').show();
+    }
+};
 neocase.form.event.bind("init", launchOnInit);
 neocase.form.event.bind('loadcomplete', function () {
     console.log('fin période dessai loadComplete', formulaire.INTERVENTIONS_EN_COURS$VALEUR134.value);
@@ -738,6 +765,7 @@ neocase.form.event.bind('loadcomplete', function () {
         neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR357').hide();
     }
     // neocase.form.field('UTILISATEURS$CHAMPU389').hide();
+    visibilityHealthInsurance();
 });
 var checkFlag = 0;
 var NombreDeJoursDemandesOldVal = formulaire.INTERVENTIONS_EN_COURS$VALEUR953.value;
@@ -759,6 +787,19 @@ window.maxTwentyInField = function(){//++MOD-013
     }
   }
 };
+
+/**************************
+* start of MOD-015
+**************************/
+window.checkQuestion = function () {
+    var question = neocase.form.field('question');
+    var trimmedValue = question.elementHTML.value.replaceAll(' ', '');
+    if (trimmedValue.length === 0) {
+        question.emptyValue();
+    }
+};
+/* ------------- End of MOD-015 changes -------------*/
+
 /****************************
 * Launch Javascript on submit
 *****************************/
@@ -767,5 +808,6 @@ window.launchOnSubmit = function () {
     //add control before submit
     checkForm();
     maxTwentyInField();
+    checkQuestion();
 };
 neocase.form.event.bind("submit", launchOnSubmit);

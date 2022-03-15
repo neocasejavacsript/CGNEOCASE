@@ -51,7 +51,13 @@ Description - Add calculateWFHAmountAgreement() for 3714 to calculate amount as 
 				•In January 2022 -> just possibility to declare January
 				•In February 2022 -> possibility to declare January and February
 				•From March 2022 -> possibility to declare January, February and March (user can declare current month and M-1 and M-2
-----------------------------------------------------------------------------*/
+------------------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 03/01/2022 (MM/DD/YYYY)
+Change No   - MOD-012
+Description - setTwoDateLimit(startDateField, endDateField) definition added - Check and set 2 dates limit
+			- call setTwoDateLimit() for Effective back to work date & End date of Social security absence CERFA
+------------------------------------------------------------------------------------*/
 
 /*---------------------------- STARTS OF MOD-001 ---------------------------*/
 //Hide Technical Section
@@ -526,6 +532,71 @@ window.WFHDateManipulation = function(){ //++MOD-017
 	}
 	return returnFlag;
 };
+window.setTwoDateLimit = function(startDateField, endDateField){//++MOD-012
+    var stD,stDate,endD,endDate,nextDay,alertMsg;
+    var startDateFieldId = $('#'+ neocase.form.field(startDateField)['elementHTML']['id']),
+        endDateFieldId = $('#'+ neocase.form.field(endDateField)['elementHTML']['id']),
+        today = new Date(),
+		lang = document.documentElement.lang,
+        errorMsg = lang == 'fr-FR'? '<span style="color:red" class="error-msg-date"> FR: Date should be greater than '+$.trim(startDateFieldId.closest('.row').find('label').text())+'</span>':'<span style="color:red" class="error-msg-date"> Date should be greater than '+$.trim(startDateFieldId.closest('.row').find('label').text())+'</span>';
+    
+    //startDateFieldId.datepicker( "option", "minDate", today);
+    //endDateFieldId.datepicker( "option", "minDate", today);
+    
+    startDateFieldId.change(function(){
+        stD = startDateFieldId.val();
+        endD = endDateFieldId.val();
+
+        stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD) ? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+        endDate = endD !== ''|| typeof endD !== 'undefined'|| !isNaN(endD) ? new Date(endD.split('/')[2],endD.split('/')[1] - 1,endD.split('/')[0]).getTime() : '';
+
+        if((endD == '' && stD !== '' && !isNaN(stDate)) || endDate > stDate){
+            nextDay = new Date(stDate  + (24 * 60 * 60 * 1000 ));
+            endDateFieldId.datepicker( "option", "minDate", nextDay);
+        }
+        else if(endDate<= stDate){
+            endDateFieldId.val('');
+            stD = startDateFieldId.val();
+            stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD)? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+            nextDay = new Date(stDate  + (24 * 60 * 60 * 1000 ));
+            endDateFieldId.datepicker( "option", "minDate", nextDay);
+            if(endDateFieldId.closest('div').find('.error-msg-date').length< 1){
+                endDateFieldId.after(errorMsg);
+            }
+			alertMsg = lang == 'fr-FR'? $.trim(startDateFieldId.closest('.row').find('label').text()) + " should be before than(FR) " + $.trim(endDateFieldId.closest('.row').find('label').text()):$.trim(startDateFieldId.closest('.row').find('label').text()) + " should be before than " + $.trim(endDateFieldId.closest('.row').find('label').text());
+            alert(alertMsg);
+            
+        }
+        else{
+            endDateFieldId.datepicker( "option", "minDate", '');
+            //endDateFieldId.datepicker( "option", "minDate", today);
+        }        
+    });
+    endDateFieldId.change(function(){
+        if(endDateFieldId.closest('div').find('.error-msg-date').length  > 0){
+            endDateFieldId.closest('div').find('.error-msg-date').remove();
+        }
+    });
+    endDateFieldId.blur(function(){ //++MOD-004
+        endD = endDateFieldId.val();
+        if(endD != ''){
+            stD = startDateFieldId.val();
+            stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD) ? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+            endDate = endD !== ''|| typeof endD !== 'undefined'|| !isNaN(endD) ? new Date(endD.split('/')[2],endD.split('/')[1] - 1,endD.split('/')[0]).getTime() : '';
+    
+            if(endDate<= stDate){
+                endDateFieldId.val('');
+                if(endDateFieldId.closest('div').find('.error-msg-date').length< 1){
+                    endDateFieldId.after(errorMsg);
+                }
+                alertMsg = lang == 'fr-FR'? $.trim(startDateFieldId.closest('.row').find('label').text()) + " should be before than(FR)" + $.trim(endDateFieldId.closest('.row').find('label').text()) :$.trim(startDateFieldId.closest('.row').find('label').text()) + " should be before than" + $.trim(endDateFieldId.closest('.row').find('label').text());
+				alert(alertMsg);
+            }
+        }
+
+    });
+	startDateFieldId.trigger('change');
+};
 /**************************
  * Launch Javascript on loadcomplete
  ***************************/
@@ -564,7 +635,9 @@ window.launchOnloadcomplete = function () {
 			}
 		}
 	}
-	
+	if(document.getElementById('sectionda3f06d886e06a8a3bf9').style.display !== 'none'){ // ++MOD-012 Section: Early back to work following sick leave
+        setTwoDateLimit('INTERVENTIONS_EN_COURS$VALEUR444','INTERVENTIONS_EN_COURS$VALEUR445'); //Fields: 'Effective back to work date :' , 'End date of Social security absence CERFA:'
+    }
 };
 
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
@@ -605,6 +678,18 @@ window.launchOnSubmit = function(){
 	}
 	if(!WFHDateManipulation()){
 		return false;
+	}
+	if(subtopic == 'FR_Lunch vouchers subscription' || subtopic == 'Adhésion titres restaurant'){ //++MOD-023 Subtopic = (3733)FR_Lunch vouchers subscription;Adhésion titres restaurant
+		var subscriptionStartDateVal = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR373").getValue();
+		if(subscriptionStartDateVal){
+			var subscriptionStartDateAr = subscriptionStartDateVal.split('/');
+			if(subscriptionStartDateAr.length > 0){
+				var subscriptionFullDateFormatted = subscriptionStartDateAr[2] + '-' + subscriptionStartDateAr[1] + '-' + subscriptionStartDateAr[0];	
+				console.log("Subscription full date"+subscriptionFullDateFormatted);
+				neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR898").setValue(subscriptionFullDateFormatted);
+			}
+		}
+		
 	}
 };
 neocase.form.event.bind("submit",launchOnSubmit);

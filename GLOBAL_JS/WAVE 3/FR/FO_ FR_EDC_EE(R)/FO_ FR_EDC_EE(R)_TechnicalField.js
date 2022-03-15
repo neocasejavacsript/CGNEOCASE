@@ -1,4 +1,10 @@
 //------ FR_EDC_EE(R)  (Technical)
+/*--------------------------------------------------------------------------
+Developer   - Choudhury Shahin
+Date	    - 03/01/2021 (MM/DD/YYYY)
+Change No   - MOD-001
+Description - Add method 'checkQuestion' to replace space by empty
+----------------------------------------------------------------------------*/ 
 /*---------------------------------------------*/
 window.wfhSubtopicVisibility = function(){
     var subtopic = document.getElementById('divFieldINTERVENTIONS_EN_COURS_ELEMENT').innerText.trim();
@@ -38,12 +44,37 @@ window.wfhSubtopicVisibility = function(){
         }
     }
 };    
+window.visibilityHealthInsurance = function(){
+    document.getElementById("section189083f852d3d4f853b2").style.display = "none";
+    var LOAType = document.getElementById('divFieldINTERVENTIONS_EN_COURS_VALEUR378').innerText.trim();
+    console.log(LOAType);
+    if(LOAType == 'LOA Unpaid' || LOAType == 'Absence longue durée non payée'){
+        document.getElementById("section189083f852d3d4f853b2").style.display = "block";
+    }
+};
 
 //hide technical section
 $(document).ready(function(){
     document.getElementById("section5cb19e4490fb99a4d503").style.display = "none";
     //neocase.form.section('section1171498a9f2aa365bab7').hide();
     document.getElementById("section1171498a9f2aa365bab7").style.display = "none";
-
     wfhSubtopicVisibility();
+    visibilityHealthInsurance();
 });
+
+window.checkQuestion = function () {
+    var question = neocase.form.field('question');
+    var trimmedValue = question.elementHTML.value.replaceAll(' ', '');
+    if (trimmedValue.length === 0) {
+        question.emptyValue();
+    }
+};
+
+/****************************
+* Launch Javascript on submit
+*****************************/
+window.submitMethods = function () {
+    checkQuestion();
+};
+
+neocase.form.event.bind('submit', submitMethods);

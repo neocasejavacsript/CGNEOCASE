@@ -95,6 +95,11 @@ Developer   - Ahana Sarkar
 Date	    - 12/01/2021 (MM/DD/YYYY)
 Change No   - MOD-008
 Description - Section visibilbility based on subtopic Work from home health allowance & exception allowance
+------------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 02/04/2022 (MM/DD/YYYY)
+Change No   - MOD-009
+Description - Section visibilbility based on subtopic Work from Lunch vouchers subscription , Lunch vouchers cancellation & Early back to work following sick leave
 ------------------------------------------------------------------------------*/ 
 
 /******************************* STARTS OF MOD-001 ****************************/
@@ -130,7 +135,7 @@ var Tableau = [
 	// Section - How to declare my work from home
 	'section4edda08382cf6f22e3ed#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant)',//MOD-004
 	// Employee Details
-	'section0609ddba621eb2cb1092#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France;FR_Social security absence;Déclaration arrêt de travail;FR_03_Sustainable mobility package;Forfait mobilité durable;FR_02_Province;Province;FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Addendum return;Renvoi avenant;FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord);FR_Work from home allowance (on medical recommendation without addendum or more than 70%);Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%);FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)',
+	'section0609ddba621eb2cb1092#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France;FR_Social security absence;Déclaration arrêt de travail;FR_03_Sustainable mobility package;Forfait mobilité durable;FR_02_Province;Province;FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Addendum return;Renvoi avenant;FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord);FR_Work from home allowance (on medical recommendation without addendum or more than 70%);Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%);FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles);FR_Lunch vouchers subscription;Adhésion titres restaurant;FR_Lunch vouchers cancelation;Radiation titres restaurant;FR_Early back to work following sick leave;Reprise anticipée arrêt de travail',
     // Work From Home addendum //++MOD-006
     'sectionb16e96806dbcee0df0b8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant',
     // New work from home addendum article //++MOD-006
@@ -148,8 +153,20 @@ var Tableau = [
     //Instruction-exception allowance
     'section91882e9e2104a45412ee#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)',
     //Article link-exception allowance
-    'section728e2a0c13d6123cded0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)'
-    
+    'section728e2a0c13d6123cded0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)',
+    //subscription instruction
+    'section3e4abd209924b1aaab21#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Lunch vouchers subscription;Adhésion titres restaurant', //
+    //Lunch allowance subscription 
+    'section678f41baf54b4b2e5006#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Lunch vouchers subscription;Adhésion titres restaurant',
+    //cancellation instruction
+    'sectioncb1b2c78c77e0d2dfce8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Lunch vouchers cancelation;Radiation titres restaurant',
+    //Lunch allowance cancelation 
+    'section4533176a33c9400e8b57#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Lunch vouchers cancelation;Radiation titres restaurant',
+    //sickleave end instruction
+    'section13cbdcb517a69ba54656#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Early back to work following sick leave;Reprise anticipée arrêt de travail',
+    //Early back to work following sick leave
+    'sectiond45e6d78c9251790c8d3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Early back to work following sick leave;Reprise anticipée arrêt de travail'
+
 ];
 var enableManageField;
 

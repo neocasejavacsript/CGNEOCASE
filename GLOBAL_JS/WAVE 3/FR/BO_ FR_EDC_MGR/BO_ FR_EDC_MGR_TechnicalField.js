@@ -54,21 +54,19 @@ Developer   - Ahana Sarkar
 Date	    - 05/11/2021 (MM/DD/YYYY)
 Change No   - MOD-011
 Description - Section visibility updated for WFH subtopics
+-------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	      - 02/17/2022 (MM/DD/YYYY)
+Change No   - MOD-016
+Description - Add method 'visibilityHealthInsurance' for LOA type variation
+            - Hide Imagenow related document sections
 ----------------------------------------------------------------------------*/ 
 
 
 //hide technical section
 neocase.form.section("sectionb0db2555c209c78721f6").hide();	//MOD-001
 
-/*// Hide Image now related sections
-// Section Employee Documents
-neocase.form.section("sectiond77fee2e9543fe8fa2a8").hide();	
-// Section Leave Documents
-neocase.form.section("sectiond2310bddab82cd23df9b").hide();	
-// Section: Additional Documents
-neocase.form.section("section96985415c7c4fd4f40e8").hide();	
-// Section: Hiring Documents
-neocase.form.section("section50b50e380bdfc8c57e32").hide();*/
+
 /************************************************
  * FUNCTIONS CALLED BY POPUP TO FILL CUSTOM FIELDS
  *************************************************/
@@ -480,6 +478,15 @@ window.convertTitleToHTML = function(sectionId){
     }
     sectionTitle.innerHTML = localStorage.getItem(sectionId);  
 };
+window.visibilityHealthInsurance = function(){
+    neocase.form.section('sectionb5a2647cf0284bf6f44a').hide();
+    var LOAType = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR378').getCode();
+    console.log(LOAType);
+    if(LOAType == '556'){
+        neocase.form.section('sectionb5a2647cf0284bf6f44a').show();
+		convertTitleToHTML('sectionb5a2647cf0284bf6f44a');
+    }
+};
 /**************************
  * Launch Javascript on loadcomplete
  ***************************/
@@ -561,7 +568,16 @@ window.launchOnInit = function () {
     hideImageNowFields();
     console.log("executed");
 	console.log("all done");
-    
+    visibilityHealthInsurance();
+    // Hide Image now related sections
+    // Section Employee Documents
+    neocase.form.section("sectiond77fee2e9543fe8fa2a8").hide();	
+    // Section Leave Documents
+    neocase.form.section("sectiond2310bddab82cd23df9b").hide();	
+    // Section: Additional Documents
+    neocase.form.section("section96985415c7c4fd4f40e8").hide();	
+    // Section: Hiring Documents
+    neocase.form.section("section50b50e380bdfc8c57e32").hide();
 };
 // neocase.form.event.bind("init",launchOnInit);
 neocase.form.event.bind('loadcomplete', launchOnInit);

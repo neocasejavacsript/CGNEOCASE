@@ -94,7 +94,7 @@ var Tableau = [
 	//Section - How to declare work from home
 	'section30cc024f29e968280016#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant)',//MOD-004
 	// Employee Details
-	'section0609ddba621eb2cb1092#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France;FR_Social security absence;Déclaration arrêt de travail;FR_03_Sustainable mobility package;Forfait mobilité durable;FR_02_Province;Province;FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Addendum return;Renvoi avenant;FR_Work from home allowance (on medical recommendation without addendum or more than 70%);Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%);FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord);FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)',
+	'section0609ddba621eb2cb1092#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_01_Ile-de-France;Île-de-France;FR_Social security absence;Déclaration arrêt de travail;FR_03_Sustainable mobility package;Forfait mobilité durable;FR_02_Province;Province;FR_Work from home allowance without contract addendum;Indemnités télétravail (hors avenant);FR_Addendum return;Renvoi avenant;FR_Work from home allowance (on medical recommendation without addendum or more than 70%);Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%);FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord);FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles);FR_Lunch vouchers subscription;Adhésion titres restaurant;FR_Lunch vouchers cancelation;Radiation titres restaurant;FR_Early back to work following sick leave;Reprise anticipée arrêt de travail',
     // Work From Home addendum //++MOD-006
     'section43eefcaf92977076c0ce#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant',
     // New work from home addendum article //++MOD-006
@@ -105,7 +105,14 @@ var Tableau = [
     'sectiondde44d71f70d387389a2#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Addendum return;Renvoi avenant',
     //New work from home addendum article with one field
     'sectionc85f77f1bbc4c5e0fd3e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (on medical recommendation without addendum or more than 70%);Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%)',
-    'sectionf20423f1f5758fd1a373#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)'
+    'sectionf20423f1f5758fd1a373#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)',
+    
+    //Lunch allowance subscription 
+    'section5d2919bb658a6b93d17c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Lunch vouchers subscription;Adhésion titres restaurant',
+    //Lunch allowance cancelation 
+    'sectionf47b81a0a0c1e4416b3e#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Lunch vouchers cancelation;Radiation titres restaurant',
+    //Early back to work following sick leave
+    'section3595eec35e713be029f8#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Early back to work following sick leave;Reprise anticipée arrêt de travail' 
 ];
 var enableManageField;
 

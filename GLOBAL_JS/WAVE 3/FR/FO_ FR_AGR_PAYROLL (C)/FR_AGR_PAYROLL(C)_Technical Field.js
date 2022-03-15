@@ -136,8 +136,28 @@ Description - Change logic for WFH medical allowance & exceptional allowances
 				•In Dec 2021 -> just possibility to declare December
 				•In January 2022 -> just possibility to declare January & Dec 2021
 				•In February 2022 -> possibility to declare Dec 2021 & January and February(and same continues for future months)
+-------------------------------------------------------------------------
+Developer   - Choudhury Shahin (Neocase)
+Date	    - 01/03/2022 (MM/DD/YYYY)
+Change No   - MOD-0022
+Description - Add method 'checkQuestion' to replace space by empty
+-------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 02/07/2022 (MM/DD/YYYY)
+Change No   - MOD-023
+Description - During submit, populate 'Subscription full date' in YYYY-MM-DD format from "Subscription Start date" for subtopic FR_Lunch vouchers subscription;Adhésion titres restaurant(3733)
+------------------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 02/28/2022 (MM/DD/YYYY)
+Change No   - MOD-024
+Description - setTwoDateLimit(startDateField, endDateField) definition added - Check and set 2 dates limit
+			- call setTwoDateLimit() for Effective back to work date & End date of Social security absence CERFA
+------------------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 03/02/2022 (MM/DD/YYYY)
+Change No   - MOD-025
+Description - Set visibility of field 'Reason for exceptional allowance' for subtopic FR_Work from home allowance (new agreement);Indemnités télétravail (Circonstances exceptionnelles)-(3715)
 ------------------------------------------------------------------------------------*/
-
 
 //Hide Technical Section
 neocase.form.section("section17d9e1e3613d919575f8").hide();
@@ -742,6 +762,80 @@ window.WFHDateManipulation = function(){ //++MOD-017
 };
 //MOD-007 ends
 
+//MOD-0022 starts
+window.checkQuestion = function () {
+    var question = neocase.form.field('question');
+    var trimmedValue = question.elementHTML.value.replaceAll(' ', '');
+    if (trimmedValue.length === 0) {
+        question.emptyValue();
+    }
+};
+//MOD-0022 ends
+
+window.setTwoDateLimit = function(startDateField, endDateField){//++MOD-024
+    var stD,stDate,endD,endDate,nextDay,alertMsg;
+    var startDateFieldId = $('#'+ neocase.form.field(startDateField)['elementHTML']['id']),
+        endDateFieldId = $('#'+ neocase.form.field(endDateField)['elementHTML']['id']),
+        today = new Date(),
+		lang = document.documentElement.lang,
+        errorMsg = lang == 'fr-FR'? '<span style="color:red" class="error-msg-date"> FR: Date should be greater than '+$.trim(startDateFieldId.closest('.row').find('label').text())+'</span>':'<span style="color:red" class="error-msg-date"> Date should be greater than '+$.trim(startDateFieldId.closest('.row').find('label').text())+'</span>';
+    
+    //startDateFieldId.datepicker( "option", "minDate", today);
+    //endDateFieldId.datepicker( "option", "minDate", today);
+    
+    startDateFieldId.change(function(){
+        stD = startDateFieldId.val();
+        endD = endDateFieldId.val();
+
+        stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD) ? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+        endDate = endD !== ''|| typeof endD !== 'undefined'|| !isNaN(endD) ? new Date(endD.split('/')[2],endD.split('/')[1] - 1,endD.split('/')[0]).getTime() : '';
+
+        if((endD == '' && stD !== '' && !isNaN(stDate)) || endDate > stDate){
+            nextDay = new Date(stDate  + (24 * 60 * 60 * 1000 ));
+            endDateFieldId.datepicker( "option", "minDate", nextDay);
+        }
+        else if(endDate<= stDate){
+            endDateFieldId.val('');
+            stD = startDateFieldId.val();
+            stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD)? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+            nextDay = new Date(stDate  + (24 * 60 * 60 * 1000 ));
+            endDateFieldId.datepicker( "option", "minDate", nextDay);
+            if(endDateFieldId.closest('div').find('.error-msg-date').length< 1){
+                endDateFieldId.after(errorMsg);
+            }
+			alertMsg = lang == 'fr-FR'? $.trim(startDateFieldId.closest('.row').find('label').text()) + " should be before than(FR) " + $.trim(endDateFieldId.closest('.row').find('label').text()):$.trim(startDateFieldId.closest('.row').find('label').text()) + " should be before than " + $.trim(endDateFieldId.closest('.row').find('label').text());
+            alert(alertMsg);
+            
+        }
+        else{
+            endDateFieldId.datepicker( "option", "minDate", '');
+            //endDateFieldId.datepicker( "option", "minDate", today);
+        }        
+    });
+    endDateFieldId.change(function(){
+        if(endDateFieldId.closest('div').find('.error-msg-date').length  > 0){
+            endDateFieldId.closest('div').find('.error-msg-date').remove();
+        }
+    });
+    endDateFieldId.blur(function(){ //++MOD-004
+        endD = endDateFieldId.val();
+        if(endD != ''){
+            stD = startDateFieldId.val();
+            stDate = stD !== ''|| typeof stD !== 'undefined' || !isNaN(stD) ? new Date(stD.split('/')[2],stD.split('/')[1] - 1,stD.split('/')[0]).getTime() : '';
+            endDate = endD !== ''|| typeof endD !== 'undefined'|| !isNaN(endD) ? new Date(endD.split('/')[2],endD.split('/')[1] - 1,endD.split('/')[0]).getTime() : '';
+    
+            if(endDate<= stDate){
+                endDateFieldId.val('');
+                if(endDateFieldId.closest('div').find('.error-msg-date').length< 1){
+                    endDateFieldId.after(errorMsg);
+                }
+                alertMsg = lang == 'fr-FR'? $.trim(startDateFieldId.closest('.row').find('label').text()) + " should be before than(FR)" + $.trim(endDateFieldId.closest('.row').find('label').text()) :$.trim(startDateFieldId.closest('.row').find('label').text()) + " should be before than" + $.trim(endDateFieldId.closest('.row').find('label').text());
+				alert(alertMsg);
+            }
+        }
+
+    });
+};
 /********************************************
 * Launch Javascript only once on loadcomplete
 *********************************************/
@@ -768,6 +862,7 @@ window.launchOnceLoadComplete = function(){
 			}
 			neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR964").hide();
 			neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR876").hide();
+			neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR968").hide();//++MOD-025
 			if(subtopic == '3089'){ // Subtopic: FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord)
 				populateRequestDetails();
 				neocase.form.field('question').hide();
@@ -798,6 +893,7 @@ window.launchOnceLoadComplete = function(){
 					populateRequestDetails();
 					neocase.form.field('question').hide();
 					neocase.form.section('section6e882a6f246deed213dd').hide();
+					neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR968").show(); //++MOD-025
 					$('.mix-caseForm-body-requestFormPanel').next('.multifileinput-button').hide();
 				}
 				for(var k = 24; k<= 24; k++){
@@ -815,10 +911,15 @@ window.launchOnceLoadComplete = function(){
 					}
 				}	
 			}
-			
+			neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR469').hide();
+			if(subtopic == '3089' || subtopic == '3714'|| subtopic == '3715'){
+				neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR469').show();
+			}
         }, 800);
     }
 };
+
+
 /**************************
 * Launch Javascript on loadcomplete
 ***************************/
@@ -826,6 +927,9 @@ window.launchOnloadcomplete = function(){
 	launchOnceLoadComplete();
 	//setSMPAllowance();
     console.log('launch load complete');
+	if(document.getElementById('sectiond45e6d78c9251790c8d3').style.display !== 'none'){ // ++MOD-024 Section: Early back to work following sick leave
+        setTwoDateLimit('INTERVENTIONS_EN_COURS$VALEUR444','INTERVENTIONS_EN_COURS$VALEUR445'); //Fields: 'Effective back to work date :' , 'End date of Social security absence CERFA:'
+    }
 
 };
 neocase.form.event.bind("loadcomplete",launchOnloadcomplete);
@@ -866,5 +970,20 @@ window.launchOnSubmit = function(){
 		}
 	}
 	// Mod-010 Ends	
+
+	if(subtopic == '3733'){ //++MOD-023 Subtopic = FR_Lunch vouchers subscription;Adhésion titres restaurant
+		var subscriptionStartDateVal = neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR373").getValue();
+		if(subscriptionStartDateVal){
+			var subscriptionStartDateAr = subscriptionStartDateVal.split('/');
+			if(subscriptionStartDateAr.length > 0){
+				var subscriptionFullDateFormatted = subscriptionStartDateAr[2] + '-' + subscriptionStartDateAr[1] + '-' + subscriptionStartDateAr[0];	
+				console.log("Subscription full date"+subscriptionFullDateFormatted);
+				neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR898").setValue(subscriptionFullDateFormatted);
+			}
+		}
+		
+	}
+		
+    checkQuestion();
 };
 neocase.form.event.bind("submit",launchOnSubmit);

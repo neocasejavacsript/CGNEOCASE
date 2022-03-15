@@ -347,6 +347,16 @@ window.wfhSubtopicVisibility = function(){
     }
     // // 2521 : section1171c624df5df12dcd3e, end wfh section
 };
+
+window.visibilityHealthInsurance = function(){
+    neocase.form.section('section7049366566b3163fafa6').hide();
+    var LOAType = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR378').getCode();
+    console.log(LOAType);
+    if(LOAType == '556'){
+        neocase.form.section('section7049366566b3163fafa6').show();
+		convertTitleToHTML('section7049366566b3163fafa6');
+    }
+};
 /**************************
 * Launch Javascript on init
 ***************************/
@@ -384,6 +394,7 @@ window.launchOnloadcomplete = function(){
     /*--X-- Read only 'Request Details'--X--*/
 	setNomenclature();
 	wfhSubtopicVisibility();
+	visibilityHealthInsurance();
 };
 
 neocase.form.event.bind('loadcomplete', launchOnloadcomplete);

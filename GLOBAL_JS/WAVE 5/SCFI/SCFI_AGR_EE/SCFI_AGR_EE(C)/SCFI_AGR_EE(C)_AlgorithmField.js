@@ -79,7 +79,8 @@ var Tableau = [
     // Resignation details
     'section9af4be8a4c74d22cd1c3#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Resignation',
     // Retirement details
-    'section92e85c413792eb3a32b0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Retirement'
+    'section92e85c413792eb3a32b0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Retirement',
+    'section03d7e2c4c635f3419c26#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours'
 ];
 var enableManageField;
 

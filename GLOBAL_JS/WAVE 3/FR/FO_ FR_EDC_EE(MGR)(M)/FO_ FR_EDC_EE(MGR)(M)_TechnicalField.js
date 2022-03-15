@@ -19,6 +19,11 @@ Developer   - Ahana Sarkar
 Date	    - 09/17/2020 (MM/DD/YYYY)
 Change No   - MOD-004
 Description - wfhSubtopicVisibility() added in loadcomplete
+-------------------------------------------------------------------------
+Developer   - Choudhury Shahin
+Date	    - 03/01/2021 (MM/DD/YYYY)
+Change No   - MOD-005
+Description - Add method 'checkQuestion' to replace space by empty
 -----------------------------------------------**/
 
 //hide technical section
@@ -166,6 +171,29 @@ window.wfhSubtopicVisibility = function(){
     }
 };
 
+/* ------------- MOD-005 ----------------- */
+window.checkQuestion = function () {
+    var question = neocase.form.field('question');
+    var trimmedValue = question.elementHTML.value.replaceAll(' ', '');
+    if (trimmedValue.length === 0) {
+        question.emptyValue();
+    }
+};
+window.visibilityHealthInsurance = function(){
+    neocase.form.section('section585e0ef052370090a8a5').hide();
+    if($('#section626').find('hr').length< 1){
+        $('#section626').append('<hr>');
+    }
+    var LOAType = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR378').getValue();
+    console.log(LOAType);
+    if(LOAType == 'LOA Unpaid' || LOAType == 'Absence longue durée non payée'){
+        if($('#section626').find('hr').length > 0){
+            $('#section626').find('hr').remove();
+        }
+        neocase.form.section('section585e0ef052370090a8a5').show();
+    }
+};
+
 /**************************
 * Launch Javascript on init
 ***************************/
@@ -185,5 +213,16 @@ neocase.form.event.bind("init",launchOnInit);
 window.launchOnloadcomplete = function () {
 	
     wfhSubtopicVisibility();
+    visibilityHealthInsurance();
 };
 neocase.form.event.bind("loadcomplete", launchOnloadcomplete);
+
+
+/****************************
+* Launch Javascript on submit
+*****************************/
+window.submitMethods = function () {
+    checkQuestion();
+};
+
+neocase.form.event.bind('submit', submitMethods);

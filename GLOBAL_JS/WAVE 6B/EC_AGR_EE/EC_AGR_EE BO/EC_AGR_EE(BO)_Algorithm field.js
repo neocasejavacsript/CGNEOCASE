@@ -67,13 +67,15 @@ V18 - PJU - 01/03/2018
     // Permanent transfer termination details
     'section705dffd58514baeda308#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_International permanent transfer',
     // Last working day
-    'sectiond3b47526810504216742#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Resignation;EC_LOA paid;EC_Resignation;EC_International permanent transfer',
+    'sectiond3b47526810504216742#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Resignation;EC_LOA paid;EC_Resignation;EC_International permanent transfer;EC_Retirement',
     // Leave of Absence Details
     'section4f3403ee86b1a9c5dd11#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_LOA paid;EC_LOA unpaid',
 	// Return from Leave of Absence
     'section08e09d1c53bfb5da3280#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Return from LOA',
     // L&D form 
-    'sectionb0830ff1fea75c81d22c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_L&D request form'
+    'sectionb0830ff1fea75c81d22c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_L&D request form',
+    // Gender Change
+    'section3b56e8bd33bc1b3133fb#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|EC_Gender change'
 ];
 var enableManageField;
 

@@ -31,6 +31,11 @@ Developer   - Ahana Sarkar
 Date	     - 12/08/2020 (MM/DD/YYYY)
 Change No   - MOD-005
 Description - restrict this field Nombre de jours demandés (max 20), to not allow users to enter anything more than 20.
+-------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 03/01/2022 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - Add method 'visibilityHealthInsurance' for LOA type variation
 ----------------------------------------------------------------------------*/ 
 
 /* ------------- Start of MOD-001 changes -------------*/
@@ -59,6 +64,21 @@ window.maxTwentyInField = function(){ //++MOD-005
     }
   }
 };
+window.visibilityHealthInsurance = function(){
+  neocase.form.section('section0fb78547eb236d1c8982').hide();
+
+  if($('#section2d899400c280516353b1').find('hr').length< 1){
+  $('#section2d899400c280516353b1').append('<hr>');
+  }
+  var LOAType = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR378').getCode();
+  console.log(LOAType);
+  if(LOAType == 'LOA Unpaid' || LOAType == 'Absence longue durée non payée'){
+  if($('#section2d899400c280516353b1').find('hr').length > 0){
+      $('#section2d899400c280516353b1').find('hr').remove();
+  }
+  neocase.form.section('section0fb78547eb236d1c8982').show();
+  }
+};
 /**************************
 * Launch Javascript on init
 ***************************/
@@ -69,7 +89,9 @@ window.launchOnInit = function(){
 	//disableField(neocase.form.field("question_question"));//******MOD-2********// MOD-003--
 
 };
+
 neocase.form.event.bind('loadcomplete', function () {
+  
     var subtopicVal = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getText();
     if(subtopicVal == '02- Avenant don de jours' || subtopicVal == 'FR_02-Addendum for given days'){
         neocase.form.section('sectionb92db6fd0939bf716601').show();
@@ -96,7 +118,7 @@ neocase.form.event.bind('loadcomplete', function () {
           $('#section5988b22221a91f473fa2').append('<hr>');// New work from home addendum article Section
       }
     }
-    
+    visibilityHealthInsurance();
 });
 neocase.form.event.bind("init",launchOnInit);
 /* ------------- End of MOD-001 changes -------------*/

@@ -67,6 +67,17 @@ Change No   - MOD-014
 Description - Section visibility update
             - Reason Of Suspension  manipulated
             - Reason of End manipulated(10/4/2021)
+-------------------------------------------------------------------------
+Developer   - Choudhury Shahin
+Date	    - 03/01/2021 (MM/DD/YYYY)
+Change No   - MOD-015
+Description - Add method 'checkQuestion' to replace space by empty
+-------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	      - 02/17/2022 (MM/DD/YYYY)
+Change No   - MOD-016
+Description - Add method 'visibilityHealthInsurance' for LOA type variation
+            - Hide Imagenow related document section
 ----------------------------------------------------------------------------*/ 
 
 
@@ -74,14 +85,7 @@ Description - Section visibility update
 neocase.form.section("sectionc2cc4d34acf160b6e62a").hide();
 neocase.form.section("section0217b9d450f128c8a4bb").hide(); //MOD-001 ++
 neocase.form.section("section4916f629c34edbd9a4c1").hide(); //MOD-002 ++
-/*// Section Employee Documents
-neocase.form.section("sectiona49a31197460097c80a9").hide();
-// Section Leave Documents
-neocase.form.section("sectioneb9404cd42bb18fbaa8c").hide();
-// Section: Additional Documents
-neocase.form.section("section90c926cf1e99518d33c6").hide();
-// Section: Hiring Documents
-neocase.form.section("section77d93bccd1f6e848fe82").hide(); */
+
 
 /* ------------- Start of MOD-001 changes -------------*/
 window.setLOAtypeForSubtopic = function () {
@@ -799,22 +803,18 @@ window.maxTwentyInField = function(){//++MOD-013
   }
 };
 /* ------------- End of MOD-006 changes -------------*/
-/**************************
-* Launch Javascript on init
-***************************/
-window.launchOnInit = function () {
-  //update 'level 1' value
-  updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"), getParamFromUrl('topic'));
-  customMandatory();
-  setPopups(); // MOD-002 ++
-  copyFunctions(); // MOD-002 ++
-  setCurrFields(); // MOD-002 ++
-  //calculate_monthlySalary(); // MOD-002 ++	
-  //Calculate Monthly Salary - MOD-003 ++	 Starts  
-  disableFields();
-  neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR380').noMandatory();
 
+/**************************
+* start of MOD-015
+**************************/
+window.checkQuestion = function () {
+    var question = neocase.form.field('question');
+    var trimmedValue = question.elementHTML.value.replaceAll(' ', '');
+    if (trimmedValue.length === 0) {
+        question.emptyValue();
+    }
 };
+/* ------------- End of MOD-015 changes -------------*/
 window.subtopicManipulation = function(){
   var subtopicVal = neocase.form.field('INTERVENTIONS_EN_COURS$ELEMENT').getValue();
   if(subtopicVal == '2950'){
@@ -898,6 +898,41 @@ window.subtopicManipulation = function(){
 	neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR279').noMandatory();
   }
 };
+
+window.visibilityHealthInsurance = function(){
+  neocase.form.section('section17a6ad0a4fbb786d000f').hide();
+
+  if($('#sectioncdae323a3a39f96fef63').find('hr').length< 1){
+    $('#sectioncdae323a3a39f96fef63').append('<hr>');
+  }
+  var LOAType = neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR378').getCode();
+  console.log(LOAType);
+  if(LOAType == '556'){
+    if($('#sectioncdae323a3a39f96fef63').find('hr').length > 0){
+      $('#sectioncdae323a3a39f96fef63').find('hr').remove();
+    }
+    neocase.form.section('section17a6ad0a4fbb786d000f').show();
+  }
+};
+
+/**************************
+* Launch Javascript on init
+***************************/
+window.launchOnInit = function () {
+  //update 'level 1' value
+  updateAndDisableField(neocase.form.field("INTERVENTIONS_EN_COURS$MOTCLE"), getParamFromUrl('topic'));
+  customMandatory();
+  setPopups(); // MOD-002 ++
+  copyFunctions(); // MOD-002 ++
+  setCurrFields(); // MOD-002 ++
+  //calculate_monthlySalary(); // MOD-002 ++	
+  //Calculate Monthly Salary - MOD-003 ++	 Starts  
+  disableFields();
+  neocase.form.field('INTERVENTIONS_EN_COURS_VALEUR380').noMandatory();
+
+};
+
+
 window.launchOnLoadComplete = function () {
   var annualBaseSal = neocase.form.field("UTILISATEURS_CHAMPU292");
   var payPeriods = neocase.form.field("UTILISATEURS_CHAMPU293");
@@ -907,12 +942,22 @@ window.launchOnLoadComplete = function () {
   /*-- MOD-007 Ends --*/
   mandateLDP();//++MOD-011
   // neocase.form.field('UTILISATEURS$CHAMPU389').hide();
+  visibilityHealthInsurance();
+  // Section Employee Documents
+  neocase.form.section("sectiona49a31197460097c80a9").hide();
+  // Section Leave Documents
+  neocase.form.section("sectioneb9404cd42bb18fbaa8c").hide();
+  // Section: Additional Documents
+  neocase.form.section("section90c926cf1e99518d33c6").hide();
+  // Section: Hiring Documents
+  neocase.form.section("section77d93bccd1f6e848fe82").hide();
 };
 
 /****************************
  * Launch Javascript on submit
  *****************************/
 window.launchOnSubmit = function () { 
+  checkQuestion();
   maxTwentyInField();
   if(checkFlag == 1){
     return false;

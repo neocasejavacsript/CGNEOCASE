@@ -28,7 +28,12 @@ Change No   - MOD-005
 Description - hide additional information for for subtopic FR_Work from home allowance (on medical recommendation without addendum or more than 70%),Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%) (3714)
 			- Show amount and hide supporting document for WFH exceptional allowance & medical allowances
 			- hide request details for Work from home exceptional allowance 
-----------------------------------------------------------------------------*/
+------------------------------------------------------------------------------------
+Developer   - Ahana Sarkar
+Date	    - 03/02/2022 (MM/DD/YYYY)
+Change No   - MOD-006
+Description - Set visibility of field 'Reason for exceptional allowance' for subtopic FR_Work from home allowance (new agreement);Indemnités télétravail (Circonstances exceptionnelles)-(3715)
+------------------------------------------------------------------------------------*/
 
 /*---- MOD-001 STARS ----*/
 //Hide Technical Section
@@ -62,9 +67,15 @@ $(document).ready(function(){
 		}
 		document.getElementById('divINTERVENTIONS_EN_COURS_VALEUR876').style.display = "block";
 	}
+	document.getElementById('divINTERVENTIONS_EN_COURS_VALEUR968').style.display = 'none';//++MOD-006
+	document.getElementById('divINTERVENTIONS_EN_COURS_VALEUR469').style.display = 'none';
 	if((subtopic == 'FR_Work from home allowance (new agreement)' || subtopic == 'Indemnités télétravail (nouvel accord)')||(subtopic == 'FR_Work from home allowance (on medical recommendation without addendum or more than 70%)' || subtopic == 'Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%)') || (subtopic == 'FR_Work from home allowance (exceptional reason)'|| subtopic == 'Indemnités télétravail (Circonstances exceptionnelles)')){ // Subtopic: FR_Work from home allowance (new agreement);Indemnités télétravail (nouvel accord) (3089), WFH medical allowance(3714), WFH exceptional allowance(3715)
 		document.getElementById('divINTERVENTIONS_EN_COURS_VALEUR964').style.display = 'block';
 		document.getElementById('divINTERVENTIONS_EN_COURS_VALEUR945').style.display = 'none';
+		document.getElementById('divINTERVENTIONS_EN_COURS_VALEUR469').style.display = 'block';
+		if(subtopic == 'FR_Work from home allowance (exceptional reason)'|| subtopic == 'Indemnités télétravail (Circonstances exceptionnelles)'){//++MOD-006
+			document.getElementById('divINTERVENTIONS_EN_COURS_VALEUR968').style.display = 'block';
+		}
 	}else{
 		document.getElementById('divINTERVENTIONS_EN_COURS_VALEUR964').style.display = 'none';
 		document.getElementById('divINTERVENTIONS_EN_COURS_VALEUR945').style.display = 'block';

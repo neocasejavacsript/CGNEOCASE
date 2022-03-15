@@ -116,7 +116,14 @@ var Tableau = [
     //Article link with field
     'section340acfe6789d8a449cfd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (on medical recommendation without addendum or more than 70%);Indemnités télétravail (sur preco médecin du travail sans avenant ou supérieur à 70%)',
     //Article link for WFH exceptional allowances
-    'section293f4c8f03fbe9ca42ff#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)'
+    'section293f4c8f03fbe9ca42ff#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Work from home allowance (exceptional reason);Indemnités télétravail (Circonstances exceptionnelles)',
+    
+    //Lunch allowance subscription 
+    'section98b865f19313055019c9#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Lunch vouchers subscription;Adhésion titres restaurant',
+    //Lunch allowance cancelation 
+    'sectionf547fcdc154b13345279#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Lunch vouchers cancelation;Radiation titres restaurant',
+    //Early back to work following sick leave
+    'section29b580175c8eb7e525a0#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|FR_Early back to work following sick leave;Reprise anticipée arrêt de travail'
 ];
 var enableManageField;
 

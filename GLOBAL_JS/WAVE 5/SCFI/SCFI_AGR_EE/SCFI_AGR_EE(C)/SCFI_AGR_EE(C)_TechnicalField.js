@@ -42,6 +42,11 @@ Date	    - 04/16/2021 (MM/DD/YYYY)
 Change No   - MOD-008
 Description - mandateDocument(fieldname,subtopic) to make file type field mandatory for specific subtopics
             - displayDoc() - merged function for all the show/hide field and section except LOA
+-------------------------------------------------------------------------
+Developer   - Choudhury Shahin
+Date	    - 05/01/2021 (MM/DD/YYYY)
+Change No   - MOD-009
+Description - Add method 'checkQuestion' to replace space by empty
 ---------------------------------------------------------*/ 
 
 // hide Technical section
@@ -194,39 +199,40 @@ window.mandateDocument = function(fieldName, subtopic){ // ++MOD-008
     var subtopicPopulated = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue();
     var fieldLabel = $.trim(neocase.form.field(fieldName).label().split(':')[0]),
         divEle = $(neocase.form.field(fieldName)['elementHTML']).closest('div');
-    if(subtopicPopulated == subtopic){
-            neocase.form.field(fieldName).mandatory(fieldLabel);
-            if($(divEle).find('.ValidatorCautionBox').length< 1){
-                $(divEle).find('.fileupload').append("<span class='ValidatorCautionBox'></span>");
-            }
-            $($(divEle).find('.btn').children()[2]).attr('neo-required-message', fieldLabel);
-    }
-    $($(divEle).find('.btn').children()[1]).on('change', function () {    
-        console.log('Changing...');
-            if(subtopicPopulated == subtopic){
-                var interval  = setInterval(function() {
-                    if($($(divEle).find('.btn').children()[2]).val() != '' && $(divEle).find('.ValidatorCautionBox').length > 0){
-                        console.log('File uploaded'+$('.fileinput-display').children().length);
-                        $(divEle).find('.ValidatorCautionBox').remove();
-                        $($(divEle).find('.btn').children()[2]).removeAttr('neo-required-message');
-                        clearInterval(interval);
-                    }
-                }, 1000);
-            }
-    
-    });
-    $($(divEle).find('.btn').children()[2]).on('change', function () {    
-        console.log('Changing to...');
-            if(subtopicPopulated == subtopic){
-                if ($($(divEle).find('.btn').children()[2]).val() == '' && $(divEle).find('.ValidatorCautionBox').length<= 0){
-                    console.log('File removed');
-                    if($(divEle).find('.ValidatorCautionBox').length< 1){
-                        $(divEle).find('.fileupload').append("<span class='ValidatorCautionBox'></span>");
-                        $($(divEle).find('.btn').children()[2]).attr('neo-required-message', fieldLabel);
-                    }
+        if(subtopicPopulated == subtopic){
+                neocase.form.field(fieldName).mandatory(fieldLabel);
+                if($(divEle).find('.ValidatorCautionBox').length< 1){
+                    $(divEle).find('.fileupload').append("<span class='ValidatorCautionBox'></span>");
                 }
-            }  
-    });
+                $($(divEle).find('.btn').children()[2]).attr('neo-required-message', fieldLabel);
+        }
+        $($(divEle).find('.btn').children()[1]).on('change', function () {    
+            console.log('Changing...');
+                if(subtopicPopulated == subtopic){
+                    var interval  = setInterval(function() {
+                        if($($(divEle).find('.btn').children()[2]).val() != '' && $(divEle).find('.ValidatorCautionBox').length > 0){
+                            console.log('File uploaded'+$('.fileinput-display').children().length);
+                            $(divEle).find('.ValidatorCautionBox').remove();
+                            $($(divEle).find('.btn').children()[2]).removeAttr('neo-required-message');
+                            clearInterval(interval);
+                        }
+                    }, 1000);
+                }
+    
+         });
+        $($(divEle).find('.btn').children()[2]).on('change', function () {    
+            console.log('Changing to...');
+                if(subtopicPopulated == subtopic){
+                    if ($($(divEle).find('.btn').children()[2]).val() == '' && $(divEle).find('.ValidatorCautionBox').length<= 0){
+                        console.log('File removed');
+                        if($(divEle).find('.ValidatorCautionBox').length< 1){
+                            $(divEle).find('.fileupload').append("<span class='ValidatorCautionBox'></span>");
+                            $($(divEle).find('.btn').children()[2]).attr('neo-required-message', fieldLabel);
+                        }
+                    }
+                }  
+        });       
+    //} 
 };
 /*----xxxxx-----Make Document field as Mandatory for required subtopic---xxxxx------*/
 
@@ -234,10 +240,14 @@ window.mandateDocument = function(fieldName, subtopic){ // ++MOD-008
 window.displayDoc = function(){
     var subtopic = neocase.form.field("INTERVENTIONS_EN_COURS$ELEMENT").getValue() || getParamFromUrl('subtopic'),
         countryISOCode = neocase.form.field("UTILISATEURS$CHAMPU19").getValue();
+    //neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR705').noMandatory();
     neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR705').hide(); // Hide Supporting document
+    neocase.form.section('sectioncda689c3ac67f0fa3cbf').hide();
     if(countryISOCode == 'SE'){
         if(subtopic == '2889'){ // SCFI_Change in working hours
             neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR705').show(); // Show Supporting document
+            neocase.form.section('sectioncda689c3ac67f0fa3cbf').show();
+            mandateDocument("INTERVENTIONS_EN_COURS$VALEUR705", '2889'); // Here subtopic = 3319
         }
     }
     neocase.form.section('sectione9065459a3c77f8d97c1').hide();
@@ -254,6 +264,19 @@ window.displayDoc = function(){
     }    
 };
 /*----xxxxx-----Document display for required subtopic---xxxxx------*/
+
+/*---------Monthly fixed salary based on current work% need to be auto populated as Base salary/12---------*/
+window.baseSalaryNew = function(){
+    var baseSalaryValue = neocase.form.field("UTILISATEURS$CHAMPU168").getValue();
+    var baseSalaryNewValue=	neocase.form.field('INTERVENTIONS_EN_COURS$VALEUR76');
+    console.log(baseSalaryValue);
+    console.log(baseSalaryNewValue);
+    var baseSalaryNew = baseSalaryValue/12;
+    baseSalaryNewValue.setValue(baseSalaryNew);
+    disableField(neocase.form.field("INTERVENTIONS_EN_COURS$VALEUR76"));
+
+};
+/*----xxxxx-----Monthly fixed salary based on current work% need to be auto populated as Base salary/12---xxxxx------*/
 
 /**************************
 * Launch Javascript on init
@@ -277,8 +300,17 @@ window.launchOnceLoadComplete = function(){
         loadTopic();
         setTimeout(function () {
             loadSubTopic(); 
-            displayDoc(); 
+            displayDoc();
+            baseSalaryNew(); 
         }, 800);
+    }
+};
+
+window.checkQuestion = function () {
+    var question = neocase.form.field('question');
+    var trimmedValue = question.elementHTML.value.replaceAll(' ', '');
+    if (trimmedValue.length === 0) {
+        question.emptyValue();
     }
 };
 
@@ -286,6 +318,8 @@ window.launchOnceLoadComplete = function(){
 * Launch Javascript on loadcomplete
 ***************************/
 window.launchOnloadcomplete = function(){
+    //document.getElementById('section03d7e2c4c635f3419c26').style.display == 'none';
+    // neocase.form.section('section03d7e2c4c635f3419c26').hide();
     launchOnceLoadComplete();
     //++MOD-003
     if(document.getElementById('sectione0594f31164773401e4d').style.display !== 'none'){ // Section: Start/Update leave of absence details
@@ -305,5 +339,6 @@ neocase.form.event.bind("loadcomplete",launchOnloadcomplete);
 * Launch Javascript on submit
 *****************************/
 window.launchOnSubmit = function(){
+    checkQuestion();
 };
 neocase.form.event.bind("submit",launchOnSubmit);

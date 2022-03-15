@@ -84,7 +84,7 @@ var Tableau = [
     // Action details
     'section1234b06ab70b6cdb8acd#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Work location transfer;SCFI_Change in working hours', 
     // Pay details
-    'section61fee27c186293b85782#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
+    //'section61fee27c186293b85782#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours',
     // Start / Update Leave of absence details
     'section30472c7448462e18d86c#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Start/update leave of absence',
     // Termination Details
@@ -92,7 +92,8 @@ var Tableau = [
     // Resignation details
     'sectionb11676eb3f8b7f96471b#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Resignation',
     // Retirement details
-    'section6de2cdc0308a775440be#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Retirement'
+    'section6de2cdc0308a775440be#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Retirement',
+    'section35351af104092f324f62#formulaire.INTERVENTIONS_EN_COURS$ELEMENT|SCFI_Change in working hours'
 ];
 var enableManageField;
 

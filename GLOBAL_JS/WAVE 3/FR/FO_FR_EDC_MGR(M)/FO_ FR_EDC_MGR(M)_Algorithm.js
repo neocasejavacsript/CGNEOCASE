@@ -118,10 +118,21 @@ var Tableau = [
         
         'section13e713ebb59a2b401f7b#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
         // 'section23b75469a8fa6ef1e98a#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail',
-        'section10fbe4c54089975cc3a8#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée;FR_Leaver;Sortie des effectifs;FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche;FR_Probation period;Période d\'essai;FR_Start Date Change;Décalage date d\'entrée;FR_Cancelation Leavers;Annulation sortie des effectifs;FR_Legal entity;Entité légale'
+        'section10fbe4c54089975cc3a8#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_LOA;Absence longue durée;FR_Leaver;Sortie des effectifs;FR_Other changes;Autre changement;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Contract;Contrat;FR_Hiring confirmation;Confirmation d\'embauche;FR_Probation period;Période d\'essai;FR_Start Date Change;Décalage date d\'entrée;FR_Cancelation Leavers;Annulation sortie des effectifs;FR_Legal entity;Entité légale',
         //Change effective date
         // 'section5b48f4992ba3471b8ebe#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'        
-        
+        'sectioncd4b71e45041abf96078#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail'
+        /*
+        FR IMAGE NOW SECTIONS HIDDEN BEFORE IMEX
+        // Section Employee Documents
+        'section3f8db623861c0fc4d137#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Work from home;Télétravail;FR_LOA;Absence longue durée',
+        // Section Leave Documents
+        'section0107e54af4663ec0ce3a#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Leaver;Sortie des effectifs',
+        // Section: Additional Documents
+        'section81b1b9e0cb75817cf1e7#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Other changes;Autre changement;FR_Start Date Change;Décalage date d\'entrée;FR_Career Change;Données carrière;FR_Organization;Données organisationnelles;FR_Probation period;Période d\'essai;FR_Contract;Contrat',
+        // Section: Hiring Documents
+        'sectionb5ffc388a31f3b1d3bb4#formulaire.INTERVENTIONS_EN_COURS$MOTCLE|FR_Hiring confirmation;Confirmation d\'embauche'*/
+
     /* ------------- End of MOD-001 changes -------------*/
     
     ];
